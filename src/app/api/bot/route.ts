@@ -5,7 +5,7 @@ if (!token) throw new Error("BOT_TOKEN is unset");
 const bot = new Bot(token);
 
 bot.command("start", (ctx) => ctx.reply("Welcome! Up and running."));
-bot.on("message", (ctx) => ctx.reply("Got another message!"));
+bot.on("message", (ctx) => ctx.reply("Got another messagee!"));
 
 export const maxDuration = 50;
 export const dynamic = "force-dynamic";
