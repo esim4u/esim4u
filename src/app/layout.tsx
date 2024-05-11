@@ -4,6 +4,7 @@ import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Metadata } from "next";
 import { TelegramProvider } from "@/providers/telegram-provider";
+import Script from "next/script";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -29,6 +30,10 @@ export default function RootLayout({
                         fontSans.variable
                     )}
                 >
+                    <Script
+                        src="https://telegram.org/js/telegram-web-app.js"
+                        strategy="beforeInteractive"
+                    />
                     {children}
                 </body>
             </html>

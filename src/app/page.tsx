@@ -8,11 +8,12 @@ export default function Home() {
     return (
         <main>
             <div>
-                <pre className="text-black">{JSON.stringify([1, 2, 3, 4], null, 2)}</pre>
-                <pre className="text-black">{JSON.stringify([1, 2, 3, 4], null, 2)}</pre>
-                <pre className="text-black">{JSON.stringify(user, null, 2)}</pre>
-                <pre className="text-black">{JSON.stringify(webApp, null, 2)}</pre>
-                
+                <pre className="text-black">
+                    {JSON.stringify(user, null, 2)}
+                </pre>
+                <pre className="text-black">
+                    {JSON.stringify(webApp, null, 2)}
+                </pre>
             </div>
         </main>
     );
