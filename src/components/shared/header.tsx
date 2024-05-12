@@ -7,10 +7,12 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { BsFire } from "react-icons/bs";
 import { hapticFeedback } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Header = (props: Props) => {
+    const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
 
     return (
@@ -19,6 +21,7 @@ const Header = (props: Props) => {
                 <div
                     onClick={() => {
                         hapticFeedback(webApp);
+                        router.push("/profile");
                     }}
                     className="flex items-center gap-2  transition-transform active:scale-95"
                 >
