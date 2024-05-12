@@ -24,8 +24,8 @@ export default function Home() {
 
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
-            <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-2">
+            <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center gap-2">
                     <Avatar className=" w-16 h-16">
                         <AvatarImage src={tgUser?.photo_url} alt="@shadcn" />
                         <AvatarFallback className=" bg-neutral-500 text-white">
