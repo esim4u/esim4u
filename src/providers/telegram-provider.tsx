@@ -4,8 +4,10 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { ITelegramUser, IWebApp } from "@/types";
 
 export interface ITelegramContext {
-    webApp?: IWebApp;
-    user?: ITelegramUser;
+    webApp?: any;
+    user?: any;
+    // webApp?: IWebApp;
+    // user?: ITelegramUser;
 }
 
 export const TelegramContext = createContext<ITelegramContext>({});
@@ -15,7 +17,7 @@ export const TelegramProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [webApp, setWebApp] = useState<IWebApp | null>(null);
+    const [webApp, setWebApp] = useState<any>(null);
 
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;

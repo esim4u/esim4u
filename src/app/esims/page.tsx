@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
 import { createUser } from "@/lib/supabase";
+import { hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -37,7 +38,10 @@ export default function Home() {
                         {Array.from({ length: 5 }).map((_, index) => (
                             <CarouselItem
                                 key={index}
-                                className="pl-1  basis-28"
+                                onClick={() => {
+                                    hapticFeedback(webApp);
+                                }}
+                                className="pl-1  basis-28 active:scale-95 transition-transform"
                             >
                                 <div className="p-1">
                                     <div className="p-1 bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500 rounded-[28px]">
@@ -68,7 +72,12 @@ export default function Home() {
                     Popular countries
                 </h2>
                 <div className="grid grid-cols-4 grid-rows-2 gap-2 max-h-48">
-                    <div className="relative flex justify-center items-end rounded-3xl overflow-hidden	">
+                    <div
+                        onClick={() => {
+                            hapticFeedback(webApp);
+                        }}
+                        className="active:scale-95 transition-transform relative flex justify-center items-end rounded-3xl overflow-hidden	"
+                    >
                         <Image
                             width={736}
                             height={736}
@@ -91,7 +100,12 @@ export default function Home() {
                             UAE
                         </span>
                     </div>
-                    <div className="relative  flex justify-center items-end rounded-3xl overflow-hidden ">
+                    <div
+                        onClick={() => {
+                            hapticFeedback(webApp);
+                        }}
+                        className="active:scale-95 transition-transform relative  flex justify-center items-end rounded-3xl overflow-hidden "
+                    >
                         <Image
                             width={736}
                             height={736}
@@ -114,7 +128,12 @@ export default function Home() {
                             SWITZERLAND
                         </span>
                     </div>
-                    <div className="relative col-span-2 row-span-2 flex justify-center items-end rounded-3xl overflow-hidden 	">
+                    <div
+                        onClick={() => {
+                            hapticFeedback(webApp);
+                        }}
+                        className="active:scale-95 transition-transform relative col-span-2 row-span-2 flex justify-center items-end rounded-3xl overflow-hidden 	"
+                    >
                         <Image
                             width={736}
                             height={736}
@@ -137,7 +156,12 @@ export default function Home() {
                             SPAIN
                         </span>
                     </div>
-                    <div className="relative col-span-2 row-span-1  flex justify-center items-end rounded-3xl overflow-hidden 	">
+                    <div
+                        onClick={() => {
+                            hapticFeedback(webApp);
+                        }}
+                        className="active:scale-95 transition-transform relative col-span-2 row-span-1  flex justify-center items-end rounded-3xl overflow-hidden 	"
+                    >
                         <Image
                             width={736}
                             height={736}
@@ -172,7 +196,12 @@ export default function Home() {
                 <div>
                     <Carousel className="w-full max-w-sm">
                         <CarouselContent className="-ml-1">
-                            <CarouselItem className="pl-1  basis-28">
+                            <CarouselItem
+                                onClick={() => {
+                                    hapticFeedback(webApp);
+                                }}
+                                className="pl-1  basis-28 active:scale-95 transition-transform"
+                            >
                                 <div className="p-1">
                                     <div className="p-1 bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500 rounded-[28px]">
                                         <div className="relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3]	">
@@ -189,7 +218,12 @@ export default function Home() {
                                     </div>
                                 </div>
                             </CarouselItem>
-                            <CarouselItem className="pl-1  basis-28">
+                            <CarouselItem
+                                onClick={() => {
+                                    hapticFeedback(webApp);
+                                }}
+                                className="pl-1  basis-28 active:scale-95 transition-transform"
+                            >
                                 <div className="p-1">
                                     <div className="p-1 bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500 rounded-[28px]">
                                         <div className="relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3]	">
@@ -206,7 +240,12 @@ export default function Home() {
                                     </div>
                                 </div>
                             </CarouselItem>
-                            <CarouselItem className="pl-1  basis-28">
+                            <CarouselItem
+                                onClick={() => {
+                                    hapticFeedback(webApp);
+                                }}
+                                className="pl-1  basis-28 active:scale-95 transition-transform"
+                            >
                                 <div className="p-1">
                                     <div className="p-1 bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500 rounded-[28px]">
                                         <div className="relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3]	">
@@ -223,7 +262,12 @@ export default function Home() {
                                     </div>
                                 </div>
                             </CarouselItem>
-                            <CarouselItem className="pl-1  basis-28">
+                            <CarouselItem
+                                onClick={() => {
+                                    hapticFeedback(webApp);
+                                }}
+                                className="pl-1  basis-28 active:scale-95 transition-transform"
+                            >
                                 <div className="p-1">
                                     <div className="p-1 bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500 rounded-[28px]">
                                         <div className="relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3]	">
