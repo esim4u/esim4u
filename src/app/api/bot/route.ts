@@ -1,3 +1,4 @@
+import { addUserPhotoUrl } from "@/lib/supabase";
 import {
     Bot,
     InlineKeyboard,
@@ -72,12 +73,14 @@ bot.command("esim", async (ctx) => {
 
 bot.command("getavatar", async (ctx) => {
     const chat = await ctx.getChat();
-
     if (!chat.photo) return await ctx.reply("You have no profile picture");
 
-    const file = await ctx.api.getFile(chat.photo.big_file_id);
+    // const file = await ctx.api.getFile(chat.photo.big_file_id);
+    const file = await ctx.api.getFile(chat.photo.small_file_id);
     const fileUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
 
+    await addUserPhotoUrl(chat.id, fileUrl);
+    
     await ctx.replyWithPhoto(new InputFile(new URL(fileUrl)));
 });
 
