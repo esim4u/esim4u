@@ -36,7 +36,7 @@ export const createUser = async (user) => {
                     welcome_showed: true,
                 },
             ])
-            .eq("telegram_id", id);
+            .eq("telegram_id", user.id);
 
         return data;
     }
