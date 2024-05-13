@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useTelegram } from "@/providers/telegram-provider";
 import { MdArrowForwardIos } from "react-icons/md";
@@ -8,12 +8,55 @@ import { BsFire } from "react-icons/bs";
 import { hapticFeedback } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getUserById } from "@/lib/supabase";
 
 type Props = {};
 
 const Header = (props: Props) => {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
+    const [dbUserData, setDbUserData] = useState({
+        username: "",
+        photo_url: "",
+    });
+
+    // const { data: dbUserData, isLoading } = useQuery({
+    //     queryKey: ["esim-packages"],
+    //     queryFn: async () => {
+    //         const { data } = await getUserById(tgUser.id);
+    //         return data;
+    //     },
+    // });
+    // const [userPhotoUrl, setUserPhotoUrl] = useState("");
+
+    // useEffect(() => {
+    //     if (webApp) {
+    //         // const userPhotoUrl = webApp.getItem("user_photo_url");
+    //         // setUserPhotoUrl(userPhotoUrl);
+
+    //         const keys = webApp.getKeys((err: any) => {
+    //             if (err) {
+    //                 console.error(err);
+    //             }
+    //         });
+    //         console.log(keys);
+    //     }
+    // }, [webApp]);
+
+    const fetchUser = async (id: number | string) => {
+        const user = await getUserById(id);
+
+        if (user?.id) {
+            setDbUserData(user);
+        }
+    };
+
+    useEffect(() => {
+        if (tgUser && webApp) {
+            fetchUser(tgUser.id);
+        }
+    }, [tgUser]);
 
     return (
         <section className="w-full">
@@ -26,7 +69,10 @@ const Header = (props: Props) => {
                     className="flex items-center gap-2  cursor-pointer transition-transform active:scale-95"
                 >
                     <Avatar>
-                        <AvatarImage src={tgUser?.photo_url} alt="@shadcn" />
+                        <AvatarImage
+                            src={tgUser?.photo_url || dbUserData?.photo_url}
+                            alt="@shadcn"
+                        />
                         <AvatarFallback className=" bg-neutral-500 text-white">
                             {tgUser?.first_name[0]}
                         </AvatarFallback>
