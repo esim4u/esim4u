@@ -22,6 +22,7 @@ export const TelegramProvider = ({
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;
         if (app) {
+            app.initDataUnsafe.user.added_to_attachment_menu = true // stupid hack to make it work
             app.setHeaderColor("#EFEFF3");	
             app.enableClosingConfirmation()	;	
             app.ready();
