@@ -25,6 +25,7 @@ export const createUser = async (user) => {
             first_name: user.first_name || null,
             last_name: user.last_name || null,
             photo_url: user.photo_url || null,
+            is_premium: user.is_premium || false,
         },
     ]);
 
