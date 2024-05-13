@@ -15,7 +15,7 @@ const webAppUrl = process.env.WEB_APP_URL;
 if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 
 const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl)
-const loginEsimButton = new InlineKeyboard().login("Login", webAppUrl)
+// const loginEsimButton = new InlineKeyboard().login("Login", webAppUrl)
 
 /////////////////////
 
@@ -29,11 +29,11 @@ bot.api.setMyCommands([
         description:
             "You can buy esims from all across the world with this bot! Just click the button below to buy an esim plan!",
     },
-    {
-        command: "login",
-        description:
-            "You can easily login to esim4u using Login button!",
-    },
+    // {
+    //     command: "login",
+    //     description:
+    //         "You can easily login to esim4u using Login button!",
+    // },
     {
         command: "id",
         description:
@@ -64,14 +64,14 @@ bot.command("esim", async (ctx) => {
     );
 });
 
-bot.command("login", async (ctx) => {
-    await ctx.reply(
-        "You can easily login to esim4u using button below!",
-        {
-            reply_markup: loginEsimButton,
-        }
-    );
-});
+// bot.command("login", async (ctx) => {
+//     await ctx.reply(
+//         "You can easily login to esim4u using button below!",
+//         {
+//             reply_markup: loginEsimButton,
+//         }
+//     );
+// });
 
 bot.command("rate", async (ctx) => {
     const ratings = [
