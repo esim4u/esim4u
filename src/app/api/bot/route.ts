@@ -14,7 +14,7 @@ const bot = new Bot(token);
 const webAppUrl = process.env.WEB_APP_URL;
 if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 
-const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
+const buyEsimButton = new InlineKeyboard().login("Login", webAppUrl)
 
 /////////////////////
 
