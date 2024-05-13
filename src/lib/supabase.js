@@ -22,7 +22,7 @@ export const createUser = async (user) => {
         .select("*")
         .eq("telegram_id", user.id);
 
-    if (dbUser) {
+    if (dbUser.length > 0) {
         const { data, error } = await supabase
             .from("tg_bot_users")
             .update([
@@ -62,7 +62,7 @@ export const addUserPhotoUrl = async (id, photo_url) => {
         .select("*")
         .eq("telegram_id", id);
 
-    if (user) {
+    if (user.length > 0) {
         const { data, error } = await supabase
             .from("tg_bot_users")
             .update({ photo_url: photo_url })
