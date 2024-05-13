@@ -48,10 +48,25 @@ export const updateUser = async (user) => {
 };
 
 export const addUserPhotoUrl = async (id, photo_url) => {
+    // const { data: user, error: userError } = await supabase
+    //     .from("tg_bot_users")
+    //     .select("*")
+    //     .eq("telegram_id", id);
+
+    // if (user) {
+    //     const { data, error } = await supabase
+    //         .from("tg_bot_users")
+    //         .update({ photo_url: photo_url })
+    //         .eq("telegram_id", id);
+
+    //     return data;
+    // }
+
     const { data, error } = await supabase
         .from("tg_bot_users")
-        .upsert({ photo_url: photo_url })
-        .eq("telegram_id", id);
+        .upsert({
+            telegram_id: id,
+            photo_url: photo_url })
 
     return data;
 };
