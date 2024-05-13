@@ -50,7 +50,7 @@ export const updateUser = async (user) => {
 export const addUserPhotoUrl = async (id, photo_url) => {
     const { data, error } = await supabase
         .from("tg_bot_users")
-        .update({ photo_url: photo_url })
+        .upsert({ photo_url: photo_url })
         .eq("telegram_id", id);
 
     return data;
