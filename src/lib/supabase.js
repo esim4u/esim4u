@@ -71,7 +71,7 @@ export const addUserPhotoUrl = async (id, photo_url) => {
         return data;
     }
 
-    const { data, error } = await supabase.from("tg_bot_users").upsert({
+    const { data, error } = await supabase.from("tg_bot_users").insert({
         telegram_id: id,
         photo_url: photo_url,
     });
