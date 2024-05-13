@@ -46,6 +46,7 @@ const Header = (props: Props) => {
                 <div
                     onClick={() => {
                         hapticFeedback(webApp);
+                        router.push("/test");
                     }}
                     className="bg-white h-10 p-2 pr-3 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform"
                 >

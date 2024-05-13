@@ -22,6 +22,8 @@ export const TelegramProvider = ({
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;
         if (app) {
+            app.setHeaderColor("#EFEFF3");	
+            app.enableClosingConfirmation()	;	
             app.ready();
             app.expand();
             setWebApp(app);
