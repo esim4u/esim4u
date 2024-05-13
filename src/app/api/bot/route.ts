@@ -21,6 +21,16 @@ const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
 
 /////////////////////
 
+const addUserPhoto = async (ctx: any) => {
+    const chat = await ctx.getChat();
+    if (!chat.photo) return await ctx.reply("You have no profile picture");
+
+    const file = await ctx.api.getFile(chat.photo.small_file_id);
+    const fileUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
+
+    await addUserPhotoUrl(ctx.chat.id, fileUrl);
+};
+
 bot.api.setMyCommands([
     {
         command: "start",
@@ -31,12 +41,6 @@ bot.api.setMyCommands([
         description:
             "You can buy esims from all across the world with this bot! Just click the button below to buy an esim plan!",
     },
-    // {
-    //     command: "login",
-    //     description:
-    //         "You can easily login to esim4u using Login button!",
-    // },
-
     {
         command: "id",
         description:
@@ -53,6 +57,7 @@ bot.api.setMyCommands([
 ]);
 
 bot.command("start", async (ctx) => {
+    await addUserPhoto(ctx);
     await ctx.react("👍");
     await ctx.reply(
         "Hello! This is Esim4U bot. With this bot you can easily buy esim plans all across the world!",
@@ -63,6 +68,7 @@ bot.command("start", async (ctx) => {
 });
 
 bot.command("esim", async (ctx) => {
+    await addUserPhoto(ctx);
     await ctx.reply(
         "You can buy esims from all across the world with this bot! Just click the button below to buy an esim plan!",
         {
@@ -75,23 +81,11 @@ bot.command("getavatar", async (ctx) => {
     const chat = await ctx.getChat();
     if (!chat.photo) return await ctx.reply("You have no profile picture");
 
-    // const file = await ctx.api.getFile(chat.photo.big_file_id);
     const file = await ctx.api.getFile(chat.photo.small_file_id);
     const fileUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
 
-    await addUserPhotoUrl(chat.id, fileUrl);
-    
     await ctx.replyWithPhoto(new InputFile(new URL(fileUrl)));
 });
-
-// bot.command("login", async (ctx) => {
-//     await ctx.reply(
-//         "You can easily login to esim4u using button below!",
-//         {
-//             reply_markup: loginEsimButton,
-//         }
-//     );
-// });
 
 bot.command("rate", async (ctx) => {
     const ratings = [
