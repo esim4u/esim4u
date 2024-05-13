@@ -11,12 +11,13 @@ export const getUserById = async (id) => {
         .from("tg_bot_users")
         .select("*")
         .eq("telegram_id", id)
+        .eq("welcome_showed", true)
         .single();
     return data;
 };
 
 export const createUser = async (user) => {
-    const { data, error } = await supabase.from("tg_bot_users").insert([
+    const { data, error } = await supabase.from("tg_bot_users").upsert([
         {
             telegram_id: user.id || null,
             created_at: new Date(),
@@ -24,25 +25,10 @@ export const createUser = async (user) => {
             username: user.username || null,
             first_name: user.first_name || null,
             last_name: user.last_name || null,
-            photo_url: user.photo_url || null,
             is_premium: user.is_premium ? true : false,
+            welcome_showed: true,
         },
     ]);
-
-    return data;
-};
-
-export const updateUser = async (user) => {
-    const { data, error } = await supabase
-        .from("tg_bot_users")
-        .update({
-            username: user.username || null,
-            first_name: user.first_name || null,
-            last_name: user.last_name || null,
-            photo_url: user.photo_url || null,
-            is_premium: user.is_premium ? true : false,
-        })
-        .eq("telegram_id", user.id);
 
     return data;
 };
