@@ -9,9 +9,13 @@ export default function Home() {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
 
-    const app = (window as any).Telegram?.WebApp;
+
 
     useEffect(() => {
+        const app = (window as any).Telegram?.WebApp;
+
+        alert(JSON.stringify(app, null, 2));
+
         if (webApp) {
             webApp?.BackButton.show();
             webApp?.BackButton.onClick(() => {
@@ -24,7 +28,6 @@ export default function Home() {
     return (
         <section className="flex flex-col gap-5">
             <div>APP</div>
-            <pre className="text-balance">{JSON.stringify(app, null, 2)}</pre>
 
             <div>WEB APP</div>
             <pre className="text-balance">{JSON.stringify(webApp, null, 2)}</pre>
