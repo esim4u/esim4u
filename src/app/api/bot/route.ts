@@ -5,6 +5,7 @@ import {
     HttpError,
     Keyboard,
     webhookCallback,
+    InputFile,
 } from "grammy";
 
 const token = process.env.BOT_TOKEN;
@@ -14,7 +15,7 @@ const bot = new Bot(token);
 const webAppUrl = process.env.WEB_APP_URL;
 if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 
-const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl)
+const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
 // const loginEsimButton = new InlineKeyboard().login("Login", webAppUrl)
 
 /////////////////////
@@ -34,10 +35,15 @@ bot.api.setMyCommands([
     //     description:
     //         "You can easily login to esim4u using Login button!",
     // },
+
     {
         command: "id",
         description:
             "Get your chat ID. With this id our support team can help you if you have any purchase issues",
+    },
+    {
+        command: "getavatar",
+        description: "Get your user profile picture",
     },
     {
         command: "rate",
@@ -62,6 +68,17 @@ bot.command("esim", async (ctx) => {
             reply_markup: buyEsimButton,
         }
     );
+});
+
+bot.command("getavatar", async (ctx) => {
+    const chat = await ctx.getChat();
+
+    if (!chat.photo) return await ctx.reply("You have no profile picture");
+
+    const file = await ctx.api.getFile(chat.photo.big_file_id);
+    const fileUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
+
+    await ctx.replyWithPhoto(new InputFile(new URL(fileUrl)));
 });
 
 // bot.command("login", async (ctx) => {
