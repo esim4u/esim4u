@@ -23,7 +23,7 @@ const Header = (props: Props) => {
                         hapticFeedback(webApp);
                         router.push("/profile");
                     }}
-                    className="flex items-center gap-2  transition-transform active:scale-95"
+                    className="flex items-center gap-2  cursor-pointer transition-transform active:scale-95"
                 >
                     <Avatar>
                         <AvatarImage src={tgUser?.photo_url} alt="@shadcn" />
@@ -47,7 +47,7 @@ const Header = (props: Props) => {
                     onClick={() => {
                         hapticFeedback(webApp);
                     }}
-                    className="bg-white h-10 p-2 pr-3 gap-1 flex items-center rounded-full active:scale-95 transition-transform"
+                    className="bg-white h-10 p-2 pr-3 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform"
                 >
                     <svg
                         width="24"
@@ -331,10 +331,10 @@ const Header = (props: Props) => {
                     </svg>
 
                     <div className=" flex flex-col">
-                        <span className="text-[10px]  font-semibold">
+                        <span className="text-[10px]  font-semibold leading-3">
                             Click to copy referral link
                         </span>
-                        <span className="text-[8px] text-neutral-500 font-medium text-center">
+                        <span className="text-[9px] text-neutral-500  text-center leading-3">
                             and share with your friends
                         </span>
                     </div>
