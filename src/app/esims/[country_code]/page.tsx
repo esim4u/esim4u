@@ -40,15 +40,15 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
         },
     });
 
-    const { data: rateTonEuro } = useQuery({
-        queryKey: ["ratetoneuro"],
+    const { data: rateTonUsd } = useQuery({
+        queryKey: ["ratetonusd"],
         queryFn: async () => {
             const { data } = await axios.get(
-                "https://tonapi.io/v2/rates?tokens=ton&currencies=eur"
+                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd"
             );
-            return data.rates.TON.prices.EUR;
+            return data.rates.TON.prices.USD;
         },
-        refetchInterval: 1000 * 60, // 1 minute
+        refetchInterval: 1000 * 10, // 10 sec
     });
 
     useEffect(() => {
@@ -75,11 +75,11 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
     }, [packageData]);
 
     const priceInTon = useMemo(() => {
-        if (!rateTonEuro) return 999;
+        if (!rateTonUsd) return 999;
 
-        const priceInTon = selectedPackage?.total_price_eur / rateTonEuro;
-        return priceInTon.toFixed(2);
-    }, [rateTonEuro, selectedPackage]);
+        const priceInTon = selectedPackage?.total_price_eur / rateTonUsd;
+        return priceInTon.toFixed(3);
+    }, [rateTonUsd, selectedPackage]);
 
     if (isLoading) {
         return (
@@ -112,7 +112,7 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                     <div className="flex items-center gap-2">
                         <h2 className="font-bold text-3xl">
                             {selectedPackage?.total_price_eur}
-                            <span className="text-2xl">€</span>
+                            <span className="text-2xl">$</span>
                         </h2>
                         <Dot />
                         <h2 className="flex items-center font-bold text-3xl">
