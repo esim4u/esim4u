@@ -183,7 +183,7 @@ export default function Home() {
                                             } else if (index === 1) {
                                                 webApp.openLink(
                                                     "https://telegra.ph/OUR-PARTNERS-05-14-2",
-                                                    [{ try_instant_view: true }]
+                                                    { try_instant_view: true }
                                                 );
                                             }
                                             hapticFeedback(webApp);
