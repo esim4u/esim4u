@@ -1,5 +1,13 @@
 import type { Config } from "tailwindcss";
 const { fontFamily } = require("tailwindcss/defaultTheme");
+const plugin = require("tailwindcss/plugin");
+
+
+type MatchUtilitiesFunction = (
+    utilities: Record<string, (value: string) => Record<string, string>>,
+    options?: { values: Record<string, string> }
+) => void;
+
 
 const config = {
     darkMode: ["class"],
@@ -19,7 +27,13 @@ const config = {
             },
         },
         extend: {
+            textShadow: {
+                sm: "0 1px 2px var(--tw-shadow-color)",
+                DEFAULT: "0 2px 4px var(--tw-shadow-color)",
+                lg: "0 8px 16px var(--tw-shadow-color)",
+            },
             colors: {
+                redish: "#EF3671",
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",
@@ -78,7 +92,25 @@ const config = {
             },
         },
     },
-    plugins: [require("tailwindcss-animate")],
+    plugins: [
+        require("tailwindcss-animate"),
+        plugin(function ({
+            matchUtilities,
+            theme,
+        }: {
+            matchUtilities: MatchUtilitiesFunction;
+            theme: any;
+        }) {
+            matchUtilities(
+                {
+                    "text-shadow": (value) => ({
+                        textShadow: value,
+                    }),
+                },
+                { values: theme("textShadow") }
+            );
+        }),
+    ],
 } satisfies Config;
 
 export default config;

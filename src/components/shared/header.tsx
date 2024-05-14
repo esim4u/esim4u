@@ -82,7 +82,7 @@ const Header = (props: Props) => {
                             {tgUser?.username
                                 ? `@${tgUser?.username}`
                                 : "@user"}
-                            <MdArrowForwardIos />
+                            <MdArrowForwardIos className="w-[14px] h-[14px]" />
                         </h2>
                         <span className=" bg-neutral-500 w-fit rounded-md py-0.5 px-2 text-white text-[8px] font-medium">
                             New user
