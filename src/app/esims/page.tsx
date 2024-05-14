@@ -130,7 +130,9 @@ export default function Home() {
                             <div
                                 onClick={() => {
                                     hapticFeedback(webApp);
-                                    router.push(`/esims/${country.country_code}`);
+                                    router.push(
+                                        `/esims/${country.country_code}`
+                                    );
                                 }}
                                 key={index}
                                 className="cursor-pointer active:scale-95 transition-transform bg-white flex items-center justify-between w-full p-2 rounded-xl"
@@ -174,10 +176,15 @@ export default function Home() {
                                     <CarouselItem
                                         key={index}
                                         onClick={() => {
-                                            if(index === 0){
-                                                webApp.openTelegramLink("https://telegra.ph/OUR-PARTNERS-05-14-2")
-                                            }else if(index === 1){
-                                                webApp.openLink("https://telegra.ph/OUR-PARTNERS-05-14-2")
+                                            if (index === 0) {
+                                                webApp.openTelegramLink(
+                                                    "https://telegra.ph/OUR-PARTNERS-05-14-2"
+                                                );
+                                            } else if (index === 1) {
+                                                webApp.openLink(
+                                                    "https://telegra.ph/OUR-PARTNERS-05-14-2",
+                                                    [{ try_instant_view: true }]
+                                                );
                                             }
                                             hapticFeedback(webApp);
                                         }}
@@ -429,7 +436,6 @@ export default function Home() {
                             </Carousel>
                         </div>
                     </div>
-
                 </div>
             )}
         </main>
