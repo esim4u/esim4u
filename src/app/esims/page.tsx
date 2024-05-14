@@ -174,11 +174,16 @@ export default function Home() {
                                     <CarouselItem
                                         key={index}
                                         onClick={() => {
+                                            if(index === 0){
+                                                webApp.openTelegramLink("https://telegra.ph/OUR-PARTNERS-05-14-2")
+                                            }else if(index === 1){
+                                                webApp.openLink("https://telegra.ph/OUR-PARTNERS-05-14-2")
+                                            }
                                             hapticFeedback(webApp);
                                         }}
                                         className="pl-1  basis-28 active:scale-95 transition-transform cursor-pointer"
                                     >
-                                        <a href={"https://telegra.ph/OUR-PARTNERS-05-14-2"} className="p-1">
+                                        <div className="p-1">
                                             <div className="p-1 bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500 rounded-[28px]">
                                                 <div className="relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3]	">
                                                     <Image
@@ -195,7 +200,7 @@ export default function Home() {
                                                     </span>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </div>
                                     </CarouselItem>
                                 ))}
                             </CarouselContent>
