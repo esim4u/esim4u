@@ -103,12 +103,14 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                         </svg>
                     </div>
 
-                    <div className="flex flex-col gap-2 w-full">
+                    <div className="flex flex-col items-center gap-2 w-full">
+                        <TonConnectButton />
+
                         <Button
                             onClick={() => {
                                 tonConnectUI.openModal();
                             }}
-                            className="rounded-xl"
+                            className="rounded-xl w-full"
                         >
                             Connect your wallet
                         </Button>
