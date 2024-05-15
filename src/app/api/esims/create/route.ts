@@ -37,7 +37,6 @@ export async function POST(req: Request) {
         })
         .select();
 
-    
     if (response.error) {
         return Response.json(response.error);
     }
@@ -49,5 +48,13 @@ export async function POST(req: Request) {
         "EUR"
     );
 
-    return Response.json(id);
+    await supabase
+        .from("airalo-esim")
+        .update({ sumup_id: id })
+        .eq("id", response.data[0].id);
+
+    return Response.json({
+        order_id: response.data[0].id,
+        sumup_id: id,
+    });
 }

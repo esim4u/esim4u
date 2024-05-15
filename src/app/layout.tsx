@@ -44,6 +44,10 @@ export default function RootLayout({
                             src="https://telegram.org/js/telegram-web-app.js"
                             strategy="beforeInteractive"
                         />
+                        <Script
+                            src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js"
+                            strategy="beforeInteractive"
+                        />
                         {children}
                     </body>
                 </html>

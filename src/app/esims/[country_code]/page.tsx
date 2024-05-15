@@ -70,17 +70,19 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
     useEffect(() => {
         if (webApp) {
             webApp?.MainButton.show();
-            webApp?.MainButton.setParams({
-                text: "PAY",
-                color: "#444444",
-                is_active: false,
-                is_visible: true,
-            });
 
             webApp?.BackButton.show();
             webApp?.BackButton.onClick(() => {
                 webApp?.BackButton.hide();
+
                 webApp?.MainButton.hide();
+                webApp?.MainButton.setParams({
+                    text: "PAY",
+                    color: "#444444",
+                    is_active: false,
+                    is_visible: true,
+                });
+
                 router.push("/esims");
             });
         }
@@ -89,17 +91,13 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
     useEffect(() => {
         if (terms.terms1 && terms.terms2) {
             webApp?.MainButton.setParams({
-                text: "PAY",
                 color: "#3b82f6",
                 is_active: true,
-                is_visible: true,
             });
         } else {
             webApp?.MainButton.setParams({
-                text: "PAY",
                 color: "#444444",
                 is_active: false,
-                is_visible: true,
             });
         }
     }, [terms]);
@@ -123,17 +121,9 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
             networks: packageData.operators[0].networks,
         }).then((res) => {
             console.log(res);
-            webApp?.showPopup({
-                title: "Success",
-                message: "Your order has been created successfully",
-                buttons: [
-                    {
-                        text: "Close",
-                        color: "blue",
-                        action: "close",
-                    },
-                ],
-            })
+            if(res?.data?.order_id){
+                router.push(`/esims/pay/${res.data.order_id}`);
+            }
         });
 
 
