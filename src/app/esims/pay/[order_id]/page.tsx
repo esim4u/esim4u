@@ -1,14 +1,5 @@
 "use client";
 
-import { COUNTRIES } from "@/constants";
-import { Badge } from "@/components/ui/badge";
-import BounceLoader from "@/components/ui/bounce-loader";
-import {
-    Carousel,
-    CarouselApi,
-    CarouselContent,
-    CarouselItem,
-} from "@/components/ui/carousel";
 import { Checkbox } from "@/components/ui/checkbox";
 import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
@@ -23,12 +14,18 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { getOrderById } from "@/services/supabase";
 import { Button } from "@/components/ui/button";
 import { RiVisaLine } from "react-icons/ri";
-import { TonConnectButton } from "@tonconnect/ui-react";
+import {
+    TonConnectButton,
+    useTonConnectUI,
+    useTonWallet,
+} from "@tonconnect/ui-react";
 
 const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
     const [isCardPaymentOpen, setIsCardPaymentOpen] = useState(false);
+    const [tonConnectUI, setOptions] = useTonConnectUI();
+    const wallet = useTonWallet();
 
     const { data: rateTonUsd } = useQuery({
         queryKey: ["ratetonusd"],
@@ -107,12 +104,20 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                     </div>
 
                     <div className="flex flex-col gap-2 w-full">
-                        <Button className="rounded-xl"> Ton keeper</Button>
-                        <TonConnectButton />
-                        <Button className="rounded-xl bg-blue-500 hover:bg-blue-400">
-                            {" "}
-                            Telegram wallet
+                        <Button
+                            onClick={() => {
+                                tonConnectUI.openModal();
+                            }}
+                            className="rounded-xl"
+                        >
+                            Connect your wallet
                         </Button>
+                        {wallet && (
+                            <div>
+                                <span>Connected wallet: {wallet.name}</span>
+                                <span>Device: {wallet.device.appName}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <span className=" text-sm text-neutral-500">or</span>
