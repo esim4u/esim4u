@@ -26,6 +26,12 @@ export const TelegramProvider = ({
         const app = (window as any).Telegram?.WebApp;
         if (app) {
             app.setHeaderColor("#EFEFF3");	
+            app.setBackgroundColor("#EFEFF3");
+            app.themeParams.section_bg_color = "#EFEFF3";
+            app.themeParams.secondary_bg_color = "#EFEFF3";
+            app.themeParams.bg_color = "#EFEFF3";
+
+
             app.enableClosingConfirmation()	;	
 
             app?.MainButton.setParams({
@@ -35,7 +41,7 @@ export const TelegramProvider = ({
                 is_visible: false,
             });
 
-
+            
             
             app?.SettingsButton.show();
             app?.SettingsButton.onClick(() => {
