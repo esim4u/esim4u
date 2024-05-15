@@ -23,6 +23,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { getOrderById } from "@/services/supabase";
 import { Button } from "@/components/ui/button";
 import { RiVisaLine } from "react-icons/ri";
+import { TonConnectButton } from "@tonconnect/ui-react";
 
 const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     const router = useRouter();
@@ -107,6 +108,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
 
                     <div className="flex flex-col gap-2 w-full">
                         <Button className="rounded-xl"> Ton keeper</Button>
+                        <TonConnectButton />
                         <Button className="rounded-xl bg-blue-500 hover:bg-blue-400">
                             {" "}
                             Telegram wallet
