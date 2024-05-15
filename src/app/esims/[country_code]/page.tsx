@@ -1,10 +1,11 @@
 "use client";
 
-import { COUNTRIES } from "@/app/constants";
+import { COUNTRIES } from "@/constants";
 import { Badge } from "@/components/ui/badge";
 import BounceLoader from "@/components/ui/bounce-loader";
 import {
     Carousel,
+    CarouselApi,
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
@@ -17,14 +18,29 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { use, useEffect, useMemo } from "react";
+import React, { use, useCallback, useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 
 const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
-    const [selectedPackage, setSelectedPackage] = React.useState<any>(null);
-    const [isOpen, setIsOpen] = React.useState(false);
+    const [selectedPackage, setSelectedPackage] = useState<any>(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [api, setApi] = useState<CarouselApi>();
+    const [terms, setTerms] = useState({
+        terms1: false,
+        terms2: false,
+    });
+
+    useEffect(() => {
+        if (!api) {
+            return;
+        }
+
+        api.on("select", () => {
+            console.log("selected", api.selectedScrollSnap());
+        });
+    }, [api]);
 
     const {
         data: packageData,
@@ -53,19 +69,85 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
 
     useEffect(() => {
         if (webApp) {
+            webApp?.MainButton.show();
+            webApp?.MainButton.setParams({
+                text: "PAY",
+                color: "#444444",
+                is_active: false,
+                is_visible: true,
+            });
+
             webApp?.BackButton.show();
             webApp?.BackButton.onClick(() => {
                 webApp?.BackButton.hide();
+                webApp?.MainButton.hide();
                 router.push("/esims");
             });
         }
     }, [webApp]);
 
     useEffect(() => {
+        if (terms.terms1 && terms.terms2) {
+            webApp?.MainButton.setParams({
+                text: "PAY",
+                color: "#3b82f6",
+                is_active: true,
+                is_visible: true,
+            });
+        } else {
+            webApp?.MainButton.setParams({
+                text: "PAY",
+                color: "#444444",
+                is_active: false,
+                is_visible: true,
+            });
+        }
+    }, [terms]);
+
+    useEffect(() => {
         if (isFetched && packageData) {
             setSelectedPackage(packagePlans[0]);
         }
     }, [isFetched, packageData]);
+
+    const createEsimOrder = useCallback(async() => {
+        await axios.post("/api/esims/create", {
+            original_price:  selectedPackage.price,
+            total_price: selectedPackage.total_price,
+            total_price_eur: selectedPackage.total_price,
+            total_price_ton: priceInTon,
+            telegram_id: tgUser?.id,
+            package_id: selectedPackage.id,
+            coverage: packageData.operators[0].coverages[0].name,
+            coverage_image_url: packageData.operators[0].coverages[0].image_url,
+            networks: packageData.operators[0].networks,
+        }).then((res) => {
+            console.log(res);
+            webApp?.showPopup({
+                title: "Success",
+                message: "Your order has been created successfully",
+                buttons: [
+                    {
+                        text: "Close",
+                        color: "blue",
+                        action: "close",
+                    },
+                ],
+            })
+        });
+
+
+    }, [
+        selectedPackage,
+        rateTonUsd,
+    ]);
+
+    useEffect(() => {
+        webApp?.onEvent("mainButtonClicked", createEsimOrder);
+        return () => {
+            webApp?.offEvent("mainButtonClicked", createEsimOrder);
+        };
+    }, [selectedPackage, rateTonUsd]);
 
     const packagePlans = useMemo(() => {
         if (!packageData || !packageData.operators) return [];
@@ -77,7 +159,7 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
     const priceInTon = useMemo(() => {
         if (!rateTonUsd) return 999;
 
-        const priceInTon = selectedPackage?.total_price_eur / rateTonUsd;
+        const priceInTon = selectedPackage?.total_price / rateTonUsd;
         return priceInTon.toFixed(3);
     }, [rateTonUsd, selectedPackage]);
 
@@ -111,15 +193,21 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
                         <h2 className="font-bold text-3xl">
-                            {selectedPackage?.total_price_eur}
+                            {selectedPackage?.price}
+                            <span className="text-2xl">$</span>
+                        </h2>
+                        <Dot />
+                        <h2 className="font-bold text-3xl">
+                            {selectedPackage?.total_price}
                             <span className="text-2xl">$</span>
                         </h2>
                         <Dot />
                         <h2 className="flex items-center font-bold text-3xl">
                             {priceInTon}
                             <svg
-                                width="24"
-                                height="24"
+                                className="mt-1"
+                                width="18"
+                                height="18"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -146,22 +234,28 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                         <h2 className="pl-2 text-sm uppercase font-medium text-neutral-500">
                             Packages
                         </h2>
-                        <Carousel>
-                            <CarouselContent className="gap-2">
+                        <Carousel setApi={setApi}>
+                            <CarouselContent className="ml-1">
                                 {packageData &&
                                     packagePlans.map(
                                         (plan: any, index: number) => {
                                             return (
                                                 <CarouselItem
                                                     key={index}
-                                                    className="basis-28"
+                                                    className="cursor-pointer basis-[122px] pl-1"
                                                 >
                                                     <div
-                                                        onClick={() =>
+                                                        onClick={() => {
+                                                            hapticFeedback(
+                                                                webApp
+                                                            );
                                                             setSelectedPackage(
                                                                 plan
-                                                            )
-                                                        }
+                                                            );
+                                                            api?.scrollTo(
+                                                                index
+                                                            );
+                                                        }}
                                                         className={cn(
                                                             "p-5 border-[2px]  h-16 w-28 border-neutral-400 active:border-4 active:border-blue-500  flex flex-col items-center justify-center rounded-3xl transition-all ",
                                                             selectedPackage ===
@@ -322,7 +416,16 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                         }}
                         className="flex items-center space-x-2"
                     >
-                        <Checkbox id="terms1" />
+                        <Checkbox
+                            onCheckedChange={(checked: boolean) => {
+                                setTerms({
+                                    ...terms,
+                                    terms1: checked,
+                                });
+                            }}
+                            checked={terms.terms1}
+                            id="terms1"
+                        />
                         <label
                             htmlFor="terms1"
                             className="cursor-pointer text-sm font-medium "
@@ -338,7 +441,16 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                         }}
                         className=" flex items-center space-x-2"
                     >
-                        <Checkbox id="terms2" />
+                        <Checkbox
+                            onCheckedChange={(checked: boolean) => {
+                                setTerms({
+                                    ...terms,
+                                    terms2: checked,
+                                });
+                            }}
+                            checked={terms.terms2}
+                            id="terms2"
+                        />
                         <label
                             htmlFor="terms2"
                             className="cursor-pointer text-sm font-medium "

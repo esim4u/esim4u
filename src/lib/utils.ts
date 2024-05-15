@@ -21,3 +21,10 @@ export const highlightText = (query: string, text: string) => {
         '<span style="color: #009dff; font-weight: 700">$1</span>'
     );
 };
+
+export const floor = (number: number, degree = 2) => {
+    return Math.floor(number * 10 ** degree) / 10 ** degree;
+};
+export const ceil = (number: number, degree = 2) => {
+    return Math.ceil(number * 10 ** degree) / 10 ** degree;
+};

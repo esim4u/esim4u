@@ -17,7 +17,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { MdArrowForwardIos } from "react-icons/md";
-import { COUNTRIES } from "../constants";
+import { COUNTRIES } from "../../constants";
 import { IoClose, IoCloseOutline } from "react-icons/io5";
 import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -176,16 +176,10 @@ export default function Home() {
                                     <CarouselItem
                                         key={index}
                                         onClick={() => {
-                                            if (index === 0) {
-                                                webApp.openTelegramLink(
-                                                    "https://telegra.ph/OUR-PARTNERS-05-14-2"
-                                                );
-                                            } else if (index === 1) {
-                                                webApp.openLink(
-                                                    "https://telegra.ph/OUR-PARTNERS-05-14-2",
-                                                    { try_instant_view: true }
-                                                );
-                                            }
+                                            webApp.openLink(
+                                                "https://telegra.ph/OUR-PARTNERS-05-14-2",
+                                                { try_instant_view: true }
+                                            );
                                             hapticFeedback(webApp);
                                         }}
                                         className="pl-1  basis-28 active:scale-95 transition-transform cursor-pointer"
@@ -222,6 +216,7 @@ export default function Home() {
                             <div
                                 onClick={() => {
                                     hapticFeedback(webApp);
+                                    router.push("/esims/world");
                                 }}
                                 className=" cursor-pointer active:scale-95 transition-transform relative flex justify-center items-end rounded-3xl overflow-hidden	"
                             >
@@ -250,6 +245,7 @@ export default function Home() {
                             <div
                                 onClick={() => {
                                     hapticFeedback(webApp);
+                                    router.push("/esims/ch");
                                 }}
                                 className=" cursor-pointer active:scale-95 transition-transform relative  flex justify-center items-end rounded-3xl overflow-hidden "
                             >
@@ -278,7 +274,9 @@ export default function Home() {
                             <div
                                 onClick={() => {
                                     hapticFeedback(webApp);
+                                    router.push("/esims/es");
                                 }}
+                                
                                 className=" cursor-pointer active:scale-95 transition-transform relative col-span-2 row-span-2 flex justify-center items-end rounded-3xl overflow-hidden 	"
                             >
                                 <Image
@@ -306,6 +304,7 @@ export default function Home() {
                             <div
                                 onClick={() => {
                                     hapticFeedback(webApp);
+                                    router.push("/esims/it");
                                 }}
                                 className=" cursor-pointer active:scale-95 transition-transform relative col-span-2 row-span-1  flex justify-center items-end rounded-3xl overflow-hidden 	"
                             >

@@ -4,59 +4,25 @@ import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useTelegram } from "@/providers/telegram-provider";
 import { MdArrowForwardIos } from "react-icons/md";
-import { BsFire } from "react-icons/bs";
 import { hapticFeedback } from "@/lib/utils";
-import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "@/lib/supabase";
+import { Badge } from "../ui/badge";
 
 type Props = {};
 
 const Header = (props: Props) => {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
-    const [dbUserData, setDbUserData] = useState({
-        username: "",
-        photo_url: "",
+
+    const { data: dbUserData, isLoading } = useQuery({
+        queryKey: ["user", tgUser?.id],
+        queryFn: async () => {
+            const data = await getUserById(tgUser.id);
+            return data;
+        },
     });
-
-    // const { data: dbUserData, isLoading } = useQuery({
-    //     queryKey: ["esim-packages"],
-    //     queryFn: async () => {
-    //         const { data } = await getUserById(tgUser.id);
-    //         return data;
-    //     },
-    // });
-    // const [userPhotoUrl, setUserPhotoUrl] = useState("");
-
-    // useEffect(() => {
-    //     if (webApp) {
-    //         // const userPhotoUrl = webApp.getItem("user_photo_url");
-    //         // setUserPhotoUrl(userPhotoUrl);
-
-    //         const keys = webApp.getKeys((err: any) => {
-    //             if (err) {
-    //                 console.error(err);
-    //             }
-    //         });
-    //         console.log(keys);
-    //     }
-    // }, [webApp]);
-
-    const fetchUser = async (id: number | string) => {
-        const user = await getUserById(id);
-
-        if (user?.id) {
-            setDbUserData(user);
-        }
-    };
-
-    useEffect(() => {
-        if (tgUser && webApp) {
-            fetchUser(tgUser.id);
-        }
-    }, [tgUser]);
 
     return (
         <section className="w-full">
@@ -84,9 +50,10 @@ const Header = (props: Props) => {
                                 : "@user"}
                             <MdArrowForwardIos className="w-[14px] h-[14px]" />
                         </h2>
-                        <span className=" bg-neutral-500 w-fit rounded-md py-0.5 px-2 text-white text-[8px] font-medium">
-                            New user
-                        </span>
+
+                        <Badge className="normal-case w-fit py-0.5 px-2 text-[8px] font-medium">
+                             {dbUserData?.badge || "New user" }
+                        </Badge>
                     </div>
                 </div>
                 <div

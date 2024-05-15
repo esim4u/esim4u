@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { ITelegramUser, IWebApp } from "@/types";
+import { useRouter } from "next/navigation";
 
 export interface ITelegramContext {
     webApp?: any;
@@ -18,6 +19,7 @@ export const TelegramProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
+    const router = useRouter();
     const [webApp, setWebApp] = useState<any>(null);
 
     useEffect(() => {
@@ -25,6 +27,14 @@ export const TelegramProvider = ({
         if (app) {
             app.setHeaderColor("#EFEFF3");	
             app.enableClosingConfirmation()	;	
+
+            app?.SettingsButton.show();
+            app?.SettingsButton.onClick(() => {
+                router.push("/settings");
+                webApp?.MainButton.hide();
+            });
+
+
             app.ready();
             app.expand();
             setWebApp(app);
