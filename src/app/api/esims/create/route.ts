@@ -1,5 +1,5 @@
 import { createCheckout } from "@/services/sumup";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/services/supabase";
 import { ceil, floor } from "@/lib/utils";
 import axios from "axios";
 

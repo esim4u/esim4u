@@ -24,7 +24,7 @@ const getToken = async () => {
         console.log(error.response.data);
     });
 
-    if (response.data && response.data.access_token) {
+    if (response?.data && response.data.access_token) {
         return response.data.access_token;
     }
 
@@ -63,7 +63,7 @@ export const createCheckout = async (
         console.log(error.response.data);
     });
 
-    if (response.data && response.data.id) {
+    if (response?.data && response.data.id) {
         return response.data.id;
     }
     return response;

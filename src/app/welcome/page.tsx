@@ -6,12 +6,11 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { createUser } from "@/lib/supabase";
+import { createUser } from "@/services/supabase";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { MdArrowForwardIos } from "react-icons/md";
 import Image from "next/image";
 
 export default function Home() {

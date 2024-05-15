@@ -3,7 +3,7 @@
 import BounceLoader from "@/components/ui/bounce-loader";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useQuery } from "@tanstack/react-query";
-import { getUserById } from "../lib/supabase";
+import { getUserById } from "@/services/supabase";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 

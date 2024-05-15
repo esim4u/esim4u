@@ -8,7 +8,7 @@ import {
     CarouselItem,
 } from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
-import { createUser } from "@/lib/supabase";
+import { createUser } from "@/services/supabase";
 import { hapticFeedback, highlightText } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useMutation, useQuery } from "@tanstack/react-query";

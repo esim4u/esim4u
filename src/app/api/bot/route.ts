@@ -1,4 +1,4 @@
-import { addUserPhotoUrl } from "@/lib/supabase";
+import { addUserPhotoUrl } from "@/services/supabase";
 import {
     Bot,
     InlineKeyboard,

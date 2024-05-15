@@ -7,7 +7,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { hapticFeedback } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getUserById } from "@/lib/supabase";
+import { getUserById } from "@/services/supabase";
 import { Badge } from "../ui/badge";
 
 type Props = {};
@@ -52,7 +52,7 @@ const Header = (props: Props) => {
                         </h2>
 
                         <Badge className="normal-case w-fit py-0.5 px-2 text-[8px] font-medium">
-                             {dbUserData?.badge || "New user" }
+                            {dbUserData?.badge || "New user"}
                         </Badge>
                     </div>
                 </div>
