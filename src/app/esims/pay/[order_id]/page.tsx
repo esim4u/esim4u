@@ -114,8 +114,10 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                         </Button>
                         {wallet && (
                             <div>
-                                <span>Connected wallet: {wallet.name}</span>
+                                <span>Connected wallet: {wallet.account.address || ""}</span>
+                                <span>Wallet account public key: {wallet.account.publicKey || ""}</span>
                                 <span>Device: {wallet.device.appName}</span>
+                                <span>Device platform: {wallet.device.platform}</span>
                             </div>
                         )}
                     </div>
