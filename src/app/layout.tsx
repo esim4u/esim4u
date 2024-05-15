@@ -6,6 +6,7 @@ import { Metadata, Viewport } from "next";
 import { TelegramProvider, useTelegram } from "@/providers/telegram-provider";
 import Script from "next/script";
 import ReactQueryProvider from "@/providers/query-provider";
+import TonConnectProvider from "@/providers/tonconnect-provider";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -33,24 +34,26 @@ export default function RootLayout({
     return (
         <ReactQueryProvider>
             <TelegramProvider>
-                <html lang="en" suppressHydrationWarning>
-                    <body
-                        className={cn(
-                            "min-h-screen bg-background font-sans antialiased overflow-x-hidden bg-[#EFEFF3] max-w-[460px]",
-                            fontSans.variable
-                        )}
-                    >
-                        <Script
-                            src="https://telegram.org/js/telegram-web-app.js"
-                            strategy="beforeInteractive"
-                        />
-                        <Script
-                            src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js"
-                            strategy="beforeInteractive"
-                        />
-                        {children}
-                    </body>
-                </html>
+                <TonConnectProvider>
+                    <html lang="en" suppressHydrationWarning>
+                        <body
+                            className={cn(
+                                "min-h-screen bg-background font-sans antialiased overflow-x-hidden bg-[#EFEFF3] max-w-[460px]",
+                                fontSans.variable
+                            )}
+                        >
+                            <Script
+                                src="https://telegram.org/js/telegram-web-app.js"
+                                strategy="beforeInteractive"
+                            />
+                            <Script
+                                src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js"
+                                strategy="beforeInteractive"
+                            />
+                            {children}
+                        </body>
+                    </html>
+                </TonConnectProvider>
             </TelegramProvider>
         </ReactQueryProvider>
     );
