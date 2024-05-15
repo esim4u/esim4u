@@ -28,6 +28,15 @@ export const TelegramProvider = ({
             app.setHeaderColor("#EFEFF3");	
             app.enableClosingConfirmation()	;	
 
+            app?.MainButton.setParams({
+                text: "PAY",
+                color: "#444444",
+                is_active: false,
+                is_visible: false,
+            });
+
+
+            
             app?.SettingsButton.show();
             app?.SettingsButton.onClick(() => {
                 router.push("/settings");

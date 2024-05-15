@@ -6,6 +6,9 @@ export const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
+
+// USER
+
 export const getUserById = async (id) => {
     const { data, error } = await supabase
         .from("tg_bot_users")
@@ -78,3 +81,16 @@ export const addUserPhotoUrl = async (id, photo_url) => {
 
     return data;
 };
+
+
+// ORDERS
+
+export const getOrderById = async (id) => {
+    const { data, error } = await supabase
+        .from("airalo-esim")
+        .select("*")
+        .eq("id", id)
+        .is("status", null)
+        .order("created_at", { ascending: false });
+    return data;
+}
