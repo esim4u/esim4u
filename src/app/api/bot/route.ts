@@ -1,4 +1,4 @@
-// import { getPhotoUrlFromFileId } from "@/services/grammy";
+import { getPhotoUrlFromFileId } from "@/services/grammy";
 // import { addUserPhotoFileId } from "@/services/supabase";
 import {
     Bot,
@@ -125,10 +125,10 @@ bot.on("::url", async (ctx) => {
     await ctx.reply("You sent me a URL: " + ctx.message?.text);
 });
 
-// bot.on("message", async (ctx) => {
-//     const url = await getPhotoUrlFromFileId(ctx.message?.text || "");
-//     await ctx.reply(url);
-// });
+bot.on("message", async (ctx) => {
+    const url = await getPhotoUrlFromFileId(ctx.message?.text || "");
+    await ctx.reply(url);
+});
 
 bot.catch((err) => {
     const ctx = err.ctx;
