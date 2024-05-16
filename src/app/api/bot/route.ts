@@ -1,4 +1,4 @@
-import { addUserPhotoUrl } from "@/services/supabase";
+import { addUserPhotoFileId } from "@/services/supabase";
 import {
     Bot,
     InlineKeyboard,
@@ -25,10 +25,7 @@ const addUserPhoto = async (ctx: any) => {
     const chat = await ctx.getChat();
     if (!chat.photo) return await ctx.reply("You have no profile picture");
 
-    const file = await ctx.api.getFile(chat.photo.small_file_id);
-    const fileUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
-
-    await addUserPhotoUrl(ctx.chat.id, fileUrl);
+    await addUserPhotoFileId(ctx.chat.id, chat.photo.small_file_id);
 };
 
 bot.api.setMyCommands([
