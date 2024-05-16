@@ -71,29 +71,28 @@ export const createUser = async (user) => {
     return data;
 };
 
-export const addUserPhotoFileId = async (id, photo_url) => {
+export const addUserPhotoFileId = async (id, username, photo_url) => {
     const { data: user, error: userError } = await supabase
         .from("users")
         .select("*")
         .eq("telegram_id", id);
 
-    // if (user.length > 0) {
-    //     const { data, error } = await supabase
-    //         .from("users")
-    //         .update({ photo_url: photo_url })
-    //         .eq("telegram_id", id);
+    if (user.length > 0) {
+        const { data, error } = await supabase
+            .from("users")
+            .update({ photo_url: photo_url, username: username })
+            .eq("telegram_id", id);
 
-    //     return data;
-    // }
+        return data;
+    }
 
-    // const { data, error } = await supabase.from("users").insert({
-    //     telegram_id: id,
-    //     photo_url: photo_url,
-    // });
+    const { data, error } = await supabase.from("users").insert({
+        telegram_id: id,
+        photo_url: photo_url,
+        username: username
+    });
 
-    // return data;
-
-    return null
+    return data;
 };
 
 // ORDERS
