@@ -20,6 +20,7 @@ import {
     useTonConnectUI,
     useTonWallet,
 } from "@tonconnect/ui-react";
+import { createTransaction } from "@/services/tonconnect";
 
 const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     const router = useRouter();
@@ -29,16 +30,6 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     const wallet = useTonWallet();
     const userFriendlyAddress = useTonAddress();
     const rawAddress = useTonAddress(false);
-
-    const myTransaction = {
-        validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-        messages: [
-            {
-                address: process.env.NEXT_PUBLIC_TON_WALLET || "",
-                amount: "20000000",
-            }
-        ]
-    }
 
     const { data: rateTonUsd } = useQuery({
         queryKey: ["ratetonusd"],
@@ -80,13 +71,13 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
         }
     }, [webApp]);
 
-    // if (true) {
-    //     return (
-    //         <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
-    //             <BounceLoader />
-    //         </main>
-    //     );
-    // }
+    const transaction = useMemo(() => {
+        if (orderData && orderData?.price?.total && rateTonUsd) {
+            const currentPriceInTon = orderData.price.total / rateTonUsd;
+            return createTransaction(currentPriceInTon);
+        }
+        return null;
+    }, [orderData, rateTonUsd]);
 
     return (
         <main className="overflow-x-hidden min-h-dvh flex flex-col justify-center items-center ">
@@ -130,8 +121,11 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
 
                         <Button
                             onClick={() => {
-                                alert(JSON.stringify(myTransaction));
-                                tonConnectUI.sendTransaction(myTransaction);
+                                hapticFeedback(webApp);
+                                if (transaction) {
+                                    alert(JSON.stringify(transaction));
+                                    tonConnectUI.sendTransaction(transaction);
+                                }
                             }}
                             className="rounded-xl w-full"
                         >

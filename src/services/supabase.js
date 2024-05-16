@@ -92,5 +92,9 @@ export const getOrderById = async (id) => {
         .eq("id", id)
         .is("status", null)
         .order("created_at", { ascending: false });
-    return data;
+
+    if(data.length > 0) {
+        return data[0];
+    }
+    return [];
 }
