@@ -77,7 +77,7 @@ export const addUserPhotoFileId = async (id, username, photo_url) => {
         .select("*")
         .eq("telegram_id", id);
 
-    if (user.length > 0) {
+    if (user && user?.length > 0) {
         const { data, error } = await supabase
             .from("users")
             .update({ photo_url: photo_url, username: username })
