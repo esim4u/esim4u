@@ -1,3 +1,4 @@
+import { getPhotoUrlFromFileId } from "@/services/grammy";
 import { addUserPhotoFileId } from "@/services/supabase";
 import {
     Bot,
@@ -20,7 +21,6 @@ const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
 // const loginEsimButton = new InlineKeyboard().login("Login", webAppUrl)
 
 /////////////////////
-
 
 const addUserPhoto = async (ctx: any) => {
     const chat = await ctx.getChat();
@@ -83,7 +83,9 @@ bot.command("getavatar", async (ctx) => {
     const file = await ctx.api.getFile(chat.photo.small_file_id);
     const fileUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
 
-    await ctx.replyWithPhoto(new InputFile(new URL(fileUrl)));
+    await ctx.replyWithPhoto(new InputFile(new URL(fileUrl)), {
+        caption: `File ID: ${chat.photo.small_file_id}`,
+    });
 });
 
 bot.command("rate", async (ctx) => {
@@ -122,6 +124,11 @@ bot.on("::url", async (ctx) => {
     await ctx.reply("You sent me a URL: " + ctx.message?.text);
 });
 
+bot.on("message", async (ctx) => {
+    const url = await getPhotoUrlFromFileId(ctx.message?.text || "");
+    await ctx.reply(url);
+});
+
 bot.catch((err) => {
     const ctx = err.ctx;
     console.error(`Error while processing update ${ctx.update.update_id}:`);
@@ -146,8 +153,3 @@ export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
 export const POST = webhookCallback(bot, "std/http");
-
-export const getPhotoUrlFromFileId = async (fileId: string) => {
-    const file = await bot.api.getFile(fileId);
-    return `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
-}
