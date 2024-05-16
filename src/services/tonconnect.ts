@@ -20,4 +20,5 @@ export const createTransaction = (amountInTon: number) => {
             },
         ],
     };
+    return transaction;
 };
