@@ -1,5 +1,5 @@
 import { getPhotoUrlFromFileId } from "@/services/grammy";
-// import { addUserPhotoFileId } from "@/services/supabase";
+import { addUserPhotoFileId } from "@/services/supabase";
 import {
     Bot,
     InlineKeyboard,
@@ -26,9 +26,7 @@ const addUserPhoto = async (ctx: any) => {
     const chat = await ctx.getChat();
     if (!chat.photo) return await ctx.reply("You have no profile picture");
 
-    console.log(chat.photo.small_file_id);
-    return;
-    // await addUserPhotoFileId(ctx.chat.id, chat.photo.small_file_id);
+    await addUserPhotoFileId(ctx.chat.id, chat.photo.small_file_id);
 };
 
 bot.api.setMyCommands([

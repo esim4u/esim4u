@@ -77,21 +77,23 @@ export const addUserPhotoFileId = async (id, photo_url) => {
         .select("*")
         .eq("telegram_id", id);
 
-    if (user.length > 0) {
-        const { data, error } = await supabase
-            .from("users")
-            .update({ photo_url: photo_url })
-            .eq("telegram_id", id);
+    // if (user.length > 0) {
+    //     const { data, error } = await supabase
+    //         .from("users")
+    //         .update({ photo_url: photo_url })
+    //         .eq("telegram_id", id);
 
-        return data;
-    }
+    //     return data;
+    // }
 
-    const { data, error } = await supabase.from("users").insert({
-        telegram_id: id,
-        photo_url: photo_url,
-    });
+    // const { data, error } = await supabase.from("users").insert({
+    //     telegram_id: id,
+    //     photo_url: photo_url,
+    // });
 
-    return data;
+    // return data;
+
+    return null
 };
 
 // ORDERS
