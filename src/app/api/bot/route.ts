@@ -44,10 +44,10 @@ bot.api.setMyCommands([
         description:
             "Get your chat ID. With this id our support team can help you if you have any purchase issues",
     },
-    {
-        command: "getavatar",
-        description: "Get your user profile picture",
-    },
+    // {
+    //     command: "getavatar",
+    //     description: "Get your user profile picture",
+    // },
     {
         command: "rate",
         description: "Rate our bot. We would love to hear your feedback!",
