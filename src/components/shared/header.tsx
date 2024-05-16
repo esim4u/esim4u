@@ -36,7 +36,7 @@ const Header = (props: Props) => {
                 >
                     <Avatar>
                         <AvatarImage
-                            src={tgUser?.photo_url || dbUserData?.photo_url}
+                            src={tgUser?.photo_url || dbUserData?.photo}
                             alt="@shadcn"
                         />
                         <AvatarFallback className=" bg-neutral-500 text-white">

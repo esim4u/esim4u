@@ -80,7 +80,7 @@ export const addUserPhotoFileId = async (id, username, photo_url) => {
     if (user && user?.length > 0) {
         const { data, error } = await supabase
             .from("users")
-            .update({ photo_url: photo_url, username: username })
+            .update({ photo: photo_url, username: username })
             .eq("telegram_id", id);
 
         return data;
@@ -88,7 +88,8 @@ export const addUserPhotoFileId = async (id, username, photo_url) => {
 
     const { data, error } = await supabase.from("users").insert({
         telegram_id: id,
-        photo_url: photo_url,
+        photo: photo_url,
+        onboarding: false,
         username: username
     });
 

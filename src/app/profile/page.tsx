@@ -36,7 +36,7 @@ export default function Home() {
                 <div className="flex flex-col items-center gap-2">
                     <Avatar className=" w-16 h-16">
                         <AvatarImage
-                            src={tgUser?.photo_url || dbUserData?.photo_url}
+                            src={tgUser?.photo_url || dbUserData?.photo}
                             alt="@shadcn"
                         />
                         <AvatarFallback className=" bg-neutral-500 text-white">
