@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+    import { getPhotoUrlFromFileId } from "./grammy";
 
 // Initialize Supabase client
 export const supabase = createClient(
@@ -9,12 +10,19 @@ export const supabase = createClient(
 // USER
 
 export const getUserById = async (id) => {
-    const { data, error } = await supabase
+    let { data, error } = await supabase
         .from("users")
         .select("*")
         .eq("telegram_id", id)
         .eq("onboarding", true)
         .single();
+
+
+    if (data && data.photo) {
+        const photoUrl = await getPhotoUrlFromFileId(data.photo);
+        data.photo_url = photoUrl;
+    }
+
     return data;
 };
 

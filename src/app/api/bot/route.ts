@@ -10,7 +10,7 @@ import {
     InputFile,
 } from "grammy";
 
-const token = process.env.BOT_TOKEN;
+const token = process.env.NEXT_PUBLIC_BOT_TOKEN;
 if (!token) throw new Error("BOT_TOKEN is unset");
 const bot = new Bot(token);
 
@@ -75,17 +75,17 @@ bot.command("esim", async (ctx) => {
     );
 });
 
-bot.command("getavatar", async (ctx) => {
-    const chat = await ctx.getChat();
-    if (!chat.photo) return await ctx.reply("You have no profile picture");
+// bot.command("getavatar", async (ctx) => {
+//     const chat = await ctx.getChat();
+//     if (!chat.photo) return await ctx.reply("You have no profile picture");
 
-    const file = await ctx.api.getFile(chat.photo.small_file_id);
-    const fileUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
+//     const file = await ctx.api.getFile(chat.photo.small_file_id);
+//     const fileUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
 
-    await ctx.replyWithPhoto(new InputFile(new URL(fileUrl)), {
-        caption: `File ID: ${chat.photo.small_file_id}`,
-    });
-});
+//     await ctx.replyWithPhoto(new InputFile(new URL(fileUrl)), {
+//         caption: `File ID: ${chat.photo.small_file_id}`,
+//     });
+// });
 
 bot.command("rate", async (ctx) => {
     const ratings = [
@@ -123,10 +123,10 @@ bot.on("::url", async (ctx) => {
     await ctx.reply("You sent me a URL: " + ctx.message?.text);
 });
 
-bot.on("message", async (ctx) => {
-    const url = await getPhotoUrlFromFileId(ctx.message?.text || "");
-    await ctx.reply(url);
-});
+// bot.on("message", async (ctx) => {
+//     const url = await getPhotoUrlFromFileId(ctx.message?.text || "");
+//     await ctx.reply(url);
+// });
 
 bot.catch((err) => {
     const ctx = err.ctx;
