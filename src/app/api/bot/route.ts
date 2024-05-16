@@ -21,11 +21,18 @@ const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
 
 /////////////////////
 
+
+export const getPhotoUrlFromFileId = async (fileId: string) => {
+    const file = await bot.api.getFile(fileId);
+    return `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
+}
+
 const addUserPhoto = async (ctx: any) => {
     const chat = await ctx.getChat();
     if (!chat.photo) return await ctx.reply("You have no profile picture");
 
-    await addUserPhotoFileId(ctx.chat.id, chat.photo.small_file_id);
+    console.log(chat.photo.small_file_id);
+    // await addUserPhotoFileId(ctx.chat.id, chat.photo.small_file_id);
 };
 
 bot.api.setMyCommands([
