@@ -27,8 +27,7 @@ const addUserPhoto = async (ctx: any) => {
     if (!chat.photo) return await ctx.reply("You have no profile picture");
 
     console.log(chat.photo.small_file_id);
-    return;
-    // await addUserPhotoFileId(ctx.chat.id, chat.photo.small_file_id);
+    await addUserPhotoFileId(ctx.chat.id, chat.photo.small_file_id);
 };
 
 bot.api.setMyCommands([
