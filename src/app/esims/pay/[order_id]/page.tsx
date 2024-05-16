@@ -79,6 +79,15 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
         return null;
     }, [orderData, rateTonUsd]);
 
+    const handlePayButtonClick = async () => {
+        if (transaction) {
+            if (transaction) {
+                const result = await tonConnectUI.sendTransaction(transaction);
+                alert(JSON.stringify(result));
+            }
+        }
+    };
+
     return (
         <main className="overflow-x-hidden min-h-dvh flex flex-col justify-center items-center ">
             <div className="flex flex-col p-5 gap-4 items-center w-full ">
@@ -122,10 +131,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                         <Button
                             onClick={() => {
                                 hapticFeedback(webApp);
-                                if (transaction) {
-                                    alert(JSON.stringify(transaction));
-                                    tonConnectUI.sendTransaction(transaction);
-                                }
+                                handlePayButtonClick();
                             }}
                             className="rounded-xl w-full"
                         >
