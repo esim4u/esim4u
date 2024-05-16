@@ -11,19 +11,15 @@ export async function POST(req: Request) {
         total_price_eur,
         telegram_id,
         package_id,
-        coverage,
-        coverage_image_url,
-        networks,
+        coverage
     } = await req.json();
 
     const response = await supabase
-        .from("airalo-esim")
+        .from("orders")
         .insert({
             telegram_id: telegram_id || 0,
-            airalo_package_id: package_id,
+            package_id: package_id,
             coverage: coverage,
-            coverage_image_url: coverage_image_url,
-            networks: networks,
             price: {
                 original: original_price,
                 total: total_price, //original price + 20% + ceil to whole number
@@ -36,6 +32,8 @@ export async function POST(req: Request) {
             },
         })
         .select();
+
+    console.log(response);
 
     if (response.error) {
         return Response.json(response.error);

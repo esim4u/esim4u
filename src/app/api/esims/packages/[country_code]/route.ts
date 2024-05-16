@@ -1,12 +1,20 @@
 import { ceil } from "@/lib/utils";
 import axios from "axios";
+import dummy_data from "@/assets/data/dummy_country.json";
 
-export async function GET(request: Request, { params }: { params: { country_code: string } }) {
+export async function GET(
+    request: Request,
+    { params }: { params: { country_code: string } }
+) {
     const country_code = params.country_code;
+
+    if (country_code == "TEST") {
+        return Response.json(dummy_data);
+    }
 
     let config;
 
-    if(country_code.length == 2) {
+    if (country_code.length == 2) {
         config = {
             method: "get",
             maxBodyLength: Infinity,
@@ -17,12 +25,10 @@ export async function GET(request: Request, { params }: { params: { country_code
             },
             params: {
                 limit: 300,
-                'filter[country]': country_code.toUpperCase(),
+                "filter[country]": country_code.toUpperCase(),
             },
         };
-
-    }
-    else{
+    } else {
         config = {
             method: "get",
             maxBodyLength: Infinity,
@@ -33,7 +39,7 @@ export async function GET(request: Request, { params }: { params: { country_code
             },
             params: {
                 limit: 300,
-                'filter[type]': 'global',
+                "filter[type]": "global",
             },
         };
     }
@@ -42,8 +48,10 @@ export async function GET(request: Request, { params }: { params: { country_code
     });
 
     if (response?.data && response.data.data) {
-        if(country_code.length > 2){
-            response.data.data = response.data.data.filter((country: any) => country.slug === country_code);
+        if (country_code.length > 2) {
+            response.data.data = response.data.data.filter(
+                (country: any) => country.slug === country_code
+            );
         }
 
         const marginRate = 0.2;

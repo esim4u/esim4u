@@ -112,13 +112,11 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
         await axios.post("/api/esims/create", {
             original_price:  selectedPackage.price,
             total_price: selectedPackage.total_price,
-            total_price_eur: selectedPackage.total_price,
+            total_price_eur: selectedPackage.total_price*1.15,
             total_price_ton: priceInTon,
             telegram_id: tgUser?.id,
             package_id: selectedPackage.id,
-            coverage: packageData.operators[0].coverages[0].name,
-            coverage_image_url: packageData.operators[0].coverages[0].image_url,
-            networks: packageData.operators[0].networks,
+            coverage: packageData.operators[0].coverages[0].name
         }).then((res) => {
             console.log(res);
             if(res?.data?.order_id){

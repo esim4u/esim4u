@@ -304,7 +304,7 @@ export default function Home() {
                             <div
                                 onClick={() => {
                                     hapticFeedback(webApp);
-                                    router.push("/esims/it");
+                                    router.push("/esims/TEST");
                                 }}
                                 className=" cursor-pointer active:scale-95 transition-transform relative col-span-2 row-span-1  flex justify-center items-end rounded-3xl overflow-hidden 	"
                             >

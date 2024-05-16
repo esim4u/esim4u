@@ -108,7 +108,7 @@ export const addUserPhotoFileId = async (id, username, photo_url) => {
 
 export const getOrderById = async (id) => {
     const { data, error } = await supabase
-        .from("airalo-esim")
+        .from("orders")
         .select("*")
         .eq("id", id)
         .is("status", null)
