@@ -64,7 +64,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
             (window as any).SumUpCard.mount({
                 id: "sumup-card",
                 checkoutId: params.order_id,
-                onResponse: function (type: any, body: any) {
+                onResponse: async function (type: any, body: any) {
                     console.log("Type", type);
                     console.log("Body", body);
 
@@ -72,6 +72,8 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                         router.push("/esims/pay/pending");
                         console.log(type, body);
                     }
+
+                    await sendTgLog(JSON.stringify(body, null, 2));
                 },
             });
         }
