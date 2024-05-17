@@ -77,14 +77,18 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
 
     useEffect(() => {
         if (terms.terms1 && terms.terms2) {
-            webApp?.MainButton.setParams({
+            webApp.MainButton.setParams({
+                text: "PAY",
                 color: "#3b82f6",
                 is_active: true,
+                is_visible: true,
             });
         } else {
-            webApp?.MainButton.setParams({
+            webApp.MainButton.setParams({
+                text: "PAY",
                 color: "#444444",
                 is_active: false,
+                is_visible: true,
             });
         }
     }, [terms]);
@@ -95,29 +99,28 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
         }
     }, [isFetched, packageData]);
 
-    const createEsimOrder = useCallback(async() => {
-        await axios.post("/api/esims/create", {
-            original_price:  selectedPackage.price,
-            total_price: selectedPackage.total_price,
-            total_price_eur: selectedPackage.total_price*1.15,
-            total_price_ton: priceInTon,
-            telegram_id: tgUser?.id,
-            package_id: selectedPackage.id,
-            coverage: packageData.operators[0].coverages[0].name
-        }).then((res) => {
-            console.log(res);
-            if(res?.data?.order_id){
-                router.push(`/esims/pay/${res.data.order_id}`);
-            }
-        });
-
-
-    }, [
-        selectedPackage,
-        rateTonUsd,
-    ]);
+    const createEsimOrder = useCallback(async () => {
+        await axios
+            .post("/api/esims/create", {
+                original_price: selectedPackage.price,
+                total_price: selectedPackage.total_price,
+                total_price_eur: selectedPackage.total_price * 1.15,
+                total_price_ton: priceInTon,
+                telegram_id: tgUser?.id,
+                package_id: selectedPackage.id,
+                coverage: packageData.operators[0].coverages[0].name,
+            })
+            .then((res) => {
+                console.log(res);
+                if (res?.data?.order_id) {
+                    router.push(`/esims/pay/${res.data.order_id}`);
+                }
+            });
+    }, [selectedPackage, rateTonUsd]);
 
     useEffect(() => {
+        webApp?.offEvent("mainButtonClicked");
+
         webApp?.onEvent("mainButtonClicked", createEsimOrder);
         return () => {
             webApp?.offEvent("mainButtonClicked", createEsimOrder);

@@ -55,8 +55,8 @@ export const createCheckout = async (
             amount: price,
             currency,
             merchant_code: SUMUP_TEST_MERCHANT,
-            return_url: "https://esim4u-front.vercel.app/",
-            redirect_url: "https://esim4u-front.vercel.app/",
+            return_url: "https://esim4u-front.vercel.app/api/payment/sumup/webhook",
+            redirect_url: "https://esim4u-front.vercel.app/esims/pay/pending",
             description,
         },
     }).catch((error) => {

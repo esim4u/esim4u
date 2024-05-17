@@ -27,6 +27,7 @@ export default function Home() {
 
     useEffect(() => {
         if (tgUser && webApp) {
+            webApp?.MainButton.hide()
             createAppUser.mutate(tgUser);
         }
     }, [tgUser, webApp]);

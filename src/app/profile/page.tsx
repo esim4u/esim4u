@@ -5,8 +5,9 @@ import { getUserById } from "@/services/supabase";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { copyText, getReferralLink } from "@/lib/utils";
 
 export default function Home() {
     const router = useRouter();
@@ -20,11 +21,35 @@ export default function Home() {
         },
     });
 
+
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
+            webApp.MainButton.setParams({
+                text: "Share with friends",
+                color: "#3b82f6",
+                is_active: true,
+                is_visible: true,
+            });
         }
     }, [webApp]);
+
+
+    const copyReferralLink = useCallback(() => {
+        if (webApp) {
+            copyText(
+                getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
+            );
+        }
+    }, [webApp]);
+    
+    useEffect(() => {
+        webApp?.onEvent("mainButtonClicked", copyReferralLink);
+        return () => {
+            webApp?.offEvent("mainButtonClicked", copyReferralLink);
+        };
+    }, [webApp]);
+
 
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">

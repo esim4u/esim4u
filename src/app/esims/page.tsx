@@ -7,12 +7,12 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { hapticFeedback } from "@/lib/utils";
+import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { MdArrowForwardIos } from "react-icons/md";
 import { COUNTRIES } from "../../constants";
@@ -46,6 +46,34 @@ export default function Home() {
             );
         });
     };
+
+    useEffect(() => {
+        if (webApp) {
+            webApp.MainButton.setParams({
+                text: "Share with friends",
+                color: "#3b82f6",
+                is_active: true,
+                is_visible: true,
+            });
+        }
+    }, [webApp]);
+
+
+    const copyReferralLink = useCallback(() => {
+        if (webApp) {
+            copyText(
+                getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
+            );
+        }
+    }, [webApp]);
+    
+    useEffect(() => {
+        webApp?.onEvent("mainButtonClicked", copyReferralLink);
+        return () => {
+            webApp?.offEvent("mainButtonClicked", copyReferralLink);
+        };
+    }, [webApp]);
+
 
     const filteredPackages = useMemo(() => {
         if (search && packages && packages.length) {
@@ -122,6 +150,12 @@ export default function Home() {
                             <div
                                 onClick={() => {
                                     hapticFeedback(webApp);
+                                    webApp.MainButton.setParams({
+                                        text: "PAY",
+                                        color: "#444444",
+                                        is_active: false,
+                                        is_visible: true,
+                                    });
                                     router.push(
                                         `/esims/${country.country_code}`
                                     );

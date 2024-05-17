@@ -26,7 +26,7 @@ import { sendTgLog } from "@/services/tg-logger";
 const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
-    const [isCardPaymentOpen, setIsCardPaymentOpen] = useState(false);
+    const [isCardPaymentOpen, setIsCardPaymentOpen] = useState(true);
     const [tonConnectUI, setOptions] = useTonConnectUI();
     const wallet = useTonWallet();
     const userFriendlyAddress = useTonAddress();
@@ -58,7 +58,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                 text: "‎",
                 color: "#EFEFF3",
                 is_active: false,
-                is_visible: true,
+                is_visible: false,
             });
 
             (window as any).SumUpCard.mount({
@@ -92,7 +92,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     return (
         <main className="overflow-x-hidden min-h-dvh flex flex-col justify-center items-center ">
             <div className="flex flex-col p-5 gap-4 items-center w-full ">
-                <div className="flex flex-col items-center bg-white rounded-2xl p-6 gap-4 w-full">
+                {/* <div className="flex flex-col items-center bg-white rounded-2xl p-6 gap-4 w-full">
                     <div className="flex flex-row items-center  gap-1">
                         <h2 className="font-bold text-center">Pay with TON</h2>
                         <svg
@@ -167,7 +167,9 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                         )}
                     </div>
                 </div>
-                <span className=" text-sm text-neutral-500">or</span>
+
+                <span className=" text-sm text-neutral-500">or</span> */}
+
                 <div className="bg-white rounded-2xl w-full">
                     <div
                         className="w-full px-6 py-2 cursor-pointer flex items-center justify-between"

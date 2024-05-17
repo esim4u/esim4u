@@ -10,10 +10,6 @@ import {
 } from "react";
 import type { ITelegramUser, IWebApp } from "@/types";
 import { useRouter } from "next/navigation";
-import { get } from "http";
-import { getReferralLink, copyText } from "@/lib/utils";
-import { toast } from "@/components/ui/use-toast";
-import { sendTgLog } from "@/services/tg-logger";
 
 export interface ITelegramContext {
     webApp?: any;
@@ -34,14 +30,6 @@ export const TelegramProvider = ({
     const router = useRouter();
     const [webApp, setWebApp] = useState<any>(null);
 
-    const copyReferralLink = useCallback(() => {
-        if (webApp) {
-            copyText(
-                getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
-            );
-        }
-    }, [webApp]);
-
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;
         if (app) {
@@ -54,7 +42,7 @@ export const TelegramProvider = ({
                 text: "Share with friends",
                 color: "#3b82f6",
                 is_active: true,
-                is_visible: true,
+                is_visible: false,
             });
 
             app?.SettingsButton.show();
@@ -64,7 +52,8 @@ export const TelegramProvider = ({
 
             app?.BackButton.onClick(() => {
                 app?.BackButton.hide();
-                router.back();
+                // router.back();
+                router.push("/esims"); //TODO: check router.back() and replace with it if it works
             });
 
             app.ready();
@@ -72,13 +61,6 @@ export const TelegramProvider = ({
             setWebApp(app);
         }
     }, []);
-
-    useEffect(() => {
-        webApp?.onEvent("mainButtonClicked", copyReferralLink);
-        return () => {
-            webApp?.offEvent("mainButtonClicked", copyReferralLink);
-        };
-    }, [webApp]);
 
     const value = useMemo(() => {
 
