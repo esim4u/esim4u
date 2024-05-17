@@ -9,5 +9,5 @@ export async function POST(req: Request) {
 
     await sendTgLog(`Sumup webhook: ${JSON.stringify(payload)}`);
 
-    return Response.json({});
+    return Response.json(payload);
 }
