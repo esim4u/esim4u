@@ -19,9 +19,10 @@ import { COUNTRIES } from "../../constants";
 import { IoClose, IoCloseOutline } from "react-icons/io5";
 import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Stories from "@/components/home/stories";
 
 export default function Home() {
-    const { user: tgUser, webApp } = useTelegram();
+    const { webApp } = useTelegram();
     const [search, setSearch] = useState("");
     const router = useRouter();
 
@@ -98,13 +99,6 @@ export default function Home() {
             <Header />
             <div className="relative flex items-center">
                 <HiMiniMagnifyingGlass className=" absolute ml-[14px] text-neutral-500" />
-                {/* 
-                <Input
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="px-10 h-10 border-0 rounded-full"
-                    placeholder="Search country where you go"
-                /> */}
                 <input
                     className="px-10 h-10 border-0 rounded-full w-full"
                     value={search}
@@ -167,45 +161,7 @@ export default function Home() {
                 </div>
             ) : (
                 <div className="flex flex-col gap-4">
-                    <div>
-                        <Carousel className="w-full max-w-sm">
-                            <CarouselContent className="-ml-1">
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <CarouselItem
-                                        key={index}
-                                        onClick={() => {
-                                            webApp.openLink(
-                                                "https://telegra.ph/OUR-PARTNERS-05-14-2",
-                                                { try_instant_view: true }
-                                            );
-                                            hapticFeedback(webApp);
-                                        }}
-                                        className="pl-1  basis-28 active:scale-95 transition-transform cursor-pointer"
-                                    >
-                                        <div className="p-1">
-                                            <div className="p-1 bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500 rounded-[28px]">
-                                                <div className="relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3]	">
-                                                    <Image
-                                                        width={736}
-                                                        height={736}
-                                                        className=" w-full h-full object-cover"
-                                                        src={
-                                                            "https://www.comarch.com/files-com/miniatures/file_455/eSIM-is-Going-Mainstream.736x460.574e7a70.jpg"
-                                                        }
-                                                        alt="news"
-                                                    />
-                                                    <span className="absolute text-[10px] text-white pb-2 uppercase">
-                                                        News {index + 1}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                        </Carousel>
-                    </div>
-
+                    <Stories />
                     <div className="flex flex-col gap-2">
                         <h2 className="pl-4 uppercase font-medium text-neutral-500">
                             Popular countries
@@ -274,7 +230,6 @@ export default function Home() {
                                     hapticFeedback(webApp);
                                     router.push("/esims/es");
                                 }}
-                                
                                 className=" cursor-pointer active:scale-95 transition-transform relative col-span-2 row-span-2 flex justify-center items-end rounded-3xl overflow-hidden 	"
                             >
                                 <Image

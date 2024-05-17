@@ -19,6 +19,7 @@ export interface ITelegramContext {
     webApp?: any;
     user?: any;
     start_param?: string | number;
+    cloudStorage?: any;
     // webApp?: IWebApp;
     // user?: ITelegramUser;
 }
@@ -87,6 +88,7 @@ export const TelegramProvider = ({
                   unsafeData: webApp.initDataUnsafe,
                   user: webApp.initDataUnsafe.user,
                   start_param: webApp.initDataUnsafe.start_param,
+                  cloudStorage: webApp.cloudStorage,
               }
             : {};
     }, [webApp]);

@@ -125,3 +125,15 @@ export const getOrderById = async (id) => {
     }
     return [];
 };
+
+
+// STORIES
+
+export const getStories= async () => {
+    const { data, error } = await supabase
+        .from("stories")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    return data;
+};
