@@ -7,11 +7,9 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { Input } from "@/components/ui/input";
-import { createUser } from "@/services/supabase";
-import { hapticFeedback, highlightText } from "@/lib/utils";
+import { hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";

@@ -30,14 +30,10 @@ export const ceil = (number: number, degree = 2) => {
     return Math.ceil(number * 10 ** degree) / 10 ** degree;
 };
 
-
-export function copyText(
-    text: string | number,
-    e?: any
-) {
+export function copyText(text: string | number, e?: any) {
     e?.stopPropagation();
 
-    if(!text){
+    if (!text) {
         toast({
             variant: "destructive",
             title: "Error",
@@ -45,17 +41,23 @@ export function copyText(
         return;
     }
 
-    navigator.clipboard.writeText(text.toString());
-    toast({
-        variant: "esim4u",
-        title: "Copied!",
-    });
+    try {
+        navigator.clipboard.writeText(text.toString());
+        toast({
+            variant: "esim4u",
+            title: "Copied!",
+        });
+    } catch (error) {
+        toast({
+            variant: "destructive",
+            title: "Error: Please try again",
+        });
+    }
 }
 
-
 export const getReferralLink = (user_id: string | number) => {
-    if(!user_id){
+    if (!user_id) {
         return "";
     }
     return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}`;
-}
+};

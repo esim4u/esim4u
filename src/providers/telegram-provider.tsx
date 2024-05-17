@@ -1,13 +1,23 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import type { ITelegramUser, IWebApp } from "@/types";
 import { useRouter } from "next/navigation";
+import { get } from "http";
+import { getReferralLink, copyText } from "@/lib/utils";
+import { toast } from "@/components/ui/use-toast";
 
 export interface ITelegramContext {
     webApp?: any;
     user?: any;
-    webAppUser?: any;
+    start_param?: string | number;
     // webApp?: IWebApp;
     // user?: ITelegramUser;
 }
@@ -22,13 +32,21 @@ export const TelegramProvider = ({
     const router = useRouter();
     const [webApp, setWebApp] = useState<any>(null);
 
+    const copyReferralLink = useCallback(() => {
+        if (webApp) {
+            copyText(
+                getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
+            );
+        }
+    }, [webApp]);
+
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;
         if (app) {
-            app.setHeaderColor("#EFEFF3");	
+            app.setHeaderColor("#EFEFF3");
             app.setBackgroundColor("#EFEFF3");
 
-            app.enableClosingConfirmation()	;	
+            app.enableClosingConfirmation();
 
             app?.MainButton.setParams({
                 text: "Share with friends",
@@ -37,7 +55,6 @@ export const TelegramProvider = ({
                 is_visible: true,
             });
 
-            
             app?.SettingsButton.show();
             app?.SettingsButton.onClick(() => {
                 router.push("/settings");
@@ -46,8 +63,7 @@ export const TelegramProvider = ({
             app?.BackButton.onClick(() => {
                 app?.BackButton.hide();
                 router.back();
-            })
-
+            });
 
             app.ready();
             app.expand();
@@ -55,12 +71,20 @@ export const TelegramProvider = ({
         }
     }, []);
 
+    useEffect(() => {
+        webApp?.onEvent("mainButtonClicked", copyReferralLink);
+        return () => {
+            webApp?.offEvent("mainButtonClicked", copyReferralLink);
+        };
+    }, [webApp]);
+
     const value = useMemo(() => {
         return webApp
             ? {
                   webApp,
                   unsafeData: webApp.initDataUnsafe,
                   user: webApp.initDataUnsafe.user,
+                  start_params: webApp.initDataUnsafe.start_params,
               }
             : {};
     }, [webApp]);

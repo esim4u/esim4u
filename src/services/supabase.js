@@ -26,7 +26,7 @@ export const getUserById = async (id) => {
     return data;
 };
 
-export const createUser = async (user) => {
+export const createUser = async (user, parent_id) => {
     const { data: dbUser, error: userError } = await supabase
         .from("users")
         .select("*")
@@ -65,6 +65,7 @@ export const createUser = async (user) => {
             language_code: user.language_code || null,
             is_premium: user.is_premium ? true : false,
             onboarding: true,
+            parent_id: parent_id || null,
         },
     ]);
 

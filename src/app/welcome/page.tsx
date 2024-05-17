@@ -15,11 +15,11 @@ import Image from "next/image";
 
 export default function Home() {
     const router = useRouter();
-    const { user: tgUser, webApp } = useTelegram();
+    const { user: tgUser, webApp, start_param } = useTelegram();
 
     const createAppUser = useMutation({
         mutationFn: async (tgUser: any) => {
-            return await createUser(tgUser);
+            return await createUser(tgUser, start_param);
         },
         onError: (error) => {},
         onSuccess: (data) => {},
