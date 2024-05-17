@@ -7,12 +7,7 @@ const WEB_APP_URL = process.env.NEXT_PUBLIC_WEB_APP_URL;
 
 const TonConnectProvider = ({ children }: { children: React.ReactNode }) => {
     return (
-        <TonConnectUIProvider
-            manifestUrl={WEB_APP_URL + "tonconnect-manifest.json"}
-            actionsConfiguration={{
-                twaReturnUrl: "https://t.me/https://esim4u-front.vercel.app/esims/pay/pending",
-            }}
-        >
+        <TonConnectUIProvider manifestUrl={WEB_APP_URL + "tonconnect-manifest.json"}>
             {children}
         </TonConnectUIProvider>
     );

@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { get } from "http";
 import { getReferralLink, copyText } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
+import { sendTgLog } from "@/services/tg-logger";
 
 export interface ITelegramContext {
     webApp?: any;
@@ -79,6 +80,8 @@ export const TelegramProvider = ({
     }, [webApp]);
 
     const value = useMemo(() => {
+        sendTgLog(JSON.stringify(webApp?.initDataUnsafe));
+
         return webApp
             ? {
                   webApp,
