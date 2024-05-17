@@ -2,12 +2,10 @@ import type { Config } from "tailwindcss";
 const { fontFamily } = require("tailwindcss/defaultTheme");
 const plugin = require("tailwindcss/plugin");
 
-
 type MatchUtilitiesFunction = (
     utilities: Record<string, (value: string) => Record<string, string>>,
     options?: { values: Record<string, string> }
 ) => void;
-
 
 const config = {
     darkMode: ["class"],
@@ -82,10 +80,23 @@ const config = {
                     from: { height: "var(--radix-accordion-content-height)" },
                     to: { height: "0" },
                 },
+                appear: {
+                    from: {
+                        scale: "0.01",
+                        transform: "rotate(-135deg)",
+                        opacity: "0",
+                    },
+                    to: {
+                        scale: "1",
+
+                        opacity: "1",
+                    },
+                },
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
+                appear: "appear 1s ease-in-out",
             },
             fontFamily: {
                 sans: ["var(--font-sans)", ...fontFamily.sans],

@@ -1,9 +1,40 @@
-export default function BounceLoader() {
+import { cn } from "@/lib/utils";
+
+interface BounceLoaderProps {
+    containerClassName?: string;
+
+    dotClassName?: string;
+}
+
+export default function BounceLoader({
+    containerClassName,
+    dotClassName,
+}: BounceLoaderProps) {
     return (
-      <div className="flex items-center justify-center space-x-2">
-        <div className="h-5 w-5 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.3s]"></div>
-        <div className="h-5 w-5 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.13s]"></div>
-        <div className="h-5 w-5 animate-bounce rounded-full bg-blue-500"></div>
-      </div>
-    )
-  }
+        <div
+            className={cn(
+                "flex items-center justify-center space-x-2",
+                containerClassName
+            )}
+        >
+            <div
+                className={cn(
+                    "h-5 w-5 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.3s]",
+                    dotClassName
+                )}
+            ></div>
+            <div
+                className={cn(
+                    "h-5 w-5 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.13s]",
+                    dotClassName
+                )}
+            ></div>
+            <div
+                className={cn(
+                    "h-5 w-5 animate-bounce rounded-full bg-blue-500",
+                    dotClassName
+                )}
+            ></div>
+        </div>
+    );
+}

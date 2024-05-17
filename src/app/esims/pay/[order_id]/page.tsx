@@ -21,6 +21,7 @@ import {
     useTonWallet,
 } from "@tonconnect/ui-react";
 import { createTransaction } from "@/services/tonconnect";
+import { sendTgLog } from "@/services/tg-logger";
 
 const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     const router = useRouter();
@@ -83,7 +84,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
         if (transaction) {
             if (transaction) {
                 const result = await tonConnectUI.sendTransaction(transaction);
-                alert(JSON.stringify(result));
+                await sendTgLog(JSON.stringify(result, null, 2));
             }
         }
     };

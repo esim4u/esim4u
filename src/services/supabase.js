@@ -49,7 +49,6 @@ export const createUser = async (user) => {
             .eq("telegram_id", user.id);
 
         if (error) {
-            alert(JSON.stringify(error));
             console.error(error);
         }
 
@@ -70,12 +69,11 @@ export const createUser = async (user) => {
     ]);
 
     if (error) {
-        alert(JSON.stringify(error));
         console.error(error);
     }
 
-    alert(JSON.stringify(error));
     console.log(data);
+    
     return data;
 };
 
