@@ -22,6 +22,7 @@ import {
 } from "@tonconnect/ui-react";
 import { createTransaction } from "@/services/tonconnect";
 import { sendTgLog } from "@/services/tg-logger";
+import { toast } from "@/components/ui/use-toast";
 
 const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     const router = useRouter();
@@ -54,21 +55,39 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     });
 
     useEffect(() => {
-
         if (orderData && orderData.sumup_id) {
             (window as any).SumUpCard.mount({
-                id: "sumup-card",
+                id: "sumup",
                 checkoutId: orderData.sumup_id,
-                onResponse: async function (type: any, body: any) {
-                    console.log("Type", type);
-                    console.log("Body", body);
-
+                onResponse: (type: any, body: any) => {
                     if (type == "success" && body && body.status == "PAID") {
-                        router.push("/esims/pay/pending");
+                        let success = false;
+
+                        if (body.transactions && body.transactions[0]) {
+                            for (const transaction of body.transactions) {
+                                if (transaction.status == "SUCCESSFUL") {
+                                    success = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (success) {
+                            router.push("esims/pay/pending");
+                        } else {
+                            toast({
+                                variant: "destructive",
+                                title: "Error. Your bank is blocking the payment. Please try again.",
+                            });
+                        }
+                    } else if (body && body.status == "FAILED") {
+                        toast({
+                            variant: "destructive",
+                            title: "Error. Your bank is blocking the payment. Please try again.",
+                        });
+                    } else {
                         console.log(type, body);
                     }
-
-                    await sendTgLog(JSON.stringify(body, null, 2));
                 },
             });
         }
