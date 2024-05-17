@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-    import { getPhotoUrlFromFileId } from "./grammy";
+import { getPhotoUrlFromFileId } from "./grammy";
+import { sendTgLog } from "./tg-logger";
 
 // Initialize Supabase client
 export const supabase = createClient(
@@ -16,7 +17,6 @@ export const getUserById = async (id) => {
         .eq("telegram_id", id)
         .eq("onboarding", true)
         .single();
-
 
     if (data && data.photo) {
         const photoUrl = await getPhotoUrlFromFileId(data.photo);
@@ -48,13 +48,14 @@ export const createUser = async (user, parent_id) => {
             ])
             .eq("telegram_id", user.id);
 
-        if(dbUser[0].parent_id === null && parent_id) {
+        sendTgLog(JSON.stringify(dbUser))
+        if (dbUser[0].parent_id === null && parent_id) {
             const { data, error } = await supabase
                 .from("users")
-                .update({ parent_id: parent_id })
+                .update([{ parent_id: parent_id }])
                 .eq("telegram_id", user.id);
         }
-        
+
         if (error) {
             console.error(error);
         }
@@ -81,7 +82,7 @@ export const createUser = async (user, parent_id) => {
     }
 
     console.log(data);
-    
+
     return data;
 };
 
@@ -104,7 +105,7 @@ export const addUserPhotoFileId = async (id, username, photo_url) => {
         telegram_id: id,
         photo: photo_url,
         onboarding: false,
-        username: username
+        username: username,
     });
 
     return data;
