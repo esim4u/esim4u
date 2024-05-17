@@ -67,6 +67,11 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                 onResponse: function (type: any, body: any) {
                     console.log("Type", type);
                     console.log("Body", body);
+
+                    if (type == "success" && body && body.status == "PAID") {
+                        router.push("/esims/pay/pending");
+                        console.log(type, body);
+                    }
                 },
             });
         }

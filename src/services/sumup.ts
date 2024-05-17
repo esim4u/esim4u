@@ -4,6 +4,8 @@ const SUMUP_API_URL=process.env.SUMUP_API_URL || "";
 const SUMUP_APP_ID = process.env.SUMUP_APP_ID || "";
 const SUMUP_SECRET_KEY = process.env.SUMUP_SECRET_KEY || "";
 const SUMUP_TEST_MERCHANT = process.env.SUMUP_TEST_MERCHANT || "";
+const SUMUP_PROD_MERCHANT = process.env.SUMUP_PROD_MERCHANT || "";
+
 const SCOPE = ["payments"];
 
 const getToken = async () => {
@@ -54,8 +56,8 @@ export const createCheckout = async (
             checkout_reference: order_id,
             amount: price,
             currency,
-            merchant_code: SUMUP_TEST_MERCHANT,
-            return_url: "https://esim4u-front.vercel.app/api/payment/sumup/webhook",
+            merchant_code: SUMUP_PROD_MERCHANT,
+            return_url: "https://esim4u-front.vercel.app/api/pay/sumup/webhook",
             redirect_url: "https://esim4u-front.vercel.app/esims/pay/pending",
             description,
         },
