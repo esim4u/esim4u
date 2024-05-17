@@ -38,6 +38,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
             const { data } = await axios.get(
                 "https://tonapi.io/v2/rates?tokens=ton&currencies=usd"
             );
+
             return data.rates.TON.prices.USD;
         },
         refetchInterval: 1000 * 10, // 10 sec
@@ -53,17 +54,11 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     });
 
     useEffect(() => {
-        if (webApp) {
-            webApp.MainButton.setParams({
-                text: "‎",
-                color: "#EFEFF3",
-                is_active: false,
-                is_visible: false,
-            });
 
+        if (orderData && orderData.sumup_id) {
             (window as any).SumUpCard.mount({
                 id: "sumup-card",
-                checkoutId: params.order_id,
+                checkoutId: orderData.sumup_id,
                 onResponse: async function (type: any, body: any) {
                     console.log("Type", type);
                     console.log("Body", body);
@@ -75,6 +70,17 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
 
                     await sendTgLog(JSON.stringify(body, null, 2));
                 },
+            });
+        }
+    }, [orderData]);
+
+    useEffect(() => {
+        if (webApp) {
+            webApp.MainButton.setParams({
+                text: "‎",
+                color: "#EFEFF3",
+                is_active: false,
+                is_visible: false,
             });
         }
     }, [webApp]);

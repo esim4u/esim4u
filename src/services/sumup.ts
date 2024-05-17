@@ -47,6 +47,7 @@ export const createCheckout = async (
     }
 
     await sendTgLog(`Sumup token: ${token}`);
+    await sendTgLog(`SUMUP_TEST_MERCHANT: ${SUMUP_TEST_MERCHANT}`);
     await sendTgLog(`SUMUP_PROD_MERCHANT: ${SUMUP_PROD_MERCHANT}`);
 
     const response = await axios({

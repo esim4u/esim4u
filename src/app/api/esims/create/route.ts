@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     );
 
     await supabase
-        .from("airalo-esim")
+        .from("orders")
         .update({ sumup_id: id })
         .eq("id", response.data[0].id);
 
