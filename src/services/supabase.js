@@ -27,6 +27,30 @@ export const getUserById = async (id) => {
     return data;
 };
 
+export const updateUser = async (user) => {
+    let lastLoginDates = user.last_login_date || [];
+    lastLoginDates.push(new Date());
+
+    alert(JSON.stringify(lastLoginDates));
+
+    const { data, error } = await supabase
+        .from("users")
+        .update([
+            {
+                username: user.username || null,
+                first_name: user.first_name || null,
+                last_name: user.last_name || null,
+                language_code: user.language_code || null,
+                is_premium: user.is_premium ? true : false,
+                platform: user.platform || null,
+                last_login_date: lastLoginDates,
+            },
+        ])
+        .eq("telegram_id", user.telegram_id);
+
+    return data;
+};
+
 export const createUser = async (user, parent_id) => {
     const { data: dbUser, error: userError } = await supabase
         .from("users")
@@ -129,10 +153,9 @@ export const getOrderById = async (id) => {
     return [];
 };
 
-
 // STORIES
 
-export const getStories= async () => {
+export const getStories = async () => {
     const { data, error } = await supabase
         .from("stories")
         .select("*")
