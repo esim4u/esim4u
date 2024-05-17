@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { getPhotoUrlFromFileId } from "./grammy";
 import { sendTgLog } from "./tg-logger";
+import { platform } from "os";
 
 // Initialize Supabase client
 export const supabase = createClient(
@@ -44,6 +45,7 @@ export const createUser = async (user, parent_id) => {
                     language_code: user.language_code || null,
                     is_premium: user.is_premium ? true : false,
                     onboarding: true,
+                    platform: user.platform || null,
                 },
             ])
             .eq("telegram_id", user.id);
@@ -72,6 +74,7 @@ export const createUser = async (user, parent_id) => {
             language_code: user.language_code || null,
             is_premium: user.is_premium ? true : false,
             onboarding: true,
+            platform: user.platform || null,
             parent_id: parent_id || null,
         },
     ]);

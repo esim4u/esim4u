@@ -51,9 +51,9 @@ const Stories = (props: Props) => {
                             <CarouselItem
                                 key={index}
                                 onClick={() => {
-                                    // webApp.openLink(story.telegraph_url, {
-                                    //     try_instant_view: true,
-                                    // });
+                                    webApp.openLink(story.telegraph_url, {
+                                        try_instant_view: true,
+                                    });
                                     hapticFeedback(webApp);
 
                                     let unique = new Set([
@@ -76,11 +76,11 @@ const Stories = (props: Props) => {
                                     <div
                                         className={cn(
                                             "p-1 rounded-[28px] transition-all",
-                                            checkedStories.includes(
-                                                story.id.toString().trim()
-                                            )
-                                                ? " bg-transparent"
-                                                : "bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500"
+                                            checkedStories.length > 0 &&
+                                                !checkedStories.includes(
+                                                    story.id.toString().trim()
+                                                ) &&
+                                                " bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500"
                                         )}
                                     >
                                         <div className="relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3]	">
