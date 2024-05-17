@@ -12,11 +12,6 @@ export default function SettingsPage() {
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
-            webApp?.BackButton.onClick(() => {
-                webApp?.MainButton.hide();
-                webApp?.BackButton.hide();
-                router.back()
-            });
         }
     }, [webApp]);
 

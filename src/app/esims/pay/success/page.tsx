@@ -15,11 +15,6 @@ export default function SuccessPage() {
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
-            webApp?.BackButton.onClick(() => {
-                webApp?.MainButton.hide();
-                webApp?.BackButton.hide();
-                router.push("/esims");
-            });
         }
     }, [webApp]);
 

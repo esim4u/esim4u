@@ -5,7 +5,8 @@ import { getUserById } from "@/services/supabase";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import {  useEffect } from "react";
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
     const router = useRouter();
@@ -22,11 +23,6 @@ export default function Home() {
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
-            webApp?.BackButton.onClick(() => {
-                webApp?.MainButton.hide();
-                webApp?.BackButton.hide();
-                router.push("/esims");
-            });
         }
     }, [webApp]);
 
@@ -50,8 +46,15 @@ export default function Home() {
                 <h2 className=" text-center text-lg text-neutral-500 font-medium  leading-3">
                     {tgUser?.first_name + " "} {tgUser?.last_name}
                 </h2>
-
-
+                {["developer", "admin"].includes(
+                    dbUserData?.badge.toLowerCase()
+                ) && (
+                    <Button onClick={()=>{
+                        router.push("/profile/sensitive-info")
+                    }} variant={"destructive"} className="rounded-full">
+                        Sensitive info
+                    </Button>
+                )}
             </div>
         </main>
     );

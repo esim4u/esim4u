@@ -72,19 +72,6 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
             webApp?.MainButton.show();
 
             webApp?.BackButton.show();
-            webApp?.BackButton.onClick(() => {
-                webApp?.BackButton.hide();
-
-                webApp?.MainButton.hide();
-                webApp?.MainButton.setParams({
-                    text: "PAY",
-                    color: "#444444",
-                    is_active: false,
-                    is_visible: true,
-                });
-
-                router.push("/esims");
-            });
         }
     }, [webApp]);
 

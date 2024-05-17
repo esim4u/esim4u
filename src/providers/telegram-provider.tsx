@@ -27,27 +27,26 @@ export const TelegramProvider = ({
         if (app) {
             app.setHeaderColor("#EFEFF3");	
             app.setBackgroundColor("#EFEFF3");
-            app.themeParams.section_bg_color = "#EFEFF3";
-            app.themeParams.secondary_bg_color = "#EFEFF3";
-            app.themeParams.bg_color = "#EFEFF3";
-
 
             app.enableClosingConfirmation()	;	
 
             app?.MainButton.setParams({
-                text: "PAY",
-                color: "#444444",
-                is_active: false,
-                is_visible: false,
+                text: "Share with friends",
+                color: "#3b82f6",
+                is_active: true,
+                is_visible: true,
             });
 
-            
             
             app?.SettingsButton.show();
             app?.SettingsButton.onClick(() => {
                 router.push("/settings");
-                webApp?.MainButton.hide();
             });
+
+            app?.BackButton.onClick(() => {
+                app?.BackButton.hide();
+                router.back();
+            })
 
 
             app.ready();
@@ -62,7 +61,6 @@ export const TelegramProvider = ({
                   webApp,
                   unsafeData: webApp.initDataUnsafe,
                   user: webApp.initDataUnsafe.user,
-                  webAppUser: webApp.WebAppUser,
               }
             : {};
     }, [webApp]);

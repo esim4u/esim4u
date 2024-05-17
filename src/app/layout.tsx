@@ -7,6 +7,7 @@ import { TelegramProvider, useTelegram } from "@/providers/telegram-provider";
 import Script from "next/script";
 import ReactQueryProvider from "@/providers/query-provider";
 import TonConnectProvider from "@/providers/tonconnect-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -38,7 +39,7 @@ export default function RootLayout({
                     <html lang="en" suppressHydrationWarning>
                         <body
                             className={cn(
-                                "min-h-screen bg-background font-sans antialiased overflow-x-hidden bg-[#EFEFF3] max-w-[460px]",
+                                "min-h-screen bg-background font-sans antialiased overflow-x-hidden bg-[#EFEFF3] max-w-[460px] no-select",
                                 fontSans.variable
                             )}
                         >
@@ -51,6 +52,7 @@ export default function RootLayout({
                                 strategy="beforeInteractive"
                             />
                             {children}
+                            <Toaster />
                         </body>
                     </html>
                 </TonConnectProvider>

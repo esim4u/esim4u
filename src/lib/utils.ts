@@ -1,3 +1,4 @@
+import { toast } from "@/components/ui/use-toast";
 import { useTelegram } from "@/providers/telegram-provider";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -28,3 +29,33 @@ export const floor = (number: number, degree = 2) => {
 export const ceil = (number: number, degree = 2) => {
     return Math.ceil(number * 10 ** degree) / 10 ** degree;
 };
+
+
+export function copyText(
+    text: string | number,
+    e?: any
+) {
+    e?.stopPropagation();
+
+    if(!text){
+        toast({
+            variant: "destructive",
+            title: "Error",
+        });
+        return;
+    }
+
+    navigator.clipboard.writeText(text.toString());
+    toast({
+        variant: "esim4u",
+        title: "Copied!",
+    });
+}
+
+
+export const getReferralLink = (user_id: string | number) => {
+    if(!user_id){
+        return "";
+    }
+    return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}`;
+}

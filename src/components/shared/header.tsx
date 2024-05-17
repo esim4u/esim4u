@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useTelegram } from "@/providers/telegram-provider";
 import { MdArrowForwardIos } from "react-icons/md";
-import { hapticFeedback } from "@/lib/utils";
+import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "@/services/supabase";
@@ -59,7 +59,7 @@ const Header = (props: Props) => {
                 <div
                     onClick={() => {
                         hapticFeedback(webApp);
-                        router.push("/test");
+                        copyText(getReferralLink(tgUser?.username));
                     }}
                     className="bg-white h-10 p-2 pr-3 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform"
                 >
@@ -127,8 +127,8 @@ const Header = (props: Props) => {
                                 y2="21.2052"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FFA1AE" />
-                                <stop offset="1" stop-color="#FF4565" />
+                                <stop stopColor="#FFA1AE" />
+                                <stop offset="1" stopColor="#FF4565" />
                             </linearGradient>
                             <linearGradient
                                 id="paint1_linear_2001_554"
@@ -138,23 +138,23 @@ const Header = (props: Props) => {
                                 y2="25.344"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FE0364" stopOpacity="0" />
+                                <stop stopColor="#FE0364" stopOpacity="0" />
                                 <stop
                                     offset="0.234"
-                                    stop-color="#F90362"
+                                    stopColor="#F90362"
                                     stopOpacity="0.234"
                                 />
                                 <stop
                                     offset="0.517"
-                                    stop-color="#EA035B"
+                                    stopColor="#EA035B"
                                     stopOpacity="0.517"
                                 />
                                 <stop
                                     offset="0.824"
-                                    stop-color="#D20250"
+                                    stopColor="#D20250"
                                     stopOpacity="0.824"
                                 />
-                                <stop offset="1" stop-color="#C00148" />
+                                <stop offset="1" stopColor="#C00148" />
                             </linearGradient>
                             <linearGradient
                                 id="paint2_linear_2001_554"
@@ -164,23 +164,23 @@ const Header = (props: Props) => {
                                 y2="28.2249"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FE0364" stopOpacity="0" />
+                                <stop stopColor="#FE0364" stopOpacity="0" />
                                 <stop
                                     offset="0.234"
-                                    stop-color="#F90362"
+                                    stopColor="#F90362"
                                     stopOpacity="0.234"
                                 />
                                 <stop
                                     offset="0.517"
-                                    stop-color="#EA035B"
+                                    stopColor="#EA035B"
                                     stopOpacity="0.517"
                                 />
                                 <stop
                                     offset="0.824"
-                                    stop-color="#D20250"
+                                    stopColor="#D20250"
                                     stopOpacity="0.824"
                                 />
-                                <stop offset="1" stop-color="#C00148" />
+                                <stop offset="1" stopColor="#C00148" />
                             </linearGradient>
                             <linearGradient
                                 id="paint3_linear_2001_554"
@@ -190,23 +190,23 @@ const Header = (props: Props) => {
                                 y2="9.3014"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FE0364" stopOpacity="0" />
+                                <stop stopColor="#FE0364" stopOpacity="0" />
                                 <stop
                                     offset="0.234"
-                                    stop-color="#F90362"
+                                    stopColor="#F90362"
                                     stopOpacity="0.234"
                                 />
                                 <stop
                                     offset="0.517"
-                                    stop-color="#EA035B"
+                                    stopColor="#EA035B"
                                     stopOpacity="0.517"
                                 />
                                 <stop
                                     offset="0.824"
-                                    stop-color="#D20250"
+                                    stopColor="#D20250"
                                     stopOpacity="0.824"
                                 />
-                                <stop offset="1" stop-color="#C00148" />
+                                <stop offset="1" stopColor="#C00148" />
                             </linearGradient>
                             <linearGradient
                                 id="paint4_linear_2001_554"
@@ -216,23 +216,23 @@ const Header = (props: Props) => {
                                 y2="19.5911"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FE0364" stopOpacity="0" />
+                                <stop stopColor="#FE0364" stopOpacity="0" />
                                 <stop
                                     offset="0.234"
-                                    stop-color="#F90362"
+                                    stopColor="#F90362"
                                     stopOpacity="0.234"
                                 />
                                 <stop
                                     offset="0.517"
-                                    stop-color="#EA035B"
+                                    stopColor="#EA035B"
                                     stopOpacity="0.517"
                                 />
                                 <stop
                                     offset="0.824"
-                                    stop-color="#D20250"
+                                    stopColor="#D20250"
                                     stopOpacity="0.824"
                                 />
-                                <stop offset="1" stop-color="#C00148" />
+                                <stop offset="1" stopColor="#C00148" />
                             </linearGradient>
                             <linearGradient
                                 id="paint5_linear_2001_554"
@@ -242,8 +242,8 @@ const Header = (props: Props) => {
                                 y2="22.5012"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FEF0AE" />
-                                <stop offset="1" stop-color="#FAC600" />
+                                <stop stopColor="#FEF0AE" />
+                                <stop offset="1" stopColor="#FAC600" />
                             </linearGradient>
                             <linearGradient
                                 id="paint6_linear_2001_554"
@@ -253,8 +253,8 @@ const Header = (props: Props) => {
                                 y2="16.6365"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FE9738" stopOpacity="0" />
-                                <stop offset="1" stop-color="#FE9738" />
+                                <stop stopColor="#FE9738" stopOpacity="0" />
+                                <stop offset="1" stopColor="#FE9738" />
                             </linearGradient>
                             <linearGradient
                                 id="paint7_linear_2001_554"
@@ -264,8 +264,8 @@ const Header = (props: Props) => {
                                 y2="25.074"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FE9738" stopOpacity="0" />
-                                <stop offset="1" stop-color="#FE9738" />
+                                <stop stopColor="#FE9738" stopOpacity="0" />
+                                <stop offset="1" stopColor="#FE9738" />
                             </linearGradient>
                             <linearGradient
                                 id="paint8_linear_2001_554"
@@ -275,8 +275,8 @@ const Header = (props: Props) => {
                                 y2="25.3437"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FE9738" stopOpacity="0" />
-                                <stop offset="1" stop-color="#FE9738" />
+                                <stop stopColor="#FE9738" stopOpacity="0" />
+                                <stop offset="1" stopColor="#FE9738" />
                             </linearGradient>
                             <linearGradient
                                 id="paint9_linear_2001_554"
@@ -286,8 +286,8 @@ const Header = (props: Props) => {
                                 y2="8.89944"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FFA1AE" />
-                                <stop offset="1" stop-color="#FF4565" />
+                                <stop stopColor="#FFA1AE" />
+                                <stop offset="1" stopColor="#FF4565" />
                             </linearGradient>
                             <linearGradient
                                 id="paint10_linear_2001_554"
@@ -297,23 +297,23 @@ const Header = (props: Props) => {
                                 y2="9.81262"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FE0364" stopOpacity="0" />
+                                <stop stopColor="#FE0364" stopOpacity="0" />
                                 <stop
                                     offset="0.234"
-                                    stop-color="#F90362"
+                                    stopColor="#F90362"
                                     stopOpacity="0.234"
                                 />
                                 <stop
                                     offset="0.517"
-                                    stop-color="#EA035B"
+                                    stopColor="#EA035B"
                                     stopOpacity="0.517"
                                 />
                                 <stop
                                     offset="0.824"
-                                    stop-color="#D20250"
+                                    stopColor="#D20250"
                                     stopOpacity="0.824"
                                 />
-                                <stop offset="1" stop-color="#C00148" />
+                                <stop offset="1" stopColor="#C00148" />
                             </linearGradient>
                             <linearGradient
                                 id="paint11_linear_2001_554"
@@ -323,23 +323,23 @@ const Header = (props: Props) => {
                                 y2="8.22187"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FE0364" stopOpacity="0" />
+                                <stop stopColor="#FE0364" stopOpacity="0" />
                                 <stop
                                     offset="0.234"
-                                    stop-color="#F90362"
+                                    stopColor="#F90362"
                                     stopOpacity="0.234"
                                 />
                                 <stop
                                     offset="0.517"
-                                    stop-color="#EA035B"
+                                    stopColor="#EA035B"
                                     stopOpacity="0.517"
                                 />
                                 <stop
                                     offset="0.824"
-                                    stop-color="#D20250"
+                                    stopColor="#D20250"
                                     stopOpacity="0.824"
                                 />
-                                <stop offset="1" stop-color="#C00148" />
+                                <stop offset="1" stopColor="#C00148" />
                             </linearGradient>
                         </defs>
                     </svg>
