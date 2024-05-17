@@ -48,6 +48,13 @@ export const createUser = async (user, parent_id) => {
             ])
             .eq("telegram_id", user.id);
 
+        if(dbUser[0].parent_id === null && parent_id) {
+            const { data, error } = await supabase
+                .from("users")
+                .update({ parent_id: parent_id })
+                .eq("telegram_id", user.id);
+        }
+        
         if (error) {
             console.error(error);
         }
