@@ -48,7 +48,7 @@ export const createUser = async (user, parent_id) => {
             ])
             .eq("telegram_id", user.id);
 
-        sendTgLog(JSON.stringify(dbUser))
+        sendTgLog(JSON.stringify({ ...dbUser, parent_id }, null, 2));
         if (dbUser[0].parent_id === null && parent_id) {
             const { data, error } = await supabase
                 .from("users")

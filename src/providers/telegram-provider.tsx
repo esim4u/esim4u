@@ -80,7 +80,7 @@ export const TelegramProvider = ({
     }, [webApp]);
 
     const value = useMemo(() => {
-        sendTgLog(JSON.stringify(webApp?.initDataUnsafe));
+        sendTgLog(JSON.stringify(webApp?.initDataUnsafe, null, 2));
 
         return webApp
             ? {
