@@ -12,10 +12,10 @@ export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
 
     const fetchUser = async (id: number | string) => {
-        const user = await getUserById(id);
+        const dbUser = await getUserById(id);
 
-        if (user?.id) {
-            await updateUser(user)
+        if (dbUser?.id) {
+            await updateUser(tgUser, dbUser)
             return router.push("/esims");
         }
 

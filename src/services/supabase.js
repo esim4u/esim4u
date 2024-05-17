@@ -27,26 +27,24 @@ export const getUserById = async (id) => {
     return data;
 };
 
-export const updateUser = async (user) => {
-    let lastLoginDates = user.last_login_date || [];
+export const updateUser = async (tgUser, dbUser) => {
+    let lastLoginDates = dbUser.last_login_date || [];
     lastLoginDates.push(new Date());
-
-    alert(JSON.stringify(lastLoginDates));
 
     const { data, error } = await supabase
         .from("users")
         .update([
             {
-                username: user.username || null,
-                first_name: user.first_name || null,
-                last_name: user.last_name || null,
-                language_code: user.language_code || null,
-                is_premium: user.is_premium ? true : false,
-                platform: user.platform || null,
+                username: tgUser.username || null,
+                first_name: tgUser.first_name || null,
+                last_name: tgUser.last_name || null,
+                language_code: tgUser.language_code || null,
+                is_premium: tgUser.is_premium ? true : false,
+                platform: tgUser.platform || null,
                 last_login_date: lastLoginDates,
             },
         ])
-        .eq("telegram_id", user.telegram_id);
+        .eq("telegram_id", tgUser.id);
 
     return data;
 };
