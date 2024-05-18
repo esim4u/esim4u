@@ -25,7 +25,7 @@ export default function Home() {
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
-            webApp.MainButton.setParams({
+            webApp?.MainButton.setParams({
                 text: "Share with friends",
                 color: "#3b82f6",
                 is_active: true,

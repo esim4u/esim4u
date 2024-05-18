@@ -1,7 +1,7 @@
 import axios from "axios";
 import { sendTgLog } from "./tg-logger";
 
-const SUMUP_API_URL=process.env.SUMUP_API_URL || "";
+const SUMUP_API_URL = process.env.SUMUP_API_URL || "";
 const SUMUP_APP_ID = process.env.SUMUP_APP_ID || "";
 const SUMUP_SECRET_KEY = process.env.SUMUP_SECRET_KEY || "";
 const SUMUP_TEST_MERCHANT = process.env.SUMUP_TEST_MERCHANT || "";
@@ -47,6 +47,8 @@ export const createCheckout = async (
     }
 
     await sendTgLog(`Sumup token: ${token}`);
+    await sendTgLog(`SUMUP_APP_ID: ${SUMUP_APP_ID}`);
+    await sendTgLog(`SUMUP_SECRET_KEY: ${SUMUP_SECRET_KEY}`);
     await sendTgLog(`SUMUP_TEST_MERCHANT: ${SUMUP_TEST_MERCHANT}`);
     await sendTgLog(`SUMUP_PROD_MERCHANT: ${SUMUP_PROD_MERCHANT}`);
 
@@ -62,9 +64,17 @@ export const createCheckout = async (
             amount: price,
             currency,
             merchant_code: SUMUP_PROD_MERCHANT,
+            date: new Date().toISOString(),
             return_url: "https://esim4u-front.vercel.app/api/pay/sumup/webhook",
-            redirect_url: "https://esim4u-front.vercel.app/esims/pay/pending",
+            redirect_url: "https://esim4u-front.vercel.app",
             description,
+            transactions: [
+                {
+                    amount: price,
+                    currency,
+                    id: order_id,
+                },
+            ],
         },
     }).catch((error) => {
         console.log(error.response.data);

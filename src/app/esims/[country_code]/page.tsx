@@ -20,6 +20,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { use, useCallback, useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
+import { Button } from "@/components/ui/button";
 
 const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
     const router = useRouter();
@@ -77,14 +78,14 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
 
     useEffect(() => {
         if (terms.terms1 && terms.terms2) {
-            webApp.MainButton.setParams({
+            webApp?.MainButton.setParams({
                 text: "PAY",
                 color: "#3b82f6",
                 is_active: true,
                 is_visible: true,
             });
         } else {
-            webApp.MainButton.setParams({
+            webApp?.MainButton.setParams({
                 text: "PAY",
                 color: "#444444",
                 is_active: false,
@@ -441,6 +442,13 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                         </label>
                     </div>
                 </div>
+                {/* <Button
+                    onClick={() => {
+                        createEsimOrder();
+                    }}
+                >
+                    PAY
+                </Button> */}
                 {/* 
                 <pre className="text-balance">
                     {JSON.stringify(packageData, null, 2)}

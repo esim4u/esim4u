@@ -67,10 +67,10 @@ export const TelegramProvider = ({
         return webApp
             ? {
                   webApp,
-                  unsafeData: webApp.initDataUnsafe,
-                  user: webApp.initDataUnsafe.user,
-                  start_param: webApp.initDataUnsafe.start_param,
-                  cloudStorage: webApp.cloudStorage,
+                  unsafeData: webApp?.initDataUnsafe,
+                  user: webApp?.initDataUnsafe.user,
+                  start_param: webApp?.initDataUnsafe.start_param,
+                  cloudStorage: webApp?.cloudStorage,
               }
             : {};
     }, [webApp]);

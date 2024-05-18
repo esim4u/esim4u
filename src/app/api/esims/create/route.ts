@@ -40,9 +40,9 @@ export async function POST(req: Request) {
     }
 
     const id = await createCheckout(
-        `esim-${response.data[0].id}`,
-        total_price,
         `tg-esim-${response.data[0].id}`,
+        total_price,
+        `esim4u.t.me - ${package_id}`,
         "EUR"
     );
 

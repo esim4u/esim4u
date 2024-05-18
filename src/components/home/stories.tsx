@@ -29,7 +29,7 @@ const Stories = (props: Props) => {
 
     useEffect(() => {
         if (webApp) {
-            webApp.CloudStorage?.getItem(
+            webApp?.CloudStorage?.getItem(
                 "checked_stories",
                 (err: any, result: any) => {
                     if (err) {
@@ -51,7 +51,7 @@ const Stories = (props: Props) => {
                             <CarouselItem
                                 key={index}
                                 onClick={() => {
-                                    webApp.openLink(story.telegraph_url, {
+                                    webApp?.openLink(story.telegraph_url, {
                                         try_instant_view: true,
                                     });
                                     hapticFeedback(webApp);
@@ -65,7 +65,7 @@ const Stories = (props: Props) => {
 
                                     setCheckedStories(newCheckedStories);
 
-                                    webApp.CloudStorage.setItem(
+                                    webApp?.CloudStorage.setItem(
                                         "checked_stories",
                                         newCheckedStories.join(",")
                                     );

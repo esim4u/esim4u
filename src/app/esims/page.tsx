@@ -49,7 +49,7 @@ export default function Home() {
 
     useEffect(() => {
         if (webApp) {
-            webApp.MainButton.setParams({
+            webApp?.MainButton.setParams({
                 text: "Share with friends",
                 color: "#3b82f6",
                 is_active: true,
@@ -150,7 +150,7 @@ export default function Home() {
                             <div
                                 onClick={() => {
                                     hapticFeedback(webApp);
-                                    webApp.MainButton.setParams({
+                                    webApp?.MainButton.setParams({
                                         text: "PAY",
                                         color: "#444444",
                                         is_active: false,

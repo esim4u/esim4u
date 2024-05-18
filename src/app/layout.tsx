@@ -49,7 +49,6 @@ export default function RootLayout({
                             />
                             <Script
                                 src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js"
-                                strategy="beforeInteractive"
                             />
                             {children}
                             <Toaster />

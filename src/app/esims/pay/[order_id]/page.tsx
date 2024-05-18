@@ -22,6 +22,7 @@ import {
 } from "@tonconnect/ui-react";
 import { createTransaction } from "@/services/tonconnect";
 import { sendTgLog } from "@/services/tg-logger";
+import { toast } from "@/components/ui/use-toast";
 
 const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     const router = useRouter();
@@ -55,31 +56,38 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
 
     useEffect(() => {
         if (orderData && orderData.sumup_id) {
-            (window as any).SumUpCard.mount({
+            (window as any).SumUpCard?.mount({
                 id: "sumup-card",
                 checkoutId: orderData.sumup_id,
                 onResponse: async function (type: any, body: any) {
                     if (type == "success" && body && body.status == "PAID") {
-                        let success = false;
+                        router.push("esims/pay/pending");
 
-                        if (body.transactions && body.transactions[0]) {
-                            for (const transaction of body.transactions) {
-                                if (transaction.status == "SUCCESSFUL") {
-                                    success = true;
-                                    break;
-                                }
-                            }
-                        }
+                        // let success = false;
 
-                        if (success) {
-                            router.push("esims/pay/pending");
-                        } else {
-                        }
+                        // if (body.transactions && body.transactions[0]) {
+                        //     for (const transaction of body.transactions) {
+                        //         if (transaction.status == "SUCCESSFUL") {
+                        //             success = true;
+                        //             break;
+                        //         }
+                        //     }
+                        // }
+
+                        // if (success) {
+                        //     router.push("esims/pay/pending");
+                        // } else {
+                        // }
                     } else if (body && body.status == "FAILED") {
+                        toast({
+                            variant: "destructive",
+                            title: "Error. Payment failed.",
+                        });
                     } else {
                         console.log(type, body);
                     }
 
+                    await sendTgLog(JSON.stringify(type, null, 2));
                     await sendTgLog(JSON.stringify(body, null, 2));
                 },
             });
@@ -88,7 +96,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
 
     useEffect(() => {
         if (webApp) {
-            webApp.MainButton.setParams({
+            webApp?.MainButton.setParams({
                 text: "‎",
                 color: "#EFEFF3",
                 is_active: false,
