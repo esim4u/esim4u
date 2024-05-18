@@ -22,5 +22,5 @@ export const sendPhotoToUser = async (
 };
 
 export const sendMessagesToUser = async (chatId: number, message: string) => {
-    await bot.api.sendMessage(chatId, message);
+    await bot.api.sendMessage(chatId, message, { parse_mode: "Markdown"} );
 };

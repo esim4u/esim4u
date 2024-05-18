@@ -174,11 +174,11 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
             <div className="bg-[#EFEFF3] rounded-t-3xl z-10 p-5 flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        <h2 className="font-bold text-3xl">
+                        {/* <h2 className="font-bold text-3xl">
                             {selectedPackage?.price}
                             <span className="text-2xl">$</span>
                         </h2>
-                        <Dot />
+                        <Dot /> */}
                         <h2 className="font-bold text-3xl">
                             {selectedPackage?.total_price}
                             <span className="text-2xl">$</span>

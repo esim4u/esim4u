@@ -97,7 +97,7 @@ export async function POST(req: Request) {
 
     await sendMessagesToUser(
         esim.data[0].telegram_id,
-        `SM-DP+ Address: ${esim.data[0].sm_dp} \n\nYour Activation code code is: ${esim.data[0].confirmation_code}`
+        `SM-DP+ Address: \`${esim.data[0].sm_dp}\` \n\nYour Activation code code is: \`${esim.data[0].confirmation_code}\``
     );
 
     return Response.json(esim);

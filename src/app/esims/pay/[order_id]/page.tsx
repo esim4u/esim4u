@@ -23,6 +23,8 @@ import {
 import { createTransaction } from "@/services/tonconnect";
 import { sendTgLog } from "@/services/tg-logger";
 import { toast } from "@/components/ui/use-toast";
+import ReactCountryFlag from "react-country-flag";
+import { COUNTRIES } from "@/constants";
 
 const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     const router = useRouter();
@@ -124,7 +126,61 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
 
     return (
         <main className="overflow-x-hidden min-h-dvh flex flex-col justify-center items-center ">
-            <div className="flex flex-col p-5 gap-4 items-center w-full ">
+            <div className="flex flex-col p-5 gap-4 items-start w-full ">
+                <div className="flex w-full justify-between bg-white py-3 px-4 items-center rounded-xl">
+                    <div className="flex gap-1 items-center text-sm">
+                        <ReactCountryFlag
+                            countryCode={orderData?.coverage}
+                            className="rounded-sm"
+                            style={{
+                                width: "22px",
+                                height: "16px",
+                            }}
+                            svg
+                        />
+                        <span className="">
+                            {COUNTRIES[orderData?.coverage.toLowerCase()]}{" "}
+                            <span className="text-xs">|</span>{" "}
+                            {orderData?.data}{" "}
+                            <span className="text-xs">|</span>{" "}
+                            {orderData?.validity} days
+                        </span>
+                    </div>
+
+                    <div className="flex items-center gap-1 text-sm">
+                        <h2 className="font-bold">
+                            {orderData?.price.total}
+                            <span className=" text-xs">$</span>
+                        </h2>
+                        <Dot className="w-1.5 h-1.5" />
+                        <h2 className="flex items-center font-bold">
+                            {orderData?.price.total_price_ton}
+                            <svg
+                                width="9"
+                                height="9"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <g clipPath="url(#clip0_2028_1457)">
+                                    <path
+                                        d="M20.1036 -0.000366211H3.89546C0.91535 -0.000366211 -0.973515 3.21428 0.525777 5.81304L10.5289 23.1512C11.1816 24.2833 12.8175 24.2833 13.4702 23.1512L23.4753 5.81304C24.9726 3.21843 23.0837 -0.000366211 20.1057 -0.000366211H20.1036ZM10.5207 17.9517L8.34222 13.7355L3.08571 4.33417C2.73894 3.73244 3.16725 2.96135 3.89342 2.96135H10.5187V17.9538L10.5207 17.9517ZM20.9093 4.33214L15.6548 13.7376L13.4763 17.9517V2.95931H20.1016C20.8278 2.95931 21.2561 3.7304 20.9093 4.33214Z"
+                                        fill="#1B1C1F"
+                                    />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_2028_1457">
+                                        <rect
+                                            width="24"
+                                            height="24"
+                                            fill="white"
+                                        />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </h2>
+                    </div>
+                </div>
                 {/* <div className="flex flex-col items-center bg-white rounded-2xl p-6 gap-4 w-full">
                     <div className="flex flex-row items-center  gap-1">
                         <h2 className="font-bold text-center">Pay with TON</h2>
