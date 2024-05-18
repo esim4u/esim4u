@@ -5,15 +5,68 @@ import axios from "axios";
 import { sendTgLog } from "@/services/tg-logger";
 
 export async function POST(req: Request) {
-    const payload = await req.json();
+    const { id, status, event_type } = await req.json();
 
-    await axios
-        .get(
-            `https://api.telegram.org/bot7140478549:AAEH-4xJ8FWeUEN6x_xa4tsu5NvG8pnRgeI/sendMessage?chat_id=473700512&text=${encodeURI(
-                `Sumup webhook: ${JSON.stringify(payload)}`
-            )}&parse_mode=html`
+    if (status == "FAILED") {
+        return Response.json({ status });
+    }
+
+    let transaction = await supabase
+        .from("transactions")
+        .select("*")
+        .eq("checkout_id", id)
+        .eq("status", "CREATED");
+
+
+    if (transaction.error || !transaction.data.length) {
+        return Response.json({ error: "Transaction not found" });
+    }
+
+    await supabase
+        .from("transactions")
+        .update({ status: "SUCCESS" })
+        .eq("id", transaction.data[0].id);
+
+    const order = await supabase
+        .from("orders")
+        .update({ status: "PENDING" })
+        .eq("transaction_id", transaction.data[0].id)
+        .eq("status", "CREATED")
+        .select();
+
+    if (order.error || !order.data.length) {
+        return Response.json({ error: "Order not found" });
+    }
+
+    const response = await axios
+        .post(
+            process.env.AIRALO_API_URL + "/v1/orders",
+            {
+                package_id: order.data[0].package_id,
+                quantity: 1,
+            },
+            {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+                },
+            }
         )
-        .catch((e) => {});
+        .then((res) => res.data)
+        .catch((e) => e.response);
 
-    return Response.json(payload);
+    if (response.error || response.status >= 400) {
+        return Response.json(response.error);
+    }
+
+    const esim = await supabase
+        .from("orders")
+        .update({
+            iccid: response.data.sims[0].iccid,
+            status: "SUCCESS",
+        })
+        .eq("id", order.data[0].id)
+        .select();
+    
+    return Response.json(esim);
 }

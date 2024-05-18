@@ -103,6 +103,7 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
     const createEsimOrder = useCallback(async () => {
         await axios
             .post("/api/esims/create", {
+                net_price: selectedPackage.net_price,
                 original_price: selectedPackage.price,
                 total_price: selectedPackage.total_price,
                 total_price_eur: selectedPackage.total_price * 1.15,
@@ -110,6 +111,8 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                 telegram_id: tgUser?.id,
                 package_id: selectedPackage.id,
                 coverage: packageData.operators[0].coverages[0].name,
+                validity: selectedPackage.day,
+                data: selectedPackage.data,
             })
             .then((res) => {
                 console.log(res);

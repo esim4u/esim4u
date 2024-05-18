@@ -18,7 +18,7 @@ export async function GET(
         config = {
             method: "get",
             maxBodyLength: Infinity,
-            url: process.env.AIRALO_API_URL + "/packages",
+            url: process.env.AIRALO_API_URL + "/v2/packages",
             headers: {
                 Accept: "application/json",
                 Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
@@ -32,7 +32,7 @@ export async function GET(
         config = {
             method: "get",
             maxBodyLength: Infinity,
-            url: process.env.AIRALO_API_URL + "/packages",
+            url: process.env.AIRALO_API_URL + "/v2/packages",
             headers: {
                 Accept: "application/json",
                 Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,

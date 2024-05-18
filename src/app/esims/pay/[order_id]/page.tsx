@@ -55,10 +55,10 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     });
 
     useEffect(() => {
-        if (orderData && orderData.sumup_id) {
+        if (orderData && orderData.checkout_id) {
             (window as any).SumUpCard?.mount({
                 id: "sumup-card",
-                checkoutId: orderData.sumup_id,
+                checkoutId: orderData.checkout_id,
                 onResponse: async function (type: any, body: any) {
                     if (type == "success" && body && body.status == "PAID") {
                         router.push("esims/pay/pending");

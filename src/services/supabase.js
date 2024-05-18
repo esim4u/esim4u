@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { getPhotoUrlFromFileId } from "./grammy";
 import { sendTgLog } from "./tg-logger";
 import { platform } from "os";
+import { send } from "process";
 
 // Initialize Supabase client
 export const supabase = createClient(
@@ -138,17 +139,27 @@ export const addUserPhotoFileId = async (id, username, photo_url) => {
 // ORDERS
 
 export const getOrderById = async (id) => {
-    const { data, error } = await supabase
+    const { data: order, orderError } = await supabase
         .from("orders")
-        .select("*")
+        .select(`*`)
         .eq("id", id)
-        .is("status", null)
+        .eq("status", "CREATED")
         .order("created_at", { ascending: false });
 
-    if (data.length > 0) {
-        return data[0];
+    if (orderError || order.length === 0) {
+        return [];
     }
-    return [];
+
+    const { data: transactions, transactionError } = await supabase
+        .from("transactions")
+        .select(`checkout_id`)
+        .eq("order_id", id);
+
+    if (transactionError || transactions.length === 0) {
+        return [];
+    }
+
+    return { ...order[0], checkout_id: transactions[0].checkout_id };
 };
 
 // STORIES
