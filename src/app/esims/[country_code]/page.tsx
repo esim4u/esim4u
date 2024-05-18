@@ -106,7 +106,7 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                 net_price: selectedPackage.net_price,
                 original_price: selectedPackage.price,
                 total_price: selectedPackage.total_price,
-                total_price_eur: selectedPackage.total_price * 1.15,
+                total_price_eur: selectedPackage.total_price*0.92,
                 total_price_ton: priceInTon,
                 telegram_id: tgUser?.id,
                 package_id: selectedPackage.id,
