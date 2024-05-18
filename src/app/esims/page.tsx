@@ -204,7 +204,7 @@ export default function Home() {
                             <div
                                 onClick={() => {
                                     hapticFeedback(webApp);
-                                    router.push("/esims/world");
+                                    router.push("/esims/eg");
                                 }}
                                 className=" cursor-pointer active:scale-95 transition-transform relative flex justify-center items-end rounded-3xl overflow-hidden	"
                             >
@@ -213,7 +213,7 @@ export default function Home() {
                                     height={736}
                                     className=" w-full h-full object-cover"
                                     src={
-                                        "https://s3-alpha-sig.figma.com/img/abb6/4c50/484ea1a86032000ebc0f04992146841e?Expires=1716163200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=SsilR0Wxd4bD7m6oRVsaQ0HhKVKQonuAYjLtyPLobUqkUd54TogYcRdes-hOQSnpx4iaHaIV-R9rO9ddrqKWG9zbDEAeVg0lxJDU7EhLy5glixQMV0bOLFMqJmNHscTw4Z4wRKyJdnvTcWVcUYP2qSEJokwPJXOpDOrS4CxTGztxpPWdJyolv3FdtuZkselsHy8vzrPRjZ-Wt2p736RnSRBEBE9DnuxTJAfxJkH8GksIptJrLE2wFlfso2texfxhCfR5QP8Ske0q6dn5BxMeC63BrFtG5J8yGIwUFsrdYz-kX8sE54-jdeLDDo6KW9lyAAvTm0vu4mjLLYhw-~wCUw__"
+                                        "/img/countries/eg.jpeg"
                                     }
                                     alt="news"
                                 />
@@ -227,7 +227,7 @@ export default function Home() {
                                 </div>
 
                                 <span className="absolute font-medium text-[10px] text-white pb-2 uppercase">
-                                    UAE
+                                    EGYPT
                                 </span>
                             </div>
                             <div
