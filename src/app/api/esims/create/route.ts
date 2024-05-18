@@ -71,7 +71,7 @@ export async function POST(req: Request) {
 
     await supabase
         .from("orders")
-        .update({ transaction_id: transaction.data[0].id })
+        .update({ transaction_id: transaction.data[0].id, })
         .eq("id", order.data[0].id);
 
     return Response.json({
