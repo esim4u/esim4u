@@ -1,5 +1,5 @@
 import { getPhotoUrlFromFileId } from "@/services/grammy";
-import { addUserPhotoFileId } from "@/services/supabase";
+import { addReferrerToUser, addUserPhotoFileId, supabase } from "@/services/supabase";
 import {
     Bot,
     InlineKeyboard,
@@ -21,6 +21,12 @@ const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
 // const loginEsimButton = new InlineKeyboard().login("Login", webAppUrl)
 
 /////////////////////
+
+const addReferrer = async (ctx: any) => {
+    if(!ctx.match) return;
+
+    await addReferrerToUser(ctx.chat.id, ctx.match);
+};
 
 const addUserPhoto = async (ctx: any) => {
     const chat = await ctx.getChat();
@@ -55,6 +61,7 @@ bot.api.setMyCommands([
 ]);
 
 bot.command("start", async (ctx) => {
+    await addReferrer(ctx);
     await addUserPhoto(ctx);
     await ctx.react("👍");
     await ctx.reply(

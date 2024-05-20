@@ -136,6 +136,47 @@ export const addUserPhotoFileId = async (id, username, photo_url) => {
     return data;
 };
 
+export const addReferrerToUser = async (id, referrer_id) => {
+    const referrer = await supabase
+        .from("users")
+        .select("*")
+        .eq("telegram_id", referrer_id)
+        .single();
+
+    if (!referrer) {
+        return;
+    }
+
+    const user = await supabase
+        .from("users")
+        .select("*")
+        .eq("telegram_id", id)
+        .single();
+
+    if (!user) {
+        const newUser = await supabase.from("users").insert({
+            telegram_id: id,
+            parent_id: referrer_id,
+            created_date: new Date(),
+            status: "active",
+            onboarding: false,
+        });
+
+        return newUser.data;
+    }
+
+    if (user.parent_id) {
+        return;
+    }
+
+    const updatedUser = await supabase
+        .from("users")
+        .update({ parent_id: referrer_id })
+        .eq("telegram_id", id);
+
+    return updatedUser.data;
+};
+
 // ORDERS
 
 export const getOrderById = async (id) => {
