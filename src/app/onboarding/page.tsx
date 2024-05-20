@@ -230,6 +230,7 @@ export default function OnBoardingPage() {
                             .fill(null)
                             .map((_, index) => (
                                 <Dot
+                                    key={index}
                                     className={cn(
                                         "bg-neutral-400 transition-all size-3",
                                         index + 1 == current &&
