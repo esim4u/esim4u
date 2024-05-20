@@ -281,7 +281,7 @@ export default function OnBoardingPage() {
                     ) : (
                         <Button
                             onClick={() => {
-                                hapticFeedback();
+                                hapticFeedback("warning");
                                 webApp?.showConfirm(
                                     "Are you sure?",
                                     (isConfirm: boolean) => {

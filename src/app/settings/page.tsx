@@ -46,6 +46,17 @@ export default function SettingsPage() {
                         Sensitive info
                     </Button>
                 )}
+
+                <Button
+                    onClick={() => {
+                        hapticFeedback();
+                        router.push("/onboarding");
+                    }}
+                    variant={"link"}
+                    className="rounded-full"
+                >
+                    Repeate onboarding
+                </Button>
             </div>
         </main>
     );
