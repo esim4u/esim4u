@@ -59,7 +59,6 @@ export async function POST(req: Request) {
     const transaction = await supabase
         .from("transactions")
         .insert({
-            order_id: order.data[0].id,
             telegram_id: telegram_id || 0,
             checkout_id: id,
         })
