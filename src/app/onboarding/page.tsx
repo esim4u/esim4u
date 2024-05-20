@@ -15,8 +15,18 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn, hapticFeedback } from "@/lib/utils";
 import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
-import { RUNNING_LINE_LOGOS } from "@/constants";
+import { RUNNING_LINE_COUNTRIES, RUNNING_LINE_LOGOS } from "@/constants";
 import Dot from "@/components/ui/dot";
+import {
+    Drawer,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer";
+import ReactCountryFlag from "react-country-flag";
 
 export default function OnBoardingPage() {
     const router = useRouter();
@@ -184,20 +194,26 @@ export default function OnBoardingPage() {
                                                                     : "animate-logo-cloud-reverse"
                                                             )}
                                                         >
-                                                            {RUNNING_LINE_LOGOS.map(
+                                                            {RUNNING_LINE_COUNTRIES[
+                                                                rowIndex
+                                                            ].map(
                                                                 (
-                                                                    logo: any,
+                                                                    c: any,
                                                                     key: number
                                                                 ) => (
-                                                                    <img
+                                                                    <ReactCountryFlag
+                                                                        countryCode={
+                                                                            c
+                                                                        }
+                                                                        svg
+                                                                        className="h-10 w-10 object-cover rounded-full"
                                                                         key={
                                                                             key
                                                                         }
-                                                                        src={
-                                                                            logo.url
-                                                                        }
-                                                                        className="h-10 w-10"
-                                                                        alt={`${logo.name}`}
+                                                                        style={{
+                                                                            fontSize:
+                                                                                "36px",
+                                                                        }}
                                                                     />
                                                                 )
                                                             )}
@@ -239,7 +255,18 @@ export default function OnBoardingPage() {
                                 ></Dot>
                             ))}
                     </div>
-                    {count === current && wallet ? (
+                    {count !== current ? (
+                        <Button
+                            onClick={() => {
+                                hapticFeedback();
+                                api?.scrollNext();
+                            }}
+                            size={"bean"}
+                            variant={"light"}
+                        >
+                            NEXT
+                        </Button>
+                    ) : wallet ? (
                         <Button
                             onClick={() => {
                                 hapticFeedback();
@@ -255,16 +282,19 @@ export default function OnBoardingPage() {
                         <Button
                             onClick={() => {
                                 hapticFeedback();
-                                api?.scrollNext();
+                                webApp?.showConfirm("Are you sure?", (isConfirm:boolean) => {
+                                    if (isConfirm) {
+                                        createAppUser.mutate(tgUser);
+                                        router.push("/esims");
+                                    }
+
+                                });
                             }}
                             size={"bean"}
-                            variant={"light"}
-                            className={cn(
-                                " transition-all duration-300 ease-in-out",
-                                count === current ? " opacity-0 " : ""
-                            )}
+                            variant={"unstyled"}
+                            className="text-neutral-400 font-semibold underline underline-offset-2"
                         >
-                            NEXT
+                            I'll do this later
                         </Button>
                     )}
                 </div>

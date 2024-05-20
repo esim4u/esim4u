@@ -61,7 +61,7 @@ export default function Home() {
 
     const copyReferralLink = useCallback(() => {
         if (webApp) {
-            hapticFeedback();
+            hapticFeedback("success");
             copyText(
                 getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
             );

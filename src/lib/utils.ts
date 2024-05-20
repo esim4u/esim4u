@@ -7,9 +7,16 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export const hapticFeedback = () => {
+export const hapticFeedback = (type = "medium") => {
     const webApp = (window as any).Telegram?.WebApp;
-    webApp?.HapticFeedback?.impactOccurred("medium");
+
+    if (["light", "medium", "heavy"].includes(type)) {
+        webApp?.HapticFeedback?.impactOccurred(type);
+    }
+
+    if(["success", "error", "warning"].includes(type)) {
+        webApp?.HapticFeedback?.notificationOccurred(type);
+    }
 };
 
 export const highlightText = (query: string, text: string) => {

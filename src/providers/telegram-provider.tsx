@@ -55,7 +55,7 @@ export const TelegramProvider = ({
             app?.BackButton.onClick(() => {
                 app?.BackButton.hide();
                 // router.back();
-                hapticFeedback()
+                hapticFeedback("heavy")
                 router.push("/esims"); //TODO: check router.back() and replace with it if it works
             });
 

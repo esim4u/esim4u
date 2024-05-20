@@ -12,7 +12,7 @@ const RefLinkButton = (props: Props) => {
     return (
         <div
             onClick={() => {
-                hapticFeedback();
+                hapticFeedback("success");
                 copyText(getReferralLink(tgUser?.id));
             }}
             className="bg-white h-10 p-2 pr-3 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform"
