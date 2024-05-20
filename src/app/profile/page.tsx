@@ -7,7 +7,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { copyText, getReferralLink } from "@/lib/utils";
+import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import RefLinkButton from "@/components/shared/ref-link-button";
+import Stories from "@/components/shared/stories";
+import Achievements from "@/components/shared/achievements";
 
 export default function Home() {
     const router = useRouter();
@@ -21,7 +25,6 @@ export default function Home() {
         },
     });
 
-
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
@@ -34,15 +37,15 @@ export default function Home() {
         }
     }, [webApp]);
 
-
     const copyReferralLink = useCallback(() => {
         if (webApp) {
+            hapticFeedback();
             copyText(
                 getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
             );
         }
     }, [webApp]);
-    
+
     useEffect(() => {
         webApp?.onEvent("mainButtonClicked", copyReferralLink);
         return () => {
@@ -50,14 +53,17 @@ export default function Home() {
         };
     }, [webApp]);
 
-
     return (
-        <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
+        <main className="overflow-x-hidden h-dvh flex flex-col items-center p-5">
             <div className="flex flex-col items-center gap-4">
                 <div className="flex flex-col items-center gap-2">
-                    <Avatar className=" w-16 h-16">
+                    <Avatar className="w-32 h-32">
                         <AvatarImage
-                            src={tgUser?.photo_url || dbUserData?.photo_url}
+                            src={
+                                tgUser?.photo_url ||
+                                dbUserData?.photo_url ||
+                                "/img/default-user.png"
+                            }
                             alt="@shadcn"
                         />
                         <AvatarFallback className=" bg-neutral-500 text-white">
@@ -67,19 +73,12 @@ export default function Home() {
                     <h2 className=" text-center text-neutral-500 font-medium leading-3">
                         {tgUser?.username ? `@${tgUser?.username}` : "@user"}
                     </h2>
+                    <Badge size={"md"}>{dbUserData?.badge}</Badge>
                 </div>
-                <h2 className=" text-center text-lg text-neutral-500 font-medium  leading-3">
-                    {tgUser?.first_name + " "} {tgUser?.last_name}
-                </h2>
-                {["developer", "admin"].includes(
-                    dbUserData?.badge.toLowerCase()
-                ) && (
-                    <Button onClick={()=>{
-                        router.push("/profile/sensitive-info")
-                    }} variant={"destructive"} className="rounded-full">
-                        Sensitive info
-                    </Button>
-                )}
+
+                <RefLinkButton />
+                <Stories />
+                <Achievements />
             </div>
         </main>
     );

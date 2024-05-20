@@ -10,6 +10,7 @@ import {
 } from "react";
 import type { ITelegramUser, IWebApp } from "@/types";
 import { useRouter } from "next/navigation";
+import { hapticFeedback } from "@/lib/utils";
 
 export interface ITelegramContext {
     webApp?: any;
@@ -47,12 +48,14 @@ export const TelegramProvider = ({
 
             app?.SettingsButton.show();
             app?.SettingsButton.onClick(() => {
+                hapticFeedback()
                 router.push("/settings");
             });
 
             app?.BackButton.onClick(() => {
                 app?.BackButton.hide();
                 // router.back();
+                hapticFeedback()
                 router.push("/esims"); //TODO: check router.back() and replace with it if it works
             });
 

@@ -54,7 +54,7 @@ const Stories = (props: Props) => {
                                     webApp?.openLink(story.telegraph_url, {
                                         try_instant_view: true,
                                     });
-                                    hapticFeedback(webApp);
+                                    hapticFeedback();
 
                                     let unique = new Set([
                                         ...checkedStories,

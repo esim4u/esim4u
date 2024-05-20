@@ -172,3 +172,31 @@ export const COUNTRIES: any = {
     hn: "Honduras",
     ve: "Venezuela",
 };
+
+export const RUNNING_LINE_LOGOS: any = [
+    {
+        name: "DE",
+        url: "https://s3-alpha-sig.figma.com/img/6e24/4a4c/7303f08d0e5256baac6d7c2079772198?Expires=1717372800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z1gWXn4DOTAj-24m~XZBkL96Watyvh0GbPSQFu5abFExPnTS4o8fUc-gNnV9kU311N3s-HAQvcnwQNjK-QBPw~Kyq04mrPPPCF5JCr5mswAfVHZ6yTnHL~HoQrZmrrSNpoWSh0H~pc5jiWhOC27PWbPhoKx7DSsooPuAIlOtVHU1PDf8dFbxBepNIiRwpe4SCBNdXm264EyyK9SAfVSJH4QMwiInaHgiCu5yikRXbDwPSbl6anpWai4QZMY4d4QeIep7BhD44AjOwxvDGo~FZOJwzm-56zSkq26hL4q6WD1g~BvMI-c9BquPNNFLrZWGDlKe6TRkGagqxt0IxXPetg__",
+    },
+    {
+        name: "PL",
+        url: "https://s3-alpha-sig.figma.com/img/51c5/c4c3/58a395a057100b8e79d179c3ba512de3?Expires=1717372800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XY02vQwYo8Z2eSWkoMYKFT~lE2i-HC7lGPU9AGHLVelSn-T0XnZPN-L3Tw~oJKaC0ovQew-5LXsYnG4JXgR24R6yb0ZYr3Nir7ZhBNIzXcrJylBwQY0M3NCDq--VoWgZ~3cGU9JOzYvv3mpyEdTfjrx~ZYyqER45whjy08izFB-l~4wg0H-ydJJxB77rT25eoZSoZN-oh0i8rPioIY2~6BqCXVVQ2oZP-cSsMr7Svrwe3t32imKdWbHxSXWPPY3l~FIbA9awsKYUmjMyPqLn2ew7J47bBE4skkPbcvAVHxTqGXaVBSfaZwYd6~skO4zn~F~bVyid-X5GjRUq6n5~~A__",
+    },
+    {
+        name: "NG",
+        url: "https://s3-alpha-sig.figma.com/img/207f/e81a/a165596d54ab3d4c0ba6f64c5288ce15?Expires=1717372800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Zk~o7lpk7eqoDgaiVAn6dqLghCgt8joftQwt8Km6ctZCNWWG7sEHPsqD-4x87qOy7QKcLvIhTDkGbkEH142rfVYstYCeT1SwRaOhTUpbfkLNNFFIBqdKRDTJE~Fhsa7ZIHK7oPdS9SVXed3l4MOGMsO47pQWD9Pcj2L7N5VeXji39FFeuWK0WkXAZglDPjuTC-Wdi4sywP59AGrgmw6zF6TMW7aAtPOQB46MJMYX8vtgWOsqVosLJp0Nj~ahtjFvNqHIgd1dzXObNVDw5GOO1XEF7tVMRzdBxD-2neejizV1mQtVZMqFovA6TMrNd8~S1yU0Imvzthy~qEZgRrj2TQ__",
+    },
+    {
+        name: "HU",
+        url: "https://s3-alpha-sig.figma.com/img/eeb3/fd7d/ce50ee7a44514e1a3546878eaa36bf21?Expires=1717372800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=F49q91JDPhphMxGUIFHOl1DCXaq2kRGIhuNWCRER7t2wrGIA0FzPKZNMBFBXKObi63lS9sDU37U5fN8ZtQHWHg7aE2pQ11zeA5Tcu-ULTiaEyWbHNAHToOApIH-rQ5XLmb7H4zWph4QRHtJrmRQU3T83cAP4NpuI1fvnANXdjEnbsPcPbEhcoR0mXmEcVaAGTFzyG2AnnOesWYV3KnJbJ1DUlZ3il~THGbMBCEKwDNmFIwHFNEOJ0ZnNH7HYXKfgY~BzDAxMfKadLgtgmKrKynoTWQIQLDE2o4S5I~gclK4KQB~pxoXHAXaN8MkuYENntzwKldRXv8fHeUWk~Vu7pA__",
+    },
+    {
+        name: "MG",
+        url: "https://s3-alpha-sig.figma.com/img/0cb4/ece2/f1e1c9e13617c86c27851cb76a6af764?Expires=1717372800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XY5cT92ejxe5dbIVHegeya1dNgD2bXr0Gz~iwYMX05DnAn-0qB5lYVUKjiiA6cFp4OCd~cH0qxldC4zqnc2C523GfgPAv6k-pdugkDvdS20efs1K1naPvfPOLTp~HnzYZkMl3jk446V4V25vGB7GpQwdM8revzedPVXB~WKKyaTGJwhXLKbGjeeVMJGURwi6mQCVefpz2AFxVPwzhu6YU9ElojtspYDWR2nNB3Ko9QCHN2k4KqUIhfwaVstgdPFkSTaINqepc-knJ0Fm8C~pWFhZsozGfKl70HeScTRmvTWU4MBRPnmbSzoeG7expenGuQvvmho9RfxIunnNWazxAA__",
+    },
+
+    {
+        name: "IR",
+        url: "https://s3-alpha-sig.figma.com/img/0748/4d8e/949d86b1c90859b33bc0b7541dde0443?Expires=1717372800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=gtfbYa2ZFa-lzevgLCZRJj03JAUme5djVvEVW76k0GlqRNITAl21C68rW3TpW5-EPf99FyZQlgVIkfEYDBGJAzA2fREFbdosbL2rlZjZpKTtDLZd1x67cv5EZfwtVYeH-iTwvz1bPN6ZSUgk4LS117O0GO9doPnlgIvTY8uNEHAMfHnhw2VA6RkTGfDiJ7slV5YSPwjITIMrR8z8TGZnZv65MRODR5uA8y02WhJiHsrqhlMWO-ygPfMD9ap8D1y~J2ToFmv4dZObsIBPUSOrLMD2G8uUvFwp8YySw8T6ihd3zMA1H8fNI4ern1vzu-LBitWkZe2RVMEn8VL2AtOtAQ__",
+    },
+];

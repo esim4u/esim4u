@@ -101,12 +101,13 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
     }, [isFetched, packageData]);
 
     const createEsimOrder = useCallback(async () => {
+        hapticFeedback();
         await axios
             .post("/api/esims/create", {
                 net_price: selectedPackage.net_price,
                 original_price: selectedPackage.price,
                 total_price: selectedPackage.total_price,
-                total_price_eur: selectedPackage.total_price*0.92,
+                total_price_eur: selectedPackage.total_price * 0.92,
                 total_price_ton: priceInTon,
                 telegram_id: tgUser?.id,
                 package_id: selectedPackage.id,
@@ -228,9 +229,7 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                                                 >
                                                     <div
                                                         onClick={() => {
-                                                            hapticFeedback(
-                                                                webApp
-                                                            );
+                                                            hapticFeedback();
                                                             setSelectedPackage(
                                                                 plan
                                                             );
@@ -309,7 +308,10 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                 <div className=" bg-white p-5 flex flex-col rounded-2xl shadow-md">
                     <div
                         className="cursor-pointer flex items-center justify-between"
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={() => {
+                            hapticFeedback();
+                            setIsOpen(!isOpen);
+                        }}
                     >
                         <h2 className="cursor-pointer flex items-center gap-1 text-xs uppercase font-medium text-neutral-500">
                             How to install and activate
@@ -394,7 +396,7 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                 <div className="flex flex-col gap-2 p-5 border-2 border-redish rounded-3xl">
                     <div
                         onClick={() => {
-                            hapticFeedback(webApp);
+                            hapticFeedback();
                         }}
                         className="flex items-center space-x-2"
                     >
@@ -419,7 +421,7 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                     </div>
                     <div
                         onClick={() => {
-                            hapticFeedback(webApp);
+                            hapticFeedback();
                         }}
                         className=" flex items-center space-x-2"
                     >

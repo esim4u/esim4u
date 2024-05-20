@@ -7,7 +7,8 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export const hapticFeedback = (webApp: any) => {
+export const hapticFeedback = () => {
+    const webApp = (window as any).Telegram?.WebApp;
     webApp?.HapticFeedback?.impactOccurred("medium");
 };
 

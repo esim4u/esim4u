@@ -2,9 +2,8 @@
 
 import BounceLoader from "@/components/ui/bounce-loader";
 import { useTelegram } from "@/providers/telegram-provider";
-import { useQuery } from "@tanstack/react-query";
 import { getUserById, updateUser } from "@/services/supabase";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
@@ -15,11 +14,11 @@ export default function Home() {
         const dbUser = await getUserById(id);
 
         if (dbUser?.id) {
-            await updateUser(tgUser, dbUser)
+            await updateUser(tgUser, dbUser);
             return router.push("/esims");
         }
 
-        return router.push("/welcome");
+        return router.push("/onboarding");
     };
 
     useEffect(() => {

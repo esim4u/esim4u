@@ -140,8 +140,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                         />
                         <span className="">
                             {COUNTRIES[orderData?.coverage.toLowerCase()]}{" "}
-                            <span className="text-xs">|</span>{" "}
-                            {orderData?.data}{" "}
+                            <span className="text-xs">|</span> {orderData?.data}{" "}
                             <span className="text-xs">|</span>{" "}
                             {orderData?.validity} days
                         </span>
@@ -220,7 +219,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
 
                         <Button
                             onClick={() => {
-                                hapticFeedback(webApp);
+                                hapticFeedback();
                                 handlePayButtonClick();
                             }}
                             className="rounded-xl w-full"
@@ -262,7 +261,10 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                 <div className="bg-white rounded-2xl w-full">
                     <div
                         className="w-full px-6 py-2 cursor-pointer flex items-center justify-between"
-                        onClick={() => setIsCardPaymentOpen(!isCardPaymentOpen)}
+                        onClick={() => {
+                            hapticFeedback();
+                            setIsCardPaymentOpen(!isCardPaymentOpen);
+                        }}
                     >
                         <h2 className="cursor-pointer flex items-center gap-1 text-xs uppercase font-medium text-neutral-500">
                             <svg
