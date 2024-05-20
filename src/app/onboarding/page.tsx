@@ -159,6 +159,7 @@ export default function OnBoardingPage() {
                                         .fill(null)
                                         .map((_, rowIndex) => (
                                             <div
+                                                key={rowIndex}
                                                 className="group relative flex gap-3 overflow-hidden p-2"
                                                 style={{
                                                     maskImage:
