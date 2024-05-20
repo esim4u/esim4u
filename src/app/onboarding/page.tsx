@@ -282,19 +282,21 @@ export default function OnBoardingPage() {
                         <Button
                             onClick={() => {
                                 hapticFeedback();
-                                webApp?.showConfirm("Are you sure?", (isConfirm:boolean) => {
-                                    if (isConfirm) {
-                                        createAppUser.mutate(tgUser);
-                                        router.push("/esims");
+                                webApp?.showConfirm(
+                                    "Are you sure?",
+                                    (isConfirm: boolean) => {
+                                        if (isConfirm) {
+                                            createAppUser.mutate(tgUser);
+                                            router.push("/esims");
+                                        }
                                     }
-
-                                });
+                                );
                             }}
                             size={"bean"}
                             variant={"unstyled"}
                             className="text-neutral-400 font-semibold underline underline-offset-2"
                         >
-                            I'll do this later
+                            I&apos;ll do this later
                         </Button>
                     )}
                 </div>
