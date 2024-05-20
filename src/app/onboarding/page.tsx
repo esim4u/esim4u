@@ -15,17 +15,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn, hapticFeedback } from "@/lib/utils";
 import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
-import { RUNNING_LINE_COUNTRIES, RUNNING_LINE_LOGOS } from "@/constants";
+import { RUNNING_LINE_COUNTRIES } from "@/constants";
 import Dot from "@/components/ui/dot";
-import {
-    Drawer,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "@/components/ui/drawer";
 import ReactCountryFlag from "react-country-flag";
 
 export default function OnBoardingPage() {

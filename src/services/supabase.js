@@ -181,7 +181,7 @@ export const getOrderById = async (id) => {
     const { data: transactions, transactionError } = await supabase
         .from("transactions")
         .select(`checkout_id`)
-        .eq("order_id", id);
+        .eq("id", order.data[0].transaction_id);
 
     if (transactionError || transactions.length === 0) {
         return [];
