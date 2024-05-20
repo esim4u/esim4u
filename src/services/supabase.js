@@ -61,7 +61,6 @@ export const createUser = async (user, parent_id) => {
             .from("users")
             .update([
                 {
-                    status: "active",
                     username: user.username || null,
                     first_name: user.first_name || null,
                     last_name: user.last_name || null,
@@ -90,7 +89,6 @@ export const createUser = async (user, parent_id) => {
         {
             telegram_id: user.id || null,
             created_date: new Date(),
-            status: "active",
             username: user.username || null,
             first_name: user.first_name || null,
             last_name: user.last_name || null,
@@ -143,7 +141,7 @@ export const addReferrerToUser = async (id, referrer_id) => {
         .eq("telegram_id", referrer_id)
         .single();
 
-    if (!referrer) {
+    if (!referrer?.data || referrer?.data?.length == 0) {
         return;
     }
 
@@ -153,28 +151,18 @@ export const addReferrerToUser = async (id, referrer_id) => {
         .eq("telegram_id", id)
         .single();
 
-    if (!user) {
-        const newUser = await supabase.from("users").insert({
-            telegram_id: id,
-            parent_id: referrer_id,
-            created_date: new Date(),
-            status: "active",
-            onboarding: false,
-        });
-
-        return newUser.data;
+    if (user.data.length > 0) {
+        return
     }
 
-    if (user.parent_id) {
-        return;
-    }
+    const newUser = await supabase.from("users").insert({
+        telegram_id: id,
+        parent_id: referrer_id,
+        created_date: new Date(),
+        onboarding: false,
+    });
 
-    const updatedUser = await supabase
-        .from("users")
-        .update({ parent_id: referrer_id })
-        .eq("telegram_id", id);
-
-    return updatedUser.data;
+    return newUser.data;
 };
 
 // ORDERS
