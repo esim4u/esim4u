@@ -61,10 +61,12 @@ export async function POST(req: Request) {
         .insert({
             telegram_id: telegram_id || 0,
             checkout_id: id,
+            type: "ORDER"
         })
         .select();
 
     if (transaction.error) {
+        console.error(transaction.error);
         return Response.json(transaction.error);
     }
 

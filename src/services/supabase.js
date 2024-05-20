@@ -138,19 +138,16 @@ export const addReferrerToUser = async (id, username, referrer_id) => {
     const referrer = await supabase
         .from("users")
         .select("*")
-        .eq("telegram_id", referrer_id)
-    
+        .eq("telegram_id", referrer_id);
+
     if (referrer?.data?.length == 0) {
         return;
     }
 
-    const user = await supabase
-        .from("users")
-        .select("*")
-        .eq("telegram_id", id)
+    const user = await supabase.from("users").select("*").eq("telegram_id", id);
 
     if (user.data.length > 0) {
-        return
+        return;
     }
 
     const newUser = await supabase.from("users").insert({
@@ -167,27 +164,27 @@ export const addReferrerToUser = async (id, username, referrer_id) => {
 // ORDERS
 
 export const getOrderById = async (id) => {
-    const { data: order, orderError } = await supabase
+    const orders = await supabase
         .from("orders")
         .select(`*`)
         .eq("id", id)
         .eq("status", "CREATED")
         .order("created_at", { ascending: false });
 
-    if (orderError || order.length === 0) {
+    if (orders.error || orders.data.length === 0) {
         return [];
     }
 
-    const { data: transactions, transactionError } = await supabase
+    const transactions = await supabase
         .from("transactions")
         .select(`checkout_id`)
-        .eq("id", order.data[0].transaction_id);
+        .eq("id", orders.data[0].transaction_id);
 
-    if (transactionError || transactions.length === 0) {
+    if (transactions.error || transactions.data.length === 0) {
         return [];
     }
 
-    return { ...order[0], checkout_id: transactions[0].checkout_id };
+    return { ...orders.data[0], checkout_id: transactions.data[0].checkout_id };
 };
 
 // STORIES
