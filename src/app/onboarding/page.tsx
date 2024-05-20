@@ -14,11 +14,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn, hapticFeedback } from "@/lib/utils";
-import { TonConnectButton } from "@tonconnect/ui-react";
+import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
 import { RUNNING_LINE_LOGOS } from "@/constants";
+import Dot from "@/components/ui/dot";
 
 export default function OnBoardingPage() {
     const router = useRouter();
+    const wallet = useTonWallet();
     const { user: tgUser, webApp, start_param } = useTelegram();
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
@@ -48,15 +50,14 @@ export default function OnBoardingPage() {
     useEffect(() => {
         if (tgUser && webApp) {
             webApp?.MainButton.hide();
-            createAppUser.mutate(tgUser);
         }
     }, [tgUser, webApp]);
 
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col justify-center">
-            <div className="flex flex-col pt-[10dvh] pb-5 gap-5">
+            <div className="flex flex-col h-full pt-[10dvh] pb-5 justify-between gap-5">
                 <Carousel setApi={setApi} className="w-full">
-                    <CarouselContent className="">
+                    <CarouselContent className=" py-5">
                         <CarouselItem className="w-full flex flex-col items-center">
                             <div className="flex flex-col gap-5 p-5">
                                 <h2 className=" text-4xl font-medium text-center">
@@ -223,19 +224,48 @@ export default function OnBoardingPage() {
                         </CarouselItem>
                     </CarouselContent>
                 </Carousel>
-                <div className="pb-5 px-5 flex flex-row justify-between items-center">
-                    <div className="py-2 text-center text-sm text-muted-foreground">
-                        Slide {current} of {count}
+                <div className="px-5 flex flex-row justify-between items-center">
+                    <div className="flex flex-row gap-1.5 py-2 text-center text-sm text-muted-foreground">
+                        {Array(count)
+                            .fill(null)
+                            .map((_, index) => (
+                                <Dot
+                                    className={cn(
+                                        "bg-neutral-400 transition-all size-3",
+                                        index + 1 == current &&
+                                            "bg-blue-500 w-7"
+                                    )}
+                                ></Dot>
+                            ))}
                     </div>
-                    <Button
-                        onClick={() => {
-                            api?.scrollNext();
-                        }}
-                        size={"bean"}
-                        variant={"light"}
-                    >
-                        NEXT
-                    </Button>
+                    {count === current && wallet ? (
+                        <Button
+                            onClick={() => {
+                                hapticFeedback();
+                                createAppUser.mutate(tgUser);
+                                router.push("/esims");
+                            }}
+                            size={"bean"}
+                            variant={"light"}
+                        >
+                            START
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={() => {
+                                hapticFeedback();
+                                api?.scrollNext();
+                            }}
+                            size={"bean"}
+                            variant={"light"}
+                            className={cn(
+                                " transition-all duration-300 ease-in-out",
+                                count === current ? " opacity-0 " : ""
+                            )}
+                        >
+                            NEXT
+                        </Button>
+                    )}
                 </div>
             </div>
         </main>
