@@ -25,7 +25,7 @@ const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
 const addReferrer = async (ctx: any) => {
     if(!ctx.match) return;
 
-    await addReferrerToUser(ctx.chat.id, ctx.match);
+    await addReferrerToUser(ctx.chat.id, ctx.chat.username, ctx.match);
 };
 
 const addUserPhoto = async (ctx: any) => {

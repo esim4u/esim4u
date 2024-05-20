@@ -134,14 +134,13 @@ export const addUserPhotoFileId = async (id, username, photo_url) => {
     return data;
 };
 
-export const addReferrerToUser = async (id, referrer_id) => {
+export const addReferrerToUser = async (id, username, referrer_id) => {
     const referrer = await supabase
         .from("users")
         .select("*")
         .eq("telegram_id", referrer_id)
-        .single();
-
-    if (!referrer?.data || referrer?.data?.length == 0) {
+    
+    if (referrer?.data?.length == 0) {
         return;
     }
 
@@ -149,7 +148,6 @@ export const addReferrerToUser = async (id, referrer_id) => {
         .from("users")
         .select("*")
         .eq("telegram_id", id)
-        .single();
 
     if (user.data.length > 0) {
         return
@@ -157,6 +155,7 @@ export const addReferrerToUser = async (id, referrer_id) => {
 
     const newUser = await supabase.from("users").insert({
         telegram_id: id,
+        username: username,
         parent_id: referrer_id,
         created_date: new Date(),
         onboarding: false,
