@@ -3,6 +3,7 @@ import { getPhotoUrlFromFileId } from "./grammy";
 import { sendTgLog } from "./tg-logger";
 import { platform } from "os";
 import { send } from "process";
+import { create } from "domain";
 
 // Initialize Supabase client
 export const supabase = createClient(
@@ -61,7 +62,7 @@ export const updateUser = async (tgUser, dbUser, platform) => {
     return data;
 };
 
-export const createUser = async (user, parent_id) => {
+export const createUser = async (user, parent_id, wallet_address) => {
     const { data: dbUser, error: userError } = await supabase
         .from("users")
         .select("*")
@@ -114,8 +115,6 @@ export const createUser = async (user, parent_id) => {
     if (error) {
         console.error(error);
     }
-
-    console.log(data);
 
     return data;
 };
@@ -207,4 +206,65 @@ export const getStories = async () => {
         .order("created_at", { ascending: false });
 
     return data;
+};
+
+// WALLET
+
+export const createWallet = async (telegram_id, wallet_address) => {
+    await sendTgLog(
+        `Creating wallet for ${telegram_id} with address ${wallet_address}`
+    );
+
+    const users = await supabase
+        .from("users")
+        .select("*")
+        .eq("telegram_id", telegram_id);
+
+    console.log(users);
+
+    if (users.data.length === 0) {
+        return;
+    }
+
+    const wallets = await supabase
+        .from("wallet")
+        .select("*")
+        .eq("telegram_id", telegram_id);
+
+    if (wallets.data.length > 0) {
+        const updatedWallet = await supabase
+            .from("wallet")
+            .update({ address: wallet_address })
+            .eq("telegram_id", telegram_id)
+            .select();
+
+        if (updatedWallet.error) {
+            console.error(updatedWallet.error);
+        }
+
+        await supabase
+            .from("users")
+            .update({ wallet_id: updatedWallet.data[0].id })
+            .eq("telegram_id", telegram_id);
+
+        return updatedWallet.data;
+    }
+
+    const createdWallet = await supabase.from("wallet").insert({
+        telegram_id,
+        amount: 0,
+        address: wallet_address,
+    });
+
+    if (createdWallet.error) {
+        console.error(createdWallet.error);
+        return createdWallet;
+    }
+
+    await supabase
+        .from("users")
+        .update({ wallet_id: createdWallet.data[0].id })
+        .eq("telegram_id", telegram_id);
+    
+    return createdWallet.data;
 };

@@ -7,14 +7,18 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { createUser } from "@/services/supabase";
+import { createUser, createWallet } from "@/services/supabase";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn, hapticFeedback } from "@/lib/utils";
-import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
+import {
+    TonConnectButton,
+    useTonAddress,
+    useTonWallet,
+} from "@tonconnect/ui-react";
 import { RUNNING_LINE_COUNTRIES } from "@/constants";
 import Dot from "@/components/ui/dot";
 import ReactCountryFlag from "react-country-flag";
@@ -22,6 +26,8 @@ import ReactCountryFlag from "react-country-flag";
 export default function OnBoardingPage() {
     const router = useRouter();
     const wallet = useTonWallet();
+    const tonAddress = useTonAddress();
+
     const { user: tgUser, webApp, start_param } = useTelegram();
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
@@ -43,6 +49,14 @@ export default function OnBoardingPage() {
     const createAppUser = useMutation({
         mutationFn: async (tgUser: any) => {
             return await createUser(tgUser, start_param);
+        },
+        onError: (error) => {},
+        onSuccess: (data) => {},
+    });
+
+    const createAppWallet = useMutation({
+        mutationFn: async (tgUser: any) => {
+            return await createWallet(tgUser.id, tonAddress);
         },
         onError: (error) => {},
         onSuccess: (data) => {},
@@ -224,6 +238,7 @@ export default function OnBoardingPage() {
                                     Pay with TON easily and quickly here! Enjoy
                                     secure, hassle-free transactions.
                                 </p>
+                                <pre>{JSON.stringify(tonAddress, null, 2)}</pre>
                                 <div className="p-5 pt-24 flex flex-col justify-center items-center">
                                     <TonConnectButton />
                                 </div>
@@ -262,6 +277,7 @@ export default function OnBoardingPage() {
                             onClick={() => {
                                 hapticFeedback();
                                 createAppUser.mutate(tgUser);
+                                createAppWallet.mutate(tgUser);
                                 router.push("/esims");
                             }}
                             size={"bean"}
@@ -278,6 +294,7 @@ export default function OnBoardingPage() {
                                     (isConfirm: boolean) => {
                                         if (isConfirm) {
                                             createAppUser.mutate(tgUser);
+                                            createAppWallet.mutate(tgUser);
                                             router.push("/esims");
                                         }
                                     }
