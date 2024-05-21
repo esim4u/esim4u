@@ -1,8 +1,5 @@
-import { createCheckout } from "@/services/sumup";
 import { supabase } from "@/services/supabase";
-import { ceil, floor } from "@/lib/utils";
 import axios from "axios";
-import { sendTgLog } from "@/services/tg-logger";
 import { sendMessagesToUser, sendPhotoToUser } from "@/services/grammy";
 
 export async function POST(req: Request) {
@@ -12,7 +9,7 @@ export async function POST(req: Request) {
         return Response.json({ status });
     }
 
-    let transaction = await supabase
+    const transaction = await supabase
         .from("transactions")
         .select("*")
         .eq("checkout_id", id)
@@ -24,7 +21,7 @@ export async function POST(req: Request) {
 
     await supabase
         .from("transactions")
-        .update({ status: "SUCCESS" })
+        .update({ status: "SUCCESS", merchant: "SUMUP" })
         .eq("id", transaction.data[0].id);
 
     const order = await supabase
@@ -37,6 +34,11 @@ export async function POST(req: Request) {
     if (order.error || !order.data.length) {
         return Response.json({ error: "Order not found" });
     }
+
+    await supabase
+        .from("transactions")
+        .update({ amount: order.data[0].price.total_eur, currency: "EUR" })
+        .eq("id", transaction.data[0].id);
 
     const response = await axios
         .post(
@@ -89,16 +91,21 @@ export async function POST(req: Request) {
         return Response.json(esim.error);
     }
 
-    await sendPhotoToUser(
-        esim.data[0].telegram_id,
-        esim.data[0].qrcode_url,
-        "Scan qr for quick setup"
-    );
+    try {
+        await sendPhotoToUser(
+            esim.data[0].telegram_id,
+            esim.data[0].qrcode_url,
+            "Scan qr for quick setup"
+        );
 
-    await sendMessagesToUser(
-        esim.data[0].telegram_id,
-        `SM-DP+ Address: \`${esim.data[0].sm_dp}\` \n\nYour Activation code code is: \`${esim.data[0].confirmation_code}\``
-    );
+        await sendMessagesToUser(
+            esim.data[0].telegram_id,
+            `SM-DP+ Address: \`${esim.data[0].sm_dp}\` \n\nYour Activation code code is: \`${esim.data[0].confirmation_code}\``
+        );
+    } catch (e) {
+        console.error(e);
+        return Response.json(e);
+    }
 
     return Response.json(esim);
 }

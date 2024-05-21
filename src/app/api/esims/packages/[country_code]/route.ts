@@ -61,6 +61,7 @@ export async function GET(
                 operator.packages.forEach((p: any) => {
                     p.total_price =
                         ceil(p.price + p.price * marginRate, 0) - 0.01; //ceil to whole number
+                    p.total_price_eur = ceil(p.total_price * 0.92, 2);
                 });
             });
         });

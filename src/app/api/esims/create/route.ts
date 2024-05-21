@@ -29,11 +29,8 @@ export async function POST(req: Request) {
                 original: original_price,
                 total: total_price, //original price + 20% + ceil to whole number
                 profit: total_price - net_price,
-                total_price_eur: total_price_eur,
-                total_price_ton: total_price_ton,
-                // airalo_profit: floor(original_price * 0.85),
-                // profit: ceil(total_price * 0.35), //35% of original price
-                // delta: ceil(total_price - floor(original_price * 0.85)), //full profit
+                total_eur: total_price_eur,
+                total_ton: total_price_ton,
                 currency: "USD",
             },
             description: `esim4u.t.me - ${package_id}`,
@@ -61,7 +58,8 @@ export async function POST(req: Request) {
         .insert({
             telegram_id: telegram_id || 0,
             checkout_id: id,
-            type: "ORDER"
+            type: "ORDER",
+            description: `esim4u.t.me - ${package_id}`
         })
         .select();
 
