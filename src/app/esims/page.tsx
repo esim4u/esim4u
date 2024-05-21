@@ -21,6 +21,7 @@ import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Stories from "@/components/shared/stories";
 import Achievements from "@/components/shared/achievements";
+import Fuse from "fuse.js";
 
 export default function Home() {
     const { webApp } = useTelegram();
@@ -79,48 +80,61 @@ export default function Home() {
         if (search && packages && packages.length) {
             const query = search.toLowerCase().trim();
 
-            let nestedMatchCountries: any = {};
-            let matchingPackages = packages.filter((item: any) => {
-                let hasCoverage = [];
-                if (!item.slug.includes(query)) {
-                    hasCoverage = item.operators[0].coverages
-                        .filter(
-                            (coverage: any) =>
-                                coverage.name.toLowerCase().includes(query) ||
-                                COUNTRIES[coverage.name.toLowerCase()]
-                                    ?.toLowerCase()
-                                    .includes(query)
-                        )
-                        .map((coverage: any) => {
-                            return {
-                                ...coverage,
-                                fullName:
-                                    COUNTRIES[coverage.name.toLowerCase()] ||
-                                    coverage.name,
-                            };
-                        });
-                }
-
-                if (hasCoverage.length) {
-                    nestedMatchCountries = {
-                        ...nestedMatchCountries,
-                        [item.slug]: hasCoverage,
-                    };
-                }
-                return (
-                    item.slug.toLowerCase().includes(query) ||
-                    hasCoverage.length
-                );
+            const fuse = new Fuse(packages, {
+                keys: [
+                    "slug",
+                    "country_code",
+                    "operators.countries.title",
+                    "operators.countries.country_code",
+                ],
+                threshold: 0.3,
             });
-            matchingPackages = matchingPackages.map((item: any) => {
+
+            const matchingPackages = fuse.search(query).map((result) => {
+                const item = result.item as any;
+
+                const countries = item.operators[0].countries;
+
+                const nestedFuse = new Fuse(countries, {
+                    keys: ["title", "country_code"],
+                    threshold: 0.3,
+                });
+
+                let nestedMatchCountries = nestedFuse
+                    .search(query)
+                    .map((result) => {
+                        const item = result.item as any;
+                        return {
+                            ...item,
+                            fullName:
+                                COUNTRIES[item.title.toLowerCase()] ||
+                                item.title,
+                        };
+                    });
+
+                nestedMatchCountries = nestedMatchCountries.filter(
+                    (nestedCountry) =>
+                        nestedCountry.title != item.title &&
+                        nestedCountry.country_code != item.country_code
+                );
+
                 return {
                     ...item,
-                    nestedMatchCountries: nestedMatchCountries[item.slug],
+                    nestedMatchCountries,
                 };
             });
+
             return matchingPackages;
         }
     }, [packages, search]);
+
+    useEffect(() => {
+        if (webApp && search && filteredPackages) {
+            if (search.length > 4 && filteredPackages.length === 0) {
+                hapticFeedback("warning");
+            }
+        }
+    }, [search, filteredPackages]);
 
     return (
         <main className="overflow-x-hidden flex flex-col h-dvh p-5 gap-4">
@@ -182,16 +196,17 @@ export default function Home() {
                                     </span>
                                 </div>
 
-                                {country.nestedMatchCountries && (
-                                    <span className=" font-semibold text-sm">
-                                        incl.
-                                        {highlightMatches(
-                                            search,
-                                            country.nestedMatchCountries[0]
-                                                .fullName
-                                        )}
-                                    </span>
-                                )}
+                                {country.nestedMatchCountries &&
+                                    country.nestedMatchCountries[0]?.title && (
+                                        <span className=" font-semibold text-sm">
+                                            incl.
+                                            {highlightMatches(
+                                                search,
+                                                country.nestedMatchCountries[0]
+                                                    .title
+                                            )}
+                                        </span>
+                                    )}
                             </div>
                         );
                     })}

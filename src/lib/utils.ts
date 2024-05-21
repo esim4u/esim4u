@@ -67,5 +67,5 @@ export const getReferralLink = (user_id: string | number) => {
     if (!user_id) {
         return "";
     }
-    return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}`;
+    return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}?start=${user_id}`;
 };

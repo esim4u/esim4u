@@ -28,18 +28,18 @@ const Stories = (props: Props) => {
     });
 
     useEffect(() => {
-        if (webApp) {
-            webApp?.CloudStorage?.getItem(
-                "checked_stories",
-                (err: any, result: any) => {
-                    if (err) {
-                        return null;
-                    }
-                    const arrayFromString = result.split(",");
-                    setCheckedStories(arrayFromString);
-                }
-            );
-        }
+        // if (webApp) {
+        //     webApp?.CloudStorage?.getItem(
+        //         "checked_stories",
+        //         (err: any, result: any) => {
+        //             if (err) {
+        //                 return null;
+        //             }
+        //             const arrayFromString = result.split(",");
+        //             setCheckedStories(arrayFromString);
+        //         }
+        //     );
+        // }
     }, [webApp]);
 
     return (

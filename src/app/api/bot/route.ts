@@ -30,7 +30,7 @@ const addReferrer = async (ctx: any) => {
 
 const addUserPhoto = async (ctx: any) => {
     const chat = await ctx.getChat();
-    if (!chat.photo) return await ctx.reply("You have no profile picture");
+    if (!chat.photo) return;
 
     await addUserPhotoFileId(chat.id, chat.username, chat.photo.small_file_id);
 };
