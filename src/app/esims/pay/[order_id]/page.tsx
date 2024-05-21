@@ -57,8 +57,6 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     });
 
     useEffect(() => {
-        router.push("/esims/pay/pending");
-
         if (orderData && orderData.checkout_id) {
             (window as any).SumUpCard?.mount({
                 id: "sumup-card",
@@ -66,22 +64,6 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                 onResponse: async function (type: any, body: any) {
                     if (type == "success" && body && body.status == "PAID") {
                         router.push("/esims/pay/pending");
-
-                        // let success = false;
-
-                        // if (body.transactions && body.transactions[0]) {
-                        //     for (const transaction of body.transactions) {
-                        //         if (transaction.status == "SUCCESSFUL") {
-                        //             success = true;
-                        //             break;
-                        //         }
-                        //     }
-                        // }
-
-                        // if (success) {
-                        //     router.push("esims/pay/pending");
-                        // } else {
-                        // }
                     } else if (body && body.status == "FAILED") {
                         toast({
                             variant: "destructive",
