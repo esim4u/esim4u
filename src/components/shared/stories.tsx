@@ -10,7 +10,11 @@ import { cn, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import { getStories } from "@/services/supabase";
+import {
+    getStories,
+    incrementStoryTotalViews,
+    incrementStoryUniqueViews,
+} from "@/services/supabase";
 import { Button } from "../ui/button";
 
 type Props = {};
@@ -50,7 +54,19 @@ const Stories = (props: Props) => {
                         return (
                             <CarouselItem
                                 key={index}
-                                onClick={() => {
+                                onClick={async () => {
+                                    await incrementStoryTotalViews(story.id);
+
+                                    if (
+                                        !stories.includes(
+                                            story.id.toString().trim()
+                                        )
+                                    ) {
+                                        await incrementStoryUniqueViews(
+                                            story.id
+                                        );
+                                    }
+
                                     webApp?.openLink(story.telegraph_url, {
                                         try_instant_view: true,
                                     });

@@ -208,6 +208,18 @@ export const getStories = async () => {
     return data;
 };
 
+export const incrementStoryTotalViews = async (id) => {
+    const { data, error } = await supabase.rpc("increment_stories_total_views", {
+        row_id: +id,
+    });
+};
+
+export const incrementStoryUniqueViews = async (id) => {
+    const { data, error } = await supabase.rpc("increment_stories_unique_views", {
+        row_id: +id,
+    });
+};
+
 // WALLET
 
 export const createWallet = async (telegram_id, wallet_address) => {
@@ -265,6 +277,6 @@ export const createWallet = async (telegram_id, wallet_address) => {
         .from("users")
         .update({ wallet_id: createdWallet.data[0].id })
         .eq("telegram_id", telegram_id);
-    
+
     return createdWallet.data;
 };

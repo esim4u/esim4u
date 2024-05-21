@@ -137,7 +137,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
                         </h2>
                         <Dot className="w-1.5 h-1.5" />
                         <h2 className="flex items-center font-bold">
-                            {orderData?.price.total_price_ton}
+                            {orderData?.price.total_ton}
                             <svg
                                 width="9"
                                 height="9"
