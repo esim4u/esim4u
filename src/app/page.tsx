@@ -14,7 +14,7 @@ export default function Home() {
         const dbUser = await getUserById(id);
 
         if (dbUser?.id) {
-            await updateUser(tgUser, dbUser);
+            await updateUser(tgUser, dbUser, webApp.platform);
             return router.push("/esims");
         }
 

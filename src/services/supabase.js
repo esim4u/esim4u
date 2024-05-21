@@ -28,9 +28,20 @@ export const getUserById = async (id) => {
     return data;
 };
 
-export const updateUser = async (tgUser, dbUser) => {
-    let lastLoginDates = dbUser.last_login_date || [];
-    lastLoginDates.push(new Date());
+export const updateUser = async (tgUser, dbUser, platform) => {
+    let lastLoginDates = dbUser.last_login_date.dates || [];
+    lastLoginDates.unshift(new Date().toISOString());
+
+    //only keep the last 5 login dates
+    if (lastLoginDates.length > 5) {
+        lastLoginDates = lastLoginDates.slice(0, 5);
+    }
+    let lastLoginDate = {
+        counter: dbUser.last_login_date.counter
+            ? dbUser.last_login_date.counter + 1
+            : 1,
+        dates: lastLoginDates,
+    };
 
     const { data, error } = await supabase
         .from("users")
@@ -41,8 +52,8 @@ export const updateUser = async (tgUser, dbUser) => {
                 last_name: tgUser.last_name || null,
                 language_code: tgUser.language_code || null,
                 is_premium: tgUser.is_premium ? true : false,
-                platform: tgUser.platform || null,
-                last_login_date: lastLoginDates,
+                platform: platform || null,
+                last_login_date: lastLoginDate,
             },
         ])
         .eq("telegram_id", tgUser.id);
