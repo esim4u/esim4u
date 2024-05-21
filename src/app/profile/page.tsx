@@ -58,8 +58,20 @@ export default function Home() {
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col items-center p-5">
             <div className="flex flex-col items-center gap-4">
-                <IoIosSettings className="absolute left-4 w-16 h-16 text-neutral-500" />
-                <IoQrCode className="absolute right-4 w-16 h-16 py-1 text-neutral-500" />
+                <IoIosSettings
+                    onClick={() => {
+                        hapticFeedback();
+                        router.push("/settings");
+                    }}
+                    className="absolute left-5 w-12 h-12 text-neutral-400"
+                />
+                <IoQrCode
+                    onClick={() => {
+                        hapticFeedback();
+                        router.push("/profile/qr");
+                    }}
+                    className="absolute right-5 w-12 h-12 py-1 text-neutral-400"
+                />
 
                 <div className="flex flex-col items-center gap-2">
                     <Avatar className="w-32 h-32">
