@@ -83,7 +83,7 @@ const CompatibleDevicesPage = () => {
                 {Object.entries(filteredDevices).map(
                     ([brand, devices], index) => {
                         return (
-                            <div className="flex flex-col gap-3">
+                            <div key={index} className="flex flex-col gap-3">
                                 <h1 className="uppercase font-semibold text-md ml-4">
                                     {brand}
                                 </h1>
