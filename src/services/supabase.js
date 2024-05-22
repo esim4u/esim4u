@@ -150,14 +150,20 @@ export const addReferrerToUser = async (id, username, referrer_id) => {
         .select("*")
         .eq("telegram_id", referrer_id);
 
+    if(referrer.error) {
+        return referrer.error;
+    }
     if (referrer?.data?.length == 0) {
-        return;
+        return "Referrer not found"
     }
 
     const user = await supabase.from("users").select("*").eq("telegram_id", id);
 
+    if (user.error) {
+        return user.error;
+    }
     if (user.data.length > 0) {
-        return;
+        return "User already exists";
     }
 
     const newUser = await supabase.from("users").insert({
@@ -166,7 +172,14 @@ export const addReferrerToUser = async (id, username, referrer_id) => {
         parent_id: referrer_id,
         created_date: new Date(),
         onboarding: false,
-    });
+    }).select("*");
+
+    if (newUser.error) {
+        return newUser.error;
+    }
+    if (newUser.data.length == 0) {
+        return "User not created";
+    }
 
     return newUser.data;
 };
