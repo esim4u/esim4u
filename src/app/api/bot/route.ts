@@ -1,5 +1,6 @@
 import { getPhotoUrlFromFileId } from "@/services/grammy";
 import { addReferrerToUser, addUserPhotoFileId, supabase } from "@/services/supabase";
+import { sendTgLog } from "@/services/tg-logger";
 import {
     Bot,
     InlineKeyboard,
@@ -23,6 +24,7 @@ const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
 /////////////////////
 
 const addReferrer = async (ctx: any) => {
+    await sendTgLog(JSON.stringify(ctx));
     if(!ctx.match) return;
 
     await addReferrerToUser(ctx.chat.id, ctx.chat.username, ctx.match);
