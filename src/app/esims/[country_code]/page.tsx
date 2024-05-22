@@ -17,13 +17,14 @@ import { useTelegram } from "@/providers/telegram-provider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { use, useCallback, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
-import { Button } from "@/components/ui/button";
 
 const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
     const router = useRouter();
+    const path = usePathname();
+
     const { user: tgUser, webApp } = useTelegram();
     const [selectedPackage, setSelectedPackage] = useState<any>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -274,11 +275,26 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-row items-center justify-between">
                             <h3 className="text-sm font-bold">Coverage</h3>
-                            <h3 className="text-sm font-bold">
-                                {COUNTRIES[
-                                    packageData.operators[0].coverages[0].name.toLowerCase()
-                                ] || packageData.operators[0].coverages[0].name}
-                            </h3>
+                            {packageData.operators[0].coverages.length > 1 ? (
+                                <button
+                                    onClick={() => {
+                                        hapticFeedback();
+                                        router.push(`${path}/coverage`);
+                                    }}
+                                    className="text-sm text-blue-500 font-medium underline underline-offset-2 capitalize"
+                                >
+                                    {packageData.operators[0].coverages.length}{" "}
+                                    countries
+                                </button>
+                            ) : (
+                                <h3 className="text-sm font-bold">
+                                    {COUNTRIES[
+                                        packageData.operators[0].coverages[0].name.toLowerCase()
+                                    ] ||
+                                        packageData.operators[0].coverages[0]
+                                            .name}
+                                </h3>
+                            )}
                         </div>
                         <div className="flex flex-row items-center justify-between">
                             <h3 className="text-sm font-bold">Plan types</h3>

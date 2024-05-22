@@ -9,7 +9,7 @@ import {
     useState,
 } from "react";
 import type { ITelegramUser, IWebApp } from "@/types";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { hapticFeedback } from "@/lib/utils";
 
 export interface ITelegramContext {
@@ -29,6 +29,8 @@ export const TelegramProvider = ({
     children: React.ReactNode;
 }) => {
     const router = useRouter();
+    const path = usePathname();
+
     const [webApp, setWebApp] = useState<any>(null);
 
     useEffect(() => {
@@ -48,15 +50,8 @@ export const TelegramProvider = ({
 
             app?.SettingsButton.show();
             app?.SettingsButton.onClick(() => {
-                hapticFeedback()
+                hapticFeedback();
                 router.push("/settings");
-            });
-
-            app?.BackButton.onClick(() => {
-                app?.BackButton.hide();
-                // router.back();
-                hapticFeedback("heavy")
-                router.push("/esims"); //TODO: check router.back() and replace with it if it works
             });
 
             app.ready();
@@ -65,8 +60,19 @@ export const TelegramProvider = ({
         }
     }, []);
 
-    const value = useMemo(() => {
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp, path]);
 
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp, path]);
+
+    const value = useMemo(() => {
         return webApp
             ? {
                   webApp,

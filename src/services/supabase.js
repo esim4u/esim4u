@@ -254,11 +254,6 @@ export const createWallet = async (telegram_id, wallet_address) => {
             console.error(updatedWallet.error);
         }
 
-        await supabase
-            .from("users")
-            .update({ wallet_id: updatedWallet.data[0].id })
-            .eq("telegram_id", telegram_id);
-
         return updatedWallet.data;
     }
 
@@ -272,11 +267,6 @@ export const createWallet = async (telegram_id, wallet_address) => {
         console.error(createdWallet.error);
         return createdWallet;
     }
-
-    await supabase
-        .from("users")
-        .update({ wallet_id: createdWallet.data[0].id })
-        .eq("telegram_id", telegram_id);
 
     return createdWallet.data;
 };

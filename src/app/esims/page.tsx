@@ -22,6 +22,8 @@ import { useRouter } from "next/navigation";
 import Stories from "@/components/shared/stories";
 import Achievements from "@/components/shared/achievements";
 import Fuse from "fuse.js";
+import SearchInput from "@/components/shared/search-input";
+import { highlightMatches } from "@/lib/markup";
 
 export default function Home() {
     const { webApp } = useTelegram();
@@ -36,21 +38,9 @@ export default function Home() {
         },
     });
 
-    const highlightMatches = (search: string, title: string) => {
-        const regex = new RegExp(`(${search})`, "gi");
-        return title.split(regex).map((part, index) => {
-            return regex.test(part) ? (
-                <span key={index} className="highlight text-blue-500">
-                    {part}
-                </span>
-            ) : (
-                part
-            );
-        });
-    };
-
     useEffect(() => {
         if (webApp) {
+            webApp?.BackButton.hide();
             webApp?.MainButton.setParams({
                 text: "Share with friends",
                 color: "#3b82f6",
@@ -139,24 +129,7 @@ export default function Home() {
     return (
         <main className="overflow-x-hidden flex flex-col h-dvh p-5 gap-4">
             <Header />
-            <div className="relative flex items-center">
-                <HiMiniMagnifyingGlass className=" absolute ml-[14px] text-neutral-500" />
-                <input
-                    className="px-10 h-10 border-0 rounded-full w-full"
-                    value={search}
-                    placeholder="Search country where you go"
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                {search && (
-                    <IoCloseOutline
-                        onClick={() => {
-                            hapticFeedback();
-                            setSearch("");
-                        }}
-                        className="cursor-pointer w-5 h-5 right-[14px] absolute text-neutral-500"
-                    />
-                )}
-            </div>
+            <SearchInput search={search} setSearch={setSearch} />
 
             {filteredPackages && filteredPackages.length ? (
                 <div className="flex flex-col gap-2">
