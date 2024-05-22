@@ -314,7 +314,13 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                             <h3 className="text-sm font-bold">
                                 Compatible devices
                             </h3>
-                            <button className="text-sm text-blue-500 font-medium underline underline-offset-2 capitalize">
+                            <button
+                                onClick={() => {
+                                    hapticFeedback();
+                                    router.push(`/esims/compatible-devices`);
+                                }}
+                                className="text-sm text-blue-500 font-medium underline underline-offset-2 capitalize"
+                            >
                                 Check
                             </button>
                         </div>
