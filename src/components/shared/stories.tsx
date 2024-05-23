@@ -97,10 +97,16 @@ const Stories = (props: Props) => {
                                                     story.id.toString().trim()
                                                 )
                                                 ? " bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500"
-                                                : "bg-neutral-400/15"
+                                                : "bg-neutral-400/15",
+                                            index == 2 && "rounded-full"
                                         )}
                                     >
-                                        <div className="relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3]	">
+                                        <div
+                                            className={cn(
+                                                "relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3] ",
+                                                index == 2 && "rounded-full"
+                                            )}
+                                        >
                                             <div className="relative w-full h-full">
                                                 <Image
                                                     width={736}
