@@ -69,21 +69,24 @@ export async function GET(
                         },
                     }
                 )
-                .then((res) => res.data.data)
+                .then((res) => res.data)
                 .catch((e) => e.response);
 
-            if (usage && usage.status) {
+            console.log(usage);
+            if (usage && usage?.data?.status) {
                 const updatedOrder = await supabase
                     .from("orders")
                     .update({
                         state: usage?.data?.status,
                         usage: {
-                            remaining: usage.remaining,
-                            total: usage.total,
+                            remaining: usage.data?.remaining,
+                            total: usage.data?.total,
                         },
-                        expired_at: usage.expired_at,
+                        expired_at: usage.data?.expired_at,
                     })
                     .eq("id", esim.id);
+
+                console.log(updatedOrder);
             }
         }
     } catch (error) {}
