@@ -1,10 +1,11 @@
 "use client";
 
 import { useTelegram } from "@/providers/telegram-provider";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
     const { webApp } = useTelegram();
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         if (webApp) {
@@ -12,15 +13,23 @@ export default function Home() {
         }
     }, [webApp]);
 
-    const items = useMemo(() => {
-        if (!webApp) return [];
-        let cloudStorageKeys = webApp?.CloudStorage.getKeys((e: any, keys: any) => {
+    useEffect(() => {
+        webApp?.CloudStorage.getKeys((e: any, keys: any) => {
             if (e) {
                 console.log(e);
+                return;
             }
-            return keys;
+            if (!keys.length) {
+                return;
+            }
+
+            webApp?.CloudStorage.getItems(keys, (e: any, items: any) => {
+                if (e) {
+                    console.log(e);
+                }
+                setItems(items);
+            });
         });
-        return cloudStorageKeys;
     }, [webApp]);
 
     return (
