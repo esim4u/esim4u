@@ -1,44 +1,99 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
-type Props = {};
+type Props = {
+    percent: number;
+    size?: number;
+    strokeWidth?: number;
+    bgColor?: string;
+    progressColor?: string;
+    textColor?: string;
+    labelText?: string;
+    children?: React.ReactNode;
+};
 
-const CircleProgress = ({  }: Props) => {
+const CircleProgressBar = ({
+    percent,
+    size = 120,
+    strokeWidth = 10,
+    bgColor = "text-gray-300",
+    progressColor,
+    textColor,
+    labelText,
+    children,
+}: Props) => {
+    const radius = (size - strokeWidth) / 2;
+    const circumference = radius * 2 * Math.PI;
+    const strokeDashoffset = circumference - (percent / 100) * circumference;
+
+    const getProgressColor = () => {
+        if (percent > 70) {
+            return "text-green-600";
+        } else if (percent > 40) {
+            return "text-yellow-600";
+        } else {
+            return "text-red-600";
+        }
+    };
+
     return (
-        <div className="relative w-40 h-40">
-            <svg className="w-full h-full" viewBox="0 0 100 100">
+        <div className="relative flex items-center justify-center overflow-hidden rounded-full">
+            <svg
+                className="transform"
+                width={size}
+                height={size}
+                aria-hidden="true"
+            >
                 <circle
-                    className="text-gray-200 stroke-current"
-                    stroke-width="10"
-                    cx="50"
-                    cy="50"
-                    r="40"
+                    className={bgColor}
+                    strokeWidth={strokeWidth}
+                    stroke="currentColor"
                     fill="transparent"
-                ></circle>
+                    r={radius}
+                    cx={size / 2}
+                    cy={size / 2}
+                />
                 <circle
-                    className="text-indigo-500  progress-ring__circle stroke-current"
-                    stroke-width="10"
-                    stroke-linecap="round"
-                    cx="50"
-                    cy="50"
-                    r="40"
+                    className={cn(
+                        "transition-all duration-500",
+                        progressColor ? progressColor : getProgressColor()
+                    )}
+                    strokeWidth={strokeWidth}
+                    strokeDasharray={circumference}
+                    strokeDashoffset={strokeDashoffset}
+                    strokeLinecap="round"
+                    stroke="currentColor"
                     fill="transparent"
-                    stroke-dasharray="251.2"
-                    stroke-dashoffset="calc(251.2 - (251.2 * 70) / 100)"
-                ></circle>
-
-                <text
-                    x="50"
-                    y="50"
-                    font-family="Verdana"
-                    font-size="12"
-                    text-anchor="middle"
-                    alignment-baseline="middle"
-                >
-                    70%
-                </text>
+                    r={radius}
+                    cx={size / 2}
+                    cy={size / 2}
+                />
             </svg>
+
+            <div className={`absolute `}>
+                {children ? (
+                    <div
+                        className={cn(
+                            "transition-all duration-500 ",
+                            textColor ? textColor : getProgressColor()
+                        )}
+                    >
+                        {children}
+                    </div>
+                ) : (
+                    <span
+                        className={cn(
+                            `flex items-center -mr-2.5 text-2xl font-semibold transition-all duration-500 `,
+                            textColor ? textColor : getProgressColor()
+                        )}
+                    >
+                        {percent}{" "}
+                        <span className="text-base font-bold mt-0.5">%</span>
+                    </span>
+                )}
+            </div>
         </div>
     );
 };
 
-export default CircleProgress;
+export default CircleProgressBar;

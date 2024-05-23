@@ -111,28 +111,28 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     return (
         <main className="overflow-x-hidden min-h-dvh flex flex-col items-start ">
             <div className="flex flex-col p-5 gap-4 items-start w-full ">
-                <div className="flex w-full justify-between bg-white py-3 px-4 items-start rounded-xl">
+                <div className="flex w-full justify-between bg-white py-3 px-4 items-center rounded-xl">
                     <div className="flex gap-1 items-center text-sm">
-                        <Image src={orderData?.image_url || ""} width={40} height={40} alt="country" />
+                        <Image className="  object-contain rounded-md overflow-hidden" src={orderData?.image_url || ""} width={32} height={32} alt="country" />
                         <span className="">
-                            {COUNTRIES[orderData?.coverage.toLowerCase()]}{" "}
+                            {orderData?.coverage}{" "}
                             <span className="text-xs">|</span> {orderData?.data}{" "}
                             <span className="text-xs">|</span>{" "}
                             {orderData?.validity} days
                         </span>
                     </div>
 
-                    <div className="flex items-center gap-1 text-sm">
+                    <div className="flex items-center gap-1">
                         <h2 className="font-bold">
                             {orderData?.price.total}
-                            <span className=" text-xs">$</span>
+                            <span className=" text-sm">$</span>
                         </h2>
                         <Dot className="w-1.5 h-1.5" />
                         <h2 className="flex items-center font-bold">
                             {orderData?.price.total_ton}
                             <svg
-                                width="9"
-                                height="9"
+                                width="10"
+                                height="10"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"

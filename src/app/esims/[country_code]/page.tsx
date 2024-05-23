@@ -162,13 +162,11 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
                 <Image
                     width={200}
                     height={100}
-                    className="w-full h-48 object-cover"
-                    src={
-                        "https://s3-alpha-sig.figma.com/img/fe16/ee05/4fdb12ce221feda8da1d52059f7655ed?Expires=1716163200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=gPhhjk383HJjBGV~hof2e426amq9XT2fIBTdUfs8xdCuftWcmwiqPKHQxdGOB7S~KSIg1IzOvr8yF8a1gkiKk9xlN88A4w1Oi8wQATUymhxWVfNnDozdPor826~jbbIOlDncwwFc~HOk7mHERWLirLAzJQ9dVfNvWDAyjVgqwHZNkMKo18T~pw300pvpK8uzsbEECt~sn8mpKmSIjeQaH5cLre2WyiV2HM~2WTZC0bKorlvrJtCH1yAwc2SMC2Aef7FvdfhYB~9R-S268foGj2uEH89I3fOc7jqjlqhtA8-ydFepDuqIIk2-R7y9APIsf2okZ20~7376wdj~eC2zvQ__"
-                    }
+                    className="w-full h-48 object-cover rounded-lg overflow-hidden"
+                    src={"/img/countries/it.png"}
                     alt={packageData.slug}
                 />
-                <div className="absolute h-full bg-gradient-to-t bottom-0 w-full backdrop-blur-lg blur-lg linear-mask"></div>
+                <div className="absolute h-2/3 bg-gradient-to-t bottom-0 w-full backdrop-blur-lg blur-lg linear-mask"></div>
 
                 <h1 className="absolute bottom-4 text-white text-center text-2xl pb-6 uppercase  text-shadow-sm shadow-black/50 ">
                     {packageData.slug}

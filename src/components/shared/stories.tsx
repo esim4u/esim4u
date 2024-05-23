@@ -95,8 +95,9 @@ const Stories = (props: Props) => {
                                             checkedStories.length > 0 &&
                                                 !checkedStories.includes(
                                                     story.id.toString().trim()
-                                                ) &&
-                                                " bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500"
+                                                )
+                                                ? " bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500"
+                                                : "bg-neutral-400/15"
                                         )}
                                     >
                                         <div className="relative  aspect-square flex justify-center items-end rounded-3xl overflow-hidden ring-2 ring-[#EFEFF3]	">
@@ -111,12 +112,12 @@ const Stories = (props: Props) => {
                                                     }
                                                     alt="news"
                                                 />
-                                                <div className="absolute bottom-0 h-1/2 w-full bg-gradient-to-t from-black/50">
+                                                <div className="absolute bottom-0 h-2/3 w-full bg-gradient-to-t from-black/55">
                                                     {" "}
                                                 </div>
                                             </div>
 
-                                            <span className="absolute text-[10px] text-white pb-2 uppercase">
+                                            <span className="absolute text-[10px] text-white text-center font-medium pb-2 uppercase leading-3 text-shadow shadow-black ">
                                                 {story?.title}
                                             </span>
                                         </div>
