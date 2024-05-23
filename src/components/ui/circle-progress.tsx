@@ -16,7 +16,7 @@ const CircleProgressBar = ({
     percent,
     size = 120,
     strokeWidth = 10,
-    bgColor = "text-gray-300",
+    bgColor = "text-neutral-100",
     progressColor,
     textColor,
     labelText,
@@ -28,11 +28,11 @@ const CircleProgressBar = ({
 
     const getProgressColor = () => {
         if (percent > 70) {
-            return "text-green-600";
+            return "text-green-500";
         } else if (percent > 40) {
-            return "text-yellow-600";
+            return "text-yellow-500";
         } else {
-            return "text-red-600";
+            return "text-red-500";
         }
     };
 

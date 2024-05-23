@@ -21,7 +21,7 @@ const UserEsims = (props: Props) => {
     });
 
     return (
-        <div className="flex flex-col gap-5 max-w-[372px]">
+        <div className="flex flex-col gap-5 w-full">
             {userEsims?.map((esim: Esim) => (
                 <EsimCard
                     key={esim.iccid}
@@ -36,11 +36,10 @@ const UserEsims = (props: Props) => {
                     sm_dp={esim.sm_dp}
                     confirmation_code={esim.confirmation_code}
                     type={esim.type}
+                    usage={esim.usage}
+                    expired_at={esim.expired_at}
                 />
             ))}
-            <pre className="text-balance">
-                {JSON.stringify(userEsims, null, 2)}
-            </pre>
         </div>
     );
 };

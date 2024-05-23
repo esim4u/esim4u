@@ -12,6 +12,11 @@ export interface Esim {
     sm_dp: string;
     confirmation_code: string;
     type: string;
+    usage: {
+        remaining: number;
+        total: number;
+    };
+    expired_at: string;
 }
 
 // types.ts
