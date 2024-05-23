@@ -2,6 +2,7 @@
 
 import SearchInput from "@/components/shared/search-input";
 import BounceLoader from "@/components/ui/bounce-loader";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { COUNTRIES } from "@/constants";
 import { highlightMatches } from "@/lib/markup";
 import { useQuery } from "@tanstack/react-query";
@@ -77,38 +78,46 @@ const CompatibleDevicesPage = () => {
     }
 
     return (
-        <section className="overflow-hidden flex flex-col h-dvh p-5 gap-4">
-            <SearchInput search={search} setSearch={setSearch} />{" "}
-            <div className="relative flex flex-col gap-5 overflow-scroll -mb-6 no-scrollbar">
-                {Object.entries(filteredDevices).map(
-                    ([brand, devices], index) => {
-                        return (
-                            <div key={index} className="flex flex-col gap-3">
-                                <h1 className="uppercase font-semibold text-md ml-4">
-                                    {brand}
-                                </h1>
-                                {devices.map((device: any, index: number) => {
-                                    return (
-                                        <div
-                                            key={index}
-                                            className="cursor-pointer active:scale-95 transition-transform bg-white flex items-center justify-between w-full py-3 px-3 rounded-xl"
-                                        >
-                                            <div className="flex flex-row items-center gap-4">
-                                                <span className="uppercase text-sm leading-4 font-semibold">
-                                                    {highlightMatches(
-                                                        search,
-                                                        device.name
-                                                    )}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        );
-                    }
-                )}
-                {/* {filteredCoverage.map((country: any, index: number) => {
+        <div>
+            <section className="flex flex-col h-dvh p-5 gap-4">
+                <div className="fixed top-0 left-0 w-screen z-10 bg-background p-5">
+                    <SearchInput search={search} setSearch={setSearch} placeholder="Find your device" />{" "}
+                </div>
+                <div className="flex flex-col gap-5 -mb-6 py-16">
+                    {Object.entries(filteredDevices).map(
+                        ([brand, devices], index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    className="flex flex-col gap-3"
+                                >
+                                    <h1 className="uppercase font-semibold text-md ml-4">
+                                        {brand}
+                                    </h1>
+                                    {devices.map(
+                                        (device: any, index: number) => {
+                                            return (
+                                                <div
+                                                    key={index}
+                                                    className="cursor-pointer active:scale-95 transition-transform bg-white flex items-center justify-between w-full py-3 px-3 rounded-xl"
+                                                >
+                                                    <div className="flex flex-row items-center gap-4">
+                                                        <span className="uppercase text-sm leading-4 font-semibold">
+                                                            {highlightMatches(
+                                                                search,
+                                                                device.name
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+                                    )}
+                                </div>
+                            );
+                        }
+                    )}
+                    {/* {filteredCoverage.map((country: any, index: number) => {
                     return (
                         <div
                             key={index}
@@ -131,8 +140,9 @@ const CompatibleDevicesPage = () => {
                         </div>
                     );
                 })} */}
-            </div>
-        </section>
+                </div>
+            </section>
+        </div>
     );
 };
 

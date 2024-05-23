@@ -72,9 +72,11 @@ const PackageCoveragePage = ({
     }
 
     return (
-        <section className="overflow-hidden flex flex-col h-dvh p-5 gap-4">
-            <SearchInput search={search} setSearch={setSearch} />{" "}
-            <div className="relative flex flex-col gap-2 overflow-scroll -mb-6 no-scrollbar">
+        <section className="flex flex-col h-dvh p-5 gap-4">
+            <div className="fixed top-0 left-0 w-screen z-10 bg-background p-5">
+                <SearchInput search={search} setSearch={setSearch} />
+            </div>
+            <div className="relative flex flex-col gap-2 -mb-6 no-scrollbar py-16">
                 {filteredCoverage.map((country: any, index: number) => {
                     return (
                         <div
