@@ -14,9 +14,11 @@ export async function POST(req: Request) {
         telegram_id,
         package_id,
         coverage,
+        image_url,
         validity,
         data,
     } = await req.json();
+    const description = `esim4u.t.me - ${package_id}`;
 
     const order = await supabase
         .from("orders")
@@ -24,6 +26,7 @@ export async function POST(req: Request) {
             telegram_id: telegram_id || 0,
             package_id: package_id,
             coverage: coverage,
+            image_url: image_url,
             price: {
                 net: net_price,
                 original: original_price,
@@ -33,7 +36,7 @@ export async function POST(req: Request) {
                 total_ton: total_price_ton,
                 currency: "USD",
             },
-            description: `esim4u.t.me - ${package_id}`,
+            description: description,
             type: "ESIM",
             validity: validity,
             data: data,
@@ -47,7 +50,7 @@ export async function POST(req: Request) {
     const id = await createCheckout(
         `tg-esim-${order.data[0].id}`,
         total_price_eur,
-        `esim4u.t.me - ${package_id}`,
+        description,
         "EUR"
     );
 
@@ -59,7 +62,7 @@ export async function POST(req: Request) {
             telegram_id: telegram_id || 0,
             checkout_id: id,
             type: "ORDER",
-            description: `esim4u.t.me - ${package_id}`
+            description: description,
         })
         .select();
 
@@ -70,7 +73,7 @@ export async function POST(req: Request) {
 
     await supabase
         .from("orders")
-        .update({ transaction_id: transaction.data[0].id, })
+        .update({ transaction_id: transaction.data[0].id })
         .eq("id", order.data[0].id);
 
     return Response.json({

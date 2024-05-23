@@ -109,19 +109,11 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
     };
 
     return (
-        <main className="overflow-x-hidden min-h-dvh flex flex-col justify-center items-center ">
+        <main className="overflow-x-hidden min-h-dvh flex flex-col items-start ">
             <div className="flex flex-col p-5 gap-4 items-start w-full ">
-                <div className="flex w-full justify-between bg-white py-3 px-4 items-center rounded-xl">
+                <div className="flex w-full justify-between bg-white py-3 px-4 items-start rounded-xl">
                     <div className="flex gap-1 items-center text-sm">
-                        <ReactCountryFlag
-                            countryCode={orderData?.coverage}
-                            className="rounded-sm"
-                            style={{
-                                width: "22px",
-                                height: "16px",
-                            }}
-                            svg
-                        />
+                        <Image src={orderData?.image_url || ""} width={40} height={40} alt="country" />
                         <span className="">
                             {COUNTRIES[orderData?.coverage.toLowerCase()]}{" "}
                             <span className="text-xs">|</span> {orderData?.data}{" "}

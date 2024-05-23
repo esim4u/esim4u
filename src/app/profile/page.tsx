@@ -14,6 +14,7 @@ import Stories from "@/components/shared/stories";
 import Achievements from "@/components/shared/achievements";
 import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
+import UserEsims from "@/components/esims/user-esims";
 
 export default function Home() {
     const router = useRouter();
@@ -57,20 +58,20 @@ export default function Home() {
 
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col items-center p-5">
-            <div className="flex flex-col items-center gap-4">
+            <div className="relative flex flex-col items-center gap-4">
                 <IoIosSettings
                     onClick={() => {
                         hapticFeedback();
                         router.push("/settings");
                     }}
-                    className="absolute left-5 w-12 h-12 text-neutral-400"
+                    className="absolute left-0 w-12 h-12 text-neutral-400"
                 />
                 <IoQrCode
                     onClick={() => {
                         hapticFeedback();
                         router.push("/profile/qr");
                     }}
-                    className="absolute right-5 w-12 h-12 py-1 text-neutral-400"
+                    className="absolute right-0 w-12 h-12 py-1 text-neutral-400"
                 />
 
                 <div className="flex flex-col items-center gap-2">
@@ -96,6 +97,7 @@ export default function Home() {
                 <RefLinkButton />
                 <Stories />
                 <Achievements />
+                <UserEsims />
             </div>
         </main>
     );
