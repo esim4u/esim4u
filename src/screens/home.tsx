@@ -16,6 +16,7 @@ import { highlightMatches } from "@/lib/markup";
 import PopularCountries from "@/components/shared/popular-countries";
 import { COUNTRIES } from "@/constants";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { track } from "@vercel/analytics/react";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
@@ -55,6 +56,7 @@ export default function Home() {
         if (webApp) {
             hapticFeedback("success");
             sendGTMEvent({ event: "share", value: "main_referral_copy" });
+            track("share", { value: "main_referral_copy" });
             copyText(
                 getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
             );

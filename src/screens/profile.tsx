@@ -14,6 +14,7 @@ import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
 import UserEsims from "@/components/esims/user-esims";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { track } from "@vercel/analytics/react";
 
 export default function Profile() {
     const router = useRouter();
@@ -44,6 +45,7 @@ export default function Profile() {
         if (webApp) {
             hapticFeedback();
             sendGTMEvent({ event: "share", value: "main_referral_copy" });
+            track("share", { value: "main_referral_copy" });
             copyText(
                 getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
             );
