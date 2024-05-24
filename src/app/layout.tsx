@@ -3,11 +3,12 @@ import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 import { Metadata, Viewport } from "next";
-import { TelegramProvider} from "@/providers/telegram-provider";
+import { TelegramProvider } from "@/providers/telegram-provider";
 import Script from "next/script";
 import ReactQueryProvider from "@/providers/query-provider";
 import TonConnectProvider from "@/providers/tonconnect-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -47,12 +48,11 @@ export default function RootLayout({
                                 src="https://telegram.org/js/telegram-web-app.js"
                                 strategy="beforeInteractive"
                             />
-                            <Script
-                                src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js"
-                            />
+                            <Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
                             {children}
                             <Toaster />
                         </body>
+                        <GoogleAnalytics gaId="G-2KEFLLBLR1" />
                     </html>
                 </TonConnectProvider>
             </TelegramProvider>

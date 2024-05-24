@@ -21,6 +21,17 @@ const UserEsims = (props: Props) => {
         placeholderData: keepPreviousData,
     });
 
+    if (userEsims.length === 0) {
+        return (
+            <div>
+                <div className="flex flex-col gap-2 h-32  items-center justify-center">
+                    <h2 className="text-center font-medium text-3xl text-neutral-300">
+                        COMING SOON
+                    </h2>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="flex flex-col gap-2 w-full">
             <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">

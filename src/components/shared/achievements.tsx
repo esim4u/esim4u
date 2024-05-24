@@ -13,6 +13,14 @@ const ACHIEVEMENTS = [
 ];
 const Achievements = (props: Props) => {
     return (
+        <div>
+            <div className="flex flex-col gap-2 h-32  items-center justify-center">
+                <h2 className="text-center font-medium text-3xl text-neutral-300">COMING SOON</h2>
+            </div>
+        </div>
+    );
+
+    return (
         <div className="flex flex-col gap-2">
             <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">
                 <h2>ACHIEVEMENTS</h2>{" "}

@@ -58,7 +58,7 @@ export default function ProfilePage() {
 
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col items-center p-5">
-            <div className="relative flex flex-col items-center gap-4">
+            <div className="relative flex flex-col items-center gap-4 w-full">
                 <IoIosSettings
                     onClick={() => {
                         hapticFeedback();

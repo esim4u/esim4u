@@ -85,7 +85,7 @@ const Stories = (props: Props) => {
                                         newCheckedStories.join(",")
                                     );
                                 }}
-                                className="pl-1  basis-28 active:scale-95 transition-transform cursor-pointer"
+                                className="pl-1  basis-24 active:scale-95 transition-transform cursor-pointer"
                             >
                                 <div className="p-1">
                                     <div
