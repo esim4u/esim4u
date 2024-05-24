@@ -38,22 +38,6 @@ export default function RootLayout({
             <TelegramProvider>
                 <TonConnectProvider>
                     <html lang="en" suppressHydrationWarning>
-                        <Script
-                            strategy="lazyOnload"
-                            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
-                        />
-
-                        <Script id="" strategy="lazyOnload">
-                            {`
-                                window.dataLayer = window.dataLayer || [];
-                                function gtag(){dataLayer.push(arguments);}
-                                gtag('js', new Date());
-                                gtag('config', '${process.env.NEXT_PUBLIC_MEASUREMENT_ID}', {
-                                page_path: window.location.pathname,
-                                });
-                            `}
-                        </Script>
-
                         <body
                             className={cn(
                                 "min-h-screen w-screen font-sans antialiased overflow-x-hidden bg-background no-select",
@@ -68,7 +52,9 @@ export default function RootLayout({
                             {children}
                             <Toaster />
                         </body>
-                        {/* <GoogleAnalytics gaId="G-2KEFLLBLR1" /> */}
+                        <GoogleAnalytics
+                            gaId={process.env.NEXT_PUBLIC_MEASUREMENT_ID ?? ""}
+                        />
                     </html>
                 </TonConnectProvider>
             </TelegramProvider>
