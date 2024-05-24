@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 import { useTelegram } from "@/providers/telegram-provider";
 import { PiShareFatFill } from "react-icons/pi";
 
-import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
+import { cn, copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import dynamic from "next/dynamic";
 const Qr = dynamic(() => import("./qr"), {
     ssr: false,
@@ -29,7 +29,7 @@ const QrCode = ({
     return (
         <div className="relative flex flex-col items-center justify-center">
             <Qr
-                className="w-64 h-64"
+                className={cn("w-64 h-64", allowCopy && " cursor-pointer")}
                 onClick={() => {
                     if (!allowCopy) return;
                     hapticFeedback("success");

@@ -5,7 +5,7 @@ import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
 import { cn, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -54,6 +54,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
             return data;
         },
         refetchInterval: 1000 * 10, // 10 sec
+        placeholderData: keepPreviousData,
     });
 
     useEffect(() => {
@@ -61,6 +62,7 @@ const PaymentPage = ({ params }: { params: { order_id: string } }) => {
             (window as any).SumUpCard?.mount({
                 id: "sumup-card",
                 checkoutId: orderData.checkout_id,
+                showFooter: false,
                 onResponse: async function (type: any, body: any) {
                     if (type == "success" && body && body.status == "PAID") {
                         router.push("/esims/pay/pending");

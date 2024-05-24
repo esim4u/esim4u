@@ -1,12 +1,8 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getUserById } from "@/services/supabase";
 import { useTelegram } from "@/providers/telegram-provider";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { FaRegCircleCheck } from "react-icons/fa6";
 import BounceLoader from "@/components/ui/bounce-loader";
 
 export default function SuccessPage() {

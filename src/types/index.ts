@@ -4,11 +4,9 @@ export interface Esim {
     iccid: string;
     coverage: string;
     image_url: string;
-    status: ORDER_STATUS;
     state: ESIM_STATE;
     validity: string;
     data: string;
-    qrcode_url: string;
     sm_dp: string;
     confirmation_code: string;
     type: string;

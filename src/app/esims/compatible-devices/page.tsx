@@ -5,7 +5,7 @@ import BounceLoader from "@/components/ui/bounce-loader";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { COUNTRIES } from "@/constants";
 import { highlightMatches } from "@/lib/markup";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useMemo, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
@@ -23,6 +23,7 @@ const CompatibleDevicesPage = () => {
             const { data } = await axios.get("/api/esims/compatible-devices");
             return data;
         },
+        placeholderData: keepPreviousData,
     });
 
     const filteredDevices = useMemo(() => {

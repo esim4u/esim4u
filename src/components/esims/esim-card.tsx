@@ -16,16 +16,14 @@ import QrCode from "../ui/qr-code";
 import CopyBadge from "./copy-badge";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { TbHandClick } from "react-icons/tb";
 
 const EsimCard = ({
-    iccid,
     coverage,
     image_url,
-    status,
     state,
     validity,
     data,
-    qrcode_url,
     sm_dp,
     confirmation_code,
     type,
@@ -35,7 +33,7 @@ const EsimCard = ({
     const [isOpen, setIsOpen] = useState(false);
     const activationLink = useMemo(() => {
         return generateEsimActivationLink(sm_dp, confirmation_code);
-    }, [qrcode_url]);
+    }, [sm_dp, confirmation_code]);
 
     return (
         <div className="flex flex-col">
@@ -44,15 +42,24 @@ const EsimCard = ({
                     hapticFeedback();
                     setIsOpen(!isOpen);
                 }}
-                className="flex flex-row justify-between items-center bg-white z-10 py-2 px-5 rounded-3xl"
+                className="cursor-pointer flex flex-row justify-between items-center bg-white z-10 py-2 px-5 rounded-3xl"
             >
                 <div className="flex flex-col font-bold ">
                     <h2>
                         Status: <StatusText status={state} />
                     </h2>
-                    <h2>
-                        Valid until: <ValidUntilText expired_at={expired_at} />
-                    </h2>
+                    {state == "NOT_ACTIVE" && (
+                        <h2 className="flex items-center gap-0.5">
+                            Click to activate
+                            <TbHandClick className="w-5 h-5" />
+                        </h2>
+                    )}
+                    {expired_at && (
+                        <h2>
+                            Valid until:{" "}
+                            <ValidUntilText expired_at={expired_at} />
+                        </h2>
+                    )}
                 </div>
                 <div>
                     <CircleProgressBar
@@ -62,6 +69,7 @@ const EsimCard = ({
                                 ? (usage.remaining / usage.total) * 100
                                 : 0
                         }
+                        strokeWidth={9}
                     >
                         <div className="flex flex-col leading-4 text-center mt-1">
                             <span className=" font-bold ">
@@ -76,7 +84,7 @@ const EsimCard = ({
                 className="bg-sky-200/90 px-4 pt-5 -mt-5 duration-200"
                 isOpen={isOpen}
             >
-                <div className="py-2 w-full">
+                <div className="py-2 pt-4 w-full">
                     <Tabs
                         defaultValue={detectIOSVersion() > 17.5 ? "auto" : "qr"}
                     >
@@ -94,85 +102,68 @@ const EsimCard = ({
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="auto">
-                            <div>
-                                <Button className="rounded-full w-full" asChild>
-                                    <Link
-                                        href={
-                                            "https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=" +
-                                            activationLink
-                                        }
+                            <div className="h-72 flex items-center justify-center">
+                                <div className="flex flex-col gap-6 pt-2 px-2 text-sm font-bold">
+                                    <div className="flex flex-col gap-2">
+                                        <div className=" border-2 rounded-lg border-redish bg-redish/5 py-1 px-2">
+                                            <h2 className="text-redish font-semibold">
+                                                IMPORTANT! Do this on Wi-Fi
+                                                network
+                                            </h2>
+                                        </div>
+                                        <h2 className=" text-center text-balance">
+                                            To install esim on your device just
+                                            click button below
+                                        </h2>
+                                    </div>
+                                    <Button
+                                        className="rounded-full h-14 text-base w-full"
+                                        asChild
                                     >
-                                        <svg
-                                            className="starshine"
-                                            width="40"
-                                            height="40"
-                                            viewBox="0 0 40 40"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
+                                        <Link
+                                            href={
+                                                "https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=" +
+                                                activationLink
+                                            }
+                                            target="_blank"
                                         >
-                                            <path
-                                                className="star-1"
-                                                d="M18.4058 9.75787C18.9766 8.31076 21.0246 8.31076 21.5953 9.75787L23.768 15.2668C23.9423 15.7087 24.292 16.0584 24.7338 16.2326L30.2428 18.4053C31.6899 18.9761 31.6899 21.0241 30.2428 21.5948L24.7338 23.7675C24.292 23.9418 23.9423 24.2915 23.768 24.7333L21.5953 30.2423C21.0246 31.6894 18.9766 31.6894 18.4058 30.2423L16.2331 24.7333C16.0589 24.2915 15.7091 23.9418 15.2673 23.7675L9.75836 21.5948C8.31125 21.0241 8.31125 18.9761 9.75836 18.4053L15.2673 16.2326C15.7091 16.0584 16.0589 15.7087 16.2331 15.2668L18.4058 9.75787Z"
-                                                fill="white"
-                                            />
-                                            <path
-                                                className="star-2"
-                                                d="M5.98121 6.41783C6.14101 6.01264 6.71446 6.01264 6.87426 6.41783L7.48262 7.96034C7.53141 8.08405 7.62933 8.18197 7.75304 8.23076L9.29555 8.83912C9.70074 8.99892 9.70074 9.57237 9.29555 9.73217L7.75304 10.3405C7.62933 10.3893 7.53141 10.4872 7.48262 10.6109L6.87426 12.1535C6.71446 12.5587 6.14101 12.5587 5.98121 12.1535L5.37285 10.6109C5.32406 10.4872 5.22614 10.3893 5.10243 10.3405L3.55992 9.73217C3.15473 9.57237 3.15473 8.99892 3.55992 8.83912L5.10243 8.23076C5.22614 8.18197 5.32406 8.08405 5.37285 7.96034L5.98121 6.41783Z"
-                                                fill="white"
-                                            />
-                                            <path
-                                                className="star-3"
-                                                d="M7.18958 27.1265C7.42929 26.5187 8.28946 26.5187 8.52917 27.1265L9.4417 29.4403C9.51489 29.6258 9.66177 29.7727 9.84733 29.8459L12.1611 30.7584C12.7689 30.9981 12.7689 31.8583 12.1611 32.098L9.84733 33.0105C9.66177 33.0837 9.51489 33.2306 9.4417 33.4162L8.52917 35.7299C8.28946 36.3377 7.42929 36.3377 7.18958 35.7299L6.27705 33.4162C6.20386 33.2306 6.05698 33.0837 5.87142 33.0106L3.55765 32.098C2.94987 31.8583 2.94987 30.9981 3.55765 30.7584L5.87142 29.8459C6.05698 29.7727 6.20386 29.6258 6.27705 29.4403L7.18958 27.1265Z"
-                                                fill="white"
-                                            />
-                                        </svg>
-                                        ATIVATE eSIM
-                                    </Link>
-                                </Button>
-                                <Button className="rounded-full w-full" asChild>
-                                    <Link
-                                        href={
-                                            "https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=" +
-                                            activationLink
-                                        }
-                                        target="_blank"
-                                    >
-                                        <svg
-                                            className="starshine"
-                                            width="40"
-                                            height="40"
-                                            viewBox="0 0 40 40"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                className="star-1"
-                                                d="M18.4058 9.75787C18.9766 8.31076 21.0246 8.31076 21.5953 9.75787L23.768 15.2668C23.9423 15.7087 24.292 16.0584 24.7338 16.2326L30.2428 18.4053C31.6899 18.9761 31.6899 21.0241 30.2428 21.5948L24.7338 23.7675C24.292 23.9418 23.9423 24.2915 23.768 24.7333L21.5953 30.2423C21.0246 31.6894 18.9766 31.6894 18.4058 30.2423L16.2331 24.7333C16.0589 24.2915 15.7091 23.9418 15.2673 23.7675L9.75836 21.5948C8.31125 21.0241 8.31125 18.9761 9.75836 18.4053L15.2673 16.2326C15.7091 16.0584 16.0589 15.7087 16.2331 15.2668L18.4058 9.75787Z"
-                                                fill="white"
-                                            />
-                                            <path
-                                                className="star-2"
-                                                d="M5.98121 6.41783C6.14101 6.01264 6.71446 6.01264 6.87426 6.41783L7.48262 7.96034C7.53141 8.08405 7.62933 8.18197 7.75304 8.23076L9.29555 8.83912C9.70074 8.99892 9.70074 9.57237 9.29555 9.73217L7.75304 10.3405C7.62933 10.3893 7.53141 10.4872 7.48262 10.6109L6.87426 12.1535C6.71446 12.5587 6.14101 12.5587 5.98121 12.1535L5.37285 10.6109C5.32406 10.4872 5.22614 10.3893 5.10243 10.3405L3.55992 9.73217C3.15473 9.57237 3.15473 8.99892 3.55992 8.83912L5.10243 8.23076C5.22614 8.18197 5.32406 8.08405 5.37285 7.96034L5.98121 6.41783Z"
-                                                fill="white"
-                                            />
-                                            <path
-                                                className="star-3"
-                                                d="M7.18958 27.1265C7.42929 26.5187 8.28946 26.5187 8.52917 27.1265L9.4417 29.4403C9.51489 29.6258 9.66177 29.7727 9.84733 29.8459L12.1611 30.7584C12.7689 30.9981 12.7689 31.8583 12.1611 32.098L9.84733 33.0105C9.66177 33.0837 9.51489 33.2306 9.4417 33.4162L8.52917 35.7299C8.28946 36.3377 7.42929 36.3377 7.18958 35.7299L6.27705 33.4162C6.20386 33.2306 6.05698 33.0837 5.87142 33.0106L3.55765 32.098C2.94987 31.8583 2.94987 30.9981 3.55765 30.7584L5.87142 29.8459C6.05698 29.7727 6.20386 29.6258 6.27705 29.4403L7.18958 27.1265Z"
-                                                fill="white"
-                                            />
-                                        </svg>
-                                        ATIVATE eSIM
-                                    </Link>
-                                </Button>
+                                            <svg
+                                                className=" -ml-1"
+                                                width="40"
+                                                height="40"
+                                                viewBox="0 0 40 40"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    className="star-1"
+                                                    d="M18.4058 9.75787C18.9766 8.31076 21.0246 8.31076 21.5953 9.75787L23.768 15.2668C23.9423 15.7087 24.292 16.0584 24.7338 16.2326L30.2428 18.4053C31.6899 18.9761 31.6899 21.0241 30.2428 21.5948L24.7338 23.7675C24.292 23.9418 23.9423 24.2915 23.768 24.7333L21.5953 30.2423C21.0246 31.6894 18.9766 31.6894 18.4058 30.2423L16.2331 24.7333C16.0589 24.2915 15.7091 23.9418 15.2673 23.7675L9.75836 21.5948C8.31125 21.0241 8.31125 18.9761 9.75836 18.4053L15.2673 16.2326C15.7091 16.0584 16.0589 15.7087 16.2331 15.2668L18.4058 9.75787Z"
+                                                    fill="white"
+                                                />
+                                                <path
+                                                    className="star-2"
+                                                    d="M5.98121 6.41783C6.14101 6.01264 6.71446 6.01264 6.87426 6.41783L7.48262 7.96034C7.53141 8.08405 7.62933 8.18197 7.75304 8.23076L9.29555 8.83912C9.70074 8.99892 9.70074 9.57237 9.29555 9.73217L7.75304 10.3405C7.62933 10.3893 7.53141 10.4872 7.48262 10.6109L6.87426 12.1535C6.71446 12.5587 6.14101 12.5587 5.98121 12.1535L5.37285 10.6109C5.32406 10.4872 5.22614 10.3893 5.10243 10.3405L3.55992 9.73217C3.15473 9.57237 3.15473 8.99892 3.55992 8.83912L5.10243 8.23076C5.22614 8.18197 5.32406 8.08405 5.37285 7.96034L5.98121 6.41783Z"
+                                                    fill="white"
+                                                />
+                                                <path
+                                                    className="star-3"
+                                                    d="M7.18958 27.1265C7.42929 26.5187 8.28946 26.5187 8.52917 27.1265L9.4417 29.4403C9.51489 29.6258 9.66177 29.7727 9.84733 29.8459L12.1611 30.7584C12.7689 30.9981 12.7689 31.8583 12.1611 32.098L9.84733 33.0105C9.66177 33.0837 9.51489 33.2306 9.4417 33.4162L8.52917 35.7299C8.28946 36.3377 7.42929 36.3377 7.18958 35.7299L6.27705 33.4162C6.20386 33.2306 6.05698 33.0837 5.87142 33.0106L3.55765 32.098C2.94987 31.8583 2.94987 30.9981 3.55765 30.7584L5.87142 29.8459C6.05698 29.7727 6.20386 29.6258 6.27705 29.4403L7.18958 27.1265Z"
+                                                    fill="white"
+                                                />
+                                            </svg>
+                                            Click to Activate eSIM
+                                        </Link>
+                                    </Button>
+                                </div>
                             </div>
                         </TabsContent>
                         <TabsContent value="qr">
-                            <div className="pt-2">
-                                <QrCode url={qrcode_url} />
+                            <div className="flex items-center justify-center h-72 pt-2">
+                                <QrCode url={activationLink} />
                             </div>
                         </TabsContent>
                         <TabsContent value="manual">
-                            <div className="flex flex-col gap-3 pt-2 px-2 text-sm font-bold">
+                            <div className="h-72 flex flex-col gap-3 pt-2 px-2 text-sm font-bold">
                                 <div className=" border-2 rounded-lg border-redish bg-redish/5 py-1 px-2">
                                     <h2 className="text-redish font-semibold">
                                         IMPORTANT! Do this on Wi-Fi network
@@ -182,11 +173,11 @@ const EsimCard = ({
                                     1. Open settings -&gt; Cellular -&gt; Add
                                 </h2>
                                 <h2>2. Click “Use QR code” -&gt; Add manual</h2>
-                                <div className="flex items-center justify-between">
+                                <div className="flex flex-col gap-1">
                                     <h2>3. Your SM-DP+ </h2>
                                     <CopyBadge text={sm_dp} />
                                 </div>
-                                <div className="flex items-center justify-between">
+                                <div className="flex flex-col gap-1">
                                     <h2>4. Your Activation code</h2>
                                     <CopyBadge text={confirmation_code} />
                                 </div>

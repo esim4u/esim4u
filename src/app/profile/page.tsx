@@ -3,20 +3,19 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getUserById } from "@/services/supabase";
 import { useTelegram } from "@/providers/telegram-provider";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import RefLinkButton from "@/components/shared/ref-link-button";
-import Stories from "@/components/shared/stories";
 import Achievements from "@/components/shared/achievements";
 import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
 import UserEsims from "@/components/esims/user-esims";
 
-export default function Home() {
+export default function ProfilePage() {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
 
@@ -26,6 +25,7 @@ export default function Home() {
             const data = await getUserById(tgUser.id);
             return data;
         },
+        placeholderData: keepPreviousData,
     });
 
     useEffect(() => {
@@ -64,14 +64,14 @@ export default function Home() {
                         hapticFeedback();
                         router.push("/settings");
                     }}
-                    className="absolute left-0 w-12 h-12 text-neutral-400"
+                    className="cursor-pointer absolute left-0 w-12 h-12 text-neutral-400"
                 />
                 <IoQrCode
                     onClick={() => {
                         hapticFeedback();
                         router.push("/profile/qr");
                     }}
-                    className="absolute right-0 w-12 h-12 py-1 text-neutral-400"
+                    className="cursor-pointer absolute right-0 w-12 h-12 py-1 text-neutral-400"
                 />
 
                 <div className="flex flex-col items-center gap-2">
@@ -95,7 +95,6 @@ export default function Home() {
                 </div>
 
                 <RefLinkButton />
-                <Stories />
                 <Achievements />
                 <UserEsims />
             </div>

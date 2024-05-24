@@ -14,7 +14,7 @@ import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
 import { cn, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -56,6 +56,7 @@ const EsimPackagePage = ({ params }: { params: { country_code: string } }) => {
             );
             return data[0];
         },
+        placeholderData: keepPreviousData,
     });
 
     const { data: rateTonUsd } = useQuery({

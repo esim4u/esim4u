@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -19,7 +19,7 @@ import { COUNTRIES } from "../../constants";
 import { IoClose, IoCloseOutline } from "react-icons/io5";
 import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Stories from "@/components/shared/stories";
+import Stories from "@/components/home/stories";
 import Achievements from "@/components/shared/achievements";
 import Fuse from "fuse.js";
 import SearchInput from "@/components/shared/search-input";
@@ -27,7 +27,7 @@ import { highlightMatches } from "@/lib/markup";
 import PopularCountries from "@/components/shared/popular-countries";
 
 export default function Home() {
-    const { webApp } = useTelegram();
+    const { user: tgUser, webApp } = useTelegram();
     const [search, setSearch] = useState("");
     const router = useRouter();
 
@@ -36,6 +36,15 @@ export default function Home() {
         queryFn: async () => {
             const { data } = await axios.get("/api/esims/packages");
             return data;
+        },
+        placeholderData: keepPreviousData,
+    });
+
+    const {} = useQuery({
+        queryKey: ["user-esims", tgUser?.id],
+        queryFn: async () => {
+            const data = await axios.get(`/api/user/${tgUser.id}/esims`);
+            return data.data;
         },
     });
 

@@ -4,7 +4,7 @@ import SearchInput from "@/components/shared/search-input";
 import BounceLoader from "@/components/ui/bounce-loader";
 import { COUNTRIES } from "@/constants";
 import { highlightMatches } from "@/lib/markup";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
@@ -30,6 +30,7 @@ const PackageCoveragePage = ({
             );
             return data[0];
         },
+        placeholderData: keepPreviousData,
     });
 
     const filteredCoverage = useMemo(() => {
