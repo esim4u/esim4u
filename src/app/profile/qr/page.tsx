@@ -7,7 +7,7 @@ import React from "react";
 
 type Props = {};
 
-const page = (props: Props) => {
+const QrPage = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
 
     return (
@@ -30,4 +30,4 @@ const page = (props: Props) => {
     );
 };
 
-export default page;
+export default QrPage;

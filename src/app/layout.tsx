@@ -3,7 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 import { Metadata, Viewport } from "next";
-import { TelegramProvider, useTelegram } from "@/providers/telegram-provider";
+import { TelegramProvider} from "@/providers/telegram-provider";
 import Script from "next/script";
 import ReactQueryProvider from "@/providers/query-provider";
 import TonConnectProvider from "@/providers/tonconnect-provider";
