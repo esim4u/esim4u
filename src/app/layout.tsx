@@ -9,6 +9,7 @@ import ReactQueryProvider from "@/providers/query-provider";
 import TonConnectProvider from "@/providers/tonconnect-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/react";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -51,6 +52,7 @@ export default function RootLayout({
                             <Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
                             {children}
                             <Toaster />
+                            <Analytics />
                         </body>
                         <GoogleAnalytics
                             gaId={process.env.NEXT_PUBLIC_MEASUREMENT_ID ?? ""}
