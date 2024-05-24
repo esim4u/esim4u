@@ -15,12 +15,6 @@ import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
 import UserEsims from "@/components/esims/user-esims";
 
-import { Metadata } from 'next'
- 
-export const metadata: Metadata = {
-  title: 'Profile',
-}
-
 export default function ProfilePage() {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
