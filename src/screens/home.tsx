@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Header from "@/components/home/header";
 import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
@@ -15,6 +15,7 @@ import SearchInput from "@/components/shared/search-input";
 import { highlightMatches } from "@/lib/markup";
 import PopularCountries from "@/components/shared/popular-countries";
 import { COUNTRIES } from "@/constants";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
@@ -53,6 +54,7 @@ export default function Home() {
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback("success");
+            sendGTMEvent({ event: "share", value: "main_referral_copy" });
             copyText(
                 getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
             );
