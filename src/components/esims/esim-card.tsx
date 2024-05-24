@@ -7,6 +7,7 @@ import { hapticFeedback } from "@/lib/utils";
 import Image from "next/image";
 import CircleProgressBar from "../ui/circle-progress";
 import moment from "moment";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 const EsimCard = ({
     iccid,
@@ -34,7 +35,7 @@ const EsimCard = ({
                 }}
                 className="flex flex-row justify-between items-center bg-white z-10 py-2 px-5 rounded-3xl"
             >
-                <div className="flex flex-col gap-2 font-bold text-ne ">
+                <div className="flex flex-col font-bold ">
                     <h2>
                         Status: <StatusText status={state} />
                     </h2>
@@ -45,7 +46,11 @@ const EsimCard = ({
                 <div>
                     <CircleProgressBar
                         size={76}
-                        percent={usage.remaining > 0 ? (usage.remaining / usage.total) * 100 : 0}
+                        percent={
+                            usage.remaining > 0
+                                ? (usage.remaining / usage.total) * 100
+                                : 0
+                        }
                     >
                         <div className="flex flex-col leading-4 text-center mt-1">
                             <span className=" font-bold ">
@@ -56,9 +61,39 @@ const EsimCard = ({
                     </CircleProgressBar>
                 </div>
             </div>
-            <Collapse className="bg-sky-200/90 px-4 pt-5 -mt-5" isOpen={isOpen}>
-                <div className="h-12">
-                    
+            <Collapse
+                className="bg-sky-200/90 px-4 pt-5 -mt-5 duration-200"
+                isOpen={isOpen}
+            >
+                <div className="py-2 w-full">
+                    <Tabs defaultValue="account">
+                        <TabsList className="w-full">
+                            <TabsTrigger className="w-full" value="auto">
+                                Auto
+                            </TabsTrigger>
+                            <TabsTrigger className="w-full" value="qr">
+                                QrCode
+                            </TabsTrigger>
+                            <TabsTrigger className="w-full" value="manual">
+                                Manual
+                            </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="auto">
+                            Auto
+                        </TabsContent>
+                        <TabsContent value="qr">
+                            Qr
+                        </TabsContent>
+                        <TabsContent value="manual">
+                            <div className="flex flex-col">
+                                <div className=" border-2 rounded-lg border-redish bg-redish/5 py-1 px-2">
+                                    <h2 className="text-redish font-semibold">
+                                        IMPORTANT! Do this on Wi-Fi network
+                                    </h2>
+                                </div>
+                            </div>
+                        </TabsContent>
+                    </Tabs>
                 </div>
             </Collapse>
             <div className="bg-sky-200/90 px-4 py-3 rounded-b-2xl text-sm text-sky-700/70 flex items-center justify-between font-semibold">
@@ -72,9 +107,7 @@ const EsimCard = ({
                     <h3 className="uppercase">{coverage}</h3>
                 </div>
                 <div>
-                    <h3 className="">
-                        {validity} DAYS
-                    </h3>
+                    <h3 className="">{validity} DAYS</h3>
                 </div>
             </div>
         </div>
@@ -103,6 +136,7 @@ const ValidUntilText = ({ expired_at }: { expired_at: string }) => {
     const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
     if (days < 0) return <span className="text-red-500">{formatedDate}</span>;
     if (days < 7) return <span className="text-red-500">{formatedDate}</span>;
-    if (days < 30) return <span className="text-yellow-500">{formatedDate}</span>;
+    if (days < 30)
+        return <span className="text-yellow-500">{formatedDate}</span>;
     // return <span className="text-green-500">{days} DAYS</span>;
 };
