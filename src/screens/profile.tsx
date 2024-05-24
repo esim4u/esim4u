@@ -46,6 +46,7 @@ export default function Profile() {
             hapticFeedback();
             sendGTMEvent({ event: "share", value: "main_referral_copy" });
             track("share", { value: "main_referral_copy" });
+            sendGTMEvent({ event: "main_referral_copy", value: "profile"});
             copyText(
                 getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
             );
