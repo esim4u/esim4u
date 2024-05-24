@@ -29,20 +29,7 @@ const qrCode = new QRCodeStyling({
         crossOrigin: "anonymous",
     },
 
-    dotsOptions: {
-        color: "#000000",
-        type: "extra-rounded",
-    },
-    backgroundOptions: {
-        color: "#ffffff",
-    },
-    cornersSquareOptions: {
-        color: "#35495E",
-        type: "extra-rounded",
-    },
-    cornersDotOptions: {
-        color: "#35495E",
-    },
+    
     // dotsOptions: {
     //     color: "#3b82f6",
     //     type: "extra-rounded",

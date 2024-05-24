@@ -14,7 +14,7 @@ export const hapticFeedback = (type = "medium") => {
         webApp?.HapticFeedback?.impactOccurred(type);
     }
 
-    if(["success", "error", "warning"].includes(type)) {
+    if (["success", "error", "warning"].includes(type)) {
         webApp?.HapticFeedback?.notificationOccurred(type);
     }
 };
@@ -68,4 +68,22 @@ export const getReferralLink = (user_id: string | number) => {
         return "";
     }
     return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}?start=${user_id}`;
+};
+
+export const detectIOSVersion = () => {
+    const userAgent = window.navigator.userAgent;
+    const iOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
+    if (iOS) {
+        const version = userAgent.match(/OS (\d+)_(\d+)_?(\d+)?/);
+        if (!version) return 0;
+        return parseFloat(`${version[1]}.${version[2]}${+version[3] | 0}`);
+    }
+    return 0;
+};
+
+export const generateEsimActivationLink = (
+    sm_dp: string,
+    confiramtion_code: string
+) => {
+    return `LPA:1$${sm_dp}$${confiramtion_code}`;
 };
