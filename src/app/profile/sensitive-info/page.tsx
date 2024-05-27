@@ -34,12 +34,17 @@ export default function Home() {
 
     return (
         <section className="flex flex-col gap-5">
-            <div>WEB APP</div>
+            WEB APP
             <pre className="text-balance">
                 {JSON.stringify(webApp, null, 2)}
             </pre>
             CLOUD STORAGE
             <pre className="text-balance">{JSON.stringify(items, null, 2)}</pre>
+
+            LOCAL STORAGE
+            <pre className="text-balance">
+                {JSON.stringify(localStorage, null, 2)}
+            </pre>
         </section>
     );
 }
