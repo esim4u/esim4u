@@ -97,9 +97,7 @@ export default function Profile() {
                     <Badge size={"md"}>{dbUserData?.badge}</Badge>
                 </div>
                 <RefLinkButton />
-                <div className="-mx-5">
-                    <Achievements titleClassName="px-8" className="pl-4 mr-4" />
-                </div>
+                <Achievements fullWidth/>
                 <UserEsims />
             </div>
         </main>

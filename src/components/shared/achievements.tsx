@@ -4,8 +4,7 @@ import { cn, hapticFeedback } from "@/lib/utils";
 import Image from "next/image";
 
 type Props = {
-    className?: string;
-    titleClassName?: string;
+    fullWidth?: boolean;
 };
 
 const ACHIEVEMENTS = [
@@ -14,27 +13,38 @@ const ACHIEVEMENTS = [
     "/img/achievements/3.png",
     "/img/achievements/4.png",
 ];
-const Achievements = ({className, titleClassName}: Props) => {
-    if (!"temp")
+const Achievements = ({ fullWidth = false }: Props) => {
+    if ("coming soon")
         return (
-            <div className="flex flex-col gap-2 w-full">
-                <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">
-                    <h2>ACHIEVEMENTS</h2>{" "}
-                    <span className=" bg-neutral-500 text-white px-1 py-0.5 rounded-md text-xs">
-                        NFT
-                    </span>
-                </div>
-                <div className="flex flex-col gap-2 h-28  items-center justify-center">
-                    <h2 className="text-center font-medium text-3xl text-neutral-300">
-                        COMING SOON
-                    </h2>
+            <div className=" w-full">
+                <div className="relative flex flex-col items-center justify-center gap-2 bg-white rounded-3xl h-[180px] w-full">
+                    <div
+                        className={cn(
+                            "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500"
+                        )}
+                    >
+                        <h2>ACHIEVEMENTS</h2>{" "}
+                        <span className=" bg-neutral-500 text-white px-1 py-0.5 rounded-md text-xs">
+                            NFT
+                        </span>
+                    </div>
+                    <div className="flex flex-col gap-2 mt-1 items-center justify-center">
+                        <h2 className="text-center font-medium text-3xl text-neutral-300">
+                            COMING SOON
+                        </h2>
+                    </div>
                 </div>
             </div>
         );
 
     return (
-        <div className="flex flex-col gap-2">
-            <div className={cn("pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500", titleClassName)}>
+        <div className={cn("flex flex-col gap-2", fullWidth && " -mx-5")}>
+            <div
+                className={cn(
+                    "pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500",
+                    fullWidth && "pl-8"
+                )}
+            >
                 <h2>ACHIEVEMENTS</h2>{" "}
                 <span className=" bg-neutral-500 text-white px-1 py-0.5 rounded-md text-xs">
                     NFT
@@ -42,7 +52,9 @@ const Achievements = ({className, titleClassName}: Props) => {
             </div>
             <div>
                 <Carousel className="w-full">
-                    <CarouselContent className={cn("-ml-1", className)}>
+                    <CarouselContent
+                        className={cn("-ml-1", fullWidth && " pl-4 mr-4")}
+                    >
                         {ACHIEVEMENTS.map((achievement_url, index) => {
                             return (
                                 <CarouselItem

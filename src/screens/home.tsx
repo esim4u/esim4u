@@ -196,9 +196,7 @@ export default function Home() {
             ) : (
                 <div className="flex flex-col gap-4">
                     <PopularCountries />
-                    <div className="-mx-5">
-                        <Achievements titleClassName="px-8" className="pl-4 mr-4" />
-                    </div>
+                    <Achievements fullWidth />
                 </div>
             )}
         </main>
