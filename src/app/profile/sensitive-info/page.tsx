@@ -31,10 +31,10 @@ export default function Home() {
                 setItems(items);
             });
 
-            if (window.localStorage) {
-                const data = Object.keys(localStorage).map((key) => ({
+            if (typeof window !== "undefined") {
+                const data = Object.keys(window.localStorage).map((key) => ({
                     key,
-                    value: localStorage.getItem(key),
+                    value: window.localStorage.getItem(key),
                 }));
                 setLocalStorageData(data as any);
             }
@@ -51,7 +51,7 @@ export default function Home() {
             <pre className="text-balance">{JSON.stringify(items, null, 2)}</pre>
             LOCAL STORAGE
             <pre className="text-balance">
-                {JSON.stringify(localStorage, null, 2)}
+                {JSON.stringify(localStorageData, null, 2)}
             </pre>
         </section>
     );
