@@ -35,6 +35,7 @@ export const sendWelcomeMessageToUser = async (chatId: number) => {
         chatId,
         "Hello! This is Esim4U bot. With this bot you can easily buy esim plans all across the world!",
         {
+            disable_notification: true,
             reply_markup: buyEsimButton,
         }
     );
