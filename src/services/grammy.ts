@@ -1,4 +1,5 @@
 import { Bot, InlineKeyboard, InputFile } from "grammy";
+import { addUserPhotoFileId } from "./supabase";
 
 const token = process.env.NEXT_PUBLIC_BOT_TOKEN;
 if (!token) throw new Error("BOT_TOKEN is unset");
@@ -39,4 +40,9 @@ export const sendWelcomeMessageToUser = async (chatId: number) => {
             reply_markup: buyEsimButton,
         }
     );
-};
+
+    const chat = await bot.api.getChat(chatId);
+    if (!chat.photo) return;
+    
+    await addUserPhotoFileId(chat.id, chat.username, chat.photo.small_file_id);
+};  
