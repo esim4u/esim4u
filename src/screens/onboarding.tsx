@@ -23,6 +23,7 @@ import { RUNNING_LINE_COUNTRIES } from "@/constants";
 import Dot from "@/components/ui/dot";
 import ReactCountryFlag from "react-country-flag";
 import PopularCountries from "@/components/shared/popular-countries";
+import { l } from "@/lib/locale";
 
 export default function OnBoarding() {
     const router = useRouter();
@@ -77,7 +78,7 @@ export default function OnBoarding() {
                         <CarouselItem className="w-full flex flex-col items-center">
                             <div className="flex flex-col gap-5 p-5">
                                 <h2 className=" text-4xl font-medium text-center">
-                                    Revolutionary <br /> Telegram mini App
+                                    {l("onboarding_title_1")}
                                 </h2>
                                 <p className="text-center text-neutral-500">
                                     Buy eSIM with crypto or card using your

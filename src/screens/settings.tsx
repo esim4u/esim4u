@@ -102,7 +102,7 @@ export default function Settings() {
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectItem value="ua">Ukrainian</SelectItem>
+                            <SelectItem value="uk">Ukrainian</SelectItem>
                             <SelectItem value="en">English</SelectItem>
                             <SelectItem value="hu">Hungarian</SelectItem>
                         </SelectGroup>

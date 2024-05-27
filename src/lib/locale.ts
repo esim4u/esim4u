@@ -22,7 +22,7 @@ export function resetLanguage(router: any) {
     }
 }
 
-export function initLanguage(user_lang = "en") {
+export function initLanguage(user_lang: string) {
     if (typeof window !== "undefined") {
         let language = window.localStorage.getItem("language");
 
