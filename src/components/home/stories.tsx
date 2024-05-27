@@ -57,7 +57,7 @@ const Stories = (props: Props) => {
                                     await incrementStoryTotalViews(story.id);
 
                                     if (
-                                        !stories.includes(
+                                        !checkedStories.includes(
                                             story.id.toString().trim()
                                         )
                                     ) {

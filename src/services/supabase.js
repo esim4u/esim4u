@@ -4,6 +4,7 @@ import { sendTgLog } from "./tg-logger";
 import { platform } from "os";
 import { send } from "process";
 import { create } from "domain";
+import { STORY_STATUS } from "@/enums";
 
 // Initialize Supabase client
 export const supabase = createClient(
@@ -216,6 +217,7 @@ export const getStories = async () => {
     const { data, error } = await supabase
         .from("stories")
         .select("*")
+        .eq("status", STORY_STATUS.ENABLED)
         .order("created_at", { ascending: false });
 
     return data;

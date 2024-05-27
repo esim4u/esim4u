@@ -13,3 +13,8 @@ export enum ESIM_STATE {
     EXPIRED = "EXPIRED",
     FINISHED = "FINISHED"
 }
+
+export enum STORY_STATUS {
+    ENABLED = "ENABLED",
+    DISABLED = "DISABLED"
+}
