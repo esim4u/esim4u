@@ -63,13 +63,13 @@ export const updateUser = async (tgUser, dbUser, platform) => {
     return data;
 };
 
-export const createUser = async (user, parent_id, wallet_address) => {
+export const createUser = async (user, parent_id) => {
     const users = await supabase
         .from("users")
         .select("*")
         .eq("telegram_id", user.id);
 
-    if (users.data.dbUser.length > 0) {
+    if (users.data.length > 0) {
         const updatedUser = await supabase
             .from("users")
             .update([
@@ -86,7 +86,7 @@ export const createUser = async (user, parent_id, wallet_address) => {
             .eq("telegram_id", user.id);
 
         if (updatedUser.error) {
-            console.error(updatedUser.error);
+            console.error("Update user error: " + updatedUser.error);
         }
 
         return updatedUser.data;
@@ -108,7 +108,7 @@ export const createUser = async (user, parent_id, wallet_address) => {
     ]);
 
     if (createdUser.error) {
-        console.error(createdUser.error);
+        console.error("Create user error: " + createdUser.error);
     }
 
     await sendWelcomeMessageToUser(user.id);

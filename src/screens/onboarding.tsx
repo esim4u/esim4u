@@ -22,6 +22,7 @@ import {
 import { RUNNING_LINE_COUNTRIES } from "@/constants";
 import Dot from "@/components/ui/dot";
 import ReactCountryFlag from "react-country-flag";
+import PopularCountries from "@/components/shared/popular-countries";
 
 export default function OnBoarding() {
     const router = useRouter();
@@ -82,7 +83,11 @@ export default function OnBoarding() {
                                     Buy eSIM with crypto or card using your
                                     lovely messenger wherever you go
                                 </p>
-                                <div className="flex flex-col gap-2">
+                                <PopularCountries
+                                    hasTitle={false}
+                                    interactive={false}
+                                />
+                                {/* <div className="flex flex-col gap-2">
                                     <div className="grid grid-cols-4 grid-rows-2 gap-2 max-h-48">
                                         <div className="relative flex justify-center items-end rounded-3xl overflow-hidden	">
                                             <Image
@@ -157,7 +162,7 @@ export default function OnBoarding() {
                                             </span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </CarouselItem>
                         <CarouselItem className="w-full  flex flex-col  items-center overflow-hidden">
@@ -238,7 +243,6 @@ export default function OnBoarding() {
                                     Pay with TON easily and quickly here! Enjoy
                                     secure, hassle-free transactions.
                                 </p>
-                                <pre>{JSON.stringify(tonAddress, null, 2)}</pre>
                                 <div className="p-5 pt-24 flex flex-col justify-center items-center">
                                     <TonConnectButton />
                                 </div>

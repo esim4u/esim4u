@@ -4,19 +4,27 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 
-type Props = {};
+type Props = {
+    hasTitle?: boolean;
+    interactive?: boolean;
+};
 
-const PopularCountries = (props: Props) => {
+const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
     const router = useRouter();
 
     return (
         <div className="flex flex-col gap-2">
-            <h2 className="pl-4 uppercase font-medium text-neutral-500">
-                Popular countries
-            </h2>
+            {hasTitle && (
+                <h2 className="pl-4 uppercase font-medium text-neutral-500">
+                    Popular countries
+                </h2>
+            )}
+
             <div className="grid grid-cols-4 grid-rows-2 gap-2 max-h-48">
                 <div
                     onClick={() => {
+                        if (!interactive) return;
+
                         hapticFeedback();
                         router.push("/esims/eg");
                     }}
@@ -33,10 +41,14 @@ const PopularCountries = (props: Props) => {
                         {" "}
                     </div>
 
-                    <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
-                    <div className=" absolute top-3 right-3">
-                        <MdArrowForwardIos className=" w-4 h-4 " />
-                    </div>
+                    {interactive && (
+                        <>
+                            <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
+                            <div className=" absolute top-3 right-3">
+                                <MdArrowForwardIos className=" w-4 h-4 " />
+                            </div>
+                        </>
+                    )}
 
                     <span className="absolute font-medium text-[10px] text-white pb-2 uppercase">
                         EGYPT
@@ -44,6 +56,8 @@ const PopularCountries = (props: Props) => {
                 </div>
                 <div
                     onClick={() => {
+                        if (!interactive) return;
+
                         hapticFeedback();
                         router.push("/esims/ch");
                     }}
@@ -60,10 +74,14 @@ const PopularCountries = (props: Props) => {
                         {" "}
                     </div>
 
-                    <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
-                    <div className=" absolute top-3 right-3">
-                        <MdArrowForwardIos className=" w-4 h-4 " />
-                    </div>
+                    {interactive && (
+                        <>
+                            <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
+                            <div className=" absolute top-3 right-3">
+                                <MdArrowForwardIos className=" w-4 h-4 " />
+                            </div>
+                        </>
+                    )}
 
                     <span className="absolute font-medium text-[10px] text-white pb-2 uppercase">
                         SWITZERLAND
@@ -71,6 +89,8 @@ const PopularCountries = (props: Props) => {
                 </div>
                 <div
                     onClick={() => {
+                        if (!interactive) return;
+
                         hapticFeedback();
                         router.push("/esims/es");
                     }}
@@ -87,10 +107,14 @@ const PopularCountries = (props: Props) => {
                         {" "}
                     </div>
 
-                    <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
-                    <div className=" absolute top-3 right-3">
-                        <MdArrowForwardIos className=" w-4 h-4 " />
-                    </div>
+                    {interactive && (
+                        <>
+                            <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
+                            <div className=" absolute top-3 right-3">
+                                <MdArrowForwardIos className=" w-4 h-4 " />
+                            </div>
+                        </>
+                    )}
 
                     <span className="absolute font-medium text-lg text-white pb-3 uppercase">
                         SPAIN
@@ -98,6 +122,8 @@ const PopularCountries = (props: Props) => {
                 </div>
                 <div
                     onClick={() => {
+                        if (!interactive) return;
+
                         hapticFeedback();
                         router.push("/esims/it");
                     }}
@@ -114,10 +140,14 @@ const PopularCountries = (props: Props) => {
                         {" "}
                     </div>
 
-                    <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
-                    <div className=" absolute top-3 right-3">
-                        <MdArrowForwardIos className=" w-4 h-4 " />
-                    </div>
+                    {interactive && (
+                        <>
+                            <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
+                            <div className=" absolute top-3 right-3">
+                                <MdArrowForwardIos className=" w-4 h-4 " />
+                            </div>
+                        </>
+                    )}
 
                     <span className="absolute font-medium text-xs text-white pb-2 uppercase">
                         ITALY
