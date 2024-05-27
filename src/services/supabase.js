@@ -87,6 +87,7 @@ export const createUser = async (user, parent_id) => {
 
         if (updatedUser.error) {
             console.error("Update user error: " + updatedUser.error);
+            await sendTgLog("Update user error: " + updatedUser.error);
         }
 
         return updatedUser.data;
@@ -109,6 +110,7 @@ export const createUser = async (user, parent_id) => {
 
     if (createdUser.error) {
         console.error("Create user error: " + createdUser.error);
+        await sendTgLog("Update user error: " + createdUser.error);
     }
 
     await sendWelcomeMessageToUser(user.id);
