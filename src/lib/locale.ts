@@ -7,6 +7,14 @@ interface Translations {
 import t from "@/assets/translations.json";
 const translations: Translations = t as Translations;
 
+export function getPreferredLanguage() {
+    if (typeof window !== "undefined") {
+        let language = window.localStorage.getItem("language");
+
+        return language || "";
+    }
+}
+
 export function resetLanguage(router: any) {
     if (typeof window !== "undefined") {
         window.localStorage.removeItem("language");

@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 export default function Home() {
     const { webApp } = useTelegram();
     const [items, setItems] = useState([]);
+    const [localStorageData, setLocalStorageData] = useState([]);
 
     useEffect(() => {
         if (webApp) {
@@ -29,6 +30,14 @@ export default function Home() {
                 }
                 setItems(items);
             });
+
+            if (window.localStorage) {
+                const data = Object.keys(localStorage).map((key) => ({
+                    key,
+                    value: localStorage.getItem(key),
+                }));
+                setLocalStorageData(data as any);
+            }
         });
     }, [webApp]);
 
@@ -40,11 +49,10 @@ export default function Home() {
             </pre>
             CLOUD STORAGE
             <pre className="text-balance">{JSON.stringify(items, null, 2)}</pre>
-{/* 
             LOCAL STORAGE
             <pre className="text-balance">
                 {JSON.stringify(localStorage, null, 2)}
-            </pre> */}
+            </pre>
         </section>
     );
 }
