@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { getPhotoUrlFromFileId } from "./grammy";
+import { getPhotoUrlFromFileId, sendWelcomeMessageToUser } from "./grammy";
 import { sendTgLog } from "./tg-logger";
 import { platform } from "os";
 import { send } from "process";
@@ -64,13 +64,13 @@ export const updateUser = async (tgUser, dbUser, platform) => {
 };
 
 export const createUser = async (user, parent_id, wallet_address) => {
-    const { data: dbUser, error: userError } = await supabase
+    const users = await supabase
         .from("users")
         .select("*")
         .eq("telegram_id", user.id);
 
-    if (dbUser.length > 0) {
-        const { data, error } = await supabase
+    if (users.data.dbUser.length > 0) {
+        const updatedUser = await supabase
             .from("users")
             .update([
                 {
@@ -85,20 +85,14 @@ export const createUser = async (user, parent_id, wallet_address) => {
             ])
             .eq("telegram_id", user.id);
 
-        if (dbUser[0].parent_id === null && parent_id) {
-            const { data, error } = await supabase
-                .from("users")
-                .update([{ parent_id: parent_id }])
-                .eq("telegram_id", user.id);
+        if (updatedUser.error) {
+            console.error(updatedUser.error);
         }
 
-        if (error) {
-            console.error(error);
-        }
-
-        return data;
+        return updatedUser.data;
     }
-    const { data, error } = await supabase.from("users").insert([
+
+    const createdUser = await supabase.from("users").insert([
         {
             telegram_id: user.id || null,
             created_date: new Date(),
@@ -113,11 +107,13 @@ export const createUser = async (user, parent_id, wallet_address) => {
         },
     ]);
 
-    if (error) {
-        console.error(error);
+    if (createdUser.error) {
+        console.error(createdUser.error);
     }
 
-    return data;
+    await sendWelcomeMessageToUser(user.id);
+
+    return createdUser.data;
 };
 
 export const addUserPhotoFileId = async (id, username, photo_url) => {
@@ -151,11 +147,11 @@ export const addReferrerToUser = async (id, username, referrer_id) => {
         .select("*")
         .eq("telegram_id", referrer_id);
 
-    if(referrer.error) {
+    if (referrer.error) {
         return referrer.error;
     }
     if (referrer?.data?.length == 0) {
-        return "Referrer not found"
+        return "Referrer not found";
     }
 
     const user = await supabase.from("users").select("*").eq("telegram_id", id);
@@ -167,13 +163,16 @@ export const addReferrerToUser = async (id, username, referrer_id) => {
         return "User already exists";
     }
 
-    const newUser = await supabase.from("users").insert({
-        telegram_id: id,
-        username: username,
-        parent_id: referrer_id,
-        created_date: new Date(),
-        onboarding: false,
-    }).select("*");
+    const newUser = await supabase
+        .from("users")
+        .insert({
+            telegram_id: id,
+            username: username,
+            parent_id: referrer_id,
+            created_date: new Date(),
+            onboarding: false,
+        })
+        .select("*");
 
     if (newUser.error) {
         return newUser.error;
@@ -224,15 +223,21 @@ export const getStories = async () => {
 };
 
 export const incrementStoryTotalViews = async (id) => {
-    const { data, error } = await supabase.rpc("increment_stories_total_views", {
-        row_id: +id,
-    });
+    const { data, error } = await supabase.rpc(
+        "increment_stories_total_views",
+        {
+            row_id: +id,
+        }
+    );
 };
 
 export const incrementStoryUniqueViews = async (id) => {
-    const { data, error } = await supabase.rpc("increment_stories_unique_views", {
-        row_id: +id,
-    });
+    const { data, error } = await supabase.rpc(
+        "increment_stories_unique_views",
+        {
+            row_id: +id,
+        }
+    );
 };
 
 // WALLET

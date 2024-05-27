@@ -1,8 +1,13 @@
-import { Bot, InputFile } from "grammy";
+import { Bot, InlineKeyboard, InputFile } from "grammy";
 
 const token = process.env.NEXT_PUBLIC_BOT_TOKEN;
 if (!token) throw new Error("BOT_TOKEN is unset");
 const bot = new Bot(token);
+
+const webAppUrl = process.env.NEXT_PUBLIC_WEB_APP_URL;
+if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
+
+const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
 
 export const getPhotoUrlFromFileId = async (fileId: string) => {
     const file = await bot.api.getFile(fileId);
@@ -22,5 +27,15 @@ export const sendPhotoToUser = async (
 };
 
 export const sendMessagesToUser = async (chatId: number, message: string) => {
-    await bot.api.sendMessage(chatId, message, { parse_mode: "Markdown"} );
+    await bot.api.sendMessage(chatId, message, { parse_mode: "Markdown" });
+};
+
+export const sendWelcomeMessageToUser = async (chatId: number) => {
+    await bot.api.sendMessage(
+        chatId,
+        "Hello! This is Esim4U bot. With this bot you can easily buy esim plans all across the world!",
+        {
+            reply_markup: buyEsimButton,
+        }
+    );
 };
