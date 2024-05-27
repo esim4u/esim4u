@@ -40,11 +40,11 @@ export default function Home() {
             </pre>
             CLOUD STORAGE
             <pre className="text-balance">{JSON.stringify(items, null, 2)}</pre>
-
+{/* 
             LOCAL STORAGE
             <pre className="text-balance">
                 {JSON.stringify(localStorage, null, 2)}
-            </pre>
+            </pre> */}
         </section>
     );
 }
