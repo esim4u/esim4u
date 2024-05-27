@@ -57,7 +57,7 @@ export default function Home() {
             hapticFeedback("success");
             sendGTMEvent({ event: "share", value: "main_referral_copy" });
             track("share", { value: "main_referral_copy" });
-            sendGTMEvent({ event: "main_referral_copy", value: "home"});
+            sendGTMEvent({ event: "main_referral_copy", value: "home" });
             copyText(
                 getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
             );
@@ -134,6 +134,10 @@ export default function Home() {
     return (
         <main className="overflow-x-hidden flex flex-col h-dvh p-5 gap-4">
             <Header />
+            <div className="-mx-5 ">
+                <Stories className="pl-4 mr-4" />
+            </div>
+
             <SearchInput search={search} setSearch={setSearch} />
 
             {filteredPackages && filteredPackages.length ? (
@@ -191,9 +195,10 @@ export default function Home() {
                 </div>
             ) : (
                 <div className="flex flex-col gap-4">
-                    <Stories />
                     <PopularCountries />
-                    <Achievements />
+                    <div className="-mx-5">
+                        <Achievements titleClassName="px-8" className="pl-4 mr-4" />
+                    </div>
                 </div>
             )}
         </main>

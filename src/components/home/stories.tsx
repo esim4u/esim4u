@@ -16,9 +16,11 @@ import {
     incrementStoryUniqueViews,
 } from "@/services/supabase";
 
-type Props = {};
+type Props = {
+    className?: string;
+};
 
-const Stories = (props: Props) => {
+const Stories = ({ className }: Props) => {
     const { webApp } = useTelegram();
     const [checkedStories, setCheckedStories] = useState<string[]>([]);
 
@@ -47,8 +49,8 @@ const Stories = (props: Props) => {
 
     return (
         <div>
-            <Carousel className="w-full max-w-sm">
-                <CarouselContent className="-ml-1">
+            <Carousel className="w-full">
+                <CarouselContent className={cn("-ml-1", className)}>
                     {stories?.map((story, index) => {
                         return (
                             <CarouselItem

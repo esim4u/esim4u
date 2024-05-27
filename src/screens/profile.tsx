@@ -46,7 +46,7 @@ export default function Profile() {
             hapticFeedback();
             sendGTMEvent({ event: "share", value: "main_referral_copy" });
             track("share", { value: "main_referral_copy" });
-            sendGTMEvent({ event: "main_referral_copy", value: "profile"});
+            sendGTMEvent({ event: "main_referral_copy", value: "profile" });
             copyText(
                 getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
             );
@@ -77,7 +77,6 @@ export default function Profile() {
                     }}
                     className="cursor-pointer absolute right-0 w-12 h-12 py-1 text-neutral-400"
                 />
-
                 <div className="flex flex-col items-center gap-2">
                     <Avatar className="w-32 h-32">
                         <AvatarImage
@@ -97,9 +96,10 @@ export default function Profile() {
                     </h2>
                     <Badge size={"md"}>{dbUserData?.badge}</Badge>
                 </div>
-
                 <RefLinkButton />
-                <Achievements />
+                <div className="-mx-5">
+                    <Achievements titleClassName="px-8" className="pl-4 mr-4" />
+                </div>
                 <UserEsims />
             </div>
         </main>

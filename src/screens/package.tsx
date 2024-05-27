@@ -214,12 +214,15 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                             </svg>
                         </h2>
                     </div>
-                    <div className="flex flex-col gap-1">
-                        <h2 className="pl-2 text-sm uppercase font-medium text-neutral-500">
+                    {
+                        //TODO: move prices to separate component
+                    }
+                    <div className={cn("flex flex-col gap-1", "-mx-5")}>
+                        <h2 className={cn("pl-2 text-sm uppercase font-medium text-neutral-500", "px-7")}>
                             Packages
                         </h2>
                         <Carousel setApi={setApi}>
-                            <CarouselContent className="ml-1">
+                            <CarouselContent className={cn("ml-1", "pl-4 mr-4")}>
                                 {packageData &&
                                     packagePlans.map(
                                         (plan: any, index: number) => {
