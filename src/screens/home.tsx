@@ -17,6 +17,7 @@ import PopularCountries from "@/components/shared/popular-countries";
 import { COUNTRIES } from "@/constants";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { track } from "@vercel/analytics/react";
+import { l } from "@/lib/locale";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
@@ -148,7 +149,7 @@ export default function Home() {
                                 onClick={() => {
                                     hapticFeedback();
                                     webApp?.MainButton.setParams({
-                                        text: "PAY",
+                                        text: l("btn_pay"),
                                         color: "#444444",
                                         is_active: false,
                                         is_visible: true,

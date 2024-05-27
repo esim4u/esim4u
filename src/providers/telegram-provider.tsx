@@ -11,7 +11,7 @@ import {
 import type { ITelegramUser, IWebApp } from "@/types";
 import { usePathname, useRouter } from "next/navigation";
 import { hapticFeedback } from "@/lib/utils";
-import { initLanguage } from "@/lib/locale";
+import { initLanguage, setLanguage } from "@/lib/locale";
 
 export interface ITelegramContext {
     webApp?: any;
@@ -42,7 +42,7 @@ export const TelegramProvider = ({
 
             app.enableClosingConfirmation();
 
-            initLanguage(app?.initDataUnsafe?.user?.language);
+            initLanguage(app.initDataUnsafe.user.language_code);
 
             app?.MainButton.setParams({
                 text: "Share with friends",

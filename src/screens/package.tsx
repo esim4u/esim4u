@@ -20,6 +20,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
+import { l } from "@/lib/locale";
 
 const Package = ({ params }: { params: { country_code: string } }) => {
     const router = useRouter();
@@ -81,14 +82,14 @@ const Package = ({ params }: { params: { country_code: string } }) => {
     useEffect(() => {
         if (terms.terms1 && terms.terms2) {
             webApp?.MainButton.setParams({
-                text: "PAY",
+                text: l("btn_pay"),
                 color: "#3b82f6",
                 is_active: true,
                 is_visible: true,
             });
         } else {
             webApp?.MainButton.setParams({
-                text: "PAY",
+                text: l("btn_pay"),
                 color: "#444444",
                 is_active: false,
                 is_visible: true,

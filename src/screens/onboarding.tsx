@@ -81,8 +81,7 @@ export default function OnBoarding() {
                                     {l("onboarding_title_1")}
                                 </h2>
                                 <p className="text-center text-neutral-500">
-                                    Buy eSIM with crypto or card using your
-                                    lovely messenger wherever you go
+                                    {l("onboarding_description_1")}
                                 </p>
                                 <PopularCountries
                                     hasTitle={false}
@@ -169,12 +168,10 @@ export default function OnBoarding() {
                         <CarouselItem className="w-full  flex flex-col  items-center overflow-hidden">
                             <div className="flex flex-col gap-5 p-5 overflow-hidden">
                                 <h2 className=" text-4xl font-medium text-center">
-                                    Dozens <br />
-                                    of countries
+                                    {l("onboarding_title_2")}
                                 </h2>
                                 <p className="text-center text-neutral-500">
-                                    The first place in Telegram that allows you
-                                    to get eSIM in more than 160 countries
+                                    {l("onboarding_description_2")}
                                 </p>
                                 <div className="flex flex-col">
                                     {Array(4)
@@ -238,11 +235,10 @@ export default function OnBoarding() {
                         <CarouselItem className="w-full flex flex-col items-center">
                             <div className="flex justify-between items-stretch flex-col gap-5 p-5 overflow-hidden">
                                 <h2 className=" text-4xl font-medium text-center">
-                                    <br /> Pay and Earn
+                                    <br /> {l("onboarding_title_3")}
                                 </h2>
                                 <p className="text-center text-neutral-500">
-                                    Pay with TON easily and quickly here! Enjoy
-                                    secure, hassle-free transactions.
+                                    {l("onboarding_description_3")}
                                 </p>
                                 <div className="p-5 pt-24 flex flex-col justify-center items-center">
                                     <TonConnectButton />
@@ -275,7 +271,7 @@ export default function OnBoarding() {
                             size={"bean"}
                             variant={"light"}
                         >
-                            NEXT
+                            {l("btn_next")}
                         </Button>
                     ) : wallet ? (
                         <Button
@@ -288,7 +284,7 @@ export default function OnBoarding() {
                             size={"bean"}
                             variant={"light"}
                         >
-                            START
+                            {l("btn_start")}
                         </Button>
                     ) : (
                         <Button
@@ -307,9 +303,9 @@ export default function OnBoarding() {
                             }}
                             size={"bean"}
                             variant={"unstyled"}
-                            className="text-neutral-400 font-semibold underline underline-offset-2"
+                            className="text-neutral-500 font-semibold underline underline-offset-2"
                         >
-                            I&apos;ll do this later
+                            {l("btn_skip")}
                         </Button>
                     )}
                 </div>

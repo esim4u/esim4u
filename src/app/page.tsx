@@ -1,6 +1,7 @@
 "use client";
 
 import BounceLoader from "@/components/ui/bounce-loader";
+import { setLanguage } from "@/lib/locale";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById, updateUser } from "@/services/supabase";
 import { useRouter } from "next/navigation";
