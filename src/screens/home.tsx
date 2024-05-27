@@ -45,7 +45,7 @@ export default function Home() {
         if (webApp) {
             webApp?.BackButton.hide();
             webApp?.MainButton.setParams({
-                text: "Share with friends",
+                text: l("btn_main_share"),
                 color: "#3b82f6",
                 is_active: true,
                 is_visible: true,

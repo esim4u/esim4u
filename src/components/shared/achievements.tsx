@@ -2,6 +2,7 @@ import React from "react";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { cn, hapticFeedback } from "@/lib/utils";
 import Image from "next/image";
+import { l } from "@/lib/locale";
 
 type Props = {
     fullWidth?: boolean;
@@ -45,7 +46,7 @@ const Achievements = ({ fullWidth = false }: Props) => {
                     fullWidth && "pl-8"
                 )}
             >
-                <h2>ACHIEVEMENTS</h2>{" "}
+                <h2>{l("title_achievements")}</h2>{" "}
                 <span className=" bg-neutral-500 text-white px-1 py-0.5 rounded-md text-xs">
                     NFT
                 </span>

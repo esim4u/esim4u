@@ -17,6 +17,7 @@ import CopyBadge from "./copy-badge";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { TbHandClick } from "react-icons/tb";
+import { l } from "@/lib/locale";
 
 const EsimCard = ({
     coverage,
@@ -151,7 +152,7 @@ const EsimCard = ({
                                                     fill="white"
                                                 />
                                             </svg>
-                                            Click to Activate eSIM
+                                            {l("btn_activete_esim")}
                                         </Link>
                                     </Button>
                                 </div>

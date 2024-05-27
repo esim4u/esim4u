@@ -1,3 +1,4 @@
+import { l } from "@/lib/locale";
 import { hapticFeedback } from "@/lib/utils";
 import React from "react";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
@@ -12,7 +13,7 @@ type SearchInputProps = {
 const SearchInput = ({
     search,
     setSearch,
-    placeholder = "Search country where you go",
+    placeholder = l("input_search_country"),
 }: SearchInputProps) => {
     return (
         <div className="relative flex items-center">

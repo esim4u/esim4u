@@ -15,6 +15,7 @@ import { IoQrCode } from "react-icons/io5";
 import UserEsims from "@/components/esims/user-esims";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { track } from "@vercel/analytics/react";
+import { l } from "@/lib/locale";
 
 export default function Profile() {
     const router = useRouter();
@@ -33,7 +34,7 @@ export default function Profile() {
         if (webApp) {
             webApp?.BackButton.show();
             webApp?.MainButton.setParams({
-                text: "Share with friends",
+                text: l("btn_main_share"),
                 color: "#3b82f6",
                 is_active: true,
                 is_visible: true,

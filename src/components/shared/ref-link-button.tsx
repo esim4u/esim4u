@@ -1,5 +1,6 @@
-"use client"
+"use client";
 
+import { l } from "@/lib/locale";
 import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import React from "react";
@@ -300,10 +301,10 @@ const RefLinkButton = (props: Props) => {
 
             <div className=" flex flex-col">
                 <span className="text-[10px]  font-semibold leading-3">
-                    Click to copy referral link
+                    {l("btn_top_share")}
                 </span>
                 <span className="text-[9px] text-neutral-500  text-center leading-3">
-                    and share with your friends
+                    {l("btn_top_share_subtitle")}
                 </span>
             </div>
         </div>

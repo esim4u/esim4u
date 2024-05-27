@@ -1,3 +1,4 @@
+import { l } from "@/lib/locale";
 import { hapticFeedback } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -16,7 +17,7 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
         <div className="flex flex-col gap-2">
             {hasTitle && (
                 <h2 className="pl-4 uppercase font-medium text-neutral-500">
-                    Popular countries
+                    {l("title_popular_countries")}
                 </h2>
             )}
 

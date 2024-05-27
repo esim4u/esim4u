@@ -219,11 +219,18 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                         //TODO: move prices to separate component
                     }
                     <div className={cn("flex flex-col gap-1", "-mx-5")}>
-                        <h2 className={cn("pl-2 text-sm uppercase font-medium text-neutral-500", "px-7")}>
-                            Packages
+                        <h2
+                            className={cn(
+                                "pl-2 text-sm uppercase font-medium text-neutral-500",
+                                "px-7"
+                            )}
+                        >
+                            {l("title_packages")}
                         </h2>
                         <Carousel setApi={setApi}>
-                            <CarouselContent className={cn("ml-1", "pl-4 mr-4")}>
+                            <CarouselContent
+                                className={cn("ml-1", "pl-4 mr-4")}
+                            >
                                 {packageData &&
                                     packagePlans.map(
                                         (plan: any, index: number) => {
@@ -273,7 +280,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
 
                 <div className=" bg-white p-5 flex flex-col gap-2  rounded-2xl shadow-md">
                     <h2 className="pl-1 text-xs uppercase font-medium text-neutral-500">
-                        Information
+                        {l("title_information")}
                     </h2>
 
                     <div className="flex flex-col gap-2">
