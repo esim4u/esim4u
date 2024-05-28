@@ -22,19 +22,21 @@ import {
     l,
     setLanguage,
 } from "@/lib/locale";
-import { hapticFeedback } from "@/lib/utils";
+import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
+import { sendGTMEvent } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
+import { track } from "@vercel/analytics/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 
 export default function Settings() {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
-    const [preferredLang, setPreferredLang] = useState();
+    const [preferredLang, setPreferredLang] = useState("");
 
     const { data: dbUserData, isLoading } = useQuery({
         queryKey: ["user", tgUser?.id],
@@ -47,7 +49,32 @@ export default function Settings() {
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
+            webApp?.MainButton.setParams({
+                text: l("btn_main_share"),
+                color: "#3b82f6",
+                is_active: true,
+                is_visible: true,
+            });
         }
+    }, [webApp, preferredLang]);
+
+    const copyReferralLink = useCallback(() => {
+        if (webApp) {
+            hapticFeedback("success");
+            sendGTMEvent({ event: "share", value: "main_referral_copy" });
+            track("share", { value: "main_referral_copy" });
+            sendGTMEvent({ event: "main_referral_copy", value: "home" });
+            copyText(
+                getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
+            );
+        }
+    }, [webApp]);
+
+    useEffect(() => {
+        webApp?.onEvent("mainButtonClicked", copyReferralLink);
+        return () => {
+            webApp?.offEvent("mainButtonClicked", copyReferralLink);
+        };
     }, [webApp]);
 
     return (
@@ -56,8 +83,13 @@ export default function Settings() {
                 <Select
                     onValueChange={(value) => {
                         setLanguage(value, router);
+                        setPreferredLang(value);
+                        hapticFeedback("success");
                     }}
                     defaultValue={getPreferredLanguage()}
+                    onOpenChange={() => {
+                        hapticFeedback();
+                    }}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={l("input_title_language")} />
@@ -88,8 +120,12 @@ export default function Settings() {
                 <Select
                     onValueChange={(value) => {
                         setPreferredCurrency(value, router);
+                        hapticFeedback("success");
                     }}
                     defaultValue={getPreferredCurrencyCode()}
+                    onOpenChange={() => {
+                        hapticFeedback();
+                    }}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={l("input_title_currency")} />
