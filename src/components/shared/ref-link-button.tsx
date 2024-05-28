@@ -300,7 +300,7 @@ const RefLinkButton = (props: Props) => {
             </svg>
 
             <div className=" flex flex-col">
-                <span className="text-[10px]  font-semibold leading-3">
+                <span className="text-[10px]  font-semibold leading-3 text-center">
                     {l("btn_top_share")}
                 </span>
                 <span className="text-[9px] text-neutral-500  text-center leading-3">

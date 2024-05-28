@@ -114,10 +114,10 @@ export default function Settings() {
                                         <ReactCountryFlag
                                             countryCode={lang.country.toUpperCase()}
                                             svg
+                                            className=" rounded-sm border-[1px] border-neutral-200/75 object-cover"
                                             style={{
-                                                width: "1.75em",
+                                                width: "2.25em",
                                                 height: "1.75em",
-                                                borderRadius: "8px",
                                             }}
                                         />
                                         <span className="font-medium">

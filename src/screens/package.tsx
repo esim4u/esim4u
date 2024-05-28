@@ -263,10 +263,10 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                                             </span>
                                                         </h2>
                                                         {/* <h2 className="text-center font-bold">
-                                                    {plan.data}
-                                                </h2> */}
+                                                            {plan.data}
+                                                        </h2> */}
                                                         <p className=" text-xs text-neutral-500 font-medium">
-                                                            {plan.day} days{" "}
+                                                            {plan.day} {l("text_days")}
                                                         </p>
                                                     </div>
                                                 </CarouselItem>
@@ -285,7 +285,9 @@ const Package = ({ params }: { params: { country_code: string } }) => {
 
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-row items-center justify-between">
-                            <h3 className="text-sm font-bold">Coverage</h3>
+                            <h3 className="text-sm capitalize font-bold">
+                                {l("label_coverage")}
+                            </h3>
                             {packageData.operators[0].coverages.length > 1 ? (
                                 <button
                                     onClick={() => {
@@ -308,21 +310,26 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                             )}
                         </div>
                         <div className="flex flex-row items-center justify-between">
-                            <h3 className="text-sm font-bold">Plan types</h3>
                             <h3 className="text-sm font-bold capitalize">
-                                {packageData.operators[0].plan_type}
+                                {l("label_plan")}
+                            </h3>
+                            <h3 className="text-sm font-bold capitalize">
+                                {packageData.operators[0].plan_type &&
+                                    l("text_plan")}
                             </h3>
                         </div>
                         <div className="flex flex-row items-center justify-between">
-                            <h3 className="text-sm font-bold">Top-up</h3>
+                            <h3 className="text-sm font-bold capitalize">
+                                {l("label_top_up")}
+                            </h3>
                             <h3 className="text-sm font-bold capitalize">
                                 {packageData.operators[0].rechargeability
-                                    ? "Available"
+                                    ? l("text_top_up")
                                     : "Not available"}
                             </h3>
                         </div>
                         <div className="flex flex-row items-center justify-between">
-                            <h3 className="text-sm font-bold">
+                            <h3 className="text-sm font-bold capitalize">
                                 {l("label_compatible_devices")}
                             </h3>
                             <button
