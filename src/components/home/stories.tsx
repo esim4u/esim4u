@@ -9,7 +9,7 @@ import {
 import { cn, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
     getStories,
     incrementStoryTotalViews,
@@ -31,6 +31,7 @@ const Stories = ({ className }: Props) => {
             const data = await getStories();
             return data;
         },
+        placeholderData: keepPreviousData
     });
 
     useEffect(() => {
