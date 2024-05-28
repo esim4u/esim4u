@@ -47,7 +47,7 @@ const UserEsims = (props: Props) => {
     return (
         <div className="flex flex-col gap-2 w-full">
             <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">
-                <h2>MY ESIMS</h2>
+                <h2>{l("title_esims")}</h2>
             </div>
             <div className="flex flex-col gap-5 w-full">
                 {userEsims?.map((esim: Esim) => (

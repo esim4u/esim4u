@@ -42,7 +42,7 @@ export const TelegramProvider = ({
 
             app.enableClosingConfirmation();
 
-            initLanguage(app.initDataUnsafe.user.language_code);
+            initLanguage(app.initDataUnsafe?.user?.language_code);
 
             app?.MainButton.setParams({
                 text: l("btn_main_share"),

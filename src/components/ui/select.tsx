@@ -19,14 +19,14 @@ const SelectTrigger = React.forwardRef<
     <SelectPrimitive.Trigger
         ref={ref}
         className={cn(
-            "flex h-12 w-full items-center justify-between rounded-2xl border border-neutral-300 bg-background pl-5 pr-4 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+            "group flex h-12 w-full items-center justify-between rounded-2xl border border-neutral-300 bg-background pl-5 pr-4 py-2 text-sm placeholder:text-muted-foreground data-[state=open]:text-blue-500  data-[state=open]:border-blue-500  focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
             className
         )}
         {...props}
     >
         {children}
         <SelectPrimitive.Icon asChild>
-            <ChevronDown className="h-4 w-4 opacity-50" />
+            <ChevronDown className="-rotate-90 text-neutral-400 group-data-[state=open]:rotate-0 group-data-[state=open]:text-blue-500 h-6 w-6 transition-transform duration-100" />
         </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
 ));
@@ -73,12 +73,11 @@ const SelectContent = React.forwardRef<
 >(({ className, children, position = "popper", ...props }, ref) => (
     <SelectPrimitive.Portal>
         <SelectPrimitive.Content
-            onClick={(e) => {
-                e.stopPropagation();
-            }}
-            ref={ref}
+            ref={(ref) =>
+                ref?.addEventListener("touchend", (e) => e.preventDefault())
+            }
             className={cn(
-                "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-2xl border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+                "select-none relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-2xl border bg-white text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
                 position === "popper" &&
                     "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
                 className
@@ -91,7 +90,7 @@ const SelectContent = React.forwardRef<
                 className={cn(
                     "p-1",
                     position === "popper" &&
-                        "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+                        "select-none h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
                 )}
             >
                 {children}
@@ -108,7 +107,10 @@ const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <SelectPrimitive.Label
         ref={ref}
-        className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)}
+        className={cn(
+            "select-none py-1.5 pl-8 pr-2 text-sm font-semibold",
+            className
+        )}
         {...props}
     />
 ));
@@ -119,9 +121,6 @@ const SelectItem = React.forwardRef<
     React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >(({ className, children, ...props }, ref) => (
     <SelectPrimitive.Item
-        onClick={(e) => {
-            e.stopPropagation();
-        }}
         ref={ref}
         className={cn(
             "relative flex w-full cursor-default select-none items-center rounded-xl p-2 pl-4 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",

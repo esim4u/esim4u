@@ -90,15 +90,24 @@ const EsimCard = ({
                         defaultValue={detectIOSVersion() > 17.5 ? "auto" : "qr"}
                     >
                         <TabsList className="w-full">
-                            {detectIOSVersion() > 17.5 && (
-                                <TabsTrigger className="w-full" value="auto">
+                            {detectIOSVersion() < 17.5 && (
+                                <TabsTrigger
+                                    className="w-full capitalize"
+                                    value="auto"
+                                >
                                     {l("nav_activation_auto")}
                                 </TabsTrigger>
                             )}
-                            <TabsTrigger className="w-full" value="qr">
+                            <TabsTrigger
+                                className="w-full capitalize"
+                                value="qr"
+                            >
                                 {l("nav_activation_qr")}
                             </TabsTrigger>
-                            <TabsTrigger className="w-full" value="manual">
+                            <TabsTrigger
+                                className="w-full capitalize"
+                                value="manual"
+                            >
                                 {l("nav_activation_manual")}
                             </TabsTrigger>
                         </TabsList>
@@ -165,7 +174,7 @@ const EsimCard = ({
                             <div className="h-72 flex flex-col gap-3 pt-2 px-2 text-sm font-bold">
                                 <div className=" border-2 rounded-lg border-redish bg-redish/5 py-1 px-2">
                                     <h2 className="text-redish font-semibold">
-                                        IMPORTANT! Do this on Wi-Fi network
+                                        {l("important_note")}
                                     </h2>
                                 </div>
                                 <h2>
@@ -200,7 +209,9 @@ const EsimCard = ({
                     <h3 className="uppercase">{coverage}</h3>
                 </div>
                 <div>
-                    <h3 className="">{validity} DAYS</h3>
+                    <h3 className=" uppercase">
+                        {validity} {l("text_days")}
+                    </h3>
                 </div>
             </div>
         </div>

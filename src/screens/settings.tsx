@@ -47,32 +47,96 @@ export default function Settings() {
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center w-full p-5">
             <div className="flex flex-col items-center gap-4 w-full">
+                <Select
+                    onValueChange={(value) => {
+                        setLanguage(value, router);
+                    }}
+                    defaultValue={getPreferredLanguage()}
+                >
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            {getSupportedLanguages().map((lang: any) => (
+                                <SelectItem key={lang.value} value={lang.value}>
+                                    <div className="flex gap-2 items-center">
+                                        <ReactCountryFlag
+                                            countryCode={lang.country.toUpperCase()}
+                                            svg
+                                            className=" rounded-sm border-[1px] border-neutral-200/75 object-cover"
+                                            style={{
+                                                width: "2em",
+                                                height: "1.5em",
+                                            }}
+                                        />
+                                        <span className="font-bold">
+                                            {LANGUAGES[lang.value]}
+                                        </span>
+                                    </div>
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                <Select defaultValue={"usd"}>
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Application currency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            {[
+                                { value: "usd", label: "USD", symbol: "$" },
+                                { value: "eur", label: "EUR", symbol: "€" },
+                                { value: "uah", label: "UAH", symbol: "₴" },
+                                { value: "rub", label: "RUB", symbol: "₽" },
+                            ].map((currency: any) => (
+                                <SelectItem
+                                    key={currency.value}
+                                    value={currency.value}
+                                >
+                                    <div className="flex gap-1 items-center">
+                                        <span className="font-bold">
+                                            {currency.symbol}
+                                        </span>
+                                        <span className="font-bold">
+                                            {currency.label}
+                                        </span>
+                                    </div>
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+
                 <div className=" flex gap-2 w-full">
                     {" "}
                     {["developer", "admin"].includes(
                         dbUserData?.badge.toLowerCase()
                     ) && (
-                        <Button
-                            onClick={() => {
-                                hapticFeedback();
-                                router.push("/profile/sensitive-info");
-                            }}
-                            variant={"destructive"}
-                            className="rounded-full w-full"
-                        >
-                            Sensitive info
-                        </Button>
+                        <>
+                            <Button
+                                onClick={() => {
+                                    hapticFeedback();
+                                    router.push("/profile/sensitive-info");
+                                }}
+                                variant={"destructive"}
+                                className="rounded-full w-full"
+                            >
+                                Sensitive info
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    hapticFeedback();
+                                    router.push("/sandbox");
+                                }}
+                                variant={"destructive"}
+                                className="rounded-full w-full"
+                            >
+                                Sandbox
+                            </Button>
+                        </>
                     )}
-                    <Button
-                        onClick={() => {
-                            hapticFeedback();
-                            router.push("/sandbox");
-                        }}
-                        variant={"destructive"}
-                        className="rounded-full w-full"
-                    >
-                        Sandbox
-                    </Button>
                 </div>
 
                 <div className="flex gap-2 w-full">
@@ -97,38 +161,6 @@ export default function Settings() {
                         open support
                     </Button>
                 </div>
-                <Select
-                    onValueChange={(value) => {
-                        setLanguage(value, router);
-                    }}
-                    defaultValue={getPreferredLanguage()}
-                >
-                    <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select language" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            {getSupportedLanguages().map((lang: any) => (
-                                <SelectItem key={lang.value} value={lang.value}>
-                                    <div className="flex gap-2 items-center">
-                                        <ReactCountryFlag
-                                            countryCode={lang.country.toUpperCase()}
-                                            svg
-                                            className=" rounded-sm border-[1px] border-neutral-200/75 object-cover"
-                                            style={{
-                                                width: "2.25em",
-                                                height: "1.75em",
-                                            }}
-                                        />
-                                        <span className="font-medium">
-                                            {LANGUAGES[lang.value]}
-                                        </span>
-                                    </div>
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
             </div>
         </main>
     );

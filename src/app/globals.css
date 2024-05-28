@@ -20,7 +20,9 @@ body::-webkit-scrollbar {
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
     }
-
+    .select__item {
+        user-select: none;
+    }
     .no-select {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -31,7 +33,11 @@ body::-webkit-scrollbar {
     }
 
     .linear-mask {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+        mask-image: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 1) 0%,
+            transparent 100%
+        );
     }
 }
 
