@@ -1,5 +1,6 @@
 import { Bot, InlineKeyboard, InputFile } from "grammy";
 import { addUserPhotoFileId } from "./supabase";
+import { l } from "@/lib/locale";
 
 const token = process.env.NEXT_PUBLIC_BOT_TOKEN;
 if (!token) throw new Error("BOT_TOKEN is unset");
@@ -8,7 +9,7 @@ const bot = new Bot(token);
 const webAppUrl = process.env.NEXT_PUBLIC_WEB_APP_URL;
 if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 
-const buyEsimButton = new InlineKeyboard().webApp("Buy esim", webAppUrl);
+const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
 
 export const getPhotoUrlFromFileId = async (fileId: string) => {
     const file = await bot.api.getFile(fileId);
@@ -43,6 +44,6 @@ export const sendWelcomeMessageToUser = async (chatId: number) => {
 
     const chat = await bot.api.getChat(chatId);
     if (!chat.photo) return;
-    
+
     await addUserPhotoFileId(chat.id, chat.username, chat.photo.small_file_id);
-};  
+};

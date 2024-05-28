@@ -1,6 +1,7 @@
 import { supabase } from "@/services/supabase";
 import axios from "axios";
 import { sendMessagesToUser, sendPhotoToUser } from "@/services/grammy";
+import { l } from "@/lib/locale";
 
 export async function POST(req: Request) {
     const { id, status, event_type } = await req.json();
@@ -95,12 +96,16 @@ export async function POST(req: Request) {
         await sendPhotoToUser(
             esim.data[0].telegram_id,
             esim.data[0].qrcode_url,
-            "Scan qr for quick setup"
+            l("bot_instruction_qr")
         );
 
         await sendMessagesToUser(
             esim.data[0].telegram_id,
-            `SM-DP+ Address: \`${esim.data[0].sm_dp}\` \n\nYour Activation code code is: \`${esim.data[0].confirmation_code}\``
+            `${l("bot_instruction_1")}: \`${esim.data[0].sm_dp}\` \n\n${l(
+                "bot_instruction_2"
+            )}: \`${esim.data[0].confirmation_code}\` \n\n ${l(
+                "bot_instruction_3"
+            )}`
         );
     } catch (e) {
         console.error(e);
