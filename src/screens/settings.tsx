@@ -19,6 +19,7 @@ import {
 import {
     getPreferredLanguage,
     getSupportedLanguages,
+    l,
     setLanguage,
 } from "@/lib/locale";
 import { hapticFeedback } from "@/lib/utils";
@@ -59,7 +60,7 @@ export default function Settings() {
                     defaultValue={getPreferredLanguage()}
                 >
                     <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select language" />
+                        <SelectValue placeholder={l("input_title_language")} />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
@@ -91,7 +92,7 @@ export default function Settings() {
                     defaultValue={getPreferredCurrencyCode()}
                 >
                     <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Application currency" />
+                        <SelectValue placeholder={l("input_title_currency")} />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
@@ -152,7 +153,7 @@ export default function Settings() {
                         }}
                         className="rounded-full w-full"
                     >
-                        Repeat onboarding
+                        {l("btn_onboarding")}
                     </Button>
 
                     <Button
@@ -163,7 +164,7 @@ export default function Settings() {
                         }}
                         className="rounded-full w-full"
                     >
-                        open support
+                        {l("btn_support")}
                     </Button>
                 </div>
             </div>

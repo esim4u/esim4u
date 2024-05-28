@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
+import AsyncImage from "../ui/async-image";
 
 type Props = {
     hasTitle?: boolean;
@@ -34,7 +35,7 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                     <Image
                         width={312}
                         height={312}
-                        className=" w-full h-full object-cover"
+                        className="bg-neutral-300 w-full h-full object-cover"
                         src={"/img/countries/eg.jpeg"}
                         alt="news"
                     />
@@ -67,7 +68,7 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                     <Image
                         width={312}
                         height={312}
-                        className=" w-full h-full object-cover"
+                        className="bg-neutral-300 w-full h-full object-cover"
                         src={"/img/countries/ch.png"}
                         alt="news"
                     />
@@ -100,7 +101,7 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                     <Image
                         width={312}
                         height={312}
-                        className=" w-full h-full object-cover"
+                        className="bg-neutral-300 w-full h-full object-cover"
                         src={"/img/countries/es.png"}
                         alt="news"
                     />
@@ -133,7 +134,7 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                     <Image
                         width={312}
                         height={312}
-                        className=" w-full h-full object-cover"
+                        className="bg-neutral-300 w-full h-full object-cover"
                         src={"/img/countries/it.png"}
                         alt="news"
                     />

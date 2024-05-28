@@ -80,7 +80,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
             );
         },
         enabled: !!selectedPackage?.total_price,
-        placeholderData: keepPreviousData
+        placeholderData: keepPreviousData,
     });
 
     useEffect(() => {
@@ -312,7 +312,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                     className="text-sm text-blue-500 font-medium underline underline-offset-2 capitalize"
                                 >
                                     {packageData.operators[0].coverages.length}{" "}
-                                    countries
+                                    {l("text_countries")}
                                 </button>
                             ) : (
                                 <h3 className="text-sm font-bold">
@@ -370,7 +370,9 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                     >
                         <h2 className="cursor-pointer flex items-center gap-1 text-xs uppercase font-medium text-neutral-500">
                             {l("title_guide")}
-                            <Badge className="normal-case">Guide</Badge>
+                            <Badge className="capitalize ">
+                                {l("badge_guide")}
+                            </Badge>
                         </h2>
                         <MdArrowForwardIos
                             className={cn(

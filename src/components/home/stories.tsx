@@ -15,6 +15,7 @@ import {
     incrementStoryTotalViews,
     incrementStoryUniqueViews,
 } from "@/services/supabase";
+import { Skeleton } from "../ui/skeleton";
 
 type Props = {
     className?: string;
@@ -46,6 +47,44 @@ const Stories = ({ className }: Props) => {
             );
         }
     }, [webApp]);
+
+    if (isLoading)
+        return (
+            <div>
+                <Carousel className="w-full">
+                    <CarouselContent className={cn("-ml-1", className)}>
+                        {Array(4)
+                            .fill(null)
+                            .map((placeholder, index) => {
+                                return (
+                                    <CarouselItem
+                                        key={index}
+                                        className="pl-1  basis-24 active:scale-95 transition-transform cursor-pointer "
+                                    >
+                                        <div className="p-1">
+                                            <div
+                                                className={cn(
+                                                    "p-1 rounded-full transition-all bg-neutral-400/15"
+                                                )}
+                                            >
+                                                <div
+                                                    className={cn(
+                                                        "relative  aspect-square flex justify-center items-end rounded-full overflow-hidden ring-2 ring-[#EFEFF3] "
+                                                    )}
+                                                >
+                                                    <div>
+                                                        <Skeleton className="w-full h-full" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CarouselItem>
+                                );
+                            })}
+                    </CarouselContent>
+                </Carousel>
+            </div>
+        );
 
     return (
         <div>
@@ -108,14 +147,12 @@ const Stories = ({ className }: Props) => {
                                         >
                                             <div className="relative w-full h-full">
                                                 <Image
-                                                    width={736}
-                                                    height={736}
+                                                    width={216}
+                                                    height={216}
                                                     className=" w-full h-full object-cover"
-                                                    src={
-                                                        story?.photo_url ||
-                                                        "https://www.comarch.com/files-com/miniatures/file_455/eSIM-is-Going-Mainstream.736x460.574e7a70.jpg"
-                                                    }
+                                                    src={story?.photo_url}
                                                     alt="news"
+                                                    loading="eager"
                                                 />
                                                 <div className="absolute bottom-0 h-2/3 w-full bg-gradient-to-t from-black/55">
                                                     {" "}

@@ -2,6 +2,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useTelegram } from "@/providers/telegram-provider";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { l } from "./locale";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -53,7 +54,7 @@ export function copyText(text: string | number, e?: any) {
         navigator.clipboard.writeText(text.toString());
         toast({
             variant: "esim4u",
-            title: "Copied!",
+            title: l("toast_referral_copied"),
         });
     } catch (error) {
         toast({

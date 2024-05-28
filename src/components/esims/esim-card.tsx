@@ -47,11 +47,14 @@ const EsimCard = ({
             >
                 <div className="flex flex-col font-bold ">
                     <div className="flex items-center gap-0.5">
-                        <span className="capitalize">{l("label_status")}:</span> <StatusText status={state} />
+                        <span className="capitalize">{l("label_status")}:</span>{" "}
+                        <StatusText status={state} />
                     </div>
                     {state == "NOT_ACTIVE" && (
                         <h2 className="flex items-center gap-0.5">
-                            Click to activate
+                            <span className="first-letter:capitalize">
+                                {l("text_click_to_activate")}
+                            </span>
                             <TbHandClick className="w-5 h-5" />
                         </h2>
                     )}
@@ -222,11 +225,17 @@ export default EsimCard;
 
 const StatusText = ({ status }: { status: string }) => {
     if (status === "ACTIVE")
-        return <span className="text-green-500">ACTIVE</span>;
+        return (
+            <span className="text-green-500">{l("text_status_active")}</span>
+        );
     if (status === "NOT_ACTIVE")
-        return <span className="text-yellow-500">{l("text_status_not_active")}</span>;
+        return (
+            <span className="text-yellow-500">
+                {l("text_status_not_active")}
+            </span>
+        );
     if (status === "EXPIRED")
-        return <span className="text-red-500">ESIM EXPIRED</span>;
+        return <span className="text-red-500">{l("text_status_expired")}</span>;
     if (status === "FINISHED")
         return <span className="text-red-500">OUT OF DATA</span>;
     return <span className="">{status}</span>;

@@ -8,6 +8,7 @@ import EsimCard from "./esim-card";
 import { Esim } from "@/types";
 import { l } from "@/lib/locale";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "../ui/skeleton";
 
 type Props = {};
 
@@ -22,6 +23,21 @@ const UserEsims = (props: Props) => {
         },
         placeholderData: keepPreviousData,
     });
+
+    if (isLoading) {
+        return (
+            <div className="flex flex-col gap-2 w-full">
+                <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">
+                    <h2>{l("title_esims")}</h2>
+                </div>
+                <div className="flex flex-col gap-5 w-full">
+                    {Array(4).fill(null).map((_, index) => (
+                        <Skeleton key={index}/>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     if (userEsims?.length === 0) {
         return (

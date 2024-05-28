@@ -2,9 +2,12 @@
 
 import EsimCard from "@/components/esims/esim-card";
 import { Button } from "@/components/ui/button";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import CircleProgressBar from "@/components/ui/circle-progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ESIM_STATE } from "@/enums";
 import { l, resetLanguage, setLanguage } from "@/lib/locale";
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -52,6 +55,38 @@ const SandboxPage = (props: Props) => {
 
             {l("hello_world")}
 
+            <div>
+                <Carousel className="w-full">
+                    <CarouselContent className={cn("-ml-1")}>
+                        {Array(4)
+                            .fill(null)
+                            .map((placeholder, index) => {
+                                return (
+                                    <CarouselItem
+                                        key={index}
+                                        className="pl-1  basis-24 active:scale-95 transition-transform cursor-pointer"
+                                    >
+                                        <div className="p-1">
+                                            <div
+                                                className={cn(
+                                                    "p-1 rounded-full transition-all"
+                                                )}
+                                            >
+                                                <div
+                                                    className={cn(
+                                                        "relative  aspect-square flex justify-center items-end rounded-full overflow-hidden ring-2 ring-[#EFEFF3] "
+                                                    )}
+                                                >
+                                                    <Skeleton className="w-full h-full" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CarouselItem>
+                                );
+                            })}
+                    </CarouselContent>
+                </Carousel>
+            </div>
             {/* <EsimCard
                 iccid={"89852350923520031607"}
                 coverage={"12"}

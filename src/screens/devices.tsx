@@ -2,6 +2,7 @@
 
 import SearchInput from "@/components/shared/search-input";
 import BounceLoader from "@/components/ui/bounce-loader";
+import { l } from "@/lib/locale";
 import { highlightMatches } from "@/lib/markup";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -78,7 +79,7 @@ const Devices = () => {
                     <SearchInput
                         search={search}
                         setSearch={setSearch}
-                        placeholder="Find your device"
+                        placeholder={l("input_search_device")}
                     />{" "}
                 </div>
                 <div className="flex flex-col gap-5 -mb-6 py-16">
