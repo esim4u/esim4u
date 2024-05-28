@@ -323,7 +323,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                         </div>
                         <div className="flex flex-row items-center justify-between">
                             <h3 className="text-sm font-bold">
-                                Compatible devices
+                                {l("label_compatible_devices")}
                             </h3>
                             <button
                                 onClick={() => {
@@ -332,7 +332,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                 }}
                                 className="text-sm text-blue-500 font-medium underline underline-offset-2 capitalize"
                             >
-                                Check
+                                {l("text_compatible_devices")}
                             </button>
                         </div>
                     </div>
@@ -347,7 +347,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                         }}
                     >
                         <h2 className="cursor-pointer flex items-center gap-1 text-xs uppercase font-medium text-neutral-500">
-                            How to install and activate
+                            {l("title_guide")}
                             <Badge className="normal-case">Guide</Badge>
                         </h2>
                         <MdArrowForwardIos
@@ -362,20 +362,19 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                         <div className="pt-2 flex flex-col gap-2 text-sm font-bold">
                             <div className="flex flex-row gap-2">
                                 <h3 className="w-4">1.</h3>
-                                <h3 className="">Select purchased eSIM</h3>
+                                <h3 className="">{l("instruction_1")}</h3>
                             </div>
                             <div className="flex flex-row gap-2">
                                 <h3 className="w-4">2.</h3>
                                 <h3 className="text-sm">
-                                    Check that you connected on WI-FI network
+                                    {l("instruction_2")}
                                 </h3>
                             </div>
                             <div className="flex flex-col gap-2">
                                 <div className="flex flex-row gap-2">
                                     <h3 className="w-4">3.</h3>
                                     <h3 className="text-sm">
-                                        Select installation method (Auto, QR
-                                        code or Manual)
+                                        {l("instruction_3")}
                                     </h3>
                                 </div>
                                 <div className="flex flex-row gap-2">
@@ -383,9 +382,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                         <Dot className="size-1.5" />
                                     </div>
                                     <h3 className="text-sm">
-                                        Auto - if you have iPhone with iOS 17.4+
-                                        you need just click to button “ACTIVATE
-                                        eSIM”
+                                        {l("instruction_3_auto")}
                                     </h3>
                                 </div>
                                 <div className="flex flex-row gap-2">
@@ -393,8 +390,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                         <Dot className="size-1.5" />
                                     </div>
                                     <h3 className="text-sm">
-                                        QR code - share to another device and
-                                        after that scan with your phone
+                                        {l("instruction_3_qr")}
                                     </h3>
                                 </div>
                                 <div className="flex flex-row gap-2">
@@ -402,24 +398,20 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                         <Dot className="size-1.5" />
                                     </div>
                                     <h3 className="text-sm">
-                                        Manual - open iPhone settings - Cellular
-                                        - Add eSIM. After that, copy “SM-DP+”
-                                        address and “code”. Past in settings.
+                                        {l("instruction_3_manual")}
                                     </h3>
                                 </div>
                             </div>
                             <div className="flex flex-row gap-2">
                                 <h3 className="w-4">4.</h3>
                                 <h3 className="text-sm">
-                                    Open iPhone settings - Cellular. Select your
-                                    Travel eSIM and turn ON Roaming toggle
+                                    {l("instruction_4")}
                                 </h3>
                             </div>
                             <div className="flex flex-row gap-2">
                                 <h3 className="w-4"> 5. </h3>
                                 <h3 className="text-sm">
-                                    If connection not established automatically
-                                    - select Operator manualy
+                                    {l("instruction_5")}
                                 </h3>
                             </div>
                         </div>
@@ -447,9 +439,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                             htmlFor="terms1"
                             className="cursor-pointer text-sm font-medium "
                         >
-                            I agree with the{" "}
-                            <b className="underline">terms and conditions</b>{" "}
-                            and the <b className="underline">privacy policy</b>
+                            {l("text_terms_conditions")}
                         </label>
                     </div>
                     <div
@@ -472,11 +462,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                             htmlFor="terms2"
                             className="cursor-pointer text-sm font-medium "
                         >
-                            I confirm thрat my{" "}
-                            <b className="underline">
-                                device is eSIM compatible
-                            </b>{" "}
-                            and <b>network-unlocked</b>
+                            {l("text_device_compatible")}
                         </label>
                     </div>
                 </div>

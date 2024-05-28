@@ -39,27 +39,31 @@ export function setLanguage(language: string, router: any) {
     }
 }
 
-export function l(key: string) {
+export function l(key: string): string {
+    let value = "undefined";
+    let language: string;
+
     if (typeof window !== "undefined") {
-        let value = "undefined";
-
-        //get language from local storage
-        let language = window.localStorage.getItem("language");
-
-        if (!language || !translations[language]) {
-            language = "en";
-        }
-
-        if (!translations[language][key]) {
-            if (translations["en"][key]) {
-                value = translations["en"][key];
-            } else {
-                value = "l('" + key + "')";
-            }
-        } else {
-            value = translations[language][key];
-        }
-
-        return value;
+        // get language from local storage
+        language = window.localStorage.getItem("language") || "en";
+    } else {
+        // default language if window is undefined (e.g., server-side)
+        language = "en";
     }
+
+    // check if translations exist for the specified language
+    if (!translations[language]) {
+        language = "en"; // fallback to English if language not supported
+    }
+
+    // retrieve the translation or fallback
+    if (translations[language][key]) {
+        value = translations[language][key];
+    } else if (translations["en"][key]) {
+        value = translations["en"][key];
+    } else {
+        value = `l('${key}')`; // indicate missing translation
+    }
+
+    return value;
 }

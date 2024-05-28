@@ -1,3 +1,4 @@
+import { l } from "@/lib/locale";
 import { getPhotoUrlFromFileId } from "@/services/grammy";
 import { addReferrerToUser, addUserPhotoFileId, supabase } from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
@@ -67,7 +68,7 @@ bot.command("start", async (ctx) => {
     await addUserPhoto(ctx);
     await ctx.react("👍");
     await ctx.reply(
-        "Hello! This is Esim4U bot. With this bot you can easily buy esim plans all across the world!",
+        l("bot_welcome_text"),
         {
             reply_markup: buyEsimButton,
         }

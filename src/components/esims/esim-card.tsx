@@ -92,14 +92,14 @@ const EsimCard = ({
                         <TabsList className="w-full">
                             {detectIOSVersion() > 17.5 && (
                                 <TabsTrigger className="w-full" value="auto">
-                                    Auto
+                                    {l("nav_activation_auto")}
                                 </TabsTrigger>
                             )}
                             <TabsTrigger className="w-full" value="qr">
-                                Qr
+                                {l("nav_activation_qr")}
                             </TabsTrigger>
                             <TabsTrigger className="w-full" value="manual">
-                                Manual
+                                {l("nav_activation_manual")}
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="auto">
@@ -108,13 +108,11 @@ const EsimCard = ({
                                     <div className="flex flex-col gap-2">
                                         <div className=" border-2 rounded-lg border-redish bg-redish/5 py-1 px-2">
                                             <h2 className="text-redish font-semibold">
-                                                IMPORTANT! Do this on Wi-Fi
-                                                network
+                                                {l("important_note")}
                                             </h2>
                                         </div>
                                         <h2 className=" text-center text-balance">
-                                            To install esim on your device just
-                                            click button below
+                                            {l("instruction_auto")}
                                         </h2>
                                     </div>
                                     <Button
