@@ -21,6 +21,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { l } from "@/lib/locale";
+import { convertUsdToPreferredCurrency } from "@/lib/currency";
 
 const Package = ({ params }: { params: { country_code: string } }) => {
     const router = useRouter();
@@ -69,6 +70,17 @@ const Package = ({ params }: { params: { country_code: string } }) => {
             return data.rates.TON.prices.USD;
         },
         refetchInterval: 1000 * 10, // 10 sec
+    });
+
+    const { data: preferredCurrencyPrice } = useQuery({
+        queryKey: ["preferredCurrencyPrice", selectedPackage?.total_price],
+        queryFn: async () => {
+            return await convertUsdToPreferredCurrency(
+                selectedPackage?.total_price
+            );
+        },
+        enabled: !!selectedPackage?.total_price,
+        placeholderData: keepPreviousData
     });
 
     useEffect(() => {
@@ -177,15 +189,17 @@ const Package = ({ params }: { params: { country_code: string } }) => {
             <div className="bg-[#EFEFF3] rounded-t-3xl z-10 p-5 flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        {/* <h2 className="font-bold text-3xl">
-                            {selectedPackage?.price}
-                            <span className="text-2xl">$</span>
+                        <h2 className="font-bold text-3xl">
+                            {preferredCurrencyPrice?.amount}
+                            <span className="text-2xl">
+                                {preferredCurrencyPrice?.symbol}
+                            </span>
                         </h2>
-                        <Dot /> */}
+                        {/* <Dot />
                         <h2 className="font-bold text-3xl">
                             {selectedPackage?.total_price}
                             <span className="text-2xl">$</span>
-                        </h2>
+                        </h2> */}
                         <Dot />
                         <h2 className="flex items-center font-bold text-3xl">
                             {priceInTon}
@@ -266,7 +280,8 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                                             {plan.data}
                                                         </h2> */}
                                                         <p className=" text-xs text-neutral-500 font-medium">
-                                                            {plan.day} {l("text_days")}
+                                                            {plan.day}{" "}
+                                                            {l("text_days")}
                                                         </p>
                                                     </div>
                                                 </CarouselItem>

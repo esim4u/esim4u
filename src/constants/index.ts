@@ -226,8 +226,8 @@ export const LANGUAGES: any = {
     mt: "Maltese",
     sq: "Albanian",
     sw: "Swahili",
-    cy: "Welsh"
-}
+    cy: "Welsh",
+};
 
 export const RUNNING_LINE_LOGOS: any = [
     {

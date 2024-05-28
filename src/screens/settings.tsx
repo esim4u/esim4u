@@ -12,6 +12,11 @@ import {
 } from "@/components/ui/select";
 import { LANGUAGES } from "@/constants";
 import {
+    getPreferredCurrencyCode,
+    getSupportedCurrencies,
+    setPreferredCurrency,
+} from "@/lib/currency";
+import {
     getPreferredLanguage,
     getSupportedLanguages,
     setLanguage,
@@ -60,16 +65,16 @@ export default function Settings() {
                         <SelectGroup>
                             {getSupportedLanguages().map((lang: any) => (
                                 <SelectItem key={lang.value} value={lang.value}>
-                                    <div className="flex gap-2 items-center">
-                                        <ReactCountryFlag
+                                    <div className="flex gap-1 items-center">
+                                        {/* <ReactCountryFlag
                                             countryCode={lang.country.toUpperCase()}
                                             svg
                                             className=" rounded-sm border-[1px] border-neutral-200/75 object-cover"
                                             style={{
-                                                width: "2em",
-                                                height: "1.5em",
+                                                width: "25px",
+                                                height: "19px",
                                             }}
-                                        />
+                                        /> */}
                                         <span className="font-bold">
                                             {LANGUAGES[lang.value]}
                                         </span>
@@ -79,24 +84,24 @@ export default function Settings() {
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-                <Select defaultValue={"usd"}>
+                <Select
+                    onValueChange={(value) => {
+                        setPreferredCurrency(value, router);
+                    }}
+                    defaultValue={getPreferredCurrencyCode()}
+                >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder="Application currency" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            {[
-                                { value: "usd", label: "USD", symbol: "$" },
-                                { value: "eur", label: "EUR", symbol: "€" },
-                                { value: "uah", label: "UAH", symbol: "₴" },
-                                { value: "rub", label: "RUB", symbol: "₽" },
-                            ].map((currency: any) => (
+                            {getSupportedCurrencies().map((currency: any) => (
                                 <SelectItem
                                     key={currency.value}
                                     value={currency.value}
                                 >
                                     <div className="flex gap-1 items-center">
-                                        <span className="font-bold">
+                                        <span className="font-bold text-[17px]">
                                             {currency.symbol}
                                         </span>
                                         <span className="font-bold">

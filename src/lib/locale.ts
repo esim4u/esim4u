@@ -26,7 +26,7 @@ export function getPreferredLanguage() {
     if (typeof window !== "undefined") {
         let language = window.localStorage.getItem("language");
 
-        return language || "";
+        return language || "en";
     }
 }
 
