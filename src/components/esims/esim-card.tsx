@@ -46,9 +46,9 @@ const EsimCard = ({
                 className="cursor-pointer flex flex-row justify-between items-center bg-white z-10 py-2 px-5 rounded-3xl"
             >
                 <div className="flex flex-col font-bold ">
-                    <h2>
-                        Status: <StatusText status={state} />
-                    </h2>
+                    <div className="flex items-center gap-0.5">
+                        <span className="capitalize">{l("label_status")}:</span> <StatusText status={state} />
+                    </div>
                     {state == "NOT_ACTIVE" && (
                         <h2 className="flex items-center gap-0.5">
                             Click to activate
@@ -90,7 +90,7 @@ const EsimCard = ({
                         defaultValue={detectIOSVersion() > 17.5 ? "auto" : "qr"}
                     >
                         <TabsList className="w-full">
-                            {detectIOSVersion() < 17.5 && (
+                            {detectIOSVersion() > 17.5 && (
                                 <TabsTrigger
                                     className="w-full capitalize"
                                     value="auto"
@@ -224,7 +224,7 @@ const StatusText = ({ status }: { status: string }) => {
     if (status === "ACTIVE")
         return <span className="text-green-500">ACTIVE</span>;
     if (status === "NOT_ACTIVE")
-        return <span className="text-yellow-500">NOT ACTIVE YET</span>;
+        return <span className="text-yellow-500">{l("text_status_not_active")}</span>;
     if (status === "EXPIRED")
         return <span className="text-red-500">ESIM EXPIRED</span>;
     if (status === "FINISHED")
