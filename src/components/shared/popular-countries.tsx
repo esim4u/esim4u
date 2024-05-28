@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
-import AsyncImage from "../ui/async-image";
 
 type Props = {
     hasTitle?: boolean;
