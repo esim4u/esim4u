@@ -7,6 +7,21 @@ interface Translations {
 import t from "@/assets/translations.json";
 const translations: Translations = t as Translations;
 
+export function getSupportedLanguages() {
+    let languages = Object.keys(translations);
+
+    // convert ISO 639-1 language codes to classic country codes
+    const covertMap: { [key: string]: string } = { uk: "ua", en: "us" };
+    const convertedLanguages = languages.map((lang) => {
+        return {
+            value: lang,
+            country: lang in covertMap ? covertMap[lang] : lang,
+        };
+    });
+
+    return convertedLanguages;
+}
+
 export function getPreferredLanguage() {
     if (typeof window !== "undefined") {
         let language = window.localStorage.getItem("language");

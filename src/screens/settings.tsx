@@ -10,7 +10,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { getPreferredLanguage, setLanguage } from "@/lib/locale";
+import { LANGUAGES } from "@/constants";
+import {
+    getPreferredLanguage,
+    getSupportedLanguages,
+    setLanguage,
+} from "@/lib/locale";
 import { hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
@@ -18,6 +23,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import ReactCountryFlag from "react-country-flag";
 
 export default function Settings() {
     const router = useRouter();
@@ -102,9 +108,24 @@ export default function Settings() {
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectItem value="uk">Ukrainian</SelectItem>
-                            <SelectItem value="en">English</SelectItem>
-                            <SelectItem value="hu">Hungarian</SelectItem>
+                            {getSupportedLanguages().map((lang: any) => (
+                                <SelectItem key={lang.value} value={lang.value}>
+                                    <div className="flex gap-2 items-center">
+                                        <ReactCountryFlag
+                                            countryCode={lang.country.toUpperCase()}
+                                            svg
+                                            style={{
+                                                width: "1.75em",
+                                                height: "1.75em",
+                                                borderRadius: "8px",
+                                            }}
+                                        />
+                                        <span className="font-medium">
+                                            {LANGUAGES[lang.value]}
+                                        </span>
+                                    </div>
+                                </SelectItem>
+                            ))}
                         </SelectGroup>
                     </SelectContent>
                 </Select>

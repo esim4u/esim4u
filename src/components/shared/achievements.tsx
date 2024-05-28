@@ -24,14 +24,14 @@ const Achievements = ({ fullWidth = false }: Props) => {
                             "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500"
                         )}
                     >
-                        <h2>ACHIEVEMENTS</h2>{" "}
+                        <h2>{l("title_achievements")}</h2>{" "}
                         <span className=" bg-neutral-500 text-white px-1 py-0.5 rounded-md text-xs">
                             NFT
                         </span>
                     </div>
                     <div className="flex flex-col gap-2 mt-1 items-center justify-center">
                         <h2 className="text-center font-medium text-3xl text-neutral-300">
-                            COMING SOON
+                            {l("coming_soon")}
                         </h2>
                     </div>
                 </div>
