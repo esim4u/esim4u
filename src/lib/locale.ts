@@ -1,10 +1,5 @@
-interface Translations {
-    [language: string]: {
-        [key: string]: string;
-    };
-}
-
-import t from "@/assets/translations.json";
+import t from "@/assets/data/translations.json";
+import { Translations } from "@/types";
 const translations: Translations = t as Translations;
 
 export function getSupportedLanguages() {

@@ -66,3 +66,10 @@ export interface IWebApp {
     };
     HapticFeedback: any;
 }
+
+
+export interface Translations {
+    [language: string]: {
+        [key: string]: string;
+    };
+}

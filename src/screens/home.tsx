@@ -17,7 +17,7 @@ import PopularCountries from "@/components/shared/popular-countries";
 import { COUNTRIES } from "@/constants";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { track } from "@vercel/analytics/react";
-import { l } from "@/lib/locale";
+import { getPreferredLanguage, l } from "@/lib/locale";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
@@ -27,7 +27,11 @@ export default function Home() {
     const { data: packages, isLoading } = useQuery({
         queryKey: ["esim-packages"],
         queryFn: async () => {
-            const { data } = await axios.get("/api/esims/packages");
+            const { data } = await axios.get("/api/esims/packages", {
+                params: {
+                    lang: getPreferredLanguage(),
+                },
+            });
             return data;
         },
         placeholderData: keepPreviousData,
@@ -80,14 +84,19 @@ export default function Home() {
                 keys: [
                     "slug",
                     "country_code",
+                    "translation",
                     "operators.countries.title",
                     "operators.countries.country_code",
                 ],
                 threshold: 0.3,
+                includeMatches: true,
             });
 
             const matchingPackages = fuse.search(query).map((result) => {
                 const item = result.item as any;
+
+                const matchedKey = result.matches && result.matches[0].key;
+                const matchedValue = result.matches && result.matches[0].value;
 
                 const countries = item.operators[0].countries;
 
@@ -116,6 +125,7 @@ export default function Home() {
 
                 return {
                     ...item,
+                    matchKey: matchedKey,
                     nestedMatchCountries,
                 };
             });
@@ -174,7 +184,9 @@ export default function Home() {
                                     <span className=" font-semibold">
                                         {highlightMatches(
                                             search,
-                                            country.title
+                                            country.matchKey == "translation"
+                                                ? country.translation
+                                                : country.title
                                         )}
                                     </span>
                                 </div>
