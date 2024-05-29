@@ -53,6 +53,7 @@ const Referrals = () => {
 
             {referrals?.map((referral, index) => (
                 <div
+                    key={referral.telegram_id}
                     onClick={() => {
                         hapticFeedback();
                         webApp?.openTelegramLink(
