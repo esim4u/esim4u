@@ -16,6 +16,7 @@ import UserEsims from "@/components/esims/user-esims";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { track } from "@vercel/analytics/react";
 import { l } from "@/lib/locale";
+import Referrals from "@/components/user/referrals";
 
 export default function Profile() {
     const router = useRouter();
@@ -100,6 +101,7 @@ export default function Profile() {
                 <RefLinkButton />
                 <Achievements fullWidth/>
                 <UserEsims />
+                <Referrals />
             </div>
         </main>
     );

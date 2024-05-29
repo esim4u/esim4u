@@ -186,6 +186,15 @@ export const addReferrerToUser = async (id, username, referrer_id) => {
     return newUser.data;
 };
 
+export const getUserReferrals = async (id) => {
+    const users = await supabase
+        .from("users")
+        .select("*")
+        .eq("parent_id", id);
+
+    return users.data;
+}
+
 // ORDERS
 
 export const getOrderById = async (id) => {
