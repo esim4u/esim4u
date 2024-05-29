@@ -24,7 +24,7 @@ const SandboxPage = (props: Props) => {
     const [percent, setPercent] = React.useState(50);
 
     return (
-        <div className="p-20 flex flex-col gap-4">
+        <div className="p-20 flex flex-col gap-4 w-full">
             <CircleProgressBar percent={percent}>
                 <span>10Gb</span>
             </CircleProgressBar>
