@@ -27,7 +27,7 @@ const Header = (props: Props) => {
 
     return (
         <section className="w-full">
-            <div className="flex gap-5 justify-between w-full">
+            <div className="flex items-center gap-5 justify-between w-full">
                 <div
                     onClick={() => {
                         hapticFeedback();
@@ -37,7 +37,11 @@ const Header = (props: Props) => {
                 >
                     <Avatar>
                         <AvatarImage
-                            src={tgUser?.photo_url || dbUserData?.photo_url || "/img/default-user.png"}
+                            src={
+                                tgUser?.photo_url ||
+                                dbUserData?.photo_url ||
+                                "/img/default-user.png"
+                            }
                             alt="@shadcn"
                         />
                         <AvatarFallback className=" bg-neutral-500 text-white">
@@ -45,12 +49,14 @@ const Header = (props: Props) => {
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col gap-1">
-                        <h2 className="flex text-neutral-500 font-medium items-center gap-1 leading-3">
-                            {tgUser?.username
-                                ? `@${tgUser?.username}`
-                                : "@user"}
+                        <div className="flex items-center text-neutral-500 font-medium gap-1 h-3">
+                            <p className="text-ellipsis overflow-hidden max-w-28">
+                                {tgUser?.username
+                                    ? `@${tgUser?.username}`
+                                    : "@user"}
+                            </p>
                             <MdArrowForwardIos className="w-[14px] h-[14px]" />
-                        </h2>
+                        </div>
 
                         <Badge size={"sm"}>
                             {dbUserData?.badge || "New user"}
