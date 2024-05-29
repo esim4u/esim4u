@@ -79,7 +79,6 @@ export const createUser = async (user, parent_id) => {
                     last_name: user.last_name || null,
                     language_code: user.language_code || null,
                     is_premium: user.is_premium ? true : false,
-                    onboarding: true,
                     platform: user.platform || null,
                 },
             ])
@@ -191,10 +190,10 @@ export const getUserReferrals = async (id) => {
         .from("users")
         .select("*, orders: orders(count)")
         .eq("parent_id", id)
-        .eq("orders.status", "SUCCESS")
+        .eq("orders.status", "SUCCESS");
 
     return users.data;
-}
+};
 
 // ORDERS
 
@@ -252,11 +251,11 @@ export const incrementStoryUniqueViews = async (id) => {
     );
 };
 
-// WALLET
+// ONBOARDING
 
-export const createWallet = async (telegram_id, wallet_address) => {
+export const finishOnboarding = async (telegram_id, wallet_address) => {
     await sendTgLog(
-        `Creating wallet for ${telegram_id} with address ${wallet_address}`
+        `Finishing onboarding for ${telegram_id} with address ${wallet_address}`
     );
 
     const users = await supabase
@@ -269,6 +268,10 @@ export const createWallet = async (telegram_id, wallet_address) => {
     if (users.data.length === 0) {
         return;
     }
+    await supabase
+        .from("users")
+        .update({ onboarding: true })
+        .eq("telegram_id", telegram_id);
 
     const wallets = await supabase
         .from("wallet")

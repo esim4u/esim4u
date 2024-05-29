@@ -7,7 +7,7 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { createUser, createWallet } from "@/services/supabase";
+import { createUser, finishOnboarding } from "@/services/supabase";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -56,9 +56,9 @@ export default function OnBoarding() {
         onSuccess: (data) => {},
     });
 
-    const createAppWallet = useMutation({
+    const finishOnboaringForUser = useMutation({
         mutationFn: async (tgUser: any) => {
-            return await createWallet(tgUser.id, tonAddress);
+            return await finishOnboarding(tgUser.id, tonAddress);
         },
         onError: (error) => {},
         onSuccess: (data) => {},
@@ -67,6 +67,7 @@ export default function OnBoarding() {
     useEffect(() => {
         if (tgUser && webApp) {
             webApp?.MainButton.hide();
+            createAppUser.mutate(tgUser);
         }
     }, [tgUser, webApp]);
 
@@ -277,8 +278,7 @@ export default function OnBoarding() {
                         <Button
                             onClick={() => {
                                 hapticFeedback();
-                                createAppUser.mutate(tgUser);
-                                createAppWallet.mutate(tgUser);
+                                finishOnboaringForUser.mutate(tgUser);
                                 router.push("/esims");
                             }}
                             size={"bean"}
@@ -294,8 +294,7 @@ export default function OnBoarding() {
                                     "Are you sure?",
                                     (isConfirm: boolean) => {
                                         if (isConfirm) {
-                                            createAppUser.mutate(tgUser);
-                                            createAppWallet.mutate(tgUser);
+                                            finishOnboaringForUser.mutate(tgUser);
                                             router.push("/esims");
                                         }
                                     }
