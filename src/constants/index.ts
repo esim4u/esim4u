@@ -227,6 +227,7 @@ export const LANGUAGES: any = {
     sq: "Albanian",
     sw: "Swahili",
     cy: "Welsh",
+    kk: "Kazakh",
 };
 
 export const RUNNING_LINE_LOGOS: any = [
