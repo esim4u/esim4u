@@ -22,9 +22,11 @@ const UserEsims = (props: Props) => {
             return data.data;
         },
         placeholderData: keepPreviousData,
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        gcTime: 1000 * 60 * 60, // 1 hour
     });
 
-    if (isLoading) {
+    if (userEsims?.length === 0 && isLoading) {
         return (
             <div className="flex flex-col gap-2 w-full">
                 <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">
