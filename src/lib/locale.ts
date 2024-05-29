@@ -6,7 +6,11 @@ export function getSupportedLanguages() {
     let languages = Object.keys(translations);
 
     // convert ISO 639-1 language codes to classic country codes
-    const covertMap: { [key: string]: string } = { uk: "ua", en: "us" };
+    const covertMap: { [key: string]: string } = {
+        uk: "ua",
+        en: "us",
+        kk: "kz",
+    };
     const convertedLanguages = languages.map((lang) => {
         return {
             value: lang,
