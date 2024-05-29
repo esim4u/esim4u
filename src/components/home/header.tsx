@@ -41,7 +41,7 @@ const Header = (props: Props) => {
                             alt="@shadcn"
                         />
                         <AvatarFallback className=" bg-neutral-500 text-white">
-                            {tgUser?.first_name[0]}
+                            {tgUser?.first_name ? tgUser?.first_name[0] : "U"}
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col gap-1">

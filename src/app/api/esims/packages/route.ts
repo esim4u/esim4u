@@ -41,8 +41,6 @@ export async function GET(request: NextRequest) {
                 supportedTranslations.includes(lang) &&
                 translations[lang][country.country_code.toLowerCase()]
             ) {
-                console.log("lang", lang);
-                console.log("country", country);
                 country.translation =
                     translations[lang][country.country_code.toLowerCase()];
             }
@@ -52,6 +50,17 @@ export async function GET(request: NextRequest) {
                     p.price_eur = ceil(p.price * exchangeRate);
                     p.total_price_eur =
                         ceil(p.price_eur + p.price_eur * marginRate, 0) - 0.01; //ceil to whole number
+                });
+                operator.countries.forEach((c: any) => {
+                    if (
+                        lang &&
+                        lang !== "en" &&
+                        supportedTranslations.includes(lang) &&
+                        translations[lang][c.country_code.toLowerCase()]
+                    ) {
+                        c.translation =
+                            translations[lang][c.country_code.toLowerCase()];
+                    }
                 });
             });
         });

@@ -90,6 +90,7 @@ export default function Home() {
                     "translation",
                     "operators.countries.title",
                     "operators.countries.country_code",
+                    "operators.countries.translation",
                 ],
                 threshold: 0.3,
                 includeMatches: true,
@@ -99,31 +100,38 @@ export default function Home() {
                 const item = result.item as any;
 
                 const matchedKey = result.matches && result.matches[0].key;
-                const matchedValue = result.matches && result.matches[0].value;
 
                 const countries = item.operators[0].countries;
 
                 const nestedFuse = new Fuse(countries, {
-                    keys: ["title", "country_code"],
+                    keys: ["title", "country_code", "translation"],
                     threshold: 0.3,
+                    includeMatches: true,
                 });
 
                 let nestedMatchCountries = nestedFuse
                     .search(query)
                     .map((result) => {
                         const item = result.item as any;
+                        const matchedKey =
+                            result.matches && result.matches[0].key;
+
                         return {
                             ...item,
                             fullName:
                                 COUNTRIES[item.title.toLowerCase()] ||
                                 item.title,
+                            matchKey: matchedKey,
                         };
                     });
+                console.log(item);
+                console.log(nestedMatchCountries);
 
                 nestedMatchCountries = nestedMatchCountries.filter(
                     (nestedCountry) =>
                         nestedCountry.title != item.title &&
-                        nestedCountry.country_code != item.country_code
+                        nestedCountry.country_code != item.country_code &&
+                        nestedCountry.translation != item.translation
                 );
 
                 return {
@@ -149,7 +157,7 @@ export default function Home() {
         <main className="overflow-x-hidden flex flex-col h-dvh p-5 gap-4">
             <Header />
             <div className="-mx-5 ">
-                <Stories className="pl-4 mr-4" />
+                {/* <Stories className="pl-4 mr-4" /> */}
             </div>
 
             <SearchInput search={search} setSearch={setSearch} />
@@ -201,7 +209,13 @@ export default function Home() {
                                             {highlightMatches(
                                                 search,
                                                 country.nestedMatchCountries[0]
-                                                    .title
+                                                    .matchKey == "translation"
+                                                    ? country
+                                                          .nestedMatchCountries[0]
+                                                          .translation
+                                                    : country
+                                                          .nestedMatchCountries[0]
+                                                          .title
                                             )}
                                         </span>
                                     )}
