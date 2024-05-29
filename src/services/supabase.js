@@ -101,7 +101,6 @@ export const createUser = async (user, parent_id) => {
             last_name: user.last_name || null,
             language_code: user.language_code || null,
             is_premium: user.is_premium ? true : false,
-            onboarding: true,
             platform: user.platform || null,
             parent_id: parent_id || null,
         },
