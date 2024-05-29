@@ -189,8 +189,9 @@ export const addReferrerToUser = async (id, username, referrer_id) => {
 export const getUserReferrals = async (id) => {
     const users = await supabase
         .from("users")
-        .select("*")
-        .eq("parent_id", id);
+        .select("*, orders: orders(count)")
+        .eq("parent_id", id)
+        .eq("orders.status", "SUCCESS")
 
     return users.data;
 }

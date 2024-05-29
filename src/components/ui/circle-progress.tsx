@@ -28,16 +28,16 @@ const CircleProgressBar = ({
 
     const getProgressColor = () => {
         if (percent > 70) {
-            return "text-green-500";
+            return " text-green-500";
         } else if (percent > 40) {
-            return "text-yellow-500";
+            return " text-yellow-500";
         } else {
-            return "text-red-500";
+            return " text-red-500";
         }
     };
 
     return (
-        <div className="relative flex items-center justify-center overflow-hidden rounded-full">
+        <div className=" relative flex items-center justify-center overflow-hidden rounded-full">
             <svg
                 className="transform"
                 width={size}

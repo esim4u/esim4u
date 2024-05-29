@@ -1,7 +1,7 @@
 "use client";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn, copyText, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserReferrals } from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -16,9 +16,6 @@ const Referrals = () => {
             const data = await getUserReferrals(tgUser.id);
             return data;
         },
-        placeholderData: keepPreviousData,
-        staleTime: 1000 * 60 * 5, // 5 minutes
-        gcTime: 1000 * 60 * 60, // 1 hour
     });
 
     if (referrals?.length === 0) {
@@ -50,8 +47,16 @@ const Referrals = () => {
                     <span className="">{referrals?.length}</span>
                 </div>
             </div>
+            {/* <pre
+                className="max-w-32"
+                onClick={() => {
+                    copyText(JSON.stringify(referrals, null, 2));
+                }}
+            >
+                {JSON.stringify(referrals, null, 2)}
+            </pre> */}
 
-            {referrals?.map((referral, index) => (
+            {referrals?.map((referral: any, index: number) => (
                 <div
                     key={referral.telegram_id}
                     onClick={() => {
@@ -60,7 +65,7 @@ const Referrals = () => {
                             "https://t.me/" + referral.username
                         );
                     }}
-                    className="flex items-center justify-between bg-white h-10 p-4 rounded-2xl"
+                    className="cursor-pointer active:scale-95 transition-transform flex items-center justify-between bg-white h-10 p-4 rounded-2xl"
                 >
                     <span className="text-blue-500 font-medium">
                         @{referral.username}
@@ -68,12 +73,12 @@ const Referrals = () => {
                     <div className=" grid grid-cols-5 gap-1 w-40 ">
                         <div className=" col-span-2 flex items-center justify-center -mr-4">
                             <span className="  flex items-center min-w-9 px-1 justify-center  font-medium bg-gradient-to-r from-violet-500 to-purple-500 text-white rounded-md">
-                                {index == 1 ? 12 : 213}
+                                {!!referral.orders[0].count && referral.orders[0].count}
                             </span>
                         </div>
                         <div className="col-span-2  flex items-center justify-center">
                             <span className=" flex items-center text-purple-500 font-semibold">
-                                {index == 1 ? 0.5 : 12.5}
+                                {0.0}
                                 <svg
                                     width="12"
                                     height="12"
