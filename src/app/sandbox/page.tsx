@@ -1,8 +1,13 @@
 "use client";
 
 import EsimCard from "@/components/esims/esim-card";
+import UserEsims from "@/components/esims/user-esims";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+} from "@/components/ui/carousel";
 import CircleProgressBar from "@/components/ui/circle-progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ESIM_STATE } from "@/enums";
@@ -54,7 +59,7 @@ const SandboxPage = (props: Props) => {
             </Button>
 
             {l("hello_world")}
-
+            <UserEsims />
             <div>
                 <Carousel className="w-full">
                     <CarouselContent className={cn("-ml-1")}>
