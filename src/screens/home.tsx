@@ -43,6 +43,9 @@ export default function Home() {
             const data = await axios.get(`/api/user/${tgUser.id}/esims`);
             return data.data;
         },
+        placeholderData: keepPreviousData,
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        gcTime: 1000 * 60 * 60, // 1 hour
     });
 
     useEffect(() => {
