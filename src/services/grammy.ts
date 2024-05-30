@@ -12,10 +12,14 @@ if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
 
 export const getPhotoUrlFromFileId = async (fileId: string) => {
-    const file = await bot.api.getFile(fileId);
-    if (!file) return "No file found";
+    try {
+        const file = await bot.api.getFile(fileId);
+        if (!file) return null;
 
-    return `https://api.telegram.org/file/bot${process.env.NEXT_PUBLIC_BOT_TOKEN}/${file?.file_path}`;
+        return `https://api.telegram.org/file/bot${process.env.NEXT_PUBLIC_BOT_TOKEN}/${file?.file_path}`;
+    } catch (error) {
+        return null;
+    }
 };
 
 export const sendPhotoToUser = async (

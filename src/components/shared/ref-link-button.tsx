@@ -16,11 +16,11 @@ const RefLinkButton = (props: Props) => {
                 hapticFeedback("success");
                 copyText(getReferralLink(tgUser?.id));
             }}
-            className="bg-white h-10 p-2 pr-3 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform"
+            className="bg-white h-10 p-2 pr-3 min-w-32 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform"
         >
             <svg
-                width="24"
-                height="28"
+                width="20"
+                height="24"
                 viewBox="0 0 24 28"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

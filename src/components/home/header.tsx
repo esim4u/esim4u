@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "@/services/supabase";
 import { Badge } from "../ui/badge";
 import RefLinkButton from "../shared/ref-link-button";
+import { GrTrophy } from "react-icons/gr";
 
 type Props = {};
 
@@ -50,7 +51,7 @@ const Header = (props: Props) => {
                     </Avatar>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center text-neutral-500 font-medium gap-1 h-3">
-                            <p className="text-ellipsis overflow-hidden max-w-28">
+                            <p className="text-ellipsis overflow-hidden max-w-20  text-xs">
                                 {tgUser?.username
                                     ? `@${tgUser?.username}`
                                     : "@user"}
@@ -63,7 +64,18 @@ const Header = (props: Props) => {
                         </Badge>
                     </div>
                 </div>
-                <RefLinkButton />
+                <div className="flex items-center gap-2">
+                    <RefLinkButton />
+                    <div
+                        onClick={() => {
+                            hapticFeedback();
+                            router.push("/leaderboard");
+                        }}
+                        className="active:scale-95 flex items-center justify-center min-w-10 size-10 bg-white rounded-full"
+                    >
+                        <GrTrophy className=" text-amber-500 " />
+                    </div>
+                </div>
             </div>
         </section>
     );
