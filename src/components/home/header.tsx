@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useTelegram } from "@/providers/telegram-provider";
 import { MdArrowForwardIos } from "react-icons/md";
-import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
+import { hapticFeedback } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "@/services/supabase";

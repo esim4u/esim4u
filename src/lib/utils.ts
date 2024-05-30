@@ -54,6 +54,24 @@ export function copyText(text: string | number, e?: any) {
         navigator.clipboard.writeText(text.toString());
         toast({
             variant: "esim4u",
+            title: "Copied",
+        });
+    } catch (error) {
+        toast({
+            variant: "destructive",
+            title: "Error: Please try again",
+        });
+    }
+}
+export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
+    e?.stopPropagation();
+
+    const link =  getReferralLink(user_id);
+
+    try {
+        navigator.clipboard.writeText(link.toString());
+        toast({
+            variant: "esim4u",
             title: l("toast_referral_copied"),
         });
     } catch (error) {

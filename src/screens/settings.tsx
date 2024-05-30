@@ -22,7 +22,7 @@ import {
     l,
     setLanguage,
 } from "@/lib/locale";
-import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
+import { copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
 import { sendGTMEvent } from "@next/third-parties/google";
@@ -64,9 +64,7 @@ export default function Settings() {
             sendGTMEvent({ event: "share", value: "main_referral_copy" });
             track("share", { value: "main_referral_copy" });
             sendGTMEvent({ event: "main_referral_copy", value: "home" });
-            copyText(
-                getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
-            );
+            copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
         }
     }, [webApp]);
 

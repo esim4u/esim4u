@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/components/home/header";
-import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
+import { copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -68,9 +68,7 @@ export default function Home() {
             sendGTMEvent({ event: "share", value: "main_referral_copy" });
             track("share", { value: "main_referral_copy" });
             sendGTMEvent({ event: "main_referral_copy", value: "home" });
-            copyText(
-                getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
-            );
+            copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
         }
     }, [webApp]);
 

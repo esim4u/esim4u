@@ -1,7 +1,7 @@
 "use client";
 
 import { l } from "@/lib/locale";
-import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
+import { copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import React from "react";
 
@@ -14,7 +14,7 @@ const RefLinkButton = (props: Props) => {
         <div
             onClick={() => {
                 hapticFeedback("success");
-                copyText(getReferralLink(tgUser?.id));
+                copyReferralLinkToClipBoard(tgUser?.id)
             }}
             className="bg-white h-10 p-2 pr-3 min-w-32 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform"
         >

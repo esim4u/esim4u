@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { l } from "@/lib/locale";
-import { cn, copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
+import { cn, copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getPhotoUrlFromFileId } from "@/services/grammy";
 import { getLeaderboard, getUserById } from "@/services/supabase";
@@ -53,9 +53,7 @@ const LeaderBoard = (props: Props) => {
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback();
-            copyText(
-                getReferralLink(webApp?.initDataUnsafe?.user?.id.toString())
-            );
+            copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
         }
     }, [webApp]);
 
