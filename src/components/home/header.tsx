@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "@/services/supabase";
 import { Badge } from "../ui/badge";
-import RefLinkButton from "../shared/ref-link-button";
+// import RefLinkButton from "../shared/ref-link-button";
 import { GrTrophy } from "react-icons/gr";
 
 type Props = {};
@@ -65,7 +65,7 @@ const Header = (props: Props) => {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <RefLinkButton />
+                    {/* <RefLinkButton /> */}
                     <div
                         onClick={() => {
                             hapticFeedback();

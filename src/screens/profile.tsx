@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import RefLinkButton from "@/components/shared/ref-link-button";
+// import RefLinkButton from "@/components/shared/ref-link-button";
 import Achievements from "@/components/shared/achievements";
 import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
@@ -95,7 +95,7 @@ export default function Profile() {
                     </h2>
                     <Badge size={"md"}>{dbUserData?.badge}</Badge>
                 </div>
-                <RefLinkButton />
+                {/* <RefLinkButton /> */}
                 <Achievements fullWidth/>
                 <UserEsims />
                 <Referrals />
