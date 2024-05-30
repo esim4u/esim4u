@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { l } from "@/lib/locale";
-import { copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
+import { cn, copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getPhotoUrlFromFileId } from "@/services/grammy";
 import { getLeaderboard } from "@/services/supabase";
@@ -76,7 +76,10 @@ const LeaderBoard = (props: Props) => {
                     return (
                         <div
                             key={leader.telegram_id}
-                            className="w-full h-10 bg-white rounded-lg grid grid-cols-7 "
+                            className={cn(
+                                "w-full h-10 bg-white rounded-lg grid grid-cols-7 ",
+                                tgUser?.id == leader.telegram_id && " ring-2 ring-purple-500"
+                            )}
                         >
                             <div className="col-span-1 flex items-center justify-center">
                                 <PlaceLabel index={index} />
