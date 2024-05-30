@@ -1,5 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
-import { getPhotoUrlFromFileId, sendWelcomeMessageToUser, updateUserPhoto } from "./grammy";
+import {
+    getPhotoUrlFromFileId,
+    sendWelcomeMessageToUser,
+    updateUserPhoto,
+} from "./grammy";
 import { sendTgLog } from "./tg-logger";
 import { platform } from "os";
 import { send } from "process";
@@ -270,8 +274,6 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
         .select("*")
         .eq("telegram_id", telegram_id);
 
-    console.log(users);
-
     if (users.data.length === 0) {
         return;
     }
@@ -285,15 +287,21 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
         .select("*")
         .eq("telegram_id", telegram_id);
 
+    await sendTgLog(JSON.stringify(wallets, null, 2));
+
     if (wallets.data.length > 0) {
         const updatedWallet = await supabase
             .from("wallet")
-            .update({ address: wallet_address })
+            .update({ address: wallet_address ? wallet_address : null })
             .eq("telegram_id", telegram_id)
             .select();
 
         if (updatedWallet.error) {
             console.error(updatedWallet.error);
+            await sendTgLog(
+                "Updating wallet error: " +
+                    JSON.stringify(updatedWallet.error, null, 2)
+            );
         }
 
         return updatedWallet.data;
@@ -302,11 +310,19 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
     const createdWallet = await supabase.from("wallet").insert({
         telegram_id,
         amount: 0,
-        address: wallet_address,
+        address: wallet_address ? wallet_address : null,
     });
+
+    await sendTgLog(JSON.stringify(createdWallet, null, 2));
 
     if (createdWallet.error) {
         console.error(createdWallet.error);
+
+        await sendTgLog(
+            "Updating wallet error: " +
+                JSON.stringify(createdWallet.error, null, 2)
+        );
+
         return createdWallet;
     }
 
