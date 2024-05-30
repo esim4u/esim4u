@@ -151,7 +151,7 @@ export default function Home() {
         <main className="overflow-x-hidden flex flex-col h-dvh p-5 gap-4">
             <Header />
             <div className="-mx-5 ">
-                {/* <Stories className="pl-4 mr-4" /> */}
+                <Stories className="pl-4 mr-4" />
             </div>
 
             <SearchInput
