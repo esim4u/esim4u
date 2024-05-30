@@ -85,8 +85,8 @@ const LeaderBoard = (props: Props) => {
                 </div>
 
                 <div className="flex-1 flex-col">
-                    <h2 className="font-bold text-center">
-                        MOST INVITED FRENS
+                    <h2 className="font-bold text-center uppercase">
+                        invited the most frens
                     </h2>
                     <p className="text-center leading-4 text-sm text-pretty">Invite more frens to get into leader board! </p>
                 </div>
