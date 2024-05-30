@@ -13,10 +13,9 @@ import Achievements from "@/components/shared/achievements";
 import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
 import UserEsims from "@/components/esims/user-esims";
-import { sendGTMEvent } from "@next/third-parties/google";
-import { track } from "@vercel/analytics/react";
 
 import { l } from "@/lib/locale";
+
 import Referrals from "@/components/user/referrals";
 import RefLinkButton from "@/components/shared/ref-link-button";
 

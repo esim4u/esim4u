@@ -5,7 +5,7 @@ import { l } from "@/lib/locale";
 import { cn, copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getPhotoUrlFromFileId } from "@/services/grammy";
-import { getLeaderboard } from "@/services/supabase";
+import { getLeaderboard, getUserById } from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect } from "react";
 import { GrTrophy } from "react-icons/gr";
@@ -41,6 +41,14 @@ const LeaderBoard = (props: Props) => {
             return data;
         },
     });
+    const { data: dbUserData } = useQuery({
+        queryKey: ["user", tgUser?.id],
+        queryFn: async () => {
+            const data = await getUserById(tgUser.id);
+            return data;
+        },
+        placeholderData: keepPreviousData,
+    });
 
     const copyReferralLink = useCallback(() => {
         if (webApp) {
@@ -70,7 +78,19 @@ const LeaderBoard = (props: Props) => {
         }
     }, [webApp]);
     return (
-        <main className="overflow-x-hidden h-dvh flex flex-col items-center p-5">
+        <main className="overflow-x-hidden h-dvh flex flex-col items-center gap-2 p-5">
+            <div className="flex items-center justify-between bg-white w-full rounded-xl px-5 py-3">
+                <div className="p-2">
+                    <GrTrophy className=" w-12 h-12 text-amber-500 " />
+                </div>
+
+                <div className="flex-1 flex-col">
+                    <h2 className="font-bold text-center">
+                        MOST INVITED FRENS
+                    </h2>
+                    <p className="text-center leading-4 text-sm text-pretty">Invite more frens to get into leader board! </p>
+                </div>
+            </div>
             <div className="flex flex-col items-center gap-2 w-full">
                 {leaders?.map((leader: any, index: number) => {
                     return (
@@ -78,7 +98,8 @@ const LeaderBoard = (props: Props) => {
                             key={leader.telegram_id}
                             className={cn(
                                 "w-full h-10 bg-white rounded-lg grid grid-cols-7 ",
-                                tgUser?.id == leader.telegram_id && " ring-2 ring-purple-500"
+                                tgUser?.id == leader.telegram_id &&
+                                    " ring-2 ring-purple-500"
                             )}
                         >
                             <div className="col-span-1 flex items-center justify-center">
@@ -88,6 +109,8 @@ const LeaderBoard = (props: Props) => {
                                 <Avatar className="w-6 h-6">
                                     <AvatarImage
                                         src={
+                                            (tgUser?.id == leader.telegram_id &&
+                                                dbUserData?.photo_url) ||
                                             leader?.photo_url ||
                                             `https://api.dicebear.com/8.x/bottts-neutral/svg?seed=${leader.telegram_id}` ||
                                             "/img/default-user.png"
