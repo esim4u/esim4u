@@ -42,6 +42,10 @@ export const sendWelcomeMessageToUser = async (chatId: number) => {
         }
     );
 
+    await updateUserPhoto(chatId);
+};
+
+export const updateUserPhoto = async (chatId: number) => {
     const chat = await bot.api.getChat(chatId);
     if (!chat.photo) return;
 

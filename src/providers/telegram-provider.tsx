@@ -80,7 +80,10 @@ export const TelegramProvider = ({
             ? {
                   webApp,
                   unsafeData: webApp?.initDataUnsafe,
-                  user: webApp?.initDataUnsafe.user,
+                  user: {
+                      ...webApp?.initDataUnsafe.user,
+                      platform: webApp?.platform,
+                  },
                   start_param: webApp?.initDataUnsafe.start_param,
                   cloudStorage: webApp?.cloudStorage,
               }

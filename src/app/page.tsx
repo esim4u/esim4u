@@ -15,7 +15,7 @@ export default function IndexPage() {
         const dbUser = await getUserById(id);
 
         if (dbUser?.id) {
-            await updateUser(tgUser, dbUser, webApp.platform);
+            await updateUser(tgUser, dbUser);
             return router.push("/esims");
         }
 

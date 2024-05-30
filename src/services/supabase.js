@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { getPhotoUrlFromFileId, sendWelcomeMessageToUser } from "./grammy";
+import { getPhotoUrlFromFileId, sendWelcomeMessageToUser, updateUserPhoto } from "./grammy";
 import { sendTgLog } from "./tg-logger";
 import { platform } from "os";
 import { send } from "process";
@@ -30,9 +30,11 @@ export const getUserById = async (id) => {
     return data;
 };
 
-export const updateUser = async (tgUser, dbUser, platform) => {
+export const updateUser = async (tgUser, dbUser) => {
     let lastLoginDates = dbUser.last_login_date.dates || [];
     lastLoginDates.unshift(new Date().toISOString());
+
+    await sendTgLog("Updating user: " + JSON.stringify(tgUser, null, 2));
 
     //only keep the last 5 login dates
     if (lastLoginDates.length > 5) {
@@ -54,11 +56,13 @@ export const updateUser = async (tgUser, dbUser, platform) => {
                 last_name: tgUser.last_name || null,
                 language_code: tgUser.language_code || null,
                 is_premium: tgUser.is_premium ? true : false,
-                platform: platform || null,
+                platform: tgUser.platform || null,
                 last_login_date: lastLoginDate,
             },
         ])
         .eq("telegram_id", tgUser.id);
+
+    await updateUserPhoto(tgUser.id);
 
     return data;
 };
@@ -68,6 +72,8 @@ export const createUser = async (user, parent_id) => {
         .from("users")
         .select("*")
         .eq("telegram_id", user.id);
+
+    await sendTgLog("Creating user: " + JSON.stringify(user, null, 2));
 
     if (users.data.length > 0) {
         const updatedUser = await supabase
@@ -108,7 +114,9 @@ export const createUser = async (user, parent_id) => {
 
     if (createdUser.error) {
         console.error("Create user error: " + createdUser.error);
-        await sendTgLog("Update user error: " + createdUser.error);
+        await sendTgLog(
+            "Cteate user error: " + JSON.stringify(createdUser.error, null, 2)
+        );
     }
 
     await sendWelcomeMessageToUser(user.id);
