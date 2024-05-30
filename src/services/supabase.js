@@ -333,6 +333,5 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
 
 export const getLeaderboard = async () => {
     const orders = await supabase.rpc("get_leaderboard");
-    alert(JSON.stringify(orders, null, 2));
     return orders.data;
 };
