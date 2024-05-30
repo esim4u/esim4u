@@ -22,6 +22,7 @@ import { getPreferredLanguage, l } from "@/lib/locale";
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
     const [search, setSearch] = useState("");
+    const [isSearchError, setIsSearchError] = useState(false);
     const router = useRouter();
 
     const { data: packages, isLoading } = useQuery({
@@ -146,22 +147,30 @@ export default function Home() {
         }
     }, [packages, search]);
 
-    useEffect(() => {
-        if (webApp && search && filteredPackages) {
-            if (search.length > 4 && filteredPackages.length === 0) {
-                hapticFeedback("warning");
-            }
-        }
-    }, [search, filteredPackages]);
-
     return (
         <main className="overflow-x-hidden flex flex-col h-dvh p-5 gap-4">
             <Header />
             <div className="-mx-5 ">
-                <Stories className="pl-4 mr-4" />
+                {/* <Stories className="pl-4 mr-4" /> */}
             </div>
 
-            <SearchInput search={search} setSearch={setSearch} />
+            <SearchInput
+                search={search}
+                setSearch={(value) => {
+                    setSearch(value);
+
+                    if (
+                        value.length > 2 &&
+                        filteredPackages?.length === 0
+                    ) {
+                        setIsSearchError(true);
+                        hapticFeedback("warning");
+                    } else {
+                        setIsSearchError(false);
+                    }
+                }}
+                isError={isSearchError}
+            />
 
             {filteredPackages && filteredPackages.length ? (
                 <div className="flex flex-col gap-2">
