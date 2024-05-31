@@ -82,6 +82,21 @@ export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
     }
 }
 
+export const shareRef = async (text: string) => {
+
+    const shareData = {
+        title: "Vignette ID",
+        text: "Share this order to pay!",
+        url: "awdwad"
+    };
+
+    try {
+        navigator.share(shareData);
+    } catch (error) {
+        console.error("Error sharing", error);
+    }
+}
+
 export const getReferralLink = (user_id: string | number) => {
     if (!user_id) {
         return "";

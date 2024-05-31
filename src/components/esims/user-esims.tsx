@@ -9,6 +9,7 @@ import { Esim } from "@/types";
 import { l } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "../ui/skeleton";
+import { RiSimCard2Fill } from "react-icons/ri";
 
 type Props = {};
 
@@ -34,9 +35,11 @@ const UserEsims = (props: Props) => {
                     <h2>{l("title_esims")}</h2>
                 </div>
                 <div className="flex flex-col gap-5 w-full">
-                    {Array(4).fill(null).map((_, index) => (
-                        <Skeleton key={index}/>
-                    ))}
+                    {Array(4)
+                        .fill(null)
+                        .map((_, index) => (
+                            <Skeleton key={index} />
+                        ))}
                 </div>
             </div>
         );
@@ -54,9 +57,10 @@ const UserEsims = (props: Props) => {
                         <h2>{l("title_esims")}</h2>{" "}
                     </div>
                     <div className="flex flex-col gap-2 mt-1 items-center justify-center">
-                        <h2 className="text-center font-medium text-3xl text-neutral-300">
+                        {/* <h2 className="text-center font-medium text-3xl text-neutral-300">
                             NO ESIMS YET
-                        </h2>
+                        </h2> */}
+                        <RiSimCard2Fill className=" -scale-x-100  text-neutral-300/75 size-[52px] " />
                     </div>
                 </div>
             </div>

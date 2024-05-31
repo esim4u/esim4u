@@ -6,6 +6,8 @@ import { useTelegram } from "@/providers/telegram-provider";
 import { getUserReferrals } from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { BiPurchaseTagAlt } from "react-icons/bi";
+import RefLinkButton from "../shared/ref-link-button";
+import Image from "next/image";
 
 const Referrals = () => {
     const { user: tgUser, webApp } = useTelegram();
@@ -30,9 +32,25 @@ const Referrals = () => {
                         <h2>{l("title_frens")}</h2>{" "}
                     </div>
                     <div className="flex flex-col gap-2 mt-1 items-center justify-center">
-                        <h2 className="text-center font-medium text-3xl text-neutral-300">
+                        <div className="flex flex-col gap-2 items-center justify-between text-center px-5">
+                            <p className="font-semibold text-pretty leading-4">
+                                Invite friends and start earning money!
+                            </p>
+                            <div className="flex gap-1 text-amber-500 text-sm font-semibold">
+                                Just click the button below{" "}
+                                <Image
+                                    src="/img/icons/hand-down.png"
+                                    alt="Hand down emoji icon"
+                                    width={14}
+                                    height={14}
+                                    className="object-cover"
+                                />
+                            </div>
+                            {/* <RefLinkButton className="shadow-lg" /> */}
+                        </div>
+                        {/* <h2 className="text-center font-medium text-3xl text-neutral-300">
                             NO FRENS YET
-                        </h2>
+                        </h2> */}
                     </div>
                 </div>
             </div>
@@ -73,7 +91,8 @@ const Referrals = () => {
                     <div className=" grid grid-cols-5 gap-1 w-40 ">
                         <div className=" col-span-2 flex items-center justify-center -mr-4">
                             <span className="  flex items-center min-w-9 px-1 justify-center  font-medium bg-gradient-to-r from-violet-500 to-purple-500 text-white rounded-md">
-                                {!!referral.orders[0].count && referral.orders[0].count}
+                                {!!referral.orders[0].count &&
+                                    referral.orders[0].count}
                             </span>
                         </div>
                         <div className="col-span-2  flex items-center justify-center">

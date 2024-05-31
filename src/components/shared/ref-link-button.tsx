@@ -1,22 +1,27 @@
 "use client";
 
 import { l } from "@/lib/locale";
-import { copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
+import { cn, copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import React from "react";
 
-type Props = {};
+type Props = {
+    className?: string;
+};
 
-const RefLinkButton = (props: Props) => {
+const RefLinkButton = ({ className }: Props) => {
     const { user: tgUser, webApp } = useTelegram();
 
     return (
         <div
             onClick={() => {
                 hapticFeedback("success");
-                copyReferralLinkToClipBoard(tgUser?.id)
+                copyReferralLinkToClipBoard(tgUser?.id);
             }}
-            className="bg-white h-10 p-2 pr-3 min-w-32 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform"
+            className={cn(
+                "bg-white h-10 p-2 pr-3 min-w-32 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform",
+                className
+            )}
         >
             <svg
                 width="20"

@@ -3,6 +3,7 @@ import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { cn, hapticFeedback } from "@/lib/utils";
 import Image from "next/image";
 import { l } from "@/lib/locale";
+import { GiAchievement } from "react-icons/gi";
 
 type Props = {
     fullWidth?: boolean;
@@ -30,15 +31,16 @@ const Achievements = ({ fullWidth = false }: Props) => {
                         </span>
                     </div>
                     <div className="flex flex-col gap-2 mt-1 items-center justify-center">
-                        <h2 className="text-center font-medium text-3xl text-neutral-300">
+                        {/* <h2 className="text-center font-medium text-3xl text-neutral-300">
                             {l("coming_soon")}
-                        </h2>
+                        </h2> */}
+                        <GiAchievement className=" text-neutral-300/75 size-[68px]" />
                     </div>
                 </div>
             </div>
         );
     }
-    
+
     return (
         <div className={cn("flex flex-col gap-2", fullWidth && " -mx-5")}>
             <div

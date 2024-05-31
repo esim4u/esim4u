@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ESIM_STATE } from "@/enums";
 import { l, resetLanguage, setLanguage } from "@/lib/locale";
 import { cn } from "@/lib/utils";
+import { useTelegram } from "@/providers/telegram-provider";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -20,6 +21,7 @@ type Props = {};
 
 const SandboxPage = (props: Props) => {
     const router = useRouter();
+    const { webApp } = useTelegram();
 
     const [percent, setPercent] = React.useState(50);
 
@@ -31,31 +33,68 @@ const SandboxPage = (props: Props) => {
 
             <Button
                 onClick={() => {
-                    setLanguage("en", router);
+                    webApp?.switchInlineQuery("hello", {
+                        choose_chat_types: "users",
+                    });
                 }}
             >
-                en
+                switch share
             </Button>
             <Button
                 onClick={() => {
-                    setLanguage("ua", router);
+                    webApp?.switchInlineQuery("hello", {
+                        choose_chat_types: ["users"],
+                    });
                 }}
             >
-                ua
+                switch share array
             </Button>
             <Button
                 onClick={() => {
-                    setLanguage("hu", router);
+                    webApp?.switchInlineQuery("hello", {
+                        choose_chat_types: true,
+                    });
                 }}
             >
-                hu
+                switch share bool
             </Button>
+            <Button
+                onClick={() => {
+                    webApp?.switchInlineQuery("hello", ["users"]);
+                }}
+            >
+                switch share no object
+            </Button>
+            <Button
+                onClick={() => {
+                    webApp?.openLink("awdawd", {
+                        try_instant_view: true,
+                    });
+                }}
+            >
+                openlink
+            </Button>
+
             <Button
                 onClick={() => {
                     resetLanguage(router);
                 }}
             >
-                reset
+                reset language
+            </Button>
+
+            <Button
+                onClick={async () => {
+                    
+                    const shareData = {
+                        title: "Vignette ID",
+                        text: "Share this order to pay!",
+                        url: "awdawdawd"
+                    };
+                    await navigator.share(shareData);
+                }}
+            >
+                Share
             </Button>
 
             {l("hello_world")}
