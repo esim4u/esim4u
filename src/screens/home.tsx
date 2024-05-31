@@ -1,7 +1,11 @@
 "use client";
 
 import Header from "@/components/home/header";
-import { copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
+import {
+    copyReferralLinkToClipBoard,
+    hapticFeedback,
+    scrollToTop,
+} from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -18,11 +22,15 @@ import { COUNTRIES } from "@/constants";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { track } from "@vercel/analytics/react";
 import { getPreferredLanguage, l } from "@/lib/locale";
+import Collapse from "@/components/ui/collapse";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
     const [search, setSearch] = useState("");
     const [isSearchError, setIsSearchError] = useState(false);
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
+
     const router = useRouter();
 
     const { data: packages, isLoading } = useQuery({
@@ -68,7 +76,9 @@ export default function Home() {
             sendGTMEvent({ event: "share", value: "main_referral_copy" });
             track("share", { value: "main_referral_copy" });
             sendGTMEvent({ event: "main_referral_copy", value: "home" });
-            copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
+            copyReferralLinkToClipBoard(
+                webApp?.initDataUnsafe?.user?.id.toString()
+            );
         }
     }, [webApp]);
 
@@ -146,31 +156,42 @@ export default function Home() {
     }, [packages, search]);
 
     return (
-        <main className="overflow-x-hidden flex flex-col h-dvh p-5 gap-4">
-            <Header />
-            <div className="-mx-5 ">
-                <Stories className="pl-4 mr-4" />
-            </div>
+        <main className="overflow-x-hidden flex flex-col p-5 gap-4">
+            <Collapse className="-mx-5 " isOpen={!isSearchFocused}>
+                <div className="flex flex-col gap-4">
+                    <div className="px-5">
+                        <Header />
+                    </div>
+
+                    <Stories className="pl-4 mr-4" />
+                </div>
+            </Collapse>
 
             <SearchInput
+                id="country-search"
                 search={search}
                 setSearch={(value) => {
                     setSearch(value);
 
-                    if (
-                        value.length > 2 &&
-                        filteredPackages?.length === 0
-                    ) {
+                    if (value.length > 2 && filteredPackages?.length === 0) {
                         setIsSearchError(true);
                         hapticFeedback("warning");
                     } else {
                         setIsSearchError(false);
                     }
                 }}
+                onFocus={() => {
+                    hapticFeedback();
+                    setIsSearchFocused(true);
+                    setTimeout(() => {
+                        scrollToTop();
+                    }, 200);
+                }}
+                onBlur={() => setIsSearchFocused(false)}
                 isError={isSearchError}
             />
 
-            {filteredPackages && filteredPackages.length ? (
+            {filteredPackages && filteredPackages.length && (
                 <div className="flex flex-col gap-2">
                     {filteredPackages.map((country: any, index: number) => {
                         return (
@@ -231,12 +252,13 @@ export default function Home() {
                         );
                     })}
                 </div>
-            ) : (
+            )}
+            <Collapse className="" isOpen={!isSearchFocused}>
                 <div className="flex flex-col gap-4">
                     <PopularCountries />
                     <Achievements fullWidth />
                 </div>
-            )}
+            </Collapse>
         </main>
     );
 }

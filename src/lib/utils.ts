@@ -121,3 +121,8 @@ export const generateEsimActivationLink = (
 ) => {
     return `LPA:1$${sm_dp}$${confiramtion_code}`;
 };
+
+
+export const scrollToTop = () => {
+    window.scrollTo(0, 0);
+};
