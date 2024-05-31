@@ -213,7 +213,7 @@ export default function Home() {
                 isError={isSearchError}
             />
 
-            {filteredPackages && filteredPackages?.length > 0 && (
+            {isSearchFocused && filteredPackages && filteredPackages?.length > 0 && (
                 <div className="flex flex-col gap-2">
                     {filteredPackages.map((country: any, index: number) => {
                         return (
