@@ -232,6 +232,16 @@ export const getOrderById = async (id) => {
     return { ...orders.data[0], checkout_id: transactions.data[0].checkout_id };
 };
 
+export const getUsersEsimHistory = async (telegram_id) => {
+    const orders = await supabase
+        .from("orders")
+        .select("*")
+        .eq("telegram_id", telegram_id)
+        .eq("status", "SUCCESS")
+    
+    return orders.data;
+};
+
 // STORIES
 
 export const getStories = async () => {

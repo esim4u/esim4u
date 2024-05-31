@@ -7,14 +7,16 @@ import React from "react";
 import EsimCard from "./esim-card";
 import { Esim } from "@/types";
 import { l } from "@/lib/locale";
-import { cn } from "@/lib/utils";
+import { cn, hapticFeedback } from "@/lib/utils";
 import { Skeleton } from "../ui/skeleton";
 import { RiSimCard2Fill } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const UserEsims = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
+    const router = useRouter();
 
     const { data: userEsims, isLoading } = useQuery({
         queryKey: ["user-esims", tgUser?.id],
@@ -69,8 +71,17 @@ const UserEsims = (props: Props) => {
 
     return (
         <div className="flex flex-col gap-2 w-full">
-            <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">
-                <h2>{l("title_esims")}</h2>
+            <div className="px-4 flex  gap-2 uppercase items-center justify-between font-medium text-neutral-500">
+                <h2>{l("title_esims")}</h2>{" "}
+                <h2
+                    onClick={() => {
+                        hapticFeedback();
+                        router.push("/profile/history");
+                    }}
+                    className=" cursor-pointer underline underline-offset-4"
+                >
+                    {l("title_history")}
+                </h2>
             </div>
             <div className="flex flex-col gap-5 w-full">
                 {userEsims?.map((esim: Esim) => (
