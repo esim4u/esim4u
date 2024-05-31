@@ -101,7 +101,10 @@ const LeaderBoard = (props: Props) => {
             <div className="flex flex-col items-center gap-2 w-full">
                 {leaders?.map((leader: any, index: number) => {
                     return (
-                        <div className="w-full flex flex-col gap-2">
+                        <div
+                            key={leader.telegram_id}
+                            className="w-full flex flex-col gap-2"
+                        >
                             <div className="flex items-center gap-2">
                                 <div
                                     key={leader.telegram_id}
@@ -144,9 +147,13 @@ const LeaderBoard = (props: Props) => {
                                 </div>
                                 {tgUser?.id == leader.telegram_id && (
                                     <Button
-                                        className={cn("bg-white aspect-square min-w-10  text-purple-600", isOpen && " bg-gradient-to-tr from-indigo-500 to-purple-500 text-white")}
+                                        className={cn(
+                                            "bg-white aspect-square min-w-10  text-purple-600",
+                                            isOpen &&
+                                                " bg-gradient-to-tr from-indigo-500 to-purple-500 text-white"
+                                        )}
                                         onClick={() => {
-                                            hapticFeedback()
+                                            hapticFeedback();
                                             setIsOpen(!isOpen);
                                         }}
                                         variant={"unstyled"}
