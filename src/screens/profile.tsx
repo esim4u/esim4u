@@ -97,7 +97,7 @@ export default function Profile() {
                 <RefLinkButton />
                 <Achievements fullWidth/>
                 <UserEsims />
-                <Referrals />
+                {/* <Referrals /> */}
             </div>
         </main>
     );
