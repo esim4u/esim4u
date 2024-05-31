@@ -177,10 +177,11 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                     width={200}
                     height={100}
                     className="w-full h-48 object-cover rounded-lg overflow-hidden"
-                    src={"/img/countries/it.png"}
+                    src={"/img/countries/global.png"}
                     alt={packageData.slug}
                 />
-                <div className="absolute h-2/3 bg-gradient-to-t bottom-0 w-full backdrop-blur-lg blur-lg linear-mask"></div>
+                {/* <div className="absolute h-2/3 bg-gradient-to-t bottom-0 w-full backdrop-blur-lg blur-lg linear-mask"></div> */}
+                <div className="absolute h-2/3 bg-gradient-to-t from-black/75 bottom-0 w-full "></div>
 
                 <h1 className="absolute bottom-4 text-white text-center text-2xl pb-6 uppercase  text-shadow-sm shadow-black/50 ">
                     {packageData.slug}
