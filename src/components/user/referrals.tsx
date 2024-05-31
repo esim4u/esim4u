@@ -9,7 +9,11 @@ import { BiPurchaseTagAlt } from "react-icons/bi";
 import RefLinkButton from "../shared/ref-link-button";
 import Image from "next/image";
 
-const Referrals = () => {
+interface Props {
+    hideTitle?: boolean;
+}
+
+const Referrals = ({ hideTitle }: Props) => {
     const { user: tgUser, webApp } = useTelegram();
 
     const { data: referrals, isLoading } = useQuery({
@@ -20,17 +24,19 @@ const Referrals = () => {
         },
     });
 
-    if (referrals?.length !== 0) {
+    if (referrals?.length === 0) {
         return (
             <div className=" w-full">
                 <div className="relative flex flex-col items-center justify-center gap-2 bg-white rounded-3xl h-[180px] w-full">
-                    <div
-                        className={cn(
-                            "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500"
-                        )}
-                    >
-                        <h2>{l("title_frens")}</h2>{" "}
-                    </div>
+                    {!hideTitle && (
+                        <div
+                            className={cn(
+                                "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500"
+                            )}
+                        >
+                            <h2>{l("title_frens")}</h2>{" "}
+                        </div>
+                    )}
                     <div className="flex flex-col gap-2 mt-1 items-center justify-center">
                         <div className="flex flex-col gap-2 items-center justify-between text-center px-5">
                             <p className="font-semibold text-pretty leading-4">
@@ -59,12 +65,14 @@ const Referrals = () => {
 
     return (
         <div className="flex flex-col gap-2 w-full">
-            <div className="flex  gap-2 uppercase justify-between items-center px-4 font-medium text-neutral-500">
-                <h2 className="">{l("title_frens")}</h2>
-                <div className="bg-gradient-to-r from-violet-500 to-purple-500 flex items-center justify-center text-center text-white rounded-full font-bold size-6">
-                    <span className="">{referrals?.length}</span>
+            {!hideTitle && (
+                <div className="flex  gap-2 uppercase justify-between items-center px-4 font-medium text-neutral-500">
+                    <h2 className="">{l("title_frens")}</h2>
+                    <div className="bg-gradient-to-r from-violet-500 to-purple-500 flex items-center justify-center text-center text-white rounded-full font-bold size-6">
+                        <span className="">{referrals?.length}</span>
+                    </div>
                 </div>
-            </div>
+            )}
             {/* <pre
                 className="max-w-32"
                 onClick={() => {

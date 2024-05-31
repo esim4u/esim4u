@@ -1,13 +1,17 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import Collapse from "@/components/ui/collapse";
+import Referrals from "@/components/user/referrals";
 import { l } from "@/lib/locale";
 import { cn, copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getPhotoUrlFromFileId } from "@/services/grammy";
 import { getLeaderboard, getUserById } from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { FaUserFriends } from "react-icons/fa";
 import { GrTrophy } from "react-icons/gr";
 import { PiMedalFill } from "react-icons/pi";
 
@@ -32,6 +36,7 @@ const PlaceLabel = ({ index }: { index: number }) => {
 
 const LeaderBoard = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
+    const [isOpen, setIsOpen] = useState(false);
 
     const { data: leaders, isLoading } = useQuery({
         queryKey: ["leaderboard"],
@@ -53,7 +58,9 @@ const LeaderBoard = (props: Props) => {
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback();
-            copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
+            copyReferralLinkToClipBoard(
+                webApp?.initDataUnsafe?.user?.id.toString()
+            );
         }
     }, [webApp]);
 
@@ -86,48 +93,75 @@ const LeaderBoard = (props: Props) => {
                     <h2 className="font-bold text-center uppercase">
                         invited the most frens
                     </h2>
-                    <p className="text-center leading-4 text-sm text-pretty">Invite more frens to get into the leader board! </p>
+                    <p className="text-center leading-4 text-sm text-pretty">
+                        Invite more frens to get into the leader board!{" "}
+                    </p>
                 </div>
             </div>
             <div className="flex flex-col items-center gap-2 w-full">
                 {leaders?.map((leader: any, index: number) => {
                     return (
-                        <div
-                            key={leader.telegram_id}
-                            className={cn(
-                                "w-full h-10 bg-white rounded-lg grid grid-cols-7 ",
-                                tgUser?.id == leader.telegram_id &&
-                                    " ring-2 ring-purple-500"
+                        <div className="w-full flex flex-col gap-2">
+                            <div className="flex items-center gap-2">
+                                <div
+                                    key={leader.telegram_id}
+                                    className={cn(
+                                        "w-full h-10 bg-white rounded-lg grid grid-cols-7 ",
+                                        tgUser?.id == leader.telegram_id &&
+                                            " ring-2 ring-purple-500"
+                                    )}
+                                >
+                                    <div className="col-span-1 flex items-center justify-center">
+                                        <PlaceLabel index={index} />
+                                    </div>
+                                    <div className="col-span-5 gap-2 flex items-center">
+                                        <Avatar className="w-6 h-6">
+                                            <AvatarImage
+                                                src={
+                                                    (tgUser?.id ==
+                                                        leader.telegram_id &&
+                                                        dbUserData?.photo_url) ||
+                                                    leader?.photo_url ||
+                                                    `https://api.dicebear.com/8.x/bottts-neutral/svg?seed=${leader.telegram_id}` ||
+                                                    "/img/default-user.png"
+                                                }
+                                                alt="@shadcn"
+                                            />
+                                            <AvatarFallback className=" bg-neutral-500 text-white">
+                                                {leader?.first_name[0]}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <p className="text-ellipsis overflow-hidden line-clamp-1">
+                                            {leader?.first_name ||
+                                                "Esim4U Fren"}
+                                        </p>
+                                    </div>
+                                    <div className="col-span-1 flex items-center justify-center">
+                                        <span className="  flex items-center min-w-9 px-1 justify-center  font-medium bg-gradient-to-r from-violet-500 to-purple-500 text-white rounded-md">
+                                            {leader.referrals_count || 0}
+                                        </span>
+                                    </div>
+                                </div>
+                                {tgUser?.id == leader.telegram_id && (
+                                    <Button
+                                        className={cn("bg-white aspect-square min-w-10  text-purple-600", isOpen && " bg-gradient-to-tr from-indigo-500 to-purple-500 text-white")}
+                                        onClick={() => {
+                                            hapticFeedback()
+                                            setIsOpen(!isOpen);
+                                        }}
+                                        variant={"unstyled"}
+                                        size={"icon"}
+                                    >
+                                        <FaUserFriends className=" size-5" />
+                                    </Button>
+                                )}
+                            </div>
+
+                            {tgUser?.id == leader.telegram_id && (
+                                <Collapse className="" isOpen={isOpen}>
+                                    <Referrals hideTitle />
+                                </Collapse>
                             )}
-                        >
-                            <div className="col-span-1 flex items-center justify-center">
-                                <PlaceLabel index={index} />
-                            </div>
-                            <div className="col-span-5 gap-2 flex items-center">
-                                <Avatar className="w-6 h-6">
-                                    <AvatarImage
-                                        src={
-                                            (tgUser?.id == leader.telegram_id &&
-                                                dbUserData?.photo_url) ||
-                                            leader?.photo_url ||
-                                            `https://api.dicebear.com/8.x/bottts-neutral/svg?seed=${leader.telegram_id}` ||
-                                            "/img/default-user.png"
-                                        }
-                                        alt="@shadcn"
-                                    />
-                                    <AvatarFallback className=" bg-neutral-500 text-white">
-                                        {leader?.first_name[0]}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <p className="text-ellipsis overflow-hidden line-clamp-1">
-                                    {leader?.first_name || "Esim4U Fren"}
-                                </p>
-                            </div>
-                            <div className="col-span-1 flex items-center justify-center">
-                                <span className="  flex items-center min-w-9 px-1 justify-center  font-medium bg-gradient-to-r from-violet-500 to-purple-500 text-white rounded-md">
-                                    {leader.referrals_count || 0}
-                                </span>
-                            </div>
                         </div>
                     );
                 })}
