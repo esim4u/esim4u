@@ -4,6 +4,7 @@ import Header from "@/components/home/header";
 import {
     copyReferralLinkToClipBoard,
     hapticFeedback,
+    loseFocus,
     scrollToTop,
 } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
@@ -61,12 +62,6 @@ export default function Home() {
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.hide();
-            webApp?.MainButton.setParams({
-                text: l("btn_main_share"),
-                color: "#3b82f6",
-                is_active: true,
-                is_visible: true,
-            });
         }
     }, [webApp]);
 
@@ -82,12 +77,41 @@ export default function Home() {
         }
     }, [webApp]);
 
-    useEffect(() => {
-        webApp?.onEvent("mainButtonClicked", copyReferralLink);
-        return () => {
-            webApp?.offEvent("mainButtonClicked", copyReferralLink);
-        };
+    const handleLoseFocus = useCallback(() => {
+        if (webApp) {
+            setIsSearchFocused(false);
+            loseFocus()
+        }
     }, [webApp]);
+
+    useEffect(() => {}, [webApp]);
+
+    useEffect(() => {
+        if (isSearchFocused) {
+            webApp?.MainButton.setParams({
+                text: "Finish searching",
+                color: "#EF3671",
+                is_active: true,
+                is_visible: true,
+            });
+
+            webApp?.onEvent("mainButtonClicked", handleLoseFocus);
+            return () => {
+                webApp?.offEvent("mainButtonClicked", handleLoseFocus);
+            };
+        } else {
+            webApp?.MainButton.setParams({
+                text: l("btn_main_share"),
+                color: "#3b82f6",
+                is_active: true,
+                is_visible: true,
+            });
+            webApp?.onEvent("mainButtonClicked", copyReferralLink);
+            return () => {
+                webApp?.offEvent("mainButtonClicked", copyReferralLink);
+            };
+        }
+    }, [webApp, isSearchFocused]);
 
     const filteredPackages = useMemo(() => {
         if (search && packages && packages.length) {
@@ -156,14 +180,14 @@ export default function Home() {
     }, [packages, search]);
 
     return (
-        <main className="overflow-x-hidden flex flex-col p-5 gap-4">
+        <main className=" flex flex-col px-5 gap-4">
             <Collapse className="-mx-5 " isOpen={!isSearchFocused}>
                 <div className="flex flex-col gap-4">
-                    <div className="px-5">
+                    <div className="px-5 pt-5">
                         <Header />
                     </div>
 
-                    <Stories className="pl-4 mr-4" />
+                    {/* <Stories className="pl-4 mr-4" /> */}
                 </div>
             </Collapse>
 
@@ -180,18 +204,16 @@ export default function Home() {
                         setIsSearchError(false);
                     }
                 }}
+                isFocused={isSearchFocused}
                 onFocus={() => {
                     hapticFeedback();
                     setIsSearchFocused(true);
-                    setTimeout(() => {
-                        scrollToTop();
-                    }, 200);
                 }}
-                onBlur={() => setIsSearchFocused(false)}
+                setIsFocused={setIsSearchFocused}
                 isError={isSearchError}
             />
 
-            {filteredPackages && filteredPackages.length && (
+            {filteredPackages && filteredPackages?.length > 0 && (
                 <div className="flex flex-col gap-2">
                     {filteredPackages.map((country: any, index: number) => {
                         return (
@@ -253,7 +275,7 @@ export default function Home() {
                     })}
                 </div>
             )}
-            <Collapse className="" isOpen={!isSearchFocused}>
+            <Collapse className=" duration-200" isOpen={!isSearchFocused}>
                 <div className="flex flex-col gap-4">
                     <PopularCountries />
                     <Achievements fullWidth />

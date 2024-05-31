@@ -20,7 +20,7 @@ const Referrals = () => {
         },
     });
 
-    if (referrals?.length === 0) {
+    if (referrals?.length !== 0) {
         return (
             <div className=" w-full">
                 <div className="relative flex flex-col items-center justify-center gap-2 bg-white rounded-3xl h-[180px] w-full">
@@ -34,7 +34,7 @@ const Referrals = () => {
                     <div className="flex flex-col gap-2 mt-1 items-center justify-center">
                         <div className="flex flex-col gap-2 items-center justify-between text-center px-5">
                             <p className="font-semibold text-pretty leading-4">
-                                Invite friends and start earning money!
+                                Invite frens and start earning money!
                             </p>
                             <div className="flex gap-1 text-amber-500 text-sm font-semibold">
                                 Just click the button below{" "}

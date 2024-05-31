@@ -66,7 +66,7 @@ export function copyText(text: string | number, e?: any) {
 export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
     e?.stopPropagation();
 
-    const link =  getReferralLink(user_id);
+    const link = getReferralLink(user_id);
 
     try {
         navigator.clipboard.writeText(link.toString());
@@ -83,11 +83,10 @@ export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
 }
 
 export const shareRef = async (text: string) => {
-
     const shareData = {
         title: "Vignette ID",
         text: "Share this order to pay!",
-        url: "awdwad"
+        url: "awdwad",
     };
 
     try {
@@ -95,7 +94,7 @@ export const shareRef = async (text: string) => {
     } catch (error) {
         console.error("Error sharing", error);
     }
-}
+};
 
 export const getReferralLink = (user_id: string | number) => {
     if (!user_id) {
@@ -122,7 +121,11 @@ export const generateEsimActivationLink = (
     return `LPA:1$${sm_dp}$${confiramtion_code}`;
 };
 
-
 export const scrollToTop = () => {
     window.scrollTo(0, 0);
+};
+
+export const loseFocus = () => {
+    const inputs = document.querySelectorAll("input, textarea, select, button");
+    inputs.forEach((input: any) => input.blur());
 };

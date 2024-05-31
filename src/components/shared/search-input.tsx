@@ -10,6 +10,8 @@ type SearchInputProps = {
     placeholder?: string;
     setSearch: (search: string) => void;
     isError?: boolean;
+    isFocused?: boolean;
+    setIsFocused?: (isFocused: boolean) => void;
     onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 };
@@ -20,6 +22,8 @@ const SearchInput = ({
     setSearch,
     placeholder = l("input_search_country"),
     isError,
+    isFocused,
+    setIsFocused,
     onFocus,
     onBlur,
 }: SearchInputProps) => {
@@ -28,7 +32,7 @@ const SearchInput = ({
             id={id}
             className={cn(
                 "relative flex items-center",
-                isError && "ring-2 ring-redish rounded-full"
+                isError && "ring-2 ring-redish rounded-full animate-wiggle"
             )}
         >
             <HiMiniMagnifyingGlass
@@ -46,13 +50,16 @@ const SearchInput = ({
                 placeholder={placeholder}
                 onChange={(e) => setSearch(e.target.value)}
                 onFocus={onFocus}
-                onBlur={onBlur}
             />
-            {search && (
+
+            {(search || isFocused) && (
                 <IoCloseOutline
                     onClick={() => {
                         hapticFeedback();
                         setSearch("");
+                        if (setIsFocused) {
+                            setIsFocused(false);
+                        }
                     }}
                     className={cn(
                         "cursor-pointer w-5 h-5 right-[14px] absolute text-neutral-500",

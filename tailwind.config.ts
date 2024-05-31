@@ -102,6 +102,20 @@ const config = {
                     from: { transform: "translateX(0)" },
                     to: { transform: "translateX(calc(-100% - 4rem))" },
                 },
+                "wiggle": {
+                    "0%,100%": {
+                        transform: "translateX(0)"
+                    },
+                    "25%": {
+                        transform: "translateX(-4px)"
+                    },
+                    "50%": {
+                        transform: "translateX(4px)"
+                    },
+                    "75%": {
+                        transform: "translateX(-4px)"
+                    }
+                }
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
@@ -109,6 +123,7 @@ const config = {
                 appear: "appear 1s ease-in-out",
                 "logo-cloud": "logo-cloud 30s linear infinite",
                 "logo-cloud-reverse": "logo-cloud 30s linear infinite reverse",
+                "wiggle": "wiggle 0.5s"
             },
             fontFamily: {
                 sans: ["var(--font-sans)", ...fontFamily.sans],
