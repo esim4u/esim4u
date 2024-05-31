@@ -187,7 +187,7 @@ export default function Home() {
                         <Header />
                     </div>
 
-                    {/* <Stories className="pl-4 mr-4" /> */}
+                    <Stories className="pl-4 mr-4" />
                 </div>
             </Collapse>
 
