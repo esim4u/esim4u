@@ -12,6 +12,7 @@ import type { ITelegramUser, IWebApp } from "@/types";
 import { usePathname, useRouter } from "next/navigation";
 import { hapticFeedback } from "@/lib/utils";
 import { initLanguage, l, setLanguage } from "@/lib/locale";
+import { debug } from "console";
 
 export interface ITelegramContext {
     webApp?: any;
@@ -20,6 +21,7 @@ export interface ITelegramContext {
     cloudStorage?: any;
     // webApp?: IWebApp;
     // user?: ITelegramUser;
+    adContoller?: any;
 }
 
 export const TelegramContext = createContext<ITelegramContext>({});
@@ -33,9 +35,16 @@ export const TelegramProvider = ({
     const path = usePathname();
 
     const [webApp, setWebApp] = useState<any>(null);
+    const [adContoller, setAdContoller] = useState<any>(null);
 
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;
+        const AdController = (window as any).Adsgram.init({ blockId: "86"});
+
+        if(AdController) {
+            setAdContoller(AdController);
+        }
+
         if (app) {
             app.setHeaderColor("#EFEFF3");
             app.setBackgroundColor("#EFEFF3");
@@ -86,6 +95,7 @@ export const TelegramProvider = ({
                   },
                   start_param: webApp?.initDataUnsafe.start_param,
                   cloudStorage: webApp?.cloudStorage,
+                  adContoller
               }
             : {};
     }, [webApp]);
