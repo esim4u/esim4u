@@ -21,7 +21,7 @@ export interface ITelegramContext {
     cloudStorage?: any;
     // webApp?: IWebApp;
     // user?: ITelegramUser;
-    adContoller?: any;
+    // adContoller?: any;
 }
 
 export const TelegramContext = createContext<ITelegramContext>({});
@@ -39,11 +39,11 @@ export const TelegramProvider = ({
 
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;
-        const AdController = (window as any).Adsgram.init({ blockId: "86"});
+        // const AdController = (window as any).Adsgram.init({ blockId: "86"});
 
-        if(AdController) {
-            setAdContoller(AdController);
-        }
+        // if(AdController) {
+        //     setAdContoller(AdController);
+        // }
 
         if (app) {
             app.setHeaderColor("#EFEFF3");
@@ -95,7 +95,7 @@ export const TelegramProvider = ({
                   },
                   start_param: webApp?.initDataUnsafe.start_param,
                   cloudStorage: webApp?.cloudStorage,
-                  adContoller
+                //   adContoller
               }
             : {};
     }, [webApp]);

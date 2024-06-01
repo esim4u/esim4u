@@ -28,7 +28,7 @@ import { Button } from "@/components/ui/button";
 import { ShowPromiseResult } from "@/types";
 
 export default function Home() {
-    const { user: tgUser, webApp, adContoller } = useTelegram();
+    const { user: tgUser, webApp} = useTelegram();
     const [search, setSearch] = useState("");
     const [isSearchError, setIsSearchError] = useState(false);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -85,21 +85,21 @@ export default function Home() {
         }
     }, [webApp]);
 
-    useEffect(() => {
-        if (adContoller) {
-            console.log("adContoller", adContoller);
-            adContoller
-                .show()
-                .then((result: ShowPromiseResult) => {
-                    // user watch ad till the end
-                    // your code to reward user
-                })
-                .catch((result: ShowPromiseResult) => {
-                    // user skipped video or get error during playing ad
-                    // do nothing or whatever you want
-                });
-        }
-    }, [adContoller]);
+    // useEffect(() => {
+    //     if (adContoller) {
+    //         console.log("adContoller", adContoller);
+    //         adContoller
+    //             .show()
+    //             .then((result: ShowPromiseResult) => {
+    //                 // user watch ad till the end
+    //                 // your code to reward user
+    //             })
+    //             .catch((result: ShowPromiseResult) => {
+    //                 // user skipped video or get error during playing ad
+    //                 // do nothing or whatever you want
+    //             });
+    //     }
+    // }, [adContoller]);
 
     useEffect(() => {
         if (isSearchFocused) {
@@ -202,7 +202,7 @@ export default function Home() {
                         <Header />
                     </div>
 
-                    {/* <Stories className="pl-4 mr-4" /> */}
+                    <Stories className="pl-4 mr-4" />
                 </div>
             </Collapse>
 

@@ -49,10 +49,10 @@ export default function RootLayout({
                                 src="https://telegram.org/js/telegram-web-app.js"
                                 strategy="beforeInteractive"
                             />
-                            <Script
+                            {/* <Script
                                 src="https://sad.adsgram.ai/js/sad.min.js"
                                 strategy="beforeInteractive"
-                            />
+                            /> */}
                             <Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
                             {children}
                             <Toaster />
