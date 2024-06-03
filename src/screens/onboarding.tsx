@@ -295,18 +295,12 @@ export default function OnBoarding() {
                                 toast({
                                     duration: Infinity,
                                     title: "Are you sure?",
+                                    description:
+                                        "If you connect wallet you can get bonuses for your referrals",
                                     action: (
                                         <div className=" w-1/2 flex items-center gap-2  ">
-                                            <ToastAction asChild altText="undo">
-                                                <Button
-                                                    variant={"ghost"}
-                                                    className=" w-1/3 underline underline-offset-4 text-base border-none"
-                                                >
-                                                    No
-                                                </Button>
-                                            </ToastAction>
-
                                             <Button
+                                                asChild
                                                 onClick={() => {
                                                     hapticFeedback("success");
                                                     finishOnboaringForUser.mutate(
@@ -314,10 +308,25 @@ export default function OnBoarding() {
                                                     );
                                                     router.push("/esims");
                                                 }}
-                                                variant={"secondary"}
-                                                className="w-full -mr-2 rounded-xl text-base"
+                                                variant={"ghost"}
+                                                className=" w-1/3 underline underline-offset-4 text-base border-none"
                                             >
-                                                Yes
+                                                <ToastAction altText="undo">
+                                                    Yes
+                                                </ToastAction>
+                                            </Button>
+
+                                            <Button
+                                                onClick={() => {
+                                                    hapticFeedback();
+                                                }}
+                                                variant={"secondary"}
+                                                className=" w-2/3 text-base rounded-lg "
+                                                asChild
+                                            >
+                                                <ToastAction altText="undo">
+                                                    No
+                                                </ToastAction>
                                             </Button>
                                         </div>
                                     ),
