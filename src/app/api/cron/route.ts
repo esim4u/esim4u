@@ -57,7 +57,17 @@ export async function GET() {
                 console.log(updatedOrder);
             }
         }
-    } catch (error) {}
+    } catch (error) {
+        await sendTgLog("An cron error occurred while processing orders");
+
+        return Response.json(
+            {
+                message: "An error occurred while processing orders",
+                description: error,
+            },
+            { status: 500 }
+        );
+    }
 
     await sendTgLog(
         "cron finished processing esims orders: " +
