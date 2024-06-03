@@ -9,6 +9,7 @@ export async function GET() {
         .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
 
     if (orders.error) {
+        await sendTgLog("An cron error occurred while fetching orders");
         console.log("An cron error occurred while fetching orders");
 
         return Response.json(
@@ -25,7 +26,7 @@ export async function GET() {
             orders.data.map((o) => o.id).join(", ")
     );
 
-    sendTgLog(
+    await sendTgLog(
         "cron stated processing esims orders: " +
             orders.data.map((o) => o.id).join(", ")
     );
