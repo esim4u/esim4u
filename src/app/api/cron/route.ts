@@ -1,15 +1,27 @@
-import { sendTgLog } from "@/services/tg-logger";
+import { ORDER_STATUS } from "@/enums";
+import { supabase } from "@/services/supabase";
 
 export async function GET() {
-    const result = await fetch(
-        "http://worldtimeapi.org/api/timezone/America/Chicago",
-        {
-            cache: "no-store",
-        }
+    const orders = await supabase
+        .from("orders")
+        .select("*")
+        .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
+
+    if (orders.error) {
+        console.log("An cron error occurred while fetching orders");
+
+        return Response.json(
+            {
+                message: "An error occurred while fetching orders",
+                description: orders.error.message,
+            },
+            { status: 500 }
+        );
+    }
+    console.log(
+        "cron stated processing esims orders: " +
+            orders.data.map((o) => o.id).join(", ")
     );
-    const data = await result.json();
 
-    console.log('cron job executed at', data.datetime);
-
-    return Response.json({ datetime: data.datetime });
+    return Response.json({ message: "Cron job executed" });
 }
