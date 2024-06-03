@@ -26,13 +26,5 @@ export async function GET() {
             orders.data.map((o) => o.id).join(", ")
     );
 
-    await axios
-        .get(
-            `https://api.telegram.org/bot7140478549:AAEH-4xJ8FWeUEN6x_xa4tsu5NvG8pnRgeI/sendMessage?chat_id=473700512&text=${encodeURI(
-                "test"
-            )}&parse_mode=html`
-        )
-        .catch((e) => {});
-
     return Response.json(orders);
 }
