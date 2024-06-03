@@ -21,26 +21,27 @@ const UserEsims = (props: Props) => {
     const { data: userEsims, isLoading } = useQuery({
         queryKey: ["user-esims", tgUser?.id],
         queryFn: async () => {
-            const data = await axios.get(`/api/user/${tgUser.id}/esims`);
+            const data = await axios.get(`/api/user/${tgUser?.id}/esims`);
             return data.data;
         },
         placeholderData: keepPreviousData,
         enabled: !!tgUser?.id,
-        staleTime: 1000 * 60 * 5, // 5 minutes
+        staleTime: 1000 * 60 * 1, // 1 minutes
         gcTime: 1000 * 60 * 60, // 1 hour
+        refetchInterval: 1000 * 60 * 1, // 1 minutes
     });
 
-    if (userEsims?.length === 0 && isLoading) {
+    if (isLoading) {
         return (
             <div className="flex flex-col gap-2 w-full">
                 <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">
                     <h2>{l("title_esims")}</h2>
                 </div>
                 <div className="flex flex-col gap-5 w-full">
-                    {Array(4)
+                    {Array(2)
                         .fill(null)
                         .map((_, index) => (
-                            <Skeleton key={index} />
+                            <Skeleton className="w-full h-36 rounded-2xl" key={index} />
                         ))}
                 </div>
             </div>

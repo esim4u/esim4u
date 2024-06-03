@@ -43,7 +43,7 @@ export async function GET(
 
     const orders = await supabase
         .from("orders")
-        .select("id, iccid")
+        .select("*")
         .eq("telegram_id", telegram_id)
         .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
 
@@ -57,45 +57,56 @@ export async function GET(
         );
     }
 
-    try {
-        for (const esim of orders.data) {
-            const usage = await axios
-                .get(
-                    process.env.AIRALO_API_URL + `/v2/sims/${esim.iccid}/usage`,
-                    {
-                        headers: {
-                            Accept: "application/json",
-                            Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
-                        },
-                    }
-                )
-                .then((res) => res.data)
-                .catch((e) => e.response);
+    if (orders.data.length == 0) {
+        return Response.json(
+            {
+                message: "No orders found",
+            },
+            { status: 404 }
+        );
+    }
 
-            console.log(usage);
-            if (usage && usage?.data?.status) {
-                const updatedOrder = await supabase
-                    .from("orders")
-                    .update({
-                        state: usage?.data?.status,
-                        usage: {
-                            remaining: usage.data?.remaining,
-                            total: usage.data?.total,
-                        },
-                        expired_at: usage.data?.expired_at,
-                    })
-                    .eq("id", esim.id);
+    return Response.json(orders.data, { status: 200 });
 
-                console.log(updatedOrder);
-            }
-        }
-    } catch (error) {}
+    // try {
+    //     for (const esim of orders.data) {
+    //         const usage = await axios
+    //             .get(
+    //                 process.env.AIRALO_API_URL + `/v2/sims/${esim.iccid}/usage`,
+    //                 {
+    //                     headers: {
+    //                         Accept: "application/json",
+    //                         Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+    //                     },
+    //                 }
+    //             )
+    //             .then((res) => res.data)
+    //             .catch((e) => e.response);
 
-    const currentOrders = await supabase
-        .from("orders")
-        .select()
-        .eq("telegram_id", telegram_id)
-        .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
+    //         console.log(usage);
+    //         if (usage && usage?.data?.status) {
+    //             const updatedOrder = await supabase
+    //                 .from("orders")
+    //                 .update({
+    //                     state: usage?.data?.status,
+    //                     usage: {
+    //                         remaining: usage.data?.remaining,
+    //                         total: usage.data?.total,
+    //                     },
+    //                     expired_at: usage.data?.expired_at,
+    //                 })
+    //                 .eq("id", esim.id);
 
-    return Response.json(currentOrders.data, { status: 200 });
+    //             console.log(updatedOrder);
+    //         }
+    //     }
+    // } catch (error) {}
+
+    // const currentOrders = await supabase
+    //     .from("orders")
+    //     .select()
+    //     .eq("telegram_id", telegram_id)
+    //     .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
+
+    // return Response.json(currentOrders.data, { status: 200 });
 }

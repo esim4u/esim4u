@@ -69,15 +69,15 @@ const EsimCard = ({
                     <CircleProgressBar
                         size={76}
                         percent={
-                            usage.remaining > 0
-                                ? (usage.remaining / usage.total) * 100
+                            usage?.remaining > 0
+                                ? (usage?.remaining / usage?.total) * 100
                                 : 0
                         }
                         strokeWidth={9}
                     >
                         <div className="flex flex-col leading-4 text-center mt-1">
                             <span className=" font-bold ">
-                                {(usage.remaining / 1024).toFixed(1)}
+                                {(usage?.remaining / 1024).toFixed(1)}
                             </span>{" "}
                             <span className=" font-bold text-xs">Gb</span>
                         </div>
