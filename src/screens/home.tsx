@@ -5,8 +5,8 @@ import {
     copyReferralLinkToClipBoard,
     hapticFeedback,
     loseFocus,
-    scrollToTop,
 } from "@/lib/utils";
+
 import { useTelegram } from "@/providers/telegram-provider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -24,11 +24,10 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import { track } from "@vercel/analytics/react";
 import { getPreferredLanguage, l } from "@/lib/locale";
 import Collapse from "@/components/ui/collapse";
-import { Button } from "@/components/ui/button";
-import { ShowPromiseResult } from "@/types";
+import PackagesList from "@/components/home/packages-list";
 
 export default function Home() {
-    const { user: tgUser, webApp} = useTelegram();
+    const { user: tgUser, webApp } = useTelegram();
     const [search, setSearch] = useState("");
     const [isSearchError, setIsSearchError] = useState(false);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -129,6 +128,7 @@ export default function Home() {
     }, [webApp, isSearchFocused]);
 
     const filteredPackages = useMemo(() => {
+        if(!search) return [];
         if (search && packages && packages.length) {
             const query = search.toLowerCase().trim();
 
@@ -202,7 +202,7 @@ export default function Home() {
                         <Header />
                     </div>
 
-                    <Stories className="pl-4 mr-4" />
+                    {/* <Stories className="pl-4 mr-4" /> */}
                 </div>
             </Collapse>
 
@@ -228,75 +228,9 @@ export default function Home() {
                 isError={isSearchError}
             />
 
-            {isSearchFocused &&
-                filteredPackages &&
-                filteredPackages?.length > 0 && (
-                    <div className="flex flex-col gap-2">
-                        {filteredPackages.map((country: any, index: number) => {
-                            return (
-                                <div
-                                    onClick={() => {
-                                        hapticFeedback();
-                                        webApp?.MainButton.setParams({
-                                            text: l("btn_pay"),
-                                            color: "#444444",
-                                            is_active: false,
-                                            is_visible: true,
-                                        });
-                                        router.push(
-                                            `/esims/${
-                                                country.country_code ||
-                                                country.slug
-                                            }`
-                                        );
-                                    }}
-                                    key={index}
-                                    className="cursor-pointer active:scale-95 transition-transform bg-white flex items-center justify-between w-full p-2 rounded-xl"
-                                >
-                                    <div className="flex flex-row items-center gap-4">
-                                        <Image
-                                            width={32}
-                                            height={24}
-                                            src={country.image.url}
-                                            alt={country.title}
-                                            className="rounded-md w-8 h-6"
-                                        />
-                                        <span className=" font-semibold">
-                                            {highlightMatches(
-                                                search,
-                                                country.matchKey ==
-                                                    "translation"
-                                                    ? country.translation
-                                                    : country.title
-                                            )}
-                                        </span>
-                                    </div>
-
-                                    {country.nestedMatchCountries &&
-                                        country.nestedMatchCountries[0]
-                                            ?.title && (
-                                            <span className=" font-semibold text-sm">
-                                                incl.
-                                                {highlightMatches(
-                                                    search,
-                                                    country
-                                                        .nestedMatchCountries[0]
-                                                        .matchKey ==
-                                                        "translation"
-                                                        ? country
-                                                              .nestedMatchCountries[0]
-                                                              .translation
-                                                        : country
-                                                              .nestedMatchCountries[0]
-                                                              .title
-                                                )}
-                                            </span>
-                                        )}
-                                </div>
-                            );
-                        })}
-                    </div>
-                )}
+            {isSearchFocused && filteredPackages && (
+                <PackagesList packages={filteredPackages} search={search} />
+            )}
             <Collapse className=" duration-200" isOpen={!isSearchFocused}>
                 <div className="flex flex-col gap-4">
                     <PopularCountries />
