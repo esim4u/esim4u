@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { l } from "./locale";
 import { ButtonProps } from "@/components/ui/button";
 import { MdOutlineContentCopy } from "react-icons/md";
+import { PiCopyBold } from "react-icons/pi";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -58,7 +59,7 @@ export function copyText(text: string | number, e?: any) {
             variant: "esim4u",
             description: (
                 <span className="flex flex-row items-center gap-2 font-semibold">
-                    <MdOutlineContentCopy />
+                    <PiCopyBold className="w-[18px] h-[18px]" />
                     <p>{l("toast_copied")}</p>
                 </span>
             ),
@@ -81,7 +82,7 @@ export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
             variant: "esim4u",
             description: (
                 <span className="flex flex-row items-center gap-2 font-semibold">
-                    <MdOutlineContentCopy />
+                    <PiCopyBold className="w-[18px] h-[18px]" />
                     <p>{l("toast_referral_copied")}</p>
                 </span>
             ),
