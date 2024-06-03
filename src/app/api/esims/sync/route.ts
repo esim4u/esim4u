@@ -2,6 +2,12 @@ import { ORDER_STATUS } from "@/enums";
 import { supabase } from "@/services/supabase";
 import axios from "axios";
 
+export const maxDuration = 50;
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
 export async function GET() {
     const orders = await supabase
         .from("orders")
