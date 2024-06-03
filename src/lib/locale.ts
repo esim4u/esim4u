@@ -54,20 +54,17 @@ export function setLanguage(language: string, router: any) {
 }
 
 export function l(key: string): string {
-    let value: string;
-    let language = "en";
+    let value = "undefined";
+    let language: string;
 
-    // let value = "undefined";
-    // let language: string;
-
-    // if (typeof window !== "undefined") {
-    //     language = window.localStorage.getItem("language") || "en";
-    // } else {
-    //     language = "en";
-    // }
-    // if (!translations[language]) {
-    //     language = "en";
-    // }
+    if (typeof window !== "undefined") {
+        language = window.localStorage.getItem("language") || "en";
+    } else {
+        language = "en";
+    }
+    if (!translations[language]) {
+        language = "en";
+    }
 
     if (translations[language][key]) {
         value = translations[language][key];
