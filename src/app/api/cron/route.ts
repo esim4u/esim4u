@@ -1,6 +1,7 @@
 import { ORDER_STATUS } from "@/enums";
 import { supabase } from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
+import axios from "axios";
 
 export async function GET() {
     const orders = await supabase
@@ -19,15 +20,51 @@ export async function GET() {
             { status: 500 }
         );
     }
-    await sendTgLog("cron stated processing esims orders: " + orders.data.map((o) => o.id).join(", "));
-
-    const result = await fetch(
-        "http://worldtimeapi.org/api/timezone/America/Chicago",
-        {
-            cache: "no-store",
-        }
+    await sendTgLog(
+        "cron stated processing esims orders: " +
+            orders.data.map((o) => o.id).join(", ")
     );
-    const data = await result.json();
 
-    return Response.json({ datetime: data.datetime });
+    try {
+        for (const esim of orders.data) {
+            const usage = await axios
+                .get(
+                    process.env.AIRALO_API_URL + `/v2/sims/${esim.iccid}/usage`,
+                    {
+                        headers: {
+                            Accept: "application/json",
+                            Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+                        },
+                    }
+                )
+                .then((res) => res.data)
+                .catch((e) => e.response);
+
+            console.log(usage);
+            if (usage && usage?.data?.status) {
+                const updatedOrder = await supabase
+                    .from("orders")
+                    .update({
+                        state: usage?.data?.status,
+                        usage: {
+                            remaining: usage.data?.remaining,
+                            total: usage.data?.total,
+                        },
+                        expired_at: usage.data?.expired_at,
+                    })
+                    .eq("id", esim.id);
+
+                console.log(updatedOrder);
+            }
+        }
+    } catch (error) {}
+
+    await sendTgLog(
+        "cron finished processing esims orders: " +
+            orders.data.map((o) => o.id).join(", ")
+    );
+
+    return Response.json({
+        message: "update-esims-info cron finished successfully",
+    });
 }
