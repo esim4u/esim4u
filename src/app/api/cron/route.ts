@@ -9,7 +9,7 @@ export async function GET() {
     );
     const data = await result.json();
 
-    sendTgLog("cron");
+    await sendTgLog("cron");
 
     return Response.json({ datetime: data.datetime });
 }
