@@ -1,7 +1,7 @@
 {
     "crons": [
         {
-            "path": "/api/cron/update-esims-info",
+            "path": "/src/api/cron/update-esims-info",
             "schedule": "* * * * *"
         }
     ]
