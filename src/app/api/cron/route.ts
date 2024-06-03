@@ -1,13 +1,30 @@
 export async function GET() {
-    const result = await fetch(
+    let response = await fetch(
         process.env.NEXT_PUBLIC_WEB_APP_URL + "api/esims/sync",
         {
             cache: "no-store",
         }
     );
 
-    console.log("Cron job executed successfully");
-    return Response.json({
-        message: "Cron job executed successfully",
-    }, { status: 200 });
+    if (!response.ok) {
+        return Response.json(
+            {
+                message: "An error occurred while fetching orders",
+                description: response.statusText,
+            },
+            { status: 500 }
+        );
+    }
+    const result = await response.json();
+
+    console.log(
+        "cron finished processing esims orders: " +
+            result.data.map((o: any) => o.id).join(", ")
+    );
+    return Response.json(
+        {
+            result: result.data,
+        },
+        { status: 200 }
+    );
 }
