@@ -22,6 +22,7 @@
         "btn_support": "Online support",
         "btn_onboarding": "Repeat onboarding",
         "__comment_bot_toasters": "All toast notifications",
+        "toast_copied": "Copied",
         "toast_referral_copied": "Referral link copied",
         "toast_settings_updated": "Settings updated",
         "toast_withdrawal_successfully": "Money withdrawn",

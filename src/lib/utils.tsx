@@ -3,6 +3,8 @@ import { useTelegram } from "@/providers/telegram-provider";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { l } from "./locale";
+import { ButtonProps } from "@/components/ui/button";
+import { MdOutlineContentCopy } from "react-icons/md";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -54,7 +56,12 @@ export function copyText(text: string | number, e?: any) {
         navigator.clipboard.writeText(text.toString());
         toast({
             variant: "esim4u",
-            title: "Copied",
+            description: (
+                <span className="flex flex-row items-center gap-2 font-semibold">
+                    <MdOutlineContentCopy />
+                    <p>{l("toast_copied")}</p>
+                </span>
+            ),
         });
     } catch (error) {
         toast({
@@ -72,7 +79,12 @@ export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
         navigator.clipboard.writeText(link.toString());
         toast({
             variant: "esim4u",
-            title: l("toast_referral_copied"),
+            description: (
+                <span className="flex flex-row items-center gap-2 font-semibold">
+                    <MdOutlineContentCopy />
+                    <p>{l("toast_referral_copied")}</p>
+                </span>
+            ),
         });
     } catch (error) {
         toast({

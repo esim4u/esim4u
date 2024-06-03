@@ -2,6 +2,7 @@
 
 import EsimCard from "@/components/esims/esim-card";
 import UserEsims from "@/components/esims/user-esims";
+import RefLinkButton from "@/components/shared/ref-link-button";
 import { Button } from "@/components/ui/button";
 import {
     Carousel,
@@ -32,6 +33,8 @@ const SandboxPage = (props: Props) => {
                 <span>10Gb</span>
             </CircleProgressBar>
             <Loader />
+
+            <RefLinkButton/>
             <Button
                 onClick={() => {
                     webApp?.switchInlineQuery("hello", {
