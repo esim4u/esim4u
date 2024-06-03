@@ -4,6 +4,12 @@ import dummy_data from "@/assets/data/dummy_country.json";
 import { supabase } from "@/services/supabase";
 import { ORDER_STATUS } from "@/enums";
 
+export const maxDuration = 50;
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
 export async function GET(
     request: Request,
     { params }: { params: { telegram_id: string } }
