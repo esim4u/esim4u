@@ -26,8 +26,6 @@ const UserEsims = (props: Props) => {
         },
         placeholderData: keepPreviousData,
         enabled: !!tgUser?.id,
-        staleTime: 1000 * 60 * 1, // 1 minutes
-        gcTime: 1000 * 60 * 60, // 1 hour
         refetchInterval: 1000 * 60 * 1, // 1 minutes
     });
 
