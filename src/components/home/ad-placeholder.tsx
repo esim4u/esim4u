@@ -27,9 +27,11 @@ const AdPlaceholder = (props: Props) => {
                     </h2>
                     <span
                         onClick={() => {
-                            hapticFeedback()
+                            hapticFeedback();
                             webApp?.openTelegramLink(
-                                "https://t.me/esim4u_support_bot");
+                                "https://t.me/esim4u_support_bot"
+                            );
+                            webApp?.close()
                         }}
                         className="text-blue-500 underline underline-offset-2 font-medium"
                     >
