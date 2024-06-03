@@ -2,7 +2,6 @@
 
 import { COUNTRIES } from "@/constants";
 import { Badge } from "@/components/ui/badge";
-import BounceLoader from "@/components/ui/bounce-loader";
 import {
     Carousel,
     CarouselApi,
@@ -22,6 +21,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { l } from "@/lib/locale";
 import { convertUsdToPreferredCurrency } from "@/lib/currency";
+import Loader from "@/components/ui/loader";
 
 const Package = ({ params }: { params: { country_code: string } }) => {
     const router = useRouter();
@@ -165,7 +165,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
     if (isLoading) {
         return (
             <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
-                <BounceLoader />
+                <Loader />
             </main>
         );
     }

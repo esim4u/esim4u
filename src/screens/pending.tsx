@@ -3,7 +3,7 @@
 import { useTelegram } from "@/providers/telegram-provider";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import BounceLoader from "@/components/ui/bounce-loader";
+import Loader from "@/components/ui/loader";
 
 export default function Pending() {
     const router = useRouter();
@@ -22,7 +22,7 @@ export default function Pending() {
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
             <div className="flex flex-col items-center gap-4">
-                <BounceLoader dotClassName="bg-yellow-500" />
+                <Loader />
             </div>
         </main>
     );

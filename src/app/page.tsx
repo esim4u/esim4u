@@ -1,6 +1,6 @@
 "use client";
 
-import BounceLoader from "@/components/ui/bounce-loader";
+import Loader from "@/components/ui/loader";
 import { setLanguage } from "@/lib/locale";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById, updateUser } from "@/services/supabase";
@@ -30,7 +30,7 @@ export default function IndexPage() {
 
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
-            <BounceLoader />
+            <Loader />
         </main>
     );
 }

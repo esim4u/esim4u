@@ -1,7 +1,7 @@
 "use client";
 
 import SearchInput from "@/components/shared/search-input";
-import BounceLoader from "@/components/ui/bounce-loader";
+import Loader from "@/components/ui/loader";
 import { COUNTRIES } from "@/constants";
 import { highlightMatches } from "@/lib/markup";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -62,7 +62,7 @@ const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
     if (isLoading) {
         return (
             <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
-                <BounceLoader />
+                <Loader />
             </main>
         );
     }

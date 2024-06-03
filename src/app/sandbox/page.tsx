@@ -9,6 +9,7 @@ import {
     CarouselItem,
 } from "@/components/ui/carousel";
 import CircleProgressBar from "@/components/ui/circle-progress";
+import Loader from "@/components/ui/loader";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ESIM_STATE } from "@/enums";
 import { l, resetLanguage, setLanguage } from "@/lib/locale";
@@ -30,7 +31,7 @@ const SandboxPage = (props: Props) => {
             <CircleProgressBar percent={percent}>
                 <span>10Gb</span>
             </CircleProgressBar>
-
+            <Loader />
             <Button
                 onClick={() => {
                     webApp?.switchInlineQuery("hello", {
@@ -85,11 +86,10 @@ const SandboxPage = (props: Props) => {
 
             <Button
                 onClick={async () => {
-                    
                     const shareData = {
                         title: "Vignette ID",
                         text: "Share this order to pay!",
-                        url: "awdawdawd"
+                        url: "awdawdawd",
                     };
                     await navigator.share(shareData);
                 }}
