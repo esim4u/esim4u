@@ -293,10 +293,10 @@ export default function OnBoarding() {
                             onClick={() => {
                                 hapticFeedback("warning");
                                 toast({
-                                    duration: Infinity,
+                                    duration: 10000, // 10 seconds
                                     title: "Are you sure?",
                                     description:
-                                        "If you connect wallet you can get bonuses for your referrals",
+                                        <span className=" text-xs">If you connect wallet you can get bonuses for your referrals</span>,
                                     action: (
                                         <div className=" w-1/2 flex items-center gap-2  ">
                                             <Button
@@ -311,7 +311,7 @@ export default function OnBoarding() {
                                                 variant={"ghost"}
                                                 className=" w-1/3 underline underline-offset-4 text-base border-none"
                                             >
-                                                <ToastAction altText="undo">
+                                                <ToastAction altText="yes">
                                                     Yes
                                                 </ToastAction>
                                             </Button>
@@ -321,7 +321,7 @@ export default function OnBoarding() {
                                                     hapticFeedback();
                                                 }}
                                                 variant={"secondary"}
-                                                className=" w-2/3 text-base rounded-lg "
+                                                className=" w-2/3 text-base rounded-xl "
                                                 asChild
                                             >
                                                 <ToastAction altText="undo">
