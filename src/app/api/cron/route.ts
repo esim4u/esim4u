@@ -9,5 +9,5 @@ export async function GET() {
     console.log("Cron job executed successfully");
     return Response.json({
         message: "Cron job executed successfully",
-    });
+    }, { status: 200 });
 }
