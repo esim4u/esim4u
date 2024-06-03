@@ -47,17 +47,17 @@ export default function Home() {
         placeholderData: keepPreviousData,
     });
 
-    const {} = useQuery({
-        queryKey: ["user-esims", tgUser?.id],
-        queryFn: async () => {
-            const data = await axios.get(`/api/user/${tgUser.id}/esims`);
-            return data.data;
-        },
-        placeholderData: keepPreviousData,
-        enabled: !!tgUser?.id,
-        staleTime: 1000 * 60 * 5, // 5 minutes
-        gcTime: 1000 * 60 * 60, // 1 hour
-    });
+    // const {} = useQuery({
+    //     queryKey: ["user-esims", tgUser?.id],
+    //     queryFn: async () => {
+    //         const data = await axios.get(`/api/user/${tgUser.id}/esims`);
+    //         return data.data;
+    //     },
+    //     placeholderData: keepPreviousData,
+    //     enabled: !!tgUser?.id,
+    //     staleTime: 1000 * 60 * 5, // 5 minutes
+    //     gcTime: 1000 * 60 * 60, // 1 hour
+    // });
 
     useEffect(() => {
         if (webApp) {
