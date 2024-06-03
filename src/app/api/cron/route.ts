@@ -1,27 +1,13 @@
-import { ORDER_STATUS } from "@/enums";
-import { supabase } from "@/services/supabase";
-
 export async function GET() {
-    const orders = await supabase
-        .from("orders")
-        .select("*")
-        .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
-
-    if (orders.error) {
-        console.log("An cron error occurred while fetching orders");
-
-        return Response.json(
-            {
-                message: "An error occurred while fetching orders",
-                description: orders.error.message,
-            },
-            { status: 500 }
-        );
-    }
-    console.log(
-        "cron stated processing esims orders: " +
-            orders.data.map((o) => o.id).join(", ")
+    const result = await fetch(
+        process.env.NEXT_PUBLIC_WEB_APP_URL + "api/esims/sync",
+        {
+            cache: "no-store",
+        }
     );
 
-    return Response.json({ message: "Cron job executed" });
+    console.log("Cron job executed successfully");
+    return Response.json({
+        message: "Cron job executed successfully",
+    });
 }
