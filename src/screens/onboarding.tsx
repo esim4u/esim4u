@@ -24,6 +24,8 @@ import Dot from "@/components/ui/dot";
 import ReactCountryFlag from "react-country-flag";
 import PopularCountries from "@/components/shared/popular-countries";
 import { l } from "@/lib/locale";
+import { toast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 export default function OnBoarding() {
     const router = useRouter();
@@ -290,15 +292,38 @@ export default function OnBoarding() {
                         <Button
                             onClick={() => {
                                 hapticFeedback("warning");
-                                webApp?.showConfirm(
-                                    "Are you sure?",
-                                    (isConfirm: boolean) => {
-                                        if (isConfirm) {
-                                            finishOnboaringForUser.mutate(tgUser);
-                                            router.push("/esims");
-                                        }
-                                    }
-                                );
+                                toast({
+                                    duration: Infinity,
+                                    title: "Are you sure?",
+                                    action: (
+                                        <div className=" w-1/2 flex items-center gap-2  ">
+                                            <ToastAction asChild altText="undo">
+                                                <Button
+                                                    variant={"ghost"}
+                                                    className=" w-1/3 underline underline-offset-4 text-base border-none"
+                                                >
+                                                    No
+                                                </Button>
+                                            </ToastAction>
+
+                                            <Button
+                                                onClick={() => {
+                                                    hapticFeedback("success");
+                                                    finishOnboaringForUser.mutate(
+                                                        tgUser
+                                                    );
+                                                    router.push("/esims");
+                                                }}
+                                                variant={"secondary"}
+                                                className="w-full -mr-2 rounded-xl text-base"
+                                            >
+                                                Yes
+                                            </Button>
+                                        </div>
+                                    ),
+                                    variant: "esim4u",
+                                    hideClose: true,
+                                });
                             }}
                             size={"bean"}
                             variant={"unstyled"}
