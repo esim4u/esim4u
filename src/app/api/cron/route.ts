@@ -25,54 +25,54 @@ export async function GET() {
             orders.data.map((o) => o.id).join(", ")
     );
 
-    try {
-        for (const esim of orders.data) {
-            const usage = await axios
-                .get(
-                    process.env.AIRALO_API_URL + `/v2/sims/${esim.iccid}/usage`,
-                    {
-                        headers: {
-                            Accept: "application/json",
-                            Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
-                        },
-                    }
-                )
-                .then((res) => res.data)
-                .catch((e) => e.response);
+    // try {
+    //     for (const esim of orders.data) {
+    //         const usage = await axios
+    //             .get(
+    //                 process.env.AIRALO_API_URL + `/v2/sims/${esim.iccid}/usage`,
+    //                 {
+    //                     headers: {
+    //                         Accept: "application/json",
+    //                         Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+    //                     },
+    //                 }
+    //             )
+    //             .then((res) => res.data)
+    //             .catch((e) => e.response);
 
-            console.log(usage);
-            if (usage && usage?.data?.status) {
-                const updatedOrder = await supabase
-                    .from("orders")
-                    .update({
-                        state: usage?.data?.status,
-                        usage: {
-                            remaining: usage.data?.remaining,
-                            total: usage.data?.total,
-                        },
-                        expired_at: usage.data?.expired_at,
-                    })
-                    .eq("id", esim.id);
+    //         console.log(usage);
+    //         if (usage && usage?.data?.status) {
+    //             const updatedOrder = await supabase
+    //                 .from("orders")
+    //                 .update({
+    //                     state: usage?.data?.status,
+    //                     usage: {
+    //                         remaining: usage.data?.remaining,
+    //                         total: usage.data?.total,
+    //                     },
+    //                     expired_at: usage.data?.expired_at,
+    //                 })
+    //                 .eq("id", esim.id);
 
-                console.log(updatedOrder);
-            }
-        }
-    } catch (error) {
-        await sendTgLog("An cron error occurred while processing orders");
+    //             console.log(updatedOrder);
+    //         }
+    //     }
+    // } catch (error) {
+    //     await sendTgLog("An cron error occurred while processing orders");
 
-        return Response.json(
-            {
-                message: "An error occurred while processing orders",
-                description: error,
-            },
-            { status: 500 }
-        );
-    }
+    //     return Response.json(
+    //         {
+    //             message: "An error occurred while processing orders",
+    //             description: error,
+    //         },
+    //         { status: 500 }
+    //     );
+    // }
 
-    await sendTgLog(
-        "cron finished processing esims orders: " +
-            orders.data.map((o) => o.id).join(", ")
-    );
+    // await sendTgLog(
+    //     "cron finished processing esims orders: " +
+    //         orders.data.map((o) => o.id).join(", ")
+    // );
 
     return Response.json({
         message: "update-esims-info cron finished successfully",
