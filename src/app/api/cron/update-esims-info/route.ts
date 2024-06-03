@@ -1,5 +1,6 @@
 import { ORDER_STATUS } from "@/enums";
 import { supabase } from "@/services/supabase";
+import { sendTgLog } from "@/services/tg-logger";
 import axios from "axios";
 
 export async function GET() {
@@ -7,6 +8,7 @@ export async function GET() {
         .from("orders")
         .select("*")
         .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
+
 
     if (orders.error) {
         return Response.json(
@@ -17,6 +19,8 @@ export async function GET() {
             { status: 500 }
         );
     }
+
+    await sendTgLog("cron stated processing esims orders: " + orders.data.map((o) => o.id).join(", "));
 
     try {
         for (const esim of orders.data) {
@@ -51,6 +55,9 @@ export async function GET() {
             }
         }
     } catch (error) {}
+
+    await sendTgLog("cron finished processing esims orders: " + orders.data.map((o) => o.id).join(", "));
+
 
     return Response.json({
         message: "update-esims-info cron finished successfully",
