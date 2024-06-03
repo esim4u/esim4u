@@ -3,10 +3,6 @@
         {
             "path": "/api/cron",
             "schedule": "* * * * *"
-        },
-        {
-            "path": "/api/cron/update-esims-info",
-            "schedule": "* * * * *"
         }
     ]
 }
