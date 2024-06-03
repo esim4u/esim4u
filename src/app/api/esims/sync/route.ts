@@ -1,6 +1,5 @@
 import { ORDER_STATUS } from "@/enums";
 import { supabase } from "@/services/supabase";
-import { sendTgLog } from "@/services/tg-logger";
 import axios from "axios";
 
 export async function GET() {
@@ -21,10 +20,46 @@ export async function GET() {
         );
     }
 
-    console.log(
-        "cron stated processing esims orders: " +
-            orders.data.map((o) => o.id).join(", ")
-    );
+    try {
+        for (const esim of orders.data) {
+            const usage = await axios
+                .get(
+                    process.env.AIRALO_API_URL + `/v2/sims/${esim.iccid}/usage`,
+                    {
+                        headers: {
+                            Accept: "application/json",
+                            Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+                        },
+                    }
+                )
+                .then((res) => res.data)
+                .catch((e) => e.response);
 
-    return Response.json(orders);
+            if (usage && usage?.data?.status) {
+                const updatedOrder = await supabase
+                    .from("orders")
+                    .update({
+                        state: usage?.data?.status,
+                        usage: {
+                            remaining: usage.data?.remaining,
+                            total: usage.data?.total,
+                        },
+                        expired_at: usage.data?.expired_at,
+                    })
+                    .eq("id", esim.id);
+            }
+        }
+    } catch (error) {
+        console.log("An error occurred while updating orders", error);
+
+        return Response.json(
+            {
+                message: "An error occurred while updating orders",
+                description: error,
+            },
+            { status: 500 }
+        );
+    }
+
+    return Response.json(orders, { status: 200 });
 }
