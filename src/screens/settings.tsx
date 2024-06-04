@@ -24,19 +24,21 @@ import {
 } from "@/lib/locale";
 import { copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
-import { getUserById } from "@/services/supabase";
+import { getUserById, updateUserWallet } from "@/services/supabase";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
+import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
 import { track } from "@vercel/analytics/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 
 export default function Settings() {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
     const [preferredLang, setPreferredLang] = useState("");
+    const tonAddress = useTonAddress();
 
     const { data: dbUserData, isLoading } = useQuery({
         queryKey: ["user", tgUser?.id],
@@ -64,7 +66,9 @@ export default function Settings() {
             sendGTMEvent({ event: "share", value: "main_referral_copy" });
             track("share", { value: "main_referral_copy" });
             sendGTMEvent({ event: "main_referral_copy", value: "home" });
-            copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
+            copyReferralLinkToClipBoard(
+                webApp?.initDataUnsafe?.user?.id.toString()
+            );
         }
     }, [webApp]);
 
@@ -74,6 +78,15 @@ export default function Settings() {
             webApp?.offEvent("mainButtonClicked", copyReferralLink);
         };
     }, [webApp]);
+
+    useEffect(() => {
+        const updateWallet = async () => {
+            await updateUserWallet(tgUser.id, tonAddress);
+        };
+        if (tonAddress) {
+            updateWallet();
+        }
+    }, [tonAddress]);
 
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center w-full p-5">
@@ -200,6 +213,10 @@ export default function Settings() {
                     >
                         {l("btn_support")}
                     </Button>
+                </div>
+
+                <div>
+                    <TonConnectButton />
                 </div>
             </div>
         </main>

@@ -207,14 +207,42 @@ export const addExternalAdUser = async (id, username, match) => {
         return externalAdUsers.error;
     }
     if (externalAdUsers?.data?.length > 0) {
-        return "External Ad User already exists";
+        // add channel to existing user if it doesn't exist
+
+        let channels = externalAdUsers.data[0].channel;
+
+        if (channels.some((channel) => channel.channel === match)) {
+            return "Channel already exists";
+        } else {
+            channels = [{ date: new Date(), channel: match }, ...channels];
+        }
+
+        const updatedExternalAdUsers = await supabase
+            .from("external_ads")
+            .update({
+                telegram_id: id,
+                channel: channels,
+            })
+            .eq("telegram_id", id)
+            .select("*");
+
+        if (updatedExternalAdUsers.error) {
+            return newExternalAdUsers.error;
+        }
+
+        return updatedExternalAdUsers.data;
     }
 
     const newExternalAdUsers = await supabase
         .from("external_ads")
         .insert({
             telegram_id: id,
-            channel: match,
+            channel: [
+                {
+                    date: new Date(),
+                    channel: match,
+                },
+            ],
         })
         .select("*");
 
@@ -369,6 +397,15 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
     }
 
     return createdWallet.data;
+};
+
+// WALLET
+
+export const updateUserWallet = async (telegram_id, wallet_address) => {
+    const updatedWallet = await supabase
+        .from("wallet")
+        .update({ address: wallet_address })
+        .eq("telegram_id", telegram_id);
 };
 
 // LEADERBOARD
