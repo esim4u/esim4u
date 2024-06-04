@@ -295,8 +295,14 @@ export default function OnBoarding() {
                                 toast({
                                     duration: 10000, // 10 seconds
                                     title: "Are you sure?",
-                                    description:
-                                        <span className=" text-xs">If you connect wallet you can get bonuses for your referrals</span>,
+                                    description: (
+                                        <div className="flex -mt-1">
+                                            <span className=" text-xs leading-[14px]">
+                                                If you connect wallet you can
+                                                get bonuses for your referrals
+                                            </span>
+                                        </div>
+                                    ),
                                     action: (
                                         <div className=" w-1/2 flex items-center gap-2  ">
                                             <Button
@@ -309,7 +315,7 @@ export default function OnBoarding() {
                                                     router.push("/esims");
                                                 }}
                                                 variant={"ghost"}
-                                                className=" w-1/3 underline underline-offset-4 text-base border-none"
+                                                className=" w-1/3 underline underline-offset-4 text-base border-none rounded-xl hover:bg-white/60"
                                             >
                                                 <ToastAction altText="yes">
                                                     Yes
