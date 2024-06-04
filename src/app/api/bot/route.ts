@@ -1,6 +1,10 @@
 import { l } from "@/lib/locale";
 import { getPhotoUrlFromFileId } from "@/services/grammy";
-import { addReferrerToUser, addUserPhotoFileId, supabase } from "@/services/supabase";
+import {
+    addReferrerToUser,
+    addUserPhotoFileId,
+    supabase,
+} from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
 import {
     Bot,
@@ -24,9 +28,18 @@ const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
 
 /////////////////////
 
+const addExternalAd = async (ctx: any) => {
+    if (!ctx.match) return;
+
+    //if match is string not number
+    if (isNaN(ctx.match)) {
+        await sendTgLog(ctx.chat.id + " " + ctx.match);
+        return;
+    }
+};
+
 const addReferrer = async (ctx: any) => {
-    await sendTgLog(JSON.stringify(ctx));
-    if(!ctx.match) return;
+    if (!ctx.match) return;
 
     await addReferrerToUser(ctx.chat.id, ctx.chat.username, ctx.match);
 };
@@ -64,15 +77,13 @@ bot.api.setMyCommands([
 ]);
 
 bot.command("start", async (ctx) => {
+    await addExternalAd(ctx);
     await addReferrer(ctx);
     await addUserPhoto(ctx);
     await ctx.react("👍");
-    await ctx.reply(
-        l("bot_welcome_text"),
-        {
-            reply_markup: buyEsimButton,
-        }
-    );
+    await ctx.reply(l("bot_welcome_text"), {
+        reply_markup: buyEsimButton,
+    });
 });
 
 bot.command("esim", async (ctx) => {
