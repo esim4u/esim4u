@@ -29,7 +29,7 @@ const UserEsims = (props: Props) => {
         refetchInterval: 1000 * 60 * 1, // 1 minutes
     });
 
-    if (isLoading) {
+    if (!userEsims && isLoading) {
         return (
             <div className="flex flex-col gap-2 w-full">
                 <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">
@@ -46,7 +46,7 @@ const UserEsims = (props: Props) => {
         );
     }
 
-    if (userEsims?.length === 0) {
+    if (!userEsims) {
         return (
             <div className=" w-full">
                 <div className="relative flex flex-col items-center justify-center gap-2 bg-white rounded-3xl h-[180px] w-full">
