@@ -404,14 +404,10 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
 
 // WALLET
 
-export const updateUserWallet = async (
-    telegram_id,
-    wallet_address,
-    connected
-) => {
+export const updateUserWallet = async (telegram_id, wallet_address) => {
     const updatedWallet = await supabase
         .from("wallet")
-        .update({ address: wallet_address })
+        .update({ address: wallet_address, connected: true })
         .eq("telegram_id", telegram_id);
 };
 
