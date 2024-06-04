@@ -35,7 +35,6 @@ export const TelegramProvider = ({
     const path = usePathname();
 
     const [webApp, setWebApp] = useState<any>(null);
-    const [adContoller, setAdContoller] = useState<any>(null);
 
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;

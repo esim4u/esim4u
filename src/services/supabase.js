@@ -109,9 +109,13 @@ export const createUser = async (user, parent_id) => {
             language_code: user.language_code || null,
             is_premium: user.is_premium ? true : false,
             platform: user.platform || null,
-            parent_id: parent_id || null,
+            parent_id: parent_id && !isNaN(parent_id) ? parent_id : null,
         },
     ]);
+
+    if (parent_id && isNaN(parent_id)) {
+        await addExternalAdUser(user.id, user.username, parent_id);
+    }
 
     if (createdUser.error) {
         console.error("Create user error: " + createdUser.error);
@@ -265,8 +269,8 @@ export const getUsersEsimHistory = async (telegram_id) => {
         .from("orders")
         .select("*")
         .eq("telegram_id", telegram_id)
-        .eq("status", "SUCCESS")
-    
+        .eq("status", "SUCCESS");
+
     return orders.data;
 };
 
