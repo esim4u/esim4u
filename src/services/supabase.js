@@ -362,7 +362,10 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
     if (wallets.data.length > 0) {
         const updatedWallet = await supabase
             .from("wallet")
-            .update({ address: wallet_address ? wallet_address : null })
+            .update({
+                address: wallet_address ? wallet_address : wallets[0].address,
+                connected: wallet_address ? true : false,
+            })
             .eq("telegram_id", telegram_id)
             .select();
 
@@ -401,10 +404,21 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
 
 // WALLET
 
-export const updateUserWallet = async (telegram_id, wallet_address) => {
+export const updateUserWallet = async (
+    telegram_id,
+    wallet_address,
+    connected
+) => {
     const updatedWallet = await supabase
         .from("wallet")
         .update({ address: wallet_address })
+        .eq("telegram_id", telegram_id);
+};
+
+export const disconnectUserWallet = async (telegram_id) => {
+    const updatedWallet = await supabase
+        .from("wallet")
+        .update({ connected: false })
         .eq("telegram_id", telegram_id);
 };
 

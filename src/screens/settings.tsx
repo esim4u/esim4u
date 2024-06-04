@@ -24,7 +24,11 @@ import {
 } from "@/lib/locale";
 import { copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
-import { getUserById, updateUserWallet } from "@/services/supabase";
+import {
+    disconnectUserWallet,
+    getUserById,
+    updateUserWallet,
+} from "@/services/supabase";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
@@ -83,8 +87,13 @@ export default function Settings() {
         const updateWallet = async () => {
             await updateUserWallet(tgUser.id, tonAddress);
         };
+        const disconnectWallet = async () => {
+            await disconnectUserWallet(tgUser.id);
+        };
         if (tonAddress) {
             updateWallet();
+        } else {
+            disconnectWallet();
         }
     }, [tonAddress]);
 
