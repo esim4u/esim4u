@@ -5,11 +5,7 @@ import {
     updateUserPhoto,
 } from "./grammy";
 import { sendTgLog } from "./tg-logger";
-import { platform } from "os";
-import { send } from "process";
-import { create } from "domain";
 import { STORY_STATUS } from "@/enums";
-import { channel } from "diagnostics_channel";
 
 // Initialize Supabase client
 export const supabase = createClient(

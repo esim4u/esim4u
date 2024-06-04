@@ -1,9 +1,8 @@
 import { l } from "@/lib/locale";
-import { getPhotoUrlFromFileId } from "@/services/grammy";
 import {
+    addExternalAdUser,
     addReferrerToUser,
     addUserPhotoFileId,
-    supabase,
 } from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
 import {
@@ -33,7 +32,7 @@ const addExternalAd = async (ctx: any) => {
 
     //if match is string not number
     if (isNaN(ctx.match)) {
-        await addReferrerToUser(ctx.chat.id, ctx.chat.username, ctx.match);
+        await addExternalAdUser(ctx.chat.id, ctx.chat.username, ctx.match);
     }
 };
 
