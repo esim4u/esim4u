@@ -33,8 +33,7 @@ const addExternalAd = async (ctx: any) => {
 
     //if match is string not number
     if (isNaN(ctx.match)) {
-        await sendTgLog(ctx.chat.id + " " + ctx.match);
-        return;
+        await addReferrerToUser(ctx.chat.id, ctx.chat.username, ctx.match);
     }
 };
 

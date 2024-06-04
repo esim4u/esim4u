@@ -9,6 +9,7 @@ import { platform } from "os";
 import { send } from "process";
 import { create } from "domain";
 import { STORY_STATUS } from "@/enums";
+import { channel } from "diagnostics_channel";
 
 // Initialize Supabase client
 export const supabase = createClient(
@@ -194,6 +195,37 @@ export const addReferrerToUser = async (id, username, referrer_id) => {
     }
 
     return newUser.data;
+};
+
+export const addExternalAdUser = async (id, username, match) => {
+    const externalAdUsers = await supabase
+        .from("external_ads")
+        .select("*")
+        .eq("telegram_id", id);
+
+    if (externalAdUsers.error) {
+        return externalAdUsers.error;
+    }
+    if (externalAdUsers?.data?.length > 0) {
+        return "External Ad User already exists";
+    }
+
+    const newExternalAdUsers = await supabase
+        .from("external_ads")
+        .insert({
+            telegram_id: id,
+            channel: match,
+        })
+        .select("*");
+
+    if (newExternalAdUsers.error) {
+        return newExternalAdUsers.error;
+    }
+    if (newExternalAdUsers.data.length == 0) {
+        return "External Ad User not created";
+    }
+
+    return newExternalAdUsers.data;
 };
 
 export const getUserReferrals = async (id) => {
