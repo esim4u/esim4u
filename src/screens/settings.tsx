@@ -114,8 +114,8 @@ export default function Settings() {
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={l("input_title_language")} />
                     </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
+                    <SelectContent className="max-h-72">
+                        <SelectGroup >
                             {getSupportedLanguages().map((lang: any) => (
                                 <SelectItem key={lang.value} value={lang.value}>
                                     <div className="flex gap-1 items-center">

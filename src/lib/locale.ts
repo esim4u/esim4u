@@ -16,6 +16,8 @@ export function getSupportedLanguages() {
             value: lang,
             country: lang in covertMap ? covertMap[lang] : lang,
         };
+    }).sort((a, b) => {
+        return a.value.localeCompare(b.value);
     });
 
     return convertedLanguages;
