@@ -88,11 +88,11 @@ const SandboxPage = (props: Props) => {
                 reset language
             </Button>
 
-            <a onClick={()=>{hapticFeedback()}} href={`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
+            <a onClick={()=>{hapticFeedback()}} href={`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=shareandgetrewards`}>
                 https://t.me share
             </a>
 
-            <a onClick={()=>{hapticFeedback()}} href={`tg://msg_url?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
+            <a onClick={()=>{hapticFeedback()}} href={`tg://msg_url?url=${getReferralLink(tgUser?.id)}&text=shareandgetrewards`}>
                 tg://msg_url share
             </a>
 
