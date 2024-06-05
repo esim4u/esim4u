@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import Referrals from "@/components/user/referrals";
 import { l } from "@/lib/locale";
-import { cn, copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
+import { cn, copyReferralLinkToClipBoard, hapticFeedback, shareRef } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getPhotoUrlFromFileId } from "@/services/grammy";
 import { getLeaderboard, getUserById } from "@/services/supabase";
@@ -57,10 +57,8 @@ const LeaderBoard = (props: Props) => {
 
     const copyReferralLink = useCallback(() => {
         if (webApp) {
-            hapticFeedback();
-            copyReferralLinkToClipBoard(
-                webApp?.initDataUnsafe?.user?.id.toString()
-            );
+            hapticFeedback("success");
+            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
     }, [webApp]);
 
