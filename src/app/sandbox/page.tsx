@@ -88,8 +88,8 @@ const SandboxPage = (props: Props) => {
                 reset language
             </Button>
 
-            <a href={`t.me/share?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
-                t.me share
+            <a href={`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
+                https://t.me share
             </a>
 
             <a href={`tg://msg_url?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
