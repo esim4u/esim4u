@@ -36,6 +36,9 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                         height={312}
                         className="bg-neutral-300 w-full h-full object-cover"
                         src={"/img/countries/eg.jpeg"}
+                        quality={50}
+                        placeholder="blur"
+                        blurDataURL="/img/countries/eg.jpeg"
                         alt="news"
                     />
                     <div className="absolute h-1/2 w-full bg-gradient-to-t from-black/50">
@@ -68,6 +71,9 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                         width={312}
                         height={312}
                         className="bg-neutral-300 w-full h-full object-cover"
+                        quality={50}
+                        placeholder="blur"
+                        blurDataURL="/img/countries/ch.png"
                         src={"/img/countries/ch.png"}
                         alt="news"
                     />
@@ -101,6 +107,9 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                         width={312}
                         height={312}
                         className="bg-neutral-300 w-full h-full object-cover"
+                        quality={50}
+                        placeholder="blur"
+                        blurDataURL="/img/countries/es.png"
                         src={"/img/countries/es.png"}
                         alt="news"
                     />
@@ -134,6 +143,9 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                         width={312}
                         height={312}
                         className="bg-neutral-300 w-full h-full object-cover"
+                        quality={50}
+                        placeholder="blur"
+                        blurDataURL="/img/countries/it.png"
                         src={"/img/countries/it.png"}
                         alt="news"
                     />

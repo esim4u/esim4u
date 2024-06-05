@@ -31,7 +31,7 @@ const Stories = ({ className }: Props) => {
             const data = await getStories();
             return data;
         },
-        placeholderData: keepPreviousData
+        placeholderData: keepPreviousData,
     });
 
     useEffect(() => {
@@ -151,9 +151,11 @@ const Stories = ({ className }: Props) => {
                                                     width={216}
                                                     height={216}
                                                     className=" w-full h-full object-cover"
+                                                    placeholder="blur"
+                                                    blurDataURL={story?.photo_url}
+                                                    quality={25}
                                                     src={story?.photo_url}
                                                     alt="news"
-                                                    loading="eager"
                                                 />
                                                 <div className="absolute bottom-0 h-2/3 w-full bg-gradient-to-t from-black/55">
                                                     {" "}

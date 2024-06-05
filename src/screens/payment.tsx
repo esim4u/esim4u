@@ -20,22 +20,12 @@ import { createTransaction } from "@/services/tonconnect";
 import { sendTgLog } from "@/services/tg-logger";
 import { toast } from "@/components/ui/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { TonIcon } from "@/components/icons";
 
 export function Payment({ params }: { params: { order_id: string } }) {
     const { user: tgUser, webApp } = useTelegram();
     const [tonConnectUI, setOptions] = useTonConnectUI();
-
-    const { data: rateTonUsd } = useQuery({
-        queryKey: ["ratetonusd"],
-        queryFn: async () => {
-            const { data } = await axios.get(
-                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd"
-            );
-
-            return data.rates.TON.prices.USD;
-        },
-        refetchInterval: 1000 * 10, // 10 sec
-    });
 
     const { data: orderData, isLoading } = useQuery({
         queryKey: ["order", params.order_id],
@@ -45,14 +35,6 @@ export function Payment({ params }: { params: { order_id: string } }) {
         },
         refetchInterval: 1000 * 10, // 10 sec
     });
-
-    const transaction = useMemo(() => {
-        if (orderData && orderData?.price?.total && rateTonUsd) {
-            const currentPriceInTon = orderData.price.total / rateTonUsd;
-            return createTransaction(currentPriceInTon);
-        }
-        return null;
-    }, [orderData, rateTonUsd]);
 
     useEffect(() => {
         if (webApp) {
@@ -65,102 +47,15 @@ export function Payment({ params }: { params: { order_id: string } }) {
         }
     }, [webApp]);
 
-    const handlePayButtonClick = async () => {
-        if (transaction) {
-            if (transaction) {
-                const result = await tonConnectUI.sendTransaction(transaction);
-                await sendTgLog(JSON.stringify(result, null, 2));
-            }
-        }
-    };
-
     return (
         <main className="overflow-x-hidden min-h-dvh flex flex-col items-start ">
-            <div className="flex flex-col p-5 gap-4 items-start w-full ">
+            <div className="flex flex-col p-5 gap-4 items-center w-full ">
                 <OrderDataItem
                     orderData={orderData}
                     isOrderDataLoading={isLoading}
                 />
-
+                <TonPayment orderData={orderData} />
                 <CardPayment orderData={orderData} />
-
-                {/* <div className="flex flex-col items-center bg-white rounded-2xl p-6 gap-4 w-full">
-                    <div className="flex flex-row items-center  gap-1">
-                        <h2 className="font-bold text-center">Pay with TON</h2>
-                        <svg
-                            className=""
-                            width="18"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <g clipPath="url(#clip0_2028_1457)">
-                                <path
-                                    d="M20.1036 -0.000366211H3.89546C0.91535 -0.000366211 -0.973515 3.21428 0.525777 5.81304L10.5289 23.1512C11.1816 24.2833 12.8175 24.2833 13.4702 23.1512L23.4753 5.81304C24.9726 3.21843 23.0837 -0.000366211 20.1057 -0.000366211H20.1036ZM10.5207 17.9517L8.34222 13.7355L3.08571 4.33417C2.73894 3.73244 3.16725 2.96135 3.89342 2.96135H10.5187V17.9538L10.5207 17.9517ZM20.9093 4.33214L15.6548 13.7376L13.4763 17.9517V2.95931H20.1016C20.8278 2.95931 21.2561 3.7304 20.9093 4.33214Z"
-                                    fill="#1B1C1F"
-                                />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_2028_1457">
-                                    <rect width="24" height="24" fill="white" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-                    </div>
-
-                    <div className="flex flex-col items-center gap-2 w-full">
-                        <TonConnectButton />
-
-                        <Button
-                            onClick={() => {
-                                tonConnectUI.openModal();
-                            }}
-                            className="rounded-xl w-full"
-                        >
-                            Connect your wallet
-                        </Button>
-
-                        <Button
-                            onClick={() => {
-                                hapticFeedback();
-                                handlePayButtonClick();
-                            }}
-                            className="rounded-xl w-full"
-                        >
-                            Pay
-                        </Button>
-
-                        {wallet && (
-                            <div className=" text-balance break-all">
-                                <p>
-                                    Connected wallet:{" "}
-                                    {wallet.account.address || ""}
-                                </p>
-                                <p>
-                                    Wallet account public key:{" "}
-                                    {wallet.account.publicKey || ""}
-                                </p>
-                                <p>Device: {wallet.device.appName}</p>
-                                <p>Device platform: {wallet.device.platform}</p>
-                            </div>
-                        )}
-                        {userFriendlyAddress && (
-                            <div className=" text-balance break-all">
-                                <p>
-                                    User friendly address: {userFriendlyAddress}
-                                </p>
-                            </div>
-                        )}
-                        {rawAddress && (
-                            <div className=" text-balance break-all">
-                                <p>Raw address: {rawAddress}</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                <span className=" text-sm text-neutral-500">or</span> */}
             </div>
         </main>
     );
@@ -173,17 +68,6 @@ const OrderDataItem = ({
     orderData: any;
     isOrderDataLoading: boolean;
 }) => {
-    // if (isOrderDataLoading) {
-    //     return (
-    //         <Skeleton className="flex items-center justify-between w-full h-12 rounded-xl py-3 px-4">
-    //             <div className="flex gap-2 items-center text-sm">
-    //                 <Skeleton className=" w-10 h-6 bg-neutral-300"></Skeleton>
-    //                 <Skeleton className=" w-28 h-5 bg-neutral-300"></Skeleton>
-    //             </div>
-    //             <Skeleton className=" w-20 h-5 bg-neutral-300"></Skeleton>
-    //         </Skeleton>
-    //     );
-    // }
     if (isOrderDataLoading) {
         return (
             <div className="flex items-center justify-between w-full h-12 bg-white rounded-xl py-3 px-4">
@@ -221,25 +105,7 @@ const OrderDataItem = ({
                 <Dot className="w-1.5 h-1.5" />
                 <h2 className="flex items-center font-bold">
                     {orderData?.price.total_ton}
-                    <svg
-                        width="10"
-                        height="10"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <g clipPath="url(#clip0_2028_1457)">
-                            <path
-                                d="M20.1036 -0.000366211H3.89546C0.91535 -0.000366211 -0.973515 3.21428 0.525777 5.81304L10.5289 23.1512C11.1816 24.2833 12.8175 24.2833 13.4702 23.1512L23.4753 5.81304C24.9726 3.21843 23.0837 -0.000366211 20.1057 -0.000366211H20.1036ZM10.5207 17.9517L8.34222 13.7355L3.08571 4.33417C2.73894 3.73244 3.16725 2.96135 3.89342 2.96135H10.5187V17.9538L10.5207 17.9517ZM20.9093 4.33214L15.6548 13.7376L13.4763 17.9517V2.95931H20.1016C20.8278 2.95931 21.2561 3.7304 20.9093 4.33214Z"
-                                fill="#1B1C1F"
-                            />
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_2028_1457">
-                                <rect width="24" height="24" fill="white" />
-                            </clipPath>
-                        </defs>
-                    </svg>
+                    <TonIcon className="w-3 h-3 " />
                 </h2>
             </div>
         </div>
@@ -373,5 +239,56 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
                 </div>
             </Collapse>
         </div>
+    );
+};
+
+const TonPayment = ({ orderData }: { orderData: any }) => {
+    const rawAddress = useTonAddress();
+
+    const { data: rateTonUsd } = useQuery({
+        queryKey: ["ratetonusd"],
+        queryFn: async () => {
+            const { data } = await axios.get(
+                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd"
+            );
+
+            return data.rates.TON.prices.USD;
+        },
+        refetchInterval: 1000 * 10, // 10 sec
+    });
+
+    const currentPriceInTon = useMemo(() => {
+        if (orderData && orderData?.price?.total && rateTonUsd) {
+            return orderData.price.total / rateTonUsd;
+        }
+        return 9999999999;
+    }, [orderData, rateTonUsd]);
+
+    const transaction = useMemo(() => {
+        if (orderData && orderData?.price?.total && rateTonUsd) {
+            return createTransaction(currentPriceInTon);
+        }
+        return null;
+    }, [orderData, rateTonUsd]);
+
+    if (!rawAddress || true) {
+        return <></>;
+    }
+    return (
+        <>
+            <div className="flex flex-col items-start bg-white rounded-2xl p-6 gap-4 w-full">
+                <div className="flex flex-row items-center  gap-1">
+                    <h2 className="font-bold text-center">Pay with TON</h2>
+                    <TonIcon className=" w-4 h-4" />
+                </div>
+
+                <Button className="w-full rounded-xl text-white gap-1 text-base">
+                    Pay {currentPriceInTon.toFixed(3)}
+                    <TonIcon className="text-white w-3 h-3 " />
+                </Button>
+            </div>
+
+            <span className=" text-sm text-neutral-500">or</span>
+        </>
     );
 };

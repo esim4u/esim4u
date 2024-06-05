@@ -80,3 +80,9 @@ export interface Translations {
         [key: string]: string;
     };
 }
+
+
+export interface Icon {
+    className?: string;
+    onClick?: () => void;
+};

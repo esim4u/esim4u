@@ -9,8 +9,9 @@ import { Esim } from "@/types";
 import { l } from "@/lib/locale";
 import { cn, hapticFeedback } from "@/lib/utils";
 import { Skeleton } from "../ui/skeleton";
-import { RiSimCard2Fill } from "react-icons/ri";
+import { RiHistoryFill, RiSimCard2Fill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
+import { GrHistory } from "react-icons/gr";
 
 type Props = {};
 
@@ -39,7 +40,10 @@ const UserEsims = (props: Props) => {
                     {Array(2)
                         .fill(null)
                         .map((_, index) => (
-                            <Skeleton className="w-full h-36 rounded-2xl" key={index} />
+                            <Skeleton
+                                className="w-full h-36 rounded-2xl"
+                                key={index}
+                            />
                         ))}
                 </div>
             </div>
@@ -58,9 +62,6 @@ const UserEsims = (props: Props) => {
                         <h2>{l("title_esims")}</h2>{" "}
                     </div>
                     <div className="flex flex-col gap-2 mt-1 items-center justify-center">
-                        {/* <h2 className="text-center font-medium text-3xl text-neutral-300">
-                            NO ESIMS YET
-                        </h2> */}
                         <RiSimCard2Fill className=" -scale-x-100  text-neutral-300/75 size-[52px] " />
                     </div>
                 </div>
@@ -77,9 +78,10 @@ const UserEsims = (props: Props) => {
                         hapticFeedback();
                         router.push("/profile/history");
                     }}
-                    className=" cursor-pointer underline underline-offset-4"
+                    className="flex active:scale-95 active:bg-white/50 cursor-pointer underline underline-offset-4"
                 >
-                    {l("title_history")}
+                    <RiHistoryFill className="w-6 h-6" />
+                    {/* {l("title_history")} */}
                 </h2>
             </div>
             <div className="flex flex-col gap-5 w-full">

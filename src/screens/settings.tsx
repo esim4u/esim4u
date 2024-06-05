@@ -119,15 +119,6 @@ export default function Settings() {
                             {getSupportedLanguages().map((lang: any) => (
                                 <SelectItem key={lang.value} value={lang.value}>
                                     <div className="flex gap-1 items-center">
-                                        {/* <ReactCountryFlag
-                                            countryCode={lang.country.toUpperCase()}
-                                            svg
-                                            className=" rounded-sm border-[1px] border-neutral-200/75 object-cover"
-                                            style={{
-                                                width: "25px",
-                                                height: "19px",
-                                            }}
-                                        /> */}
                                         <span className="font-bold">
                                             {LANGUAGES[lang.value]}
                                         </span>

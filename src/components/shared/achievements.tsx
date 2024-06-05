@@ -79,6 +79,11 @@ const Achievements = ({ fullWidth = false }: Props) => {
                                                         index != 1 &&
                                                             " brightness-[55%]"
                                                     )}
+                                                    quality={25}
+                                                    placeholder="blur"
+                                                    blurDataURL={
+                                                        achievement_url
+                                                    }
                                                     src={achievement_url}
                                                     alt="news"
                                                 />
