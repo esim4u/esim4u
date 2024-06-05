@@ -14,16 +14,17 @@ import Loader from "@/components/ui/loader";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ESIM_STATE } from "@/enums";
 import { l, resetLanguage, setLanguage } from "@/lib/locale";
-import { cn } from "@/lib/utils";
+import { cn, getReferralLink } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useRouter } from "next/navigation";
+import QRCodeStyling from "qr-code-styling";
 import React from "react";
 
 type Props = {};
 
 const SandboxPage = (props: Props) => {
     const router = useRouter();
-    const { webApp } = useTelegram();
+    const { user: tgUser, webApp } = useTelegram();
 
     const [percent, setPercent] = React.useState(50);
 
@@ -34,7 +35,7 @@ const SandboxPage = (props: Props) => {
             </CircleProgressBar>
             <Loader />
 
-            <RefLinkButton/>
+            <RefLinkButton />
             <Button
                 onClick={() => {
                     webApp?.switchInlineQuery("hello", {
@@ -87,12 +88,42 @@ const SandboxPage = (props: Props) => {
                 reset language
             </Button>
 
+            <a href={`t.me/share?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
+                t.me share
+            </a>
+
+            <a href={`tg://msg_url?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
+                tg://msg_url share
+            </a>
+
             <Button
                 onClick={async () => {
+
+                    // const qrCode = new QRCodeStyling({
+                    //     width: 300,
+                    //     height: 300,
+                    //     type: "svg",
+                    //     data: "https://www.facebook.com/",
+                    //     image: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
+                    //     dotsOptions: {
+                    //         color: "#4267b2",
+                    //         type: "rounded"
+                    //     },
+                    //     backgroundOptions: {
+                    //         color: "#e9ebee",
+                    //     },
+                    //     imageOptions: {
+                    //         crossOrigin: "anonymous",
+                    //         margin: 20
+                    //     }
+                    // });
+
                     const shareData = {
-                        title: "Vignette ID",
+                        title: "Esim 4U",
                         text: "Share this order to pay!",
-                        url: "awdawdawd",
+                        url:
+                            "https://t.me/esim4u_bot/app?startapp=" +
+                            tgUser?.id,
                     };
                     await navigator.share(shareData);
                 }}
