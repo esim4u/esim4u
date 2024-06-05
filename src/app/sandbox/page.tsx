@@ -88,6 +88,24 @@ const SandboxPage = (props: Props) => {
                 reset language
             </Button>
 
+            <Button
+                onClick={() => {
+                    webApp?.openLink(`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=shareandgetrewards`, {
+                        try_instant_view: true,
+                    });
+                }}
+            >
+                openLink alt
+            </Button>
+
+            <Button
+                onClick={() => {
+                    webApp?.openTelegramLink(`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=shareandgetrewards`);
+                }}
+            >
+                openTelegramLink alt
+            </Button>
+
             <a onClick={()=>{hapticFeedback()}} href={`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=shareandgetrewards`}>
                 https://t.me share
             </a>
