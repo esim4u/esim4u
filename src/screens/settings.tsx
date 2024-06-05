@@ -22,7 +22,7 @@ import {
     l,
     setLanguage,
 } from "@/lib/locale";
-import { copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
+import { copyReferralLinkToClipBoard, hapticFeedback, shareRef } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import {
     disconnectUserWallet,
@@ -67,12 +67,10 @@ export default function Settings() {
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback("success");
-            sendGTMEvent({ event: "share", value: "main_referral_copy" });
-            track("share", { value: "main_referral_copy" });
-            sendGTMEvent({ event: "main_referral_copy", value: "home" });
-            copyReferralLinkToClipBoard(
-                webApp?.initDataUnsafe?.user?.id.toString()
-            );
+            // copyReferralLinkToClipBoard(
+            //     webApp?.initDataUnsafe?.user?.id.toString()
+            // );
+            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
     }, [webApp]);
 

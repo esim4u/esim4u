@@ -6,7 +6,7 @@ import { useTelegram } from "@/providers/telegram-provider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
-import { copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
+import { copyReferralLinkToClipBoard, hapticFeedback, shareRef } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 // import RefLinkButton from "@/components/shared/ref-link-button";
 import Achievements from "@/components/shared/achievements";
@@ -47,7 +47,8 @@ export default function Profile() {
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback();
-            copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
+            // copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
+            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
     }, [webApp]);
 

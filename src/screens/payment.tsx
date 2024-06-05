@@ -4,18 +4,14 @@ import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
 import { cn, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { getOrderById } from "@/services/supabase";
-import {
-    useTonAddress,
-    useTonConnectUI,
-    useTonWallet,
-} from "@tonconnect/ui-react";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import { createTransaction } from "@/services/tonconnect";
 import { sendTgLog } from "@/services/tg-logger";
 import { toast } from "@/components/ui/use-toast";
@@ -24,8 +20,7 @@ import { Button } from "@/components/ui/button";
 import { TonIcon } from "@/components/icons";
 
 export function Payment({ params }: { params: { order_id: string } }) {
-    const { user: tgUser, webApp } = useTelegram();
-    const [tonConnectUI, setOptions] = useTonConnectUI();
+    const { webApp } = useTelegram();
 
     const { data: orderData, isLoading } = useQuery({
         queryKey: ["order", params.order_id],
@@ -243,6 +238,8 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
 };
 
 const TonPayment = ({ orderData }: { orderData: any }) => {
+    const [tonConnectUI, setOptions] = useTonConnectUI();
+
     const rawAddress = useTonAddress();
 
     const { data: rateTonUsd } = useQuery({
@@ -261,7 +258,7 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
         if (orderData && orderData?.price?.total && rateTonUsd) {
             return orderData.price.total / rateTonUsd;
         }
-        return 9999999999;
+        return 99999;
     }, [orderData, rateTonUsd]);
 
     const transaction = useMemo(() => {
@@ -271,7 +268,16 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
         return null;
     }, [orderData, rateTonUsd]);
 
-    if (!rawAddress || true) {
+    const handlePayButtonClick = async () => {
+        if (transaction) {
+            if (transaction) {
+                const result = await tonConnectUI.sendTransaction(transaction);
+                await sendTgLog(JSON.stringify(result, null, 2));
+            }
+        }
+    };
+
+    if (!rawAddress) {
         return <></>;
     }
     return (
@@ -282,7 +288,13 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
                     <TonIcon className=" w-4 h-4" />
                 </div>
 
-                <Button className="w-full rounded-xl text-white gap-1 text-base">
+                <Button
+                    onClick={() => {
+                        hapticFeedback("medium");
+                        handlePayButtonClick();
+                    }}
+                    className="w-full rounded-xl text-white gap-1 text-base"
+                >
                     Pay {currentPriceInTon.toFixed(3)}
                     <TonIcon className="text-white w-3 h-3 " />
                 </Button>

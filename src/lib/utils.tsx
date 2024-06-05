@@ -95,26 +95,31 @@ export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
     }
 }
 
-export const shareRef = async (text: string) => {
-    const shareData = {
-        title: "Vignette ID",
-        text: "Share this order to pay!",
-        url: "awdwad",
-    };
+// export const shareRef = async (text: string) => {
+//     const shareData = {
+//         title: "Vignette ID",
+//         text: "Share this order to pay!",
+//         url: "awdwad",
+//     };
 
-    try {
-        navigator.share(shareData);
-    } catch (error) {
-        console.error("Error sharing", error);
-    }
-};
+//     try {
+//         navigator.share(shareData);
+//     } catch (error) {
+//         console.error("Error sharing", error);
+//     }
+// };
 
 export const getReferralLink = (user_id: string | number) => {
     if (!user_id) {
         return "";
     }
-    return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}`;
+    // return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}`;
+    return `https://t.me/share/url?url=https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}&text=Purchase esims here!`;
 };
+
+export const shareRef = (user_id: string) => {
+    return `https://t.me/share/url?url=https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}&text=Purchase esims here!`;
+}
 
 export const detectIOSVersion = () => {
     const userAgent = window.navigator.userAgent;

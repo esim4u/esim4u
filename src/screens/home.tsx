@@ -5,6 +5,7 @@ import {
     copyReferralLinkToClipBoard,
     hapticFeedback,
     loseFocus,
+    shareRef,
 } from "@/lib/utils";
 
 import { useTelegram } from "@/providers/telegram-provider";
@@ -68,12 +69,12 @@ export default function Home() {
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback("success");
-            sendGTMEvent({ event: "share", value: "main_referral_copy" });
-            track("share", { value: "main_referral_copy" });
-            sendGTMEvent({ event: "main_referral_copy", value: "home" });
-            copyReferralLinkToClipBoard(
-                webApp?.initDataUnsafe?.user?.id.toString()
-            );
+            
+            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
+
+            // copyReferralLinkToClipBoard(
+            //     webApp?.initDataUnsafe?.user?.id.toString()
+            // );
         }
     }, [webApp]);
 
