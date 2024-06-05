@@ -11,7 +11,7 @@ export default function Pending() {
 
     useEffect(() => {
         if (webApp) {
-            webApp?.BackButton.show();
+            webApp?.BackButton.hide();
 
             setTimeout(() => {
                 router.push("/esims/pay/success");

@@ -11,9 +11,14 @@ export default function Success() {
 
     useEffect(() => {
         if (webApp) {
-            webApp?.BackButton.show();
+            webApp?.BackButton.hide();
+
+            setTimeout(() => {
+                router.push("/esims/profile");
+            },2000);
         }
     }, [webApp]);
+
 
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
