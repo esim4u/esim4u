@@ -90,7 +90,7 @@ const SandboxPage = (props: Props) => {
 
             <Button
                 onClick={() => {
-                    webApp?.openLink(`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=shareandgetrewards`, {
+                    webApp?.openLink(`https://t.me/share?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`, {
                         try_instant_view: true,
                     });
                 }}
@@ -100,17 +100,17 @@ const SandboxPage = (props: Props) => {
 
             <Button
                 onClick={() => {
-                    webApp?.openTelegramLink(`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=shareandgetrewards`);
+                    webApp?.openTelegramLink(`https://t.me/share?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`);
                 }}
             >
                 openTelegramLink alt
             </Button>
 
-            <a onClick={()=>{hapticFeedback()}} href={`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=shareandgetrewards`}>
+            <a onClick={()=>{hapticFeedback()}} href={`https://t.me/share?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`}>
                 https://t.me share
             </a>
 
-            <a onClick={()=>{hapticFeedback()}} href={`tg://msg_url?url=${getReferralLink(tgUser?.id)}&text=shareandgetrewards`}>
+            <a onClick={()=>{hapticFeedback()}} href={`tg://msg_url?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`}>
                 tg://msg_url share
             </a>
 
