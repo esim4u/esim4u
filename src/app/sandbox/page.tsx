@@ -14,7 +14,7 @@ import Loader from "@/components/ui/loader";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ESIM_STATE } from "@/enums";
 import { l, resetLanguage, setLanguage } from "@/lib/locale";
-import { cn, getReferralLink } from "@/lib/utils";
+import { cn, getReferralLink, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useRouter } from "next/navigation";
 import QRCodeStyling from "qr-code-styling";
@@ -88,11 +88,11 @@ const SandboxPage = (props: Props) => {
                 reset language
             </Button>
 
-            <a href={`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
+            <a onClick={()=>{hapticFeedback()}} href={`https://t.me/share?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
                 https://t.me share
             </a>
 
-            <a href={`tg://msg_url?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
+            <a onClick={()=>{hapticFeedback()}} href={`tg://msg_url?url=${getReferralLink(tgUser?.id)}&text=share and get rewards`}>
                 tg://msg_url share
             </a>
 
