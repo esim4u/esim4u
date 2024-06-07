@@ -247,6 +247,9 @@ export const addExternalAdUser = async (id, username, match) => {
             ],
         })
         .select("*");
+    
+    console.log(newExternalAdUsers)
+    await sendTgLog(JSON.stringify(newExternalAdUsers, null, 2))
 
     if (newExternalAdUsers.error) {
         return newExternalAdUsers.error;
