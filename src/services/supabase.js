@@ -207,8 +207,7 @@ export const addExternalAdUser = async (id, username, match) => {
         return externalAdUsers.error;
     }
     if (externalAdUsers?.data?.length > 0) {
-        // add channel to existing user if it doesn't exist
-
+        await sendTgLog(`Creating externa user id: ${id}, match: ${match}`)
         let channels = externalAdUsers.data[0].channel;
 
         if (channels.some((channel) => channel.channel === match)) {
