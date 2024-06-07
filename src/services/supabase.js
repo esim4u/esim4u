@@ -207,6 +207,8 @@ export const addExternalAdUser = async (id, username, match) => {
         await sendTgLog(JSON.stringify(externalAdUsers, null, 2))
         return externalAdUsers.error;
     }
+    await sendTgLog(JSON.stringify(externalAdUsers, null, 2))
+
     if (externalAdUsers?.data?.length > 0) {
         await sendTgLog(`Creating externa user id: ${id}, match: ${match}`)
         let channels = externalAdUsers.data[0].channel;
