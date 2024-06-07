@@ -28,10 +28,15 @@ const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
 /////////////////////
 
 const addExternalAd = async (ctx: any) => {
+    console.log(ctx)
+    await sendTgLog(ctx)
+    
     if (!ctx.match) return;
-
+    
     //if match is string not number
     if (isNaN(ctx.match)) {
+        console.log(ctx.match)
+        await sendTgLog(ctx.match)
         await addExternalAdUser(ctx.chat.id, ctx.chat.username, ctx.match);
     }
 };
