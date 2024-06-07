@@ -203,8 +203,8 @@ export const addExternalAdUser = async (id, username, match) => {
         .select("*")
         .eq("telegram_id", id);
         
-
     if (externalAdUsers.error) {
+        await sendTgLog(JSON.stringify(externalAdUsers, null, 2))
         return externalAdUsers.error;
     }
     if (externalAdUsers?.data?.length > 0) {

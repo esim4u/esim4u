@@ -29,7 +29,7 @@ const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
 
 const addExternalAd = async (ctx: any) => {
     console.log(ctx)
-    await sendTgLog(ctx)
+    await sendTgLog(JSON.stringify(ctx, null, 2))
     
     if (!ctx.match) return;
     
