@@ -202,6 +202,7 @@ export const addExternalAdUser = async (id, username, match) => {
         .from("external_ads")
         .select("*")
         .eq("telegram_id", id);
+        
 
     if (externalAdUsers.error) {
         return externalAdUsers.error;
