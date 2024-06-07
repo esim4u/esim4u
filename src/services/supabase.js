@@ -235,6 +235,32 @@ export const addExternalAdUser = async (id, username, match) => {
         return updatedExternalAdUsers.data;
     }
 
+    const user = await supabase.from("users").select("*").eq("telegram_id", id);
+
+    if (user.error) {
+        return user.error;
+    }
+    if (user.data.length > 0) {
+        return "User already exists";
+    }
+
+    const newUser = await supabase
+        .from("users")
+        .insert({
+            telegram_id: id,
+            username: username,
+            created_date: new Date(),
+            onboarding: false,
+        })
+        .select("*");
+
+    if (newUser.error) {
+        return newUser.error;
+    }
+    if (newUser.data.length == 0) {
+        return "User not created";
+    }
+
     const newExternalAdUsers = await supabase
         .from("external_ads")
         .insert({
