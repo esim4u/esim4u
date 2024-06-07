@@ -113,8 +113,8 @@ export const getReferralLink = (user_id: string | number) => {
     if (!user_id) {
         return "";
     }
-    // return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}`;
-    return `https://t.me/share/url?url=https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}&text=Purchase esims here!`;
+    return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}`;
+    //return `https://t.me/share/url?url=https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}&text=Purchase esims here!`;
 };
 
 export const shareRef = (user_id: string) => {
