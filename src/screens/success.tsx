@@ -14,7 +14,7 @@ export default function Success() {
             webApp?.BackButton.hide();
 
             setTimeout(() => {
-                router.push("/esims/profile");
+                router.push("/profile");
             },2000);
         }
     }, [webApp]);

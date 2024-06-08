@@ -112,5 +112,10 @@ export async function POST(req: Request) {
         return Response.json(e);
     }
 
+    const resp = await axios
+        .get(`/api/esims/sync/` + response.data.sims[0].iccid)
+        .then((res) => res.data)
+        .catch((e) => e.response);
+
     return Response.json(esim);
 }

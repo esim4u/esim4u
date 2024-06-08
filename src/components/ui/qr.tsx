@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 const qrCode = new QRCodeStyling({
     width: 384,
     height: 384,
-    image: "/svg/telegram-logo.svg",
+    // image: "/svg/telegram-logo.svg",
     type: "canvas",
     margin: 20,
     qrOptions: {
@@ -22,12 +22,12 @@ const qrCode = new QRCodeStyling({
         mode: "Byte",
         errorCorrectionLevel: "H",
     },
-    imageOptions: {
-        hideBackgroundDots: true,
-        imageSize: 0.4,
-        margin: 10,
-        crossOrigin: "anonymous",
-    },
+    // imageOptions: {
+    //     hideBackgroundDots: true,
+    //     imageSize: 0.4,
+    //     margin: 10,
+    //     crossOrigin: "anonymous",
+    // },
     // dotsOptions: {
     //     color: "#3b82f6",
     //     type: "extra-rounded",
