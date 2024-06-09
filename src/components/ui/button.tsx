@@ -21,13 +21,14 @@ const buttonVariants = cva(
                 ghost: "hover:bg-accent hover:text-accent-foreground",
                 link: "text-primary underline-offset-4 hover:underline",
                 light: "bg-white text-blue-500 hover:bg-white/90 font-bold",
+                blue: "bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-black/10",
             },
             size: {
                 default: "h-10 px-4 py-2",
                 sm: "h-9 rounded-md px-3",
                 lg: "h-11 rounded-md px-8",
                 icon: "h-10 w-10",
-                bean: "h-10 px-6 rounded-2xl min-w-24"
+                bean: "h-14 px-9 rounded-2xl min-w-24 text-xl capitalize font-medium",
             },
         },
         defaultVariants: {

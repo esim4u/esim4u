@@ -14,7 +14,7 @@ export default function Success() {
             webApp?.BackButton.hide();
 
             setTimeout(() => {
-                router.push("/profile");
+                router.push("/profile?is_payment=true");
             },2000);
         }
     }, [webApp]);

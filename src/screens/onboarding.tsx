@@ -272,7 +272,7 @@ export default function OnBoarding() {
                                 api?.scrollNext();
                             }}
                             size={"bean"}
-                            variant={"light"}
+                            variant={"blue"}
                         >
                             {l("btn_next")}
                         </Button>
@@ -284,7 +284,7 @@ export default function OnBoarding() {
                                 router.push("/esims");
                             }}
                             size={"bean"}
-                            variant={"light"}
+                            variant={"blue"}
                         >
                             {l("btn_start")}
                         </Button>
@@ -315,7 +315,7 @@ export default function OnBoarding() {
                                                     router.push("/esims");
                                                 }}
                                                 variant={"ghost"}
-                                                className=" w-1/3 underline underline-offset-4 text-base border-none rounded-xl hover:bg-white/60"
+                                                className=" w-1/3 underline underline-offset-4 px-0 text-base border-none rounded-xl hover:bg-white/60"
                                             >
                                                 <ToastAction altText="yes">
                                                     Yes

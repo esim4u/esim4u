@@ -16,7 +16,6 @@ import UserEsims from "@/components/esims/user-esims";
 
 import { l } from "@/lib/locale";
 
-import Referrals from "@/components/user/referrals";
 import RefLinkButton from "@/components/shared/ref-link-button";
 
 export default function Profile() {
@@ -50,6 +49,22 @@ export default function Profile() {
             // copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
             webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
+    }, [webApp]);
+
+    const backToEsims = useCallback(() => {
+        if (webApp) {
+            hapticFeedback();
+            router.push("/esims")
+        }
+    }, [webApp]);
+
+    useEffect(() => {
+        webApp?.offEvent("backButtonClicked");
+
+        webApp?.onEvent("backButtonClicked", backToEsims );
+        return () => {
+            webApp?.offEvent("backButtonClicked", backToEsims);
+        };
     }, [webApp]);
 
     useEffect(() => {
