@@ -87,6 +87,8 @@ bot.command("start", async (ctx) => {
     await ctx.reply(l("bot_welcome_text"), {
         reply_markup: buyEsimButton,
     });
+
+    await ctx.reply(`Your Telegram ID is ${ctx.chat.id} \n\n The oldest id is going to get rewards!`)
 });
 
 bot.command("esim", async (ctx) => {
