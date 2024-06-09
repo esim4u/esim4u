@@ -257,6 +257,7 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
 const TonPayment = ({ orderData }: { orderData: any }) => {
     const router = useRouter();
     const [tonConnectUI, setOptions] = useTonConnectUI();
+    const { webApp } = useTelegram();
 
     const rawAddress = useTonAddress();
 
@@ -284,7 +285,9 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
                     }
                 )
                 router.push("/esims/pay/pending");
+                return
             }
+            webApp.close()
         },
     })
 
