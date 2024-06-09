@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getUserById } from "@/services/supabase";
 import { useTelegram } from "@/providers/telegram-provider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { copyReferralLinkToClipBoard, hapticFeedback, shareRef } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +21,8 @@ import RefLinkButton from "@/components/shared/ref-link-button";
 export default function Profile() {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
+    const searchParams = useSearchParams();
+    const is_payment = searchParams.get("is_payment") || false;
 
     const { data: dbUserData, isLoading } = useQuery({
         queryKey: ["user", tgUser?.id],
@@ -34,6 +36,10 @@ export default function Profile() {
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
+
+            if(is_payment){
+                webApp?.BackButton.hide()
+            }
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
                 color: "#3b82f6",

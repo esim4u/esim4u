@@ -9,9 +9,7 @@ export const metadata: Metadata = {
 
 
 export default function ProfilePage() {
-    return
-    <Suspense fallback={<></>}>
+    return <Suspense fallback={<></>}>
         <Profile/>;
-
     </Suspense>
 }
