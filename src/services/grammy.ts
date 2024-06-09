@@ -10,6 +10,7 @@ const webAppUrl = process.env.NEXT_PUBLIC_WEB_APP_URL;
 if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 
 const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
+const checkEsimButton = new InlineKeyboard().webApp("Check your esim state at your profile", webAppUrl);
 
 export const getPhotoUrlFromFileId = async (fileId: string) => {
     try {
@@ -33,7 +34,11 @@ export const sendPhotoToUser = async (
 };
 
 export const sendMessagesToUser = async (chatId: number, message: string) => {
-    await bot.api.sendMessage(chatId, message, { parse_mode: "Markdown" });
+    await bot.api.sendMessage(chatId, message, { 
+        parse_mode: "Markdown",
+        disable_notification: true,
+        reply_markup: checkEsimButton,
+    });
 };
 
 export const sendWelcomeMessageToUser = async (chatId: number) => {
