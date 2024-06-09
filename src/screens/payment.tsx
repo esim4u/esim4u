@@ -2,13 +2,13 @@
 
 import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn, hapticFeedback, shareRef} from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback} from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { getOrderById } from "@/services/supabase";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
@@ -18,9 +18,12 @@ import { toast } from "@/components/ui/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { TonIcon } from "@/components/icons";
+import { BiLoaderAlt } from "react-icons/bi";
+import { l } from "@/lib/locale";
+
 
 export function Payment({ params }: { params: { order_id: string } }) {
-    const { webApp } = useTelegram();
+    const { user: tgUser, webApp } = useTelegram();
 
     const { data: orderData, isLoading } = useQuery({
         queryKey: ["order", params.order_id],
@@ -33,12 +36,26 @@ export function Payment({ params }: { params: { order_id: string } }) {
 
     useEffect(() => {
         if (webApp) {
+            webApp?.BackButton.show();
             webApp?.MainButton.setParams({
-                text: "‎",
-                color: "#EFEFF3",
-                is_active: false,
-                is_visible: false,
+                text: l("btn_main_share"),
+                color: "#3b82f6",
+                is_active: true,
+                is_visible: true,
             });
+        }
+    }, [webApp]);
+    useEffect(() => {
+        webApp?.onEvent("mainButtonClicked", copyReferralLink);
+        return () => {
+            webApp?.offEvent("mainButtonClicked", copyReferralLink);
+        };
+    }, [webApp]);
+    const copyReferralLink = useCallback(() => {
+        if (webApp) {
+            hapticFeedback();
+            // copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
+            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
     }, [webApp]);
 
@@ -238,6 +255,7 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
 };
 
 const TonPayment = ({ orderData }: { orderData: any }) => {
+    const router = useRouter();
     const [tonConnectUI, setOptions] = useTonConnectUI();
 
     const rawAddress = useTonAddress();
@@ -254,6 +272,22 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
         refetchInterval: 1000 * 10, // 10 sec
     });
 
+    const tonPayment = useMutation({
+        mutationFn: async (transaction:any) => {
+            return await tonConnectUI.sendTransaction(transaction);
+        },
+        onSuccess: async (data) => {
+            if(data.boc){
+                await axios.post("/api/pay/tonconnect", {
+                        order_id: orderData.id,
+                        boc: data.boc,
+                    }
+                )
+                router.push("/esims/pay/pending");
+            }
+        },
+    })
+
     const currentPriceInTon = useMemo(() => {
         if (orderData && orderData?.price?.total && rateTonUsd) {
             return orderData.price.total / rateTonUsd;
@@ -269,12 +303,9 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
     }, [orderData, rateTonUsd]);
 
     const handlePayButtonClick = async () => {
-        if (transaction) {
             if (transaction) {
-                const result = await tonConnectUI.sendTransaction(transaction);
-                await sendTgLog(JSON.stringify(result, null, 2));
+                tonPayment.mutate(transaction);
             }
-        }
     };
 
     if (!rawAddress) {
@@ -288,16 +319,25 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
                     <TonIcon className=" w-4 h-4" />
                 </div>
 
-                <Button
-                    onClick={() => {
-                        hapticFeedback("medium");
-                        handlePayButtonClick();
-                    }}
-                    className="w-full rounded-xl text-white gap-1 text-base"
-                >
-                    Pay {currentPriceInTon.toFixed(3)}
-                    <TonIcon className="text-white w-3 h-3 " />
-                </Button>
+                {tonPayment.isPending ? (
+                    <Button
+                        className="w-full rounded-xl text-white gap-1 text-base"
+                    >
+                        <BiLoaderAlt className="animate-spin" />
+                    </Button>
+                    ) : (                
+                    <Button
+                        onClick={() => {
+                            hapticFeedback("medium");
+                            handlePayButtonClick();
+                        }}
+                        className="w-full rounded-xl text-white gap-1 text-base"
+                    >
+                        Pay {currentPriceInTon.toFixed(3)}
+                        <TonIcon className="text-white w-3 h-3 " />
+                    </Button>
+                )}
+
             </div>
 
             <span className=" text-sm text-neutral-500">or</span>
