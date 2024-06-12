@@ -1,7 +1,6 @@
 "use client";
 
 import Loader from "@/components/ui/loader";
-import { setLanguage } from "@/lib/locale";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById, updateUser } from "@/services/supabase";
 import { useRouter } from "next/navigation";
