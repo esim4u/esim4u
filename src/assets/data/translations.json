@@ -79,7 +79,7 @@
         "bot_instruction_qr": "scan or share QR code to activate",
         "bot_instruction_1": "click to copy SM-DP+ address",
         "bot_instruction_2": "click to copy activation code",
-        "bot_instruction_3": "after instalation esim, turn-on data roaming",
+        "bot_instruction_3": "after installation esim, turn-on data roaming",
         "bot_notification": "your data below {{number}}%",
         "bot_story_announcment": "new story added to our incredible bot. Open to check",
         "__comment_bot_buttons": "All buttons what we send to BOT chat",
