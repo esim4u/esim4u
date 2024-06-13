@@ -1,6 +1,18 @@
 "use client";
 
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { COUNTRIES } from "@/constants";
+import { useTelegram } from "@/providers/telegram-provider";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { MdArrowForwardIos } from "react-icons/md";
+
+import { convertUsdToPreferredCurrency } from "@/lib/currency";
+import { l } from "@/lib/locale";
+import { cn, hapticFeedback } from "@/lib/utils";
+
 import { Badge } from "@/components/ui/badge";
 import {
     Carousel,
@@ -11,16 +23,6 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
-import { cn, hapticFeedback } from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { MdArrowForwardIos } from "react-icons/md";
-import { l } from "@/lib/locale";
-import { convertUsdToPreferredCurrency } from "@/lib/currency";
 import Loader from "@/components/ui/loader";
 import { TonIcon } from "@/components/icons";
 
@@ -55,7 +57,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
         queryKey: ["esim-packages", params.country_code],
         queryFn: async () => {
             const { data } = await axios.get(
-                "/api/esims/packages/" + params.country_code
+                "/api/esims/packages/" + params.country_code,
             );
             return data[0];
         },
@@ -66,7 +68,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
         queryKey: ["ratetonusd"],
         queryFn: async () => {
             const { data } = await axios.get(
-                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd"
+                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd",
             );
             return data.rates.TON.prices.USD;
         },
@@ -77,7 +79,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
         queryKey: ["preferredCurrencyPrice", selectedPackage?.total_price],
         queryFn: async () => {
             return await convertUsdToPreferredCurrency(
-                selectedPackage?.total_price
+                selectedPackage?.total_price,
             );
         },
         enabled: !!selectedPackage?.total_price,
@@ -217,7 +219,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                         <h2
                             className={cn(
                                 "pl-2 text-sm uppercase font-medium text-neutral-500",
-                                "px-7"
+                                "px-7",
                             )}
                         >
                             {l("title_packages")}
@@ -238,17 +240,17 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                                         onClick={() => {
                                                             hapticFeedback();
                                                             setSelectedPackage(
-                                                                plan
+                                                                plan,
                                                             );
                                                             api?.scrollTo(
-                                                                index
+                                                                index,
                                                             );
                                                         }}
                                                         className={cn(
                                                             "p-5 border-[2px]  h-16 w-28 border-neutral-400 active:border-4 active:border-blue-500  flex flex-col items-center justify-center rounded-3xl transition-all ",
                                                             selectedPackage ===
                                                                 plan &&
-                                                                "border-4 border-blue-500"
+                                                                "border-4 border-blue-500",
                                                         )}
                                                     >
                                                         <h2 className="font-bold text-2xl">
@@ -267,7 +269,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                                     </div>
                                                 </CarouselItem>
                                             );
-                                        }
+                                        },
                                     )}
                             </CarouselContent>
                         </Carousel>
@@ -358,7 +360,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                         <MdArrowForwardIos
                             className={cn(
                                 "text-neutral-500 transition-transform",
-                                isOpen && " rotate-90"
+                                isOpen && " rotate-90",
                             )}
                         />
                     </div>

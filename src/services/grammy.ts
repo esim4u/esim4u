@@ -1,6 +1,8 @@
 import { Bot, InlineKeyboard, InputFile } from "grammy";
-import { addUserPhotoFileId } from "./supabase";
+
 import { l } from "@/lib/locale";
+
+import { addUserPhotoFileId } from "./supabase";
 
 const token = process.env.NEXT_PUBLIC_BOT_TOKEN;
 if (!token) throw new Error("BOT_TOKEN is unset");
@@ -10,7 +12,10 @@ const webAppUrl = process.env.NEXT_PUBLIC_WEB_APP_URL;
 if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 
 const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
-const checkEsimButton = new InlineKeyboard().webApp("Check your esim state at your profile", webAppUrl);
+const checkEsimButton = new InlineKeyboard().webApp(
+    "Check your esim state at your profile",
+    webAppUrl,
+);
 
 export const getPhotoUrlFromFileId = async (fileId: string) => {
     try {
@@ -26,7 +31,7 @@ export const getPhotoUrlFromFileId = async (fileId: string) => {
 export const sendPhotoToUser = async (
     chatId: number,
     photoUrl: string,
-    caption: string
+    caption: string,
 ) => {
     await bot.api.sendPhoto(chatId, new InputFile(new URL(photoUrl)), {
         caption: caption,
@@ -34,7 +39,7 @@ export const sendPhotoToUser = async (
 };
 
 export const sendMessagesToUser = async (chatId: number, message: string) => {
-    await bot.api.sendMessage(chatId, message, { 
+    await bot.api.sendMessage(chatId, message, {
         parse_mode: "Markdown",
         disable_notification: true,
         reply_markup: checkEsimButton,
@@ -48,7 +53,7 @@ export const sendWelcomeMessageToUser = async (chatId: number) => {
         {
             disable_notification: true,
             reply_markup: buyEsimButton,
-        }
+        },
     );
 
     await updateUserPhoto(chatId);

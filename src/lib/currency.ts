@@ -62,7 +62,7 @@ export async function convertUsdToPreferredCurrency(amount: number) {
     }
 
     const rates = await axios.get(
-        "https://api.exchangerate-api.com/v4/latest/USD"
+        "https://api.exchangerate-api.com/v4/latest/USD",
     );
     if (!rates.data.rates[currency.toUpperCase()]) {
         return {

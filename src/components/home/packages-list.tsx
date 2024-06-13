@@ -1,12 +1,14 @@
 "use client";
 
+import React from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useTelegram } from "@/providers/telegram-provider";
+
 import { l } from "@/lib/locale";
 import { highlightMatches } from "@/lib/markup";
 import { hapticFeedback } from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React from "react";
+
 import AdPlaceholder from "./ad-placeholder";
 
 type Props = {
@@ -35,7 +37,7 @@ const PackagesList = ({ packages, search }: Props) => {
                                 is_visible: true,
                             });
                             router.push(
-                                `/esims/${country.country_code || country.slug}`
+                                `/esims/${country.country_code || country.slug}`,
                             );
                         }}
                         key={index}
@@ -54,7 +56,7 @@ const PackagesList = ({ packages, search }: Props) => {
                                     search,
                                     country.matchKey == "translation"
                                         ? country.translation
-                                        : country.title
+                                        : country.title,
                                 )}
                             </span>
                         </div>
@@ -70,7 +72,7 @@ const PackagesList = ({ packages, search }: Props) => {
                                             ? country.nestedMatchCountries[0]
                                                   .translation
                                             : country.nestedMatchCountries[0]
-                                                  .title
+                                                  .title,
                                     )}
                                 </span>
                             )}

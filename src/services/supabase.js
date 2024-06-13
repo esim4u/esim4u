@@ -1,16 +1,17 @@
+import { STORY_STATUS } from "@/enums";
 import { createClient } from "@supabase/supabase-js";
+
 import {
     getPhotoUrlFromFileId,
     sendWelcomeMessageToUser,
     updateUserPhoto,
 } from "./grammy";
 import { sendTgLog } from "./tg-logger";
-import { STORY_STATUS } from "@/enums";
 
 // Initialize Supabase client
 export const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
 );
 
 // USER
@@ -120,7 +121,7 @@ export const createUser = async (user, parent_id) => {
     if (createdUser.error) {
         console.error("Create user error: " + createdUser.error);
         await sendTgLog(
-            "Cteate user error: " + JSON.stringify(createdUser.error, null, 2)
+            "Cteate user error: " + JSON.stringify(createdUser.error, null, 2),
         );
     }
 
@@ -202,15 +203,15 @@ export const addExternalAdUser = async (id, username, match) => {
         .from("external_ads")
         .select("*")
         .eq("telegram_id", id);
-        
+
     if (externalAdUsers.error) {
-        await sendTgLog(JSON.stringify(externalAdUsers, null, 2))
+        await sendTgLog(JSON.stringify(externalAdUsers, null, 2));
         return externalAdUsers.error;
     }
-    await sendTgLog(JSON.stringify(externalAdUsers, null, 2))
+    await sendTgLog(JSON.stringify(externalAdUsers, null, 2));
 
     if (externalAdUsers?.data?.length > 0) {
-        await sendTgLog(`Creating externa user id: ${id}, match: ${match}`)
+        await sendTgLog(`Creating externa user id: ${id}, match: ${match}`);
         let channels = externalAdUsers.data[0].channel;
 
         if (channels.some((channel) => channel.channel === match)) {
@@ -273,9 +274,9 @@ export const addExternalAdUser = async (id, username, match) => {
             ],
         })
         .select("*");
-    
-    console.log(newExternalAdUsers)
-    await sendTgLog(JSON.stringify(newExternalAdUsers, null, 2))
+
+    console.log(newExternalAdUsers);
+    await sendTgLog(JSON.stringify(newExternalAdUsers, null, 2));
 
     if (newExternalAdUsers.error) {
         return newExternalAdUsers.error;
@@ -350,7 +351,7 @@ export const incrementStoryTotalViews = async (id) => {
         "increment_stories_total_views",
         {
             row_id: +id,
-        }
+        },
     );
 };
 
@@ -359,7 +360,7 @@ export const incrementStoryUniqueViews = async (id) => {
         "increment_stories_unique_views",
         {
             row_id: +id,
-        }
+        },
     );
 };
 
@@ -367,7 +368,7 @@ export const incrementStoryUniqueViews = async (id) => {
 
 export const finishOnboarding = async (telegram_id, wallet_address) => {
     await sendTgLog(
-        `Finishing onboarding for ${telegram_id} with address ${wallet_address}`
+        `Finishing onboarding for ${telegram_id} with address ${wallet_address}`,
     );
 
     const users = await supabase
@@ -404,7 +405,7 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
             console.error(updatedWallet.error);
             await sendTgLog(
                 "Updating wallet error: " +
-                    JSON.stringify(updatedWallet.error, null, 2)
+                    JSON.stringify(updatedWallet.error, null, 2),
             );
         }
 
@@ -424,7 +425,7 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
 
         await sendTgLog(
             "Updating wallet error: " +
-                JSON.stringify(createdWallet.error, null, 2)
+                JSON.stringify(createdWallet.error, null, 2),
         );
 
         return createdWallet;

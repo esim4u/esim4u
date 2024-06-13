@@ -1,5 +1,5 @@
 import { COUNTRIES } from "@/constants";
-import Package from "@/screens/package";
+import Package from "@/screens/package/package";
 import { Metadata } from "next";
 
 type Props = {

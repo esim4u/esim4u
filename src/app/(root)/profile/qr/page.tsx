@@ -1,4 +1,4 @@
-import QrScreen from "@/screens/qr-screen";
+import QrScreen from "@/screens/user/qr-screen";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

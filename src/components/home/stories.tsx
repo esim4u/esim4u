@@ -1,20 +1,23 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-} from "@/components/ui/carousel";
-import { cn, hapticFeedback } from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
 import Image from "next/image";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useTelegram } from "@/providers/telegram-provider";
 import {
     getStories,
     incrementStoryTotalViews,
     incrementStoryUniqueViews,
 } from "@/services/supabase";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+
+import { cn, hapticFeedback } from "@/lib/utils";
+
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+} from "@/components/ui/carousel";
+
 import { Skeleton } from "../ui/skeleton";
 
 type Props = {
@@ -44,7 +47,7 @@ const Stories = ({ className }: Props) => {
                     }
                     const arrayFromString = result.split(",");
                     setCheckedStories(arrayFromString);
-                }
+                },
             );
         }
     }, [webApp]);
@@ -65,12 +68,12 @@ const Stories = ({ className }: Props) => {
                                         <div className="p-1">
                                             <div
                                                 className={cn(
-                                                    "p-1 rounded-full transition-all bg-neutral-400/15"
+                                                    "p-1 rounded-full transition-all bg-neutral-400/15",
                                                 )}
                                             >
                                                 <div
                                                     className={cn(
-                                                        "relative  aspect-square flex justify-center items-end rounded-full overflow-hidden ring-2 ring-[#EFEFF3] "
+                                                        "relative  aspect-square flex justify-center items-end rounded-full overflow-hidden ring-2 ring-[#EFEFF3] ",
                                                     )}
                                                 >
                                                     <div>
@@ -100,11 +103,11 @@ const Stories = ({ className }: Props) => {
 
                                     if (
                                         !checkedStories.includes(
-                                            story.id.toString().trim()
+                                            story.id.toString().trim(),
                                         )
                                     ) {
                                         await incrementStoryUniqueViews(
-                                            story.id
+                                            story.id,
                                         );
                                     }
 
@@ -124,7 +127,7 @@ const Stories = ({ className }: Props) => {
 
                                     webApp?.CloudStorage.setItem(
                                         "checked_stories",
-                                        newCheckedStories.join(",")
+                                        newCheckedStories.join(","),
                                     );
                                 }}
                                 className="pl-1  basis-24 active:scale-95 transition-transform cursor-pointer"
@@ -135,15 +138,15 @@ const Stories = ({ className }: Props) => {
                                             "p-1 rounded-full transition-all",
                                             checkedStories.length > 0 &&
                                                 !checkedStories.includes(
-                                                    story.id.toString().trim()
+                                                    story.id.toString().trim(),
                                                 )
                                                 ? " bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500"
-                                                : "bg-neutral-400/15"
+                                                : "bg-neutral-400/15",
                                         )}
                                     >
                                         <div
                                             className={cn(
-                                                "relative  aspect-square flex justify-center items-end rounded-full overflow-hidden ring-2 ring-[#EFEFF3] "
+                                                "relative  aspect-square flex justify-center items-end rounded-full overflow-hidden ring-2 ring-[#EFEFF3] ",
                                             )}
                                         >
                                             <div className="relative w-full h-full">
@@ -152,7 +155,9 @@ const Stories = ({ className }: Props) => {
                                                     height={216}
                                                     className=" w-full h-full object-cover"
                                                     placeholder="blur"
-                                                    blurDataURL={story?.photo_url}
+                                                    blurDataURL={
+                                                        story?.photo_url
+                                                    }
                                                     quality={25}
                                                     src={story?.photo_url}
                                                     alt="news"

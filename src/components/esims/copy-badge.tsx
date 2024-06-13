@@ -1,6 +1,7 @@
-import { copyText, hapticFeedback } from "@/lib/utils";
 import React from "react";
 import { TbCopy } from "react-icons/tb";
+
+import { copyText, hapticFeedback } from "@/lib/utils";
 
 type Props = {
     text?: string;

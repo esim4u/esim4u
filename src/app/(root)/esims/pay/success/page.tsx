@@ -1,4 +1,4 @@
-import Success from "@/screens/success";
+import Success from "@/screens/payment/success";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

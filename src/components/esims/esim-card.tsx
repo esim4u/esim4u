@@ -1,23 +1,25 @@
 "use client";
 
+import { useMemo, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { Esim } from "@/types";
-import { useEffect, useMemo, useState } from "react";
-import Collapse from "../ui/collapse";
+import moment from "moment";
+import { TbHandClick } from "react-icons/tb";
+
+import { l } from "@/lib/locale";
 import {
     detectIOSVersion,
     generateEsimActivationLink,
     hapticFeedback,
 } from "@/lib/utils";
-import Image from "next/image";
-import CircleProgressBar from "../ui/circle-progress";
-import moment from "moment";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import QrCode from "../ui/qr-code";
-import CopyBadge from "./copy-badge";
-import Link from "next/link";
+
 import { Button } from "../ui/button";
-import { TbHandClick } from "react-icons/tb";
-import { l } from "@/lib/locale";
+import CircleProgressBar from "../ui/circle-progress";
+import Collapse from "../ui/collapse";
+import QrCode from "../ui/qr-code";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import CopyBadge from "./copy-badge";
 
 const EsimCard = ({
     coverage,
@@ -85,10 +87,7 @@ const EsimCard = ({
                 </div>
             </div>
             <div className="bg-gradient-to-tr from-blue-500/75 to-sky-400/50  rounded-b-2xl pt-5  -mt-5">
-                <Collapse
-                    className=" px-4  duration-200"
-                    isOpen={isOpen}
-                >
+                <Collapse className=" px-4  duration-200" isOpen={isOpen}>
                     <div className="py-2 pt-4 w-full">
                         <Tabs
                             defaultValue={

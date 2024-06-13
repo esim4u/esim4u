@@ -1,17 +1,18 @@
 "use client";
 
+import React from "react";
+import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
+import { Esim } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
-import EsimCard from "./esim-card";
-import { Esim } from "@/types";
+import { RiHistoryFill, RiSimCard2Fill } from "react-icons/ri";
+
 import { l } from "@/lib/locale";
 import { cn, hapticFeedback } from "@/lib/utils";
+
 import { Skeleton } from "../ui/skeleton";
-import { RiHistoryFill, RiSimCard2Fill } from "react-icons/ri";
-import { useRouter } from "next/navigation";
-import { GrHistory } from "react-icons/gr";
+import EsimCard from "./esim-card";
 
 type Props = {};
 
@@ -56,7 +57,7 @@ const UserEsims = (props: Props) => {
                 <div className="relative flex flex-col items-center justify-center gap-2 bg-white rounded-3xl h-[180px] w-full">
                     <div
                         className={cn(
-                            "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500"
+                            "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500",
                         )}
                     >
                         <h2>{l("title_esims")}</h2>{" "}

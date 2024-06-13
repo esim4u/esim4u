@@ -9,8 +9,8 @@ export const sendTgLog = async (message: string) => {
         await axios
             .get(
                 `https://api.telegram.org/bot${TG_LOGGER_BOT_TOKEN}/sendMessage?chat_id=${chat_id}&text=${encodeURI(
-                    message
-                )}&parse_mode=html`
+                    message,
+                )}&parse_mode=html`,
             )
             .catch((e) => {});
     });

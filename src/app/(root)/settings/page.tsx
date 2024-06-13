@@ -1,4 +1,4 @@
-import Settings from "@/screens/settings";
+import Settings from "@/screens/user/settings";
 import { Metadata } from "next";
 
 

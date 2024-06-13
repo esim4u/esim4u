@@ -1,9 +1,10 @@
 "use client";
 
-import { hapticFeedback } from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
-import { useRouter } from "next/navigation";
 import React from "react";
+import { useRouter } from "next/navigation";
+import { useTelegram } from "@/providers/telegram-provider";
+
+import { hapticFeedback } from "@/lib/utils";
 
 type Props = {};
 
@@ -29,9 +30,9 @@ const AdPlaceholder = (props: Props) => {
                         onClick={() => {
                             hapticFeedback();
                             webApp?.openTelegramLink(
-                                "https://t.me/esim4u_support_bot"
+                                "https://t.me/esim4u_support_bot",
                             );
-                            webApp?.close()
+                            webApp?.close();
                         }}
                         className="text-blue-500 underline underline-offset-2 font-medium"
                     >

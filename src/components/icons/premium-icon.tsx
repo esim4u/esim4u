@@ -1,6 +1,7 @@
-import { cn } from "@/lib/utils";
-import { Icon } from "@/types";
 import React from "react";
+import { Icon } from "@/types";
+
+import { cn } from "@/lib/utils";
 
 const PremiumIcon = ({ className, onClick }: Icon) => {
     return (

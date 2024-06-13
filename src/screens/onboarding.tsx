@@ -1,5 +1,21 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { RUNNING_LINE_COUNTRIES } from "@/constants";
+import { useTelegram } from "@/providers/telegram-provider";
+import { createUser, finishOnboarding } from "@/services/supabase";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+    TonConnectButton,
+    useTonAddress,
+    useTonWallet,
+} from "@tonconnect/ui-react";
+import ReactCountryFlag from "react-country-flag";
+
+import { l } from "@/lib/locale";
+import { cn, hapticFeedback } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import {
     Carousel,
@@ -7,25 +23,10 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { createUser, finishOnboarding } from "@/services/supabase";
-import { useTelegram } from "@/providers/telegram-provider";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { cn, hapticFeedback } from "@/lib/utils";
-import {
-    TonConnectButton,
-    useTonAddress,
-    useTonWallet,
-} from "@tonconnect/ui-react";
-import { RUNNING_LINE_COUNTRIES } from "@/constants";
 import Dot from "@/components/ui/dot";
-import ReactCountryFlag from "react-country-flag";
-import PopularCountries from "@/components/shared/popular-countries";
-import { l } from "@/lib/locale";
-import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { toast } from "@/components/ui/use-toast";
+import PopularCountries from "@/components/shared/popular-countries";
 
 export default function OnBoarding() {
     const router = useRouter();
@@ -202,7 +203,7 @@ export default function OnBoarding() {
                                                                 rowIndex % 2 ===
                                                                     0
                                                                     ? "animate-logo-cloud"
-                                                                    : "animate-logo-cloud-reverse"
+                                                                    : "animate-logo-cloud-reverse",
                                                             )}
                                                         >
                                                             {RUNNING_LINE_COUNTRIES[
@@ -210,7 +211,7 @@ export default function OnBoarding() {
                                                             ].map(
                                                                 (
                                                                     c: any,
-                                                                    key: number
+                                                                    key: number,
                                                                 ) => (
                                                                     <ReactCountryFlag
                                                                         countryCode={
@@ -226,7 +227,7 @@ export default function OnBoarding() {
                                                                                 "36px",
                                                                         }}
                                                                     />
-                                                                )
+                                                                ),
                                                             )}
                                                         </div>
                                                     ))}
@@ -260,7 +261,7 @@ export default function OnBoarding() {
                                     className={cn(
                                         "bg-neutral-400 transition-all size-3",
                                         index + 1 == current &&
-                                            "bg-blue-500 w-7"
+                                            "bg-blue-500 w-7",
                                     )}
                                 ></Dot>
                             ))}
@@ -310,7 +311,7 @@ export default function OnBoarding() {
                                                 onClick={() => {
                                                     hapticFeedback("success");
                                                     finishOnboaringForUser.mutate(
-                                                        tgUser
+                                                        tgUser,
                                                     );
                                                     router.push("/esims");
                                                 }}

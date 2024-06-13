@@ -1,9 +1,11 @@
 import React from "react";
-import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
-import { cn, hapticFeedback } from "@/lib/utils";
 import Image from "next/image";
-import { l } from "@/lib/locale";
 import { GiAchievement } from "react-icons/gi";
+
+import { l } from "@/lib/locale";
+import { cn, hapticFeedback } from "@/lib/utils";
+
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 
 type Props = {
     fullWidth?: boolean;
@@ -22,7 +24,7 @@ const Achievements = ({ fullWidth = false }: Props) => {
                 <div className="relative flex flex-col items-center justify-center gap-2 bg-white rounded-3xl h-[180px] w-full">
                     <div
                         className={cn(
-                            "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500"
+                            "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500",
                         )}
                     >
                         <h2>{l("title_achievements")}</h2>{" "}
@@ -46,7 +48,7 @@ const Achievements = ({ fullWidth = false }: Props) => {
             <div
                 className={cn(
                     "pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500",
-                    fullWidth && "pl-8"
+                    fullWidth && "pl-8",
                 )}
             >
                 <h2>{l("title_achievements")}</h2>{" "}
@@ -77,7 +79,7 @@ const Achievements = ({ fullWidth = false }: Props) => {
                                                     className={cn(
                                                         " w-full h-full object-cover ",
                                                         index != 1 &&
-                                                            " brightness-[55%]"
+                                                            " brightness-[55%]",
                                                     )}
                                                     quality={25}
                                                     placeholder="blur"

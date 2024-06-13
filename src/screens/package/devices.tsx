@@ -1,12 +1,14 @@
 "use client";
 
-import SearchInput from "@/components/shared/search-input";
-import Loader from "@/components/ui/loader";
-import { l } from "@/lib/locale";
-import { highlightMatches } from "@/lib/markup";
+import React, { useMemo, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useMemo, useState } from "react";
+
+import { l } from "@/lib/locale";
+import { highlightMatches } from "@/lib/markup";
+
+import Loader from "@/components/ui/loader";
+import SearchInput from "@/components/shared/search-input";
 
 const Devices = () => {
     const [search, setSearch] = useState("");
@@ -33,7 +35,7 @@ const Devices = () => {
             }
             // Check if the device name already exists in the array
             const existingDevice = group[brand].find(
-                (existingDevice) => existingDevice.name === device.name
+                (existingDevice) => existingDevice.name === device.name,
             );
             if (!existingDevice) {
                 group[brand].push(device);
@@ -104,17 +106,17 @@ const Devices = () => {
                                                         <span className="uppercase text-sm leading-4 font-semibold">
                                                             {highlightMatches(
                                                                 search,
-                                                                device.name
+                                                                device.name,
                                                             )}
                                                         </span>
                                                     </div>
                                                 </div>
                                             );
-                                        }
+                                        },
                                     )}
                                 </div>
                             );
-                        }
+                        },
                     )}
                 </div>
             </section>

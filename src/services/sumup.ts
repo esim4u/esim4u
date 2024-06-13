@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { sendTgLog } from "./tg-logger";
 
 const SUMUP_API_URL = process.env.SUMUP_API_URL || "";
@@ -38,7 +39,7 @@ export const createCheckout = async (
     order_id: string,
     price: number,
     description: string,
-    currency = "USD"
+    currency = "USD",
 ) => {
     const token = await getToken();
 

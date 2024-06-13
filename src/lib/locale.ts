@@ -1,5 +1,6 @@
 import t from "@/assets/data/translations.json";
 import { Translations } from "@/types";
+
 const translations: Translations = t as Translations;
 
 export function getSupportedLanguages() {
@@ -11,14 +12,16 @@ export function getSupportedLanguages() {
         en: "us",
         kk: "kz",
     };
-    const convertedLanguages = languages.map((lang) => {
-        return {
-            value: lang,
-            country: lang in covertMap ? covertMap[lang] : lang,
-        };
-    }).sort((a, b) => {
-        return a.value.localeCompare(b.value);
-    });
+    const convertedLanguages = languages
+        .map((lang) => {
+            return {
+                value: lang,
+                country: lang in covertMap ? covertMap[lang] : lang,
+            };
+        })
+        .sort((a, b) => {
+            return a.value.localeCompare(b.value);
+        });
 
     return convertedLanguages;
 }

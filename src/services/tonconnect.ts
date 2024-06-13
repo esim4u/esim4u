@@ -1,5 +1,5 @@
-import TonConnect from "@tonconnect/sdk";
 import { toNano } from "@ton/core";
+import TonConnect from "@tonconnect/sdk";
 
 export const connector = new TonConnect();
 

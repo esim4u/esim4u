@@ -1,8 +1,9 @@
 "use client";
 
-import { useTelegram } from "@/providers/telegram-provider";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useTelegram } from "@/providers/telegram-provider";
+
 import Loader from "@/components/ui/loader";
 
 export default function Pending() {

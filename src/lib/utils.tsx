@@ -1,11 +1,13 @@
-import { toast } from "@/components/ui/use-toast";
 import { useTelegram } from "@/providers/telegram-provider";
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { l } from "./locale";
-import { ButtonProps } from "@/components/ui/button";
+import { clsx, type ClassValue } from "clsx";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { PiCopyBold } from "react-icons/pi";
+import { twMerge } from "tailwind-merge";
+
+import { ButtonProps } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+
+import { l } from "./locale";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -31,7 +33,7 @@ export const highlightText = (query: string, text: string) => {
     const regex = new RegExp(`(${searchLowerCase})`, "gi");
     return text.replace(
         regex,
-        '<span style="color: #009dff; font-weight: 700">$1</span>'
+        '<span style="color: #009dff; font-weight: 700">$1</span>',
     );
 };
 
@@ -119,7 +121,7 @@ export const getReferralLink = (user_id: string | number) => {
 
 export const shareRef = (user_id: string) => {
     return `https://t.me/share/url?url=https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}&text=Purchase esims here!`;
-}
+};
 
 export const detectIOSVersion = () => {
     const userAgent = window.navigator.userAgent;
@@ -134,7 +136,7 @@ export const detectIOSVersion = () => {
 
 export const generateEsimActivationLink = (
     sm_dp: string,
-    confiramtion_code: string
+    confiramtion_code: string,
 ) => {
     return `LPA:1$${sm_dp}$${confiramtion_code}`;
 };

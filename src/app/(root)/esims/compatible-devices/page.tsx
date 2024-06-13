@@ -1,4 +1,4 @@
-import Devices from "@/screens/devices";
+import Devices from "@/screens/package/devices";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

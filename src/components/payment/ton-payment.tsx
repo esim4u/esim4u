@@ -1,17 +1,19 @@
 "use client";
 
-import { BiLoaderAlt } from "react-icons/bi";
-import { TonIcon } from "../icons";
-import { Button } from "../ui/button";
-import { hapticFeedback } from "@/lib/utils";
 import { use, useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useTelegram } from "@/providers/telegram-provider";
+import { sendTgLog } from "@/services/tg-logger";
 import { createTransaction } from "@/services/tonconnect";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-import { useTelegram } from "@/providers/telegram-provider";
-import { useRouter } from "next/navigation";
-import { sendTgLog } from "@/services/tg-logger";
+import axios from "axios";
+import { BiLoaderAlt } from "react-icons/bi";
+
+import { hapticFeedback } from "@/lib/utils";
+
+import { TonIcon } from "../icons";
+import { Button } from "../ui/button";
 
 const TonPayment = ({ orderData }: { orderData: any }) => {
     const router = useRouter();
@@ -25,7 +27,7 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
         queryKey: ["ratetonusd"],
         queryFn: async () => {
             const { data } = await axios.get(
-                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd"
+                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd",
             );
 
             return data.rates.TON.prices.USD;

@@ -1,16 +1,18 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useTelegram } from "@/providers/telegram-provider";
-import { MdArrowForwardIos } from "react-icons/md";
-import { hapticFeedback } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
-import { Badge } from "../ui/badge";
-import RefLinkButton from "../shared/ref-link-button";
+import { useQuery } from "@tanstack/react-query";
 import { GrTrophy } from "react-icons/gr";
+import { MdArrowForwardIos } from "react-icons/md";
+
+import { hapticFeedback } from "@/lib/utils";
+
+import RefLinkButton from "../shared/ref-link-button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Badge } from "../ui/badge";
 
 type Props = {};
 

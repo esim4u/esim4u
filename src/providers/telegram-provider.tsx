@@ -1,5 +1,6 @@
 "use client";
 
+import { debug } from "console";
 import {
     createContext,
     useCallback,
@@ -8,11 +9,11 @@ import {
     useMemo,
     useState,
 } from "react";
-import type { ITelegramUser, IWebApp } from "@/types";
 import { usePathname, useRouter } from "next/navigation";
-import { hapticFeedback } from "@/lib/utils";
+import type { ITelegramUser, IWebApp } from "@/types";
+
 import { initLanguage, l, setLanguage } from "@/lib/locale";
-import { debug } from "console";
+import { hapticFeedback } from "@/lib/utils";
 
 export interface ITelegramContext {
     webApp?: any;
@@ -94,7 +95,7 @@ export const TelegramProvider = ({
                   },
                   start_param: webApp?.initDataUnsafe.start_param,
                   cloudStorage: webApp?.cloudStorage,
-                //   adContoller
+                  //   adContoller
               }
             : {};
     }, [webApp]);

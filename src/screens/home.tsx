@@ -1,34 +1,29 @@
 "use client";
 
-import Header from "@/components/home/header";
-import {
-    copyReferralLinkToClipBoard,
-    hapticFeedback,
-    loseFocus,
-    shareRef,
-} from "@/lib/utils";
-
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { COUNTRIES } from "@/constants";
 import { useTelegram } from "@/providers/telegram-provider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Image from "next/image";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import Fuse from "fuse.js";
+import { FaDonate } from "react-icons/fa";
+
+import { getPreferredLanguage, l } from "@/lib/locale";
+import { hapticFeedback, loseFocus, shareRef } from "@/lib/utils";
+
+import { Button } from "@/components/ui/button";
+import Collapse from "@/components/ui/collapse";
+import Header from "@/components/home/header";
+import PackagesList from "@/components/home/packages-list";
 import Stories from "@/components/home/stories";
 import Achievements from "@/components/shared/achievements";
-import Fuse from "fuse.js";
-import SearchInput from "@/components/shared/search-input";
-import { highlightMatches } from "@/lib/markup";
 import PopularCountries from "@/components/shared/popular-countries";
-import { COUNTRIES } from "@/constants";
-import { sendGTMEvent } from "@next/third-parties/google";
-import { track } from "@vercel/analytics/react";
-import { getPreferredLanguage, l } from "@/lib/locale";
-import Collapse from "@/components/ui/collapse";
-import PackagesList from "@/components/home/packages-list";
+import SearchInput from "@/components/shared/search-input";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
+
     const [search, setSearch] = useState("");
     const [isSearchError, setIsSearchError] = useState(false);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -48,18 +43,6 @@ export default function Home() {
         placeholderData: keepPreviousData,
     });
 
-    // const {} = useQuery({
-    //     queryKey: ["user-esims", tgUser?.id],
-    //     queryFn: async () => {
-    //         const data = await axios.get(`/api/user/${tgUser.id}/esims`);
-    //         return data.data;
-    //     },
-    //     placeholderData: keepPreviousData,
-    //     enabled: !!tgUser?.id,
-    //     staleTime: 1000 * 60 * 5, // 5 minutes
-    //     gcTime: 1000 * 60 * 60, // 1 hour
-    // });
-
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.hide();
@@ -69,7 +52,7 @@ export default function Home() {
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback("success");
-            
+
             webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
 
             // copyReferralLinkToClipBoard(
@@ -84,22 +67,6 @@ export default function Home() {
             loseFocus();
         }
     }, [webApp]);
-
-    // useEffect(() => {
-    //     if (adContoller) {
-    //         console.log("adContoller", adContoller);
-    //         adContoller
-    //             .show()
-    //             .then((result: ShowPromiseResult) => {
-    //                 // user watch ad till the end
-    //                 // your code to reward user
-    //             })
-    //             .catch((result: ShowPromiseResult) => {
-    //                 // user skipped video or get error during playing ad
-    //                 // do nothing or whatever you want
-    //             });
-    //     }
-    // }, [adContoller]);
 
     useEffect(() => {
         if (isSearchFocused) {
@@ -129,7 +96,7 @@ export default function Home() {
     }, [webApp, isSearchFocused]);
 
     const filteredPackages = useMemo(() => {
-        if(!search) return [];
+        if (!search) return [];
         if (search && packages && packages.length) {
             const query = search.toLowerCase().trim();
 
@@ -181,7 +148,7 @@ export default function Home() {
                     (nestedCountry) =>
                         nestedCountry.title != item.title &&
                         nestedCountry.country_code != item.country_code &&
-                        nestedCountry.translation != item.translation
+                        nestedCountry.translation != item.translation,
                 );
 
                 return {
@@ -233,9 +200,18 @@ export default function Home() {
                 <PackagesList packages={filteredPackages} search={search} />
             )}
             <Collapse className=" duration-200" isOpen={!isSearchFocused}>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 pb-4">
                     <PopularCountries />
                     <Achievements fullWidth />
+                    <Button
+                        onClick={() => {
+                            router.push("/donation");
+                        }}
+                        size={"lg"}
+                        className="rounded-xl gap-1 text-base"
+                    >
+                        Donate <FaDonate className="w-[14px] h-[14px]" />
+                    </Button>
                 </div>
             </Collapse>
         </main>

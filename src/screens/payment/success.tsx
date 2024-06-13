@@ -1,8 +1,8 @@
 "use client";
 
-import { useTelegram } from "@/providers/telegram-provider";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useTelegram } from "@/providers/telegram-provider";
 import { FaRegCircleCheck } from "react-icons/fa6";
 
 export default function Success() {
@@ -15,10 +15,9 @@ export default function Success() {
 
             setTimeout(() => {
                 router.push("/profile?is_payment=true");
-            },2000);
+            }, 2000);
         }
     }, [webApp]);
-
 
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">

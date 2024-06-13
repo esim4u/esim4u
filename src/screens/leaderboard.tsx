@@ -1,19 +1,21 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { useTelegram } from "@/providers/telegram-provider";
+import { getLeaderboard, getUserById } from "@/services/supabase";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { FaUserFriends } from "react-icons/fa";
+import { GrTrophy } from "react-icons/gr";
+import { PiMedalFill } from "react-icons/pi";
+
+import { l } from "@/lib/locale";
+import { cn, hapticFeedback } from "@/lib/utils";
+import useReferralLink from "@/hooks/useRefLink";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import Referrals from "@/components/user/referrals";
-import { l } from "@/lib/locale";
-import { cn, copyReferralLinkToClipBoard, hapticFeedback, shareRef } from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
-import { getPhotoUrlFromFileId } from "@/services/grammy";
-import { getLeaderboard, getUserById } from "@/services/supabase";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import React, { useCallback, useEffect, useState } from "react";
-import { FaUserFriends } from "react-icons/fa";
-import { GrTrophy } from "react-icons/gr";
-import { PiMedalFill } from "react-icons/pi";
 
 type Props = {};
 
@@ -36,6 +38,8 @@ const PlaceLabel = ({ index }: { index: number }) => {
 
 const LeaderBoard = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
+    useReferralLink(webApp, tgUser);
+
     const [isOpen, setIsOpen] = useState(false);
 
     const { data: leaders, isLoading } = useQuery({
@@ -55,20 +59,6 @@ const LeaderBoard = (props: Props) => {
         placeholderData: keepPreviousData,
     });
 
-    const copyReferralLink = useCallback(() => {
-        if (webApp) {
-            hapticFeedback("success");
-            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
-        }
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("mainButtonClicked", copyReferralLink);
-        return () => {
-            webApp?.offEvent("mainButtonClicked", copyReferralLink);
-        };
-    }, [webApp]);
-
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
@@ -80,6 +70,7 @@ const LeaderBoard = (props: Props) => {
             });
         }
     }, [webApp]);
+
     return (
         <main className="overflow-x-hidden h-dvh flex flex-col items-center gap-2 p-5">
             <div className="flex items-center justify-between bg-white w-full rounded-xl px-5 py-3">
@@ -109,7 +100,7 @@ const LeaderBoard = (props: Props) => {
                                     className={cn(
                                         "w-full h-10 bg-white rounded-lg grid grid-cols-7 ",
                                         tgUser?.id == leader.telegram_id &&
-                                            " ring-2 ring-purple-500"
+                                            " ring-2 ring-purple-500",
                                     )}
                                 >
                                     <div className="col-span-1 flex items-center justify-center">
@@ -148,7 +139,7 @@ const LeaderBoard = (props: Props) => {
                                         className={cn(
                                             "bg-white aspect-square min-w-10  text-purple-600",
                                             isOpen &&
-                                                " bg-gradient-to-tr from-indigo-500 to-purple-500 text-white"
+                                                " bg-gradient-to-tr from-indigo-500 to-purple-500 text-white",
                                         )}
                                         onClick={() => {
                                             hapticFeedback();

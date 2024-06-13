@@ -1,5 +1,5 @@
 import Loader from "@/components/ui/loader";
-import Profile from "@/screens/profile";
+import Profile from "@/screens/user/profile";
 import { Metadata } from "next";
 import { Suspense } from "react";
 

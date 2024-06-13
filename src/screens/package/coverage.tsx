@@ -1,14 +1,15 @@
 "use client";
 
-import SearchInput from "@/components/shared/search-input";
-import Loader from "@/components/ui/loader";
+import React, { useMemo, useState } from "react";
 import { COUNTRIES } from "@/constants";
-import { highlightMatches } from "@/lib/markup";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import React, { useMemo, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
+
+import { highlightMatches } from "@/lib/markup";
+
+import Loader from "@/components/ui/loader";
+import SearchInput from "@/components/shared/search-input";
 
 const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
     const [search, setSearch] = useState("");
@@ -21,7 +22,7 @@ const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
         queryKey: ["esim-packages", params.country_code],
         queryFn: async () => {
             const { data } = await axios.get(
-                "/api/esims/packages/" + params.country_code
+                "/api/esims/packages/" + params.country_code,
             );
             return data[0];
         },
@@ -52,7 +53,7 @@ const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
                 return (
                     network.name.toLowerCase().includes(query) ||
                     network.types.some((type: any) =>
-                        type.toLowerCase().includes(query)
+                        type.toLowerCase().includes(query),
                     )
                 );
             });

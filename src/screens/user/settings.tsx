@@ -6,7 +6,6 @@ import {
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
@@ -23,7 +22,6 @@ import {
     setLanguage,
 } from "@/lib/locale";
 import {
-    copyReferralLinkToClipBoard,
     hapticFeedback,
     shareRef,
 } from "@/lib/utils";
@@ -33,14 +31,10 @@ import {
     getUserById,
     updateUserWallet,
 } from "@/services/supabase";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
-import { track } from "@vercel/analytics/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { use, useCallback, useEffect, useState } from "react";
-import ReactCountryFlag from "react-country-flag";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Settings() {
     const router = useRouter();

@@ -1,4 +1,4 @@
-import History from "@/screens/history";
+import History from "@/screens/user/history";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

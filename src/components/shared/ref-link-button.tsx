@@ -1,9 +1,10 @@
 "use client";
 
+import React from "react";
+import { useTelegram } from "@/providers/telegram-provider";
+
 import { l } from "@/lib/locale";
 import { cn, copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
-import React from "react";
 
 type Props = {
     className?: string;
@@ -20,7 +21,7 @@ const RefLinkButton = ({ className }: Props) => {
             }}
             className={cn(
                 "bg-white h-10 p-2 pr-3 min-w-32 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform",
-                className
+                className,
             )}
         >
             <svg

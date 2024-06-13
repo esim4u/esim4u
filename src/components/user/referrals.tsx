@@ -1,13 +1,13 @@
 "use client";
 
-import { l } from "@/lib/locale";
-import { cn, copyText, hapticFeedback } from "@/lib/utils";
+import Image from "next/image";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserReferrals } from "@/services/supabase";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { BiPurchaseTagAlt } from "react-icons/bi";
-import RefLinkButton from "../shared/ref-link-button";
-import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+
+import { l } from "@/lib/locale";
+import { cn, hapticFeedback } from "@/lib/utils";
+
 import { TonIcon } from "../icons";
 import PremiumIcon from "../icons/premium-icon";
 
@@ -33,7 +33,7 @@ const Referrals = ({ hideTitle }: Props) => {
                     {!hideTitle && (
                         <div
                             className={cn(
-                                "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500"
+                                "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500",
                             )}
                         >
                             <h2>{l("title_frens")}</h2>{" "}
@@ -75,14 +75,14 @@ const Referrals = ({ hideTitle }: Props) => {
                     </div>
                 </div>
             )}
-            
+
             {referrals?.map((referral: any, index: number) => (
                 <div
                     key={referral.telegram_id}
                     onClick={() => {
                         hapticFeedback();
                         webApp?.openTelegramLink(
-                            "https://t.me/" + referral.username
+                            "https://t.me/" + referral.username,
                         );
                     }}
                     className="cursor-pointer active:scale-95 transition-transform flex items-center justify-between bg-white h-10 p-4 rounded-2xl"

@@ -1,30 +1,37 @@
 "use client";
 
-import dynamic from 'next/dynamic';
-import Collapse from "@/components/ui/collapse";
-import Dot from "@/components/ui/dot";
-import { cn, hapticFeedback, shareRef } from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState, useCallback } from "react";
-import { MdArrowForwardIos } from "react-icons/md";
+import { useTelegram } from "@/providers/telegram-provider";
 import { getOrderById } from "@/services/supabase";
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-import { createTransaction } from "@/services/tonconnect";
 import { sendTgLog } from "@/services/tg-logger";
-import { toast } from "@/components/ui/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { TonIcon } from "@/components/icons";
+import { createTransaction } from "@/services/tonconnect";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
+import axios from "axios";
 import { BiLoaderAlt } from "react-icons/bi";
+import { MdArrowForwardIos } from "react-icons/md";
+
 import { l } from "@/lib/locale";
-const TonPayment = dynamic(() => import('@/components/payment/ton-payment'), { ssr: false });
+import { cn, hapticFeedback, shareRef } from "@/lib/utils";
+import useReferralLink from "@/hooks/useRefLink";
+
+import { Button } from "@/components/ui/button";
+import Collapse from "@/components/ui/collapse";
+import Dot from "@/components/ui/dot";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "@/components/ui/use-toast";
+import { TonIcon } from "@/components/icons";
+
+const TonPayment = dynamic(() => import("@/components/payment/ton-payment"), {
+    ssr: false,
+});
 
 export function Payment({ params }: { params: { order_id: string } }) {
     const { user: tgUser, webApp } = useTelegram();
+    useReferralLink(webApp, tgUser);
 
     const { data: orderData, isLoading } = useQuery({
         queryKey: ["order", params.order_id],
@@ -44,19 +51,6 @@ export function Payment({ params }: { params: { order_id: string } }) {
                 is_active: true,
                 is_visible: true,
             });
-        }
-    }, [webApp]);
-    useEffect(() => {
-        webApp?.onEvent("mainButtonClicked", copyReferralLink);
-        return () => {
-            webApp?.offEvent("mainButtonClicked", copyReferralLink);
-        };
-    }, [webApp]);
-    const copyReferralLink = useCallback(() => {
-        if (webApp) {
-            hapticFeedback();
-            // copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
-            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
     }, [webApp]);
 
@@ -222,7 +216,7 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
                 <MdArrowForwardIos
                     className={cn(
                         "text-neutral-500 transition-transform",
-                        isCardPaymentOpen && " rotate-90"
+                        isCardPaymentOpen && " rotate-90",
                     )}
                 />
             </div>
@@ -231,7 +225,7 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
                     <div
                         className={cn(
                             " flex flex-col gap-2 justify-between w-full h-[450px] rounded-2xl p-6 pt-16",
-                            !isLoading && "hidden"
+                            !isLoading && "hidden",
                         )}
                     >
                         <div className="flex flex-col gap-2">

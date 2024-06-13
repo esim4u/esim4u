@@ -1,9 +1,10 @@
-import { l } from "@/lib/locale";
-import { hapticFeedback } from "@/lib/utils";
+import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
+
+import { l } from "@/lib/locale";
+import { hapticFeedback } from "@/lib/utils";
 
 type Props = {
     hasTitle?: boolean;

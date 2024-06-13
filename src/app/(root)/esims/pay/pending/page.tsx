@@ -1,4 +1,4 @@
-import Pending from "@/screens/pending";
+import Pending from "@/screens/payment/pending";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
