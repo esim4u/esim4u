@@ -1,9 +1,8 @@
 import { sendTgLog } from "@/services/tg-logger";
 
 export async function GET(req: Request) {
-    const payload = await req.json();
 
-    await sendTgLog("NOTIFICATION WEBHOOK PAYLOAD: " + JSON.stringify(payload));
+    await sendTgLog("NOTIFICATION WEBHOOK PAYLOAD:");
 
-    return Response.json(payload, { status: 200 });
+    return Response.json( { status: 200 });
 }
