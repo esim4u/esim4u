@@ -8,18 +8,19 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Fuse from "fuse.js";
 import { FaDonate } from "react-icons/fa";
+import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 
 import { getPreferredLanguage, l } from "@/lib/locale";
 import { hapticFeedback, loseFocus, shareRef } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
+import CustomInput from "@/components/ui/custom-input";
 import Header from "@/components/home/header";
 import PackagesList from "@/components/home/packages-list";
 import Stories from "@/components/home/stories";
 import Achievements from "@/components/shared/achievements";
 import PopularCountries from "@/components/shared/popular-countries";
-import SearchInput from "@/components/shared/search-input";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
@@ -174,10 +175,11 @@ export default function Home() {
                 </div>
             </Collapse>
 
-            <SearchInput
+            <CustomInput
                 id="country-search"
-                search={search}
-                setSearch={(value) => {
+                icon={HiMiniMagnifyingGlass}
+                value={search}
+                setValue={(value) => {
                     setSearch(value);
 
                     if (value.length > 2 && filteredPackages?.length === 0) {
@@ -205,10 +207,11 @@ export default function Home() {
                     <Achievements fullWidth />
                     <Button
                         onClick={() => {
+                            hapticFeedback();
                             router.push("/donation");
                         }}
                         size={"lg"}
-                        className="gap-1 rounded-xl text-base"
+                        className="w-full gap-1 rounded-xl  text-base"
                     >
                         Donate <FaDonate className="h-[14px] w-[14px]" />
                     </Button>

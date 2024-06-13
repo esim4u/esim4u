@@ -11,6 +11,7 @@ import {
 } from "@/services/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
+import { FaDonate } from "react-icons/fa";
 
 import {
     getPreferredCurrencyCode,
@@ -212,9 +213,16 @@ export default function Settings() {
                     </Button>
                 </div>
 
-                <div>
-                    <TonConnectButton />
-                </div>
+                <Button
+                    onClick={() => {
+                        hapticFeedback();
+                        router.push("/donation");
+                    }}
+                    size={"lg"}
+                    className="w-full gap-1 rounded-xl text-base"
+                >
+                    Donate <FaDonate className="h-[14px] w-[14px]" />
+                </Button>
             </div>
         </main>
     );

@@ -73,6 +73,14 @@ export function copyText(text: string | number, e?: any) {
         });
     }
 }
+
+export function donationErrorToast(){
+    toast({
+        variant: "destructive",
+        title: "Minimum donation amount is 0.5 TON",
+    });
+}
+
 export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
     e?.stopPropagation();
 

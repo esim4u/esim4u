@@ -5,29 +5,35 @@ import { IoCloseOutline } from "react-icons/io5";
 import { l } from "@/lib/locale";
 import { cn, hapticFeedback } from "@/lib/utils";
 
-type SearchInputProps = {
+type CustomInputProps = {
     id?: string;
-    search: string;
+    value: string | number;
+    type?: string;
     placeholder?: string;
-    setSearch: (search: string) => void;
+    setValue: (search: string) => void;
     isError?: boolean;
     isFocused?: boolean;
     setIsFocused?: (isFocused: boolean) => void;
     onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+    icon?: any;
 };
 
-const SearchInput = ({
+const CustomInput = ({
     id,
-    search,
-    setSearch,
+    value,
+    type = "text",
+    setValue,
     placeholder = l("input_search_country"),
     isError,
     isFocused,
     setIsFocused,
     onFocus,
     onBlur,
-}: SearchInputProps) => {
+    icon,
+}: CustomInputProps) => {
+    const Icon = icon;
+
     return (
         <div
             id={id}
@@ -36,28 +42,32 @@ const SearchInput = ({
                 isError && "animate-wiggle rounded-full ring-2 ring-redish",
             )}
         >
-            <HiMiniMagnifyingGlass
-                className={cn(
-                    " absolute ml-[14px] text-neutral-500",
-                    isError && "text-redish",
-                )}
-            />
+            {icon && (
+                <Icon
+                    className={cn(
+                        " absolute ml-[14px] text-neutral-500",
+                        isError && "text-redish",
+                    )}
+                />
+            )}
             <input
+                type={type}
                 className={cn(
-                    "h-10 w-full rounded-full px-10 ring-redish focus-visible:outline-none",
+                    "h-10 w-full rounded-full px-4 ring-redish focus-visible:outline-none",
                     isError && "text-redish",
+                    icon && "pl-10",
                 )}
-                value={search}
+                value={value}
                 placeholder={placeholder}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setValue(e.target.value)}
                 onFocus={onFocus}
             />
 
-            {(search || isFocused) && (
+            {(value || isFocused) && (
                 <IoCloseOutline
                     onClick={() => {
                         hapticFeedback();
-                        setSearch("");
+                        setValue("");
                         if (setIsFocused) {
                             setIsFocused(false);
                         }
@@ -72,4 +82,4 @@ const SearchInput = ({
     );
 };
 
-export default SearchInput;
+export default CustomInput;

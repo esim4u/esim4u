@@ -32,22 +32,10 @@ const Package = ({ params }: { params: { country_code: string } }) => {
 
     const { user: tgUser, webApp } = useTelegram();
     const [selectedPackage, setSelectedPackage] = useState<any>(null);
-    const [isOpen, setIsOpen] = useState(false);
-    const [api, setApi] = useState<CarouselApi>();
     const [terms, setTerms] = useState({
         terms1: false,
         terms2: false,
     });
-
-    useEffect(() => {
-        if (!api) {
-            return;
-        }
-
-        api.on("select", () => {
-            console.log("selected", api.selectedScrollSnap());
-        });
-    }, [api]);
 
     const {
         data: packageData,
@@ -212,270 +200,292 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                             <TonIcon className="h-6 w-6" />
                         </h2>
                     </div>
-                    {
-                        //TODO: move prices to separate component
-                    }
-                    <div className={cn("flex flex-col gap-1", "-mx-5")}>
-                        <h2
-                            className={cn(
-                                "pl-2 text-sm font-medium uppercase text-neutral-500",
-                                "px-7",
-                            )}
-                        >
-                            {l("title_packages")}
-                        </h2>
-                        <Carousel setApi={setApi}>
-                            <CarouselContent
-                                className={cn("ml-1", "mr-4 pl-4")}
-                            >
-                                {packageData &&
-                                    packagePlans.map(
-                                        (plan: any, index: number) => {
-                                            return (
-                                                <CarouselItem
-                                                    key={index}
-                                                    className="basis-[122px] cursor-pointer pl-1"
-                                                >
-                                                    <div
-                                                        onClick={() => {
-                                                            hapticFeedback();
-                                                            setSelectedPackage(
-                                                                plan,
-                                                            );
-                                                            api?.scrollTo(
-                                                                index,
-                                                            );
-                                                        }}
-                                                        className={cn(
-                                                            "flex h-16  w-28 flex-col items-center justify-center rounded-3xl  border-[2px] border-neutral-400 p-5 transition-all active:border-4 active:border-blue-500 ",
-                                                            selectedPackage ===
-                                                                plan &&
-                                                                "border-4 border-blue-500",
-                                                        )}
-                                                    >
-                                                        <h2 className="text-2xl font-bold">
-                                                            {plan.amount / 1024}
-                                                            <span className="text-xl">
-                                                                GB
-                                                            </span>
-                                                        </h2>
-                                                        {/* <h2 className="text-center font-bold">
-                                                            {plan.data}
-                                                        </h2> */}
-                                                        <p className=" text-xs font-medium text-neutral-500">
-                                                            {plan.day}{" "}
-                                                            {l("text_days")}
-                                                        </p>
-                                                    </div>
-                                                </CarouselItem>
-                                            );
-                                        },
-                                    )}
-                            </CarouselContent>
-                        </Carousel>
-                    </div>
+                    <PriceCarousel
+                        packageData={packageData}
+                        packagePlans={packagePlans}
+                        selectedPackage={selectedPackage}
+                        setSelectedPackage={setSelectedPackage}
+                    />
                 </div>
-
-                <div className=" flex flex-col gap-2 rounded-2xl bg-white  p-5 shadow-md">
-                    <h2 className="pl-1 text-xs font-medium uppercase text-neutral-500">
-                        {l("title_information")}
-                    </h2>
-
-                    <div className="flex flex-col gap-2">
-                        <div className="flex flex-row items-center justify-between">
-                            <h3 className="text-sm font-bold capitalize">
-                                {l("label_coverage")}
-                            </h3>
-                            {packageData.operators[0].coverages.length > 1 ? (
-                                <button
-                                    onClick={() => {
-                                        hapticFeedback();
-                                        router.push(`${path}/coverage`);
-                                    }}
-                                    className="text-sm font-medium capitalize text-blue-500 underline underline-offset-2"
-                                >
-                                    {packageData.operators[0].coverages.length}{" "}
-                                    {l("text_countries")}
-                                </button>
-                            ) : (
-                                <h3 className="text-sm font-bold">
-                                    {COUNTRIES[
-                                        packageData.operators[0].coverages[0].name.toLowerCase()
-                                    ] ||
-                                        packageData.operators[0].coverages[0]
-                                            .name}
-                                </h3>
-                            )}
-                        </div>
-                        <div className="flex flex-row items-center justify-between">
-                            <h3 className="text-sm font-bold capitalize">
-                                {l("label_plan")}
-                            </h3>
-                            <h3 className="text-sm font-bold capitalize">
-                                {packageData.operators[0].plan_type &&
-                                    l("text_plan")}
-                            </h3>
-                        </div>
-                        <div className="flex flex-row items-center justify-between">
-                            <h3 className="text-sm font-bold capitalize">
-                                {l("label_top_up")}
-                            </h3>
-                            <h3 className="text-sm font-bold capitalize">
-                                {packageData.operators[0].rechargeability
-                                    ? l("text_top_up")
-                                    : "Not available"}
-                            </h3>
-                        </div>
-                        <div className="flex flex-row items-center justify-between">
-                            <h3 className="text-sm font-bold capitalize">
-                                {l("label_compatible_devices")}
-                            </h3>
-                            <button
-                                onClick={() => {
-                                    hapticFeedback();
-                                    router.push(`/esims/compatible-devices`);
-                                }}
-                                className="text-sm font-medium capitalize text-blue-500 underline underline-offset-2"
-                            >
-                                {l("text_compatible_devices")}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className=" flex flex-col rounded-2xl bg-white p-5 shadow-md">
-                    <div
-                        className="flex cursor-pointer items-center justify-between"
-                        onClick={() => {
-                            hapticFeedback();
-                            setIsOpen(!isOpen);
-                        }}
-                    >
-                        <h2 className="flex cursor-pointer items-center gap-1 text-xs font-medium uppercase text-neutral-500">
-                            {l("title_guide")}
-                            <Badge className="capitalize ">
-                                {l("badge_guide")}
-                            </Badge>
-                        </h2>
-                        <MdArrowForwardIos
-                            className={cn(
-                                "text-neutral-500 transition-transform",
-                                isOpen && " rotate-90",
-                            )}
-                        />
-                    </div>
-
-                    <Collapse isOpen={isOpen}>
-                        <div className="flex flex-col gap-2 pt-2 text-sm font-bold">
-                            <div className="flex flex-row gap-2">
-                                <h3 className="w-4">1.</h3>
-                                <h3 className="">{l("instruction_1")}</h3>
-                            </div>
-                            <div className="flex flex-row gap-2">
-                                <h3 className="w-4">2.</h3>
-                                <h3 className="text-sm">
-                                    {l("instruction_2")}
-                                </h3>
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <div className="flex flex-row gap-2">
-                                    <h3 className="w-4">3.</h3>
-                                    <h3 className="text-sm">
-                                        {l("instruction_3")}
-                                    </h3>
-                                </div>
-                                <div className="flex flex-row gap-2">
-                                    <div className="py-2 pl-4">
-                                        <Dot className="size-1.5" />
-                                    </div>
-                                    <h3 className="text-sm">
-                                        {l("instruction_3_auto")}
-                                    </h3>
-                                </div>
-                                <div className="flex flex-row gap-2">
-                                    <div className="py-2 pl-4">
-                                        <Dot className="size-1.5" />
-                                    </div>
-                                    <h3 className="text-sm">
-                                        {l("instruction_3_qr")}
-                                    </h3>
-                                </div>
-                                <div className="flex flex-row gap-2">
-                                    <div className="py-2 pl-4">
-                                        <Dot className="size-1.5" />
-                                    </div>
-                                    <h3 className="text-sm">
-                                        {l("instruction_3_manual")}
-                                    </h3>
-                                </div>
-                            </div>
-                            <div className="flex flex-row gap-2">
-                                <h3 className="w-4">4.</h3>
-                                <h3 className="text-sm">
-                                    {l("instruction_4")}
-                                </h3>
-                            </div>
-                            <div className="flex flex-row gap-2">
-                                <h3 className="w-4"> 5. </h3>
-                                <h3 className="text-sm">
-                                    {l("instruction_5")}
-                                </h3>
-                            </div>
-                        </div>
-                    </Collapse>
-                </div>
-
-                <div className="flex flex-col gap-2 rounded-3xl border-2 border-redish p-5">
-                    <div
-                        onClick={() => {
-                            hapticFeedback();
-                        }}
-                        className="flex items-center space-x-2"
-                    >
-                        <Checkbox
-                            onCheckedChange={(checked: boolean) => {
-                                setTerms({
-                                    ...terms,
-                                    terms1: checked,
-                                });
-                            }}
-                            checked={terms.terms1}
-                            id="terms1"
-                        />
-                        <label
-                            htmlFor="terms1"
-                            className="cursor-pointer text-sm font-medium "
-                        >
-                            {l("text_terms_conditions")}
-                        </label>
-                    </div>
-                    <div
-                        onClick={() => {
-                            hapticFeedback();
-                        }}
-                        className=" flex items-center space-x-2"
-                    >
-                        <Checkbox
-                            onCheckedChange={(checked: boolean) => {
-                                setTerms({
-                                    ...terms,
-                                    terms2: checked,
-                                });
-                            }}
-                            checked={terms.terms2}
-                            id="terms2"
-                        />
-                        <label
-                            htmlFor="terms2"
-                            className="cursor-pointer text-sm font-medium "
-                        >
-                            {l("text_device_compatible")}
-                        </label>
-                    </div>
-                </div>
+                <AdditionalInfo packageData={packageData} />
+                <Manual />
+                <Terms terms={terms} setTerms={setTerms} />
             </div>
         </section>
     );
 };
 
 export default Package;
+
+const PriceCarousel = ({
+    packageData,
+    packagePlans,
+    selectedPackage,
+    setSelectedPackage,
+}: {
+    packageData: any;
+    packagePlans: any[];
+    selectedPackage: any;
+    setSelectedPackage: any;
+}) => {
+    const [api, setApi] = useState<CarouselApi>();
+    useEffect(() => {
+        if (!api) {
+            return;
+        }
+
+        api.on("select", () => {
+            console.log("selected", api.selectedScrollSnap());
+        });
+    }, [api]);
+
+    return (
+        <div className={cn("flex flex-col gap-1", "-mx-5")}>
+            <h2
+                className={cn(
+                    "pl-2 text-sm font-medium uppercase text-neutral-500",
+                    "px-7",
+                )}
+            >
+                {l("title_packages")}
+            </h2>
+            <Carousel setApi={setApi}>
+                <CarouselContent className={cn("ml-1", "mr-4 pl-4")}>
+                    {packageData &&
+                        packagePlans.map((plan: any, index: number) => {
+                            return (
+                                <CarouselItem
+                                    key={index}
+                                    className="basis-[122px] cursor-pointer pl-1"
+                                >
+                                    <div
+                                        onClick={() => {
+                                            hapticFeedback();
+                                            setSelectedPackage(plan);
+                                            api?.scrollTo(index);
+                                        }}
+                                        className={cn(
+                                            "flex h-16  w-28 flex-col items-center justify-center rounded-3xl  border-[2px] border-neutral-400 p-5 transition-all active:border-4 active:border-blue-500 ",
+                                            selectedPackage === plan &&
+                                                "border-4 border-blue-500",
+                                        )}
+                                    >
+                                        <h2 className="text-2xl font-bold">
+                                            {plan.amount / 1024}
+                                            <span className="text-xl">GB</span>
+                                        </h2>
+                                        {/* <h2 className="text-center font-bold">
+                                        {plan.data}
+                                    </h2> */}
+                                        <p className=" text-xs font-medium text-neutral-500">
+                                            {plan.day} {l("text_days")}
+                                        </p>
+                                    </div>
+                                </CarouselItem>
+                            );
+                        })}
+                </CarouselContent>
+            </Carousel>
+        </div>
+    );
+};
+
+const AdditionalInfo = ({ packageData }: { packageData: any }) => {
+    const router = useRouter();
+    const path = usePathname();
+
+    return (
+        <div className=" flex flex-col gap-2 rounded-2xl bg-white  p-5 shadow-md">
+            <h2 className="pl-1 text-xs font-medium uppercase text-neutral-500">
+                {l("title_information")}
+            </h2>
+
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-row items-center justify-between">
+                    <h3 className="text-sm font-bold capitalize">
+                        {l("label_coverage")}
+                    </h3>
+                    {packageData.operators[0].coverages.length > 1 ? (
+                        <button
+                            onClick={() => {
+                                hapticFeedback();
+                                router.push(`${path}/coverage`);
+                            }}
+                            className="text-sm font-medium capitalize text-blue-500 underline underline-offset-2"
+                        >
+                            {packageData.operators[0].coverages.length}{" "}
+                            {l("text_countries")}
+                        </button>
+                    ) : (
+                        <h3 className="text-sm font-bold">
+                            {COUNTRIES[
+                                packageData.operators[0].coverages[0].name.toLowerCase()
+                            ] || packageData.operators[0].coverages[0].name}
+                        </h3>
+                    )}
+                </div>
+                <div className="flex flex-row items-center justify-between">
+                    <h3 className="text-sm font-bold capitalize">
+                        {l("label_plan")}
+                    </h3>
+                    <h3 className="text-sm font-bold capitalize">
+                        {packageData.operators[0].plan_type && l("text_plan")}
+                    </h3>
+                </div>
+                <div className="flex flex-row items-center justify-between">
+                    <h3 className="text-sm font-bold capitalize">
+                        {l("label_top_up")}
+                    </h3>
+                    <h3 className="text-sm font-bold capitalize">
+                        {packageData.operators[0].rechargeability
+                            ? l("text_top_up")
+                            : "Not available"}
+                    </h3>
+                </div>
+                <div className="flex flex-row items-center justify-between">
+                    <h3 className="text-sm font-bold capitalize">
+                        {l("label_compatible_devices")}
+                    </h3>
+                    <button
+                        onClick={() => {
+                            hapticFeedback();
+                            router.push(`/esims/compatible-devices`);
+                        }}
+                        className="text-sm font-medium capitalize text-blue-500 underline underline-offset-2"
+                    >
+                        {l("text_compatible_devices")}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const Manual = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div className=" flex flex-col rounded-2xl bg-white p-5 shadow-md">
+            <div
+                className="flex cursor-pointer items-center justify-between"
+                onClick={() => {
+                    hapticFeedback();
+                    setIsOpen(!isOpen);
+                }}
+            >
+                <h2 className="flex cursor-pointer items-center gap-1 text-xs font-medium uppercase text-neutral-500">
+                    {l("title_guide")}
+                    <Badge className="capitalize ">{l("badge_guide")}</Badge>
+                </h2>
+                <MdArrowForwardIos
+                    className={cn(
+                        "text-neutral-500 transition-transform",
+                        isOpen && " rotate-90",
+                    )}
+                />
+            </div>
+
+            <Collapse isOpen={isOpen}>
+                <div className="flex flex-col gap-2 pt-2 text-sm font-bold">
+                    <div className="flex flex-row gap-2">
+                        <h3 className="w-4">1.</h3>
+                        <h3 className="">{l("instruction_1")}</h3>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                        <h3 className="w-4">2.</h3>
+                        <h3 className="text-sm">{l("instruction_2")}</h3>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <div className="flex flex-row gap-2">
+                            <h3 className="w-4">3.</h3>
+                            <h3 className="text-sm">{l("instruction_3")}</h3>
+                        </div>
+                        <div className="flex flex-row gap-2">
+                            <div className="py-2 pl-4">
+                                <Dot className="size-1.5" />
+                            </div>
+                            <h3 className="text-sm">
+                                {l("instruction_3_auto")}
+                            </h3>
+                        </div>
+                        <div className="flex flex-row gap-2">
+                            <div className="py-2 pl-4">
+                                <Dot className="size-1.5" />
+                            </div>
+                            <h3 className="text-sm">{l("instruction_3_qr")}</h3>
+                        </div>
+                        <div className="flex flex-row gap-2">
+                            <div className="py-2 pl-4">
+                                <Dot className="size-1.5" />
+                            </div>
+                            <h3 className="text-sm">
+                                {l("instruction_3_manual")}
+                            </h3>
+                        </div>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                        <h3 className="w-4">4.</h3>
+                        <h3 className="text-sm">{l("instruction_4")}</h3>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                        <h3 className="w-4"> 5. </h3>
+                        <h3 className="text-sm">{l("instruction_5")}</h3>
+                    </div>
+                </div>
+            </Collapse>
+        </div>
+    );
+};
+
+const Terms = ({ terms, setTerms }: { terms: any; setTerms: any }) => {
+    return (
+        <div className="flex flex-col gap-2 rounded-3xl border-2 border-redish p-5">
+            <div
+                onClick={() => {
+                    hapticFeedback();
+                }}
+                className="flex items-center space-x-2"
+            >
+                <Checkbox
+                    onCheckedChange={(checked: boolean) => {
+                        setTerms({
+                            ...terms,
+                            terms1: checked,
+                        });
+                    }}
+                    checked={terms.terms1}
+                    id="terms1"
+                />
+                <label
+                    htmlFor="terms1"
+                    className="cursor-pointer text-sm font-medium "
+                >
+                    {l("text_terms_conditions")}
+                </label>
+            </div>
+            <div
+                onClick={() => {
+                    hapticFeedback();
+                }}
+                className=" flex items-center space-x-2"
+            >
+                <Checkbox
+                    onCheckedChange={(checked: boolean) => {
+                        setTerms({
+                            ...terms,
+                            terms2: checked,
+                        });
+                    }}
+                    checked={terms.terms2}
+                    id="terms2"
+                />
+                <label
+                    htmlFor="terms2"
+                    className="cursor-pointer text-sm font-medium "
+                >
+                    {l("text_device_compatible")}
+                </label>
+            </div>
+        </div>
+    );
+};

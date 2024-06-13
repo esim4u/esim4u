@@ -7,18 +7,13 @@ import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getOrderById } from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
-import { createTransaction } from "@/services/tonconnect";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-import axios from "axios";
-import { BiLoaderAlt } from "react-icons/bi";
+import { useQuery } from "@tanstack/react-query";
 import { MdArrowForwardIos } from "react-icons/md";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback, shareRef } from "@/lib/utils";
+import { cn, hapticFeedback } from "@/lib/utils";
 import useReferralLink from "@/hooks/useRefLink";
 
-import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
 import { Skeleton } from "@/components/ui/skeleton";

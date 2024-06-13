@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { FaDonate } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
 
@@ -17,6 +18,7 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import UserEsims from "@/components/esims/user-esims";
 // import RefLinkButton from "@/components/shared/ref-link-button";
 import Achievements from "@/components/shared/achievements";
@@ -124,6 +126,16 @@ export default function Profile() {
                 <Achievements fullWidth />
                 <UserEsims />
                 {/* <Referrals /> */}
+                <Button
+                    onClick={() => {
+                        hapticFeedback();
+                        router.push("/donation");
+                    }}
+                    size={"lg"}
+                    className="w-full gap-1 rounded-xl  text-base"
+                >
+                    Donate <FaDonate className="h-[14px] w-[14px]" />
+                </Button>
             </div>
         </main>
     );
