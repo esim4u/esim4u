@@ -5,11 +5,12 @@ import { COUNTRIES } from "@/constants";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactCountryFlag from "react-country-flag";
+import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 
 import { highlightMatches } from "@/lib/markup";
 
+import CustomInput from "@/components/ui/custom-input";
 import Loader from "@/components/ui/loader";
-import SearchInput from "@/components/shared/search-input";
 
 const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
     const [search, setSearch] = useState("");
@@ -71,7 +72,11 @@ const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
     return (
         <section className="flex h-dvh flex-col gap-4 p-5">
             <div className="fixed left-0 top-0 z-10 w-screen bg-background p-5">
-                <SearchInput search={search} setSearch={setSearch} />
+                <CustomInput
+                    icon={HiMiniMagnifyingGlass}
+                    value={search}
+                    setValue={setSearch}
+                />
             </div>
             <div className="no-scrollbar relative -mb-6 flex flex-col gap-2 py-16">
                 {filteredCoverage.map((country: any, index: number) => {

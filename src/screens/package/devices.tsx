@@ -3,12 +3,13 @@
 import React, { useMemo, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 
 import { l } from "@/lib/locale";
 import { highlightMatches } from "@/lib/markup";
 
+import CustomInput from "@/components/ui/custom-input";
 import Loader from "@/components/ui/loader";
-import SearchInput from "@/components/shared/search-input";
 
 const Devices = () => {
     const [search, setSearch] = useState("");
@@ -78,9 +79,10 @@ const Devices = () => {
         <div>
             <section className="flex h-dvh flex-col gap-4 p-5">
                 <div className="fixed left-0 top-0 z-10 w-screen bg-background p-5">
-                    <SearchInput
-                        search={search}
-                        setSearch={setSearch}
+                    <CustomInput
+                        icon={HiMiniMagnifyingGlass}
+                        value={search}
+                        setValue={setSearch}
                         placeholder={l("input_search_device")}
                     />{" "}
                 </div>
