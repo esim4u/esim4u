@@ -20,9 +20,9 @@ export default function Success() {
     }, [webApp]);
 
     return (
-        <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
+        <main className="flex h-dvh flex-col items-center justify-center overflow-x-hidden ">
             <div className="flex flex-col items-center gap-4">
-                <FaRegCircleCheck className="text-green-500 w-32 h-32 animate-appear" />
+                <FaRegCircleCheck className="h-32 w-32 animate-appear text-green-500" />
             </div>
         </main>
     );

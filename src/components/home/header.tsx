@@ -30,13 +30,13 @@ const Header = (props: Props) => {
 
     return (
         <section className="w-full">
-            <div className="flex items-center gap-5 justify-between w-full">
+            <div className="flex w-full items-center justify-between gap-5">
                 <div
                     onClick={() => {
                         hapticFeedback();
                         router.push("/profile");
                     }}
-                    className="flex items-center gap-2  cursor-pointer transition-transform active:scale-95"
+                    className="flex cursor-pointer items-center  gap-2 transition-transform active:scale-95"
                 >
                     <Avatar>
                         <AvatarImage
@@ -52,13 +52,13 @@ const Header = (props: Props) => {
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col gap-1">
-                        <div className="flex items-center text-neutral-500 font-medium gap-1 h-3">
-                            <p className="text-ellipsis overflow-hidden max-w-20  text-xs">
+                        <div className="flex h-3 items-center gap-1 font-medium text-neutral-500">
+                            <p className="max-w-20 overflow-hidden text-ellipsis  text-xs">
                                 {tgUser?.username
                                     ? `@${tgUser?.username}`
                                     : "@user"}
                             </p>
-                            <MdArrowForwardIos className="w-[14px] h-[14px]" />
+                            <MdArrowForwardIos className="h-[14px] w-[14px]" />
                         </div>
 
                         <Badge size={"sm"}>
@@ -73,7 +73,7 @@ const Header = (props: Props) => {
                             hapticFeedback();
                             router.push("/leaderboard");
                         }}
-                        className="active:scale-95 flex items-center justify-center min-w-10 size-10 bg-white rounded-full"
+                        className="flex size-10 min-w-10 items-center justify-center rounded-full bg-white active:scale-95"
                     >
                         <GrTrophy className=" text-amber-500 " />
                     </div>

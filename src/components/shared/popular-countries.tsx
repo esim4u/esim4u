@@ -17,12 +17,12 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
     return (
         <div className="flex flex-col gap-2">
             {hasTitle && (
-                <h2 className="pl-4 uppercase font-medium text-neutral-500">
+                <h2 className="pl-4 font-medium uppercase text-neutral-500">
                     {l("title_popular_countries")}
                 </h2>
             )}
 
-            <div className="grid grid-cols-4 grid-rows-2 gap-2 max-h-48">
+            <div className="grid max-h-48 grid-cols-4 grid-rows-2 gap-2">
                 <div
                     onClick={() => {
                         if (!interactive) return;
@@ -30,12 +30,12 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                         hapticFeedback();
                         router.push("/esims/eg");
                     }}
-                    className=" cursor-pointer active:scale-95 transition-transform relative flex justify-center items-end rounded-3xl overflow-hidden	"
+                    className=" relative flex cursor-pointer items-end justify-center overflow-hidden rounded-3xl transition-transform active:scale-95	"
                 >
                     <Image
                         width={312}
                         height={312}
-                        className="bg-neutral-300 w-full h-full object-cover"
+                        className="h-full w-full bg-neutral-300 object-cover"
                         src={"/img/countries/eg.jpeg"}
                         quality={50}
                         placeholder="blur"
@@ -48,14 +48,14 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
 
                     {interactive && (
                         <>
-                            <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
-                            <div className=" absolute top-3 right-3">
-                                <MdArrowForwardIos className=" w-4 h-4 " />
+                            <div className=" absolute right-3 top-3 h-[18px] w-[18px] bg-white/75 blur-sm	 "></div>
+                            <div className=" absolute right-3 top-3">
+                                <MdArrowForwardIos className=" h-4 w-4 " />
                             </div>
                         </>
                     )}
 
-                    <span className="absolute font-medium text-[10px] text-white pb-2 uppercase">
+                    <span className="absolute pb-2 text-[10px] font-medium uppercase text-white">
                         EGYPT
                     </span>
                 </div>
@@ -66,12 +66,12 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                         hapticFeedback();
                         router.push("/esims/ch");
                     }}
-                    className=" cursor-pointer active:scale-95 transition-transform relative  flex justify-center items-end rounded-3xl overflow-hidden "
+                    className=" relative flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 "
                 >
                     <Image
                         width={312}
                         height={312}
-                        className="bg-neutral-300 w-full h-full object-cover"
+                        className="h-full w-full bg-neutral-300 object-cover"
                         quality={50}
                         placeholder="blur"
                         blurDataURL="/img/countries/ch.png"
@@ -84,14 +84,14 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
 
                     {interactive && (
                         <>
-                            <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
-                            <div className=" absolute top-3 right-3">
-                                <MdArrowForwardIos className=" w-4 h-4 " />
+                            <div className=" absolute right-3 top-3 h-[18px] w-[18px] bg-white/75 blur-sm	 "></div>
+                            <div className=" absolute right-3 top-3">
+                                <MdArrowForwardIos className=" h-4 w-4 " />
                             </div>
                         </>
                     )}
 
-                    <span className="absolute font-medium text-[10px] text-white pb-2 uppercase">
+                    <span className="absolute pb-2 text-[10px] font-medium uppercase text-white">
                         SWITZERLAND
                     </span>
                 </div>
@@ -102,12 +102,12 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                         hapticFeedback();
                         router.push("/esims/es");
                     }}
-                    className=" cursor-pointer active:scale-95 transition-transform relative col-span-2 row-span-2 flex justify-center items-end rounded-3xl overflow-hidden 	"
+                    className=" relative col-span-2 row-span-2 flex cursor-pointer items-end justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
                 >
                     <Image
                         width={312}
                         height={312}
-                        className="bg-neutral-300 w-full h-full object-cover"
+                        className="h-full w-full bg-neutral-300 object-cover"
                         quality={50}
                         placeholder="blur"
                         blurDataURL="/img/countries/es.png"
@@ -120,14 +120,14 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
 
                     {interactive && (
                         <>
-                            <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
-                            <div className=" absolute top-3 right-3">
-                                <MdArrowForwardIos className=" w-4 h-4 " />
+                            <div className=" absolute right-3 top-3 h-[18px] w-[18px] bg-white/75 blur-sm	 "></div>
+                            <div className=" absolute right-3 top-3">
+                                <MdArrowForwardIos className=" h-4 w-4 " />
                             </div>
                         </>
                     )}
 
-                    <span className="absolute font-medium text-lg text-white pb-3 uppercase">
+                    <span className="absolute pb-3 text-lg font-medium uppercase text-white">
                         SPAIN
                     </span>
                 </div>
@@ -138,12 +138,12 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                         hapticFeedback();
                         router.push("/esims/it");
                     }}
-                    className=" cursor-pointer active:scale-95 transition-transform relative col-span-2 row-span-1  flex justify-center items-end rounded-3xl overflow-hidden 	"
+                    className=" relative col-span-2 row-span-1 flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
                 >
                     <Image
                         width={312}
                         height={312}
-                        className="bg-neutral-300 w-full h-full object-cover"
+                        className="h-full w-full bg-neutral-300 object-cover"
                         quality={50}
                         placeholder="blur"
                         blurDataURL="/img/countries/it.png"
@@ -156,14 +156,14 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
 
                     {interactive && (
                         <>
-                            <div className=" absolute top-3 right-3 w-[18px] h-[18px] bg-white/75 blur-sm	 "></div>
-                            <div className=" absolute top-3 right-3">
-                                <MdArrowForwardIos className=" w-4 h-4 " />
+                            <div className=" absolute right-3 top-3 h-[18px] w-[18px] bg-white/75 blur-sm	 "></div>
+                            <div className=" absolute right-3 top-3">
+                                <MdArrowForwardIos className=" h-4 w-4 " />
                             </div>
                         </>
                     )}
 
-                    <span className="absolute font-medium text-xs text-white pb-2 uppercase">
+                    <span className="absolute pb-2 text-xs font-medium uppercase text-white">
                         ITALY
                     </span>
                 </div>

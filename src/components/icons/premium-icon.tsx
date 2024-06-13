@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 
 const PremiumIcon = ({ className, onClick }: Icon) => {
     return (
-        <div onClick={onClick} className={cn("w-5 h-5", className)}>
+        <div onClick={onClick} className={cn("h-5 w-5", className)}>
             <svg
-                className="w-full h-full aspect-square"
+                className="aspect-square h-full w-full"
                 width="24"
                 height="25"
                 viewBox="0 0 24 25"

@@ -1,14 +1,15 @@
 "use client";
 
-import { TonIcon } from "@/components/icons";
-import Dot from "@/components/ui/dot";
-import { Skeleton } from "@/components/ui/skeleton";
+import React from "react";
+import Image from "next/image";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUsersEsimHistory } from "@/services/supabase";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import Image from "next/image";
-import React from "react";
+
+import Dot from "@/components/ui/dot";
+import { Skeleton } from "@/components/ui/skeleton";
+import { TonIcon } from "@/components/icons";
 
 type Props = {};
 
@@ -24,8 +25,8 @@ const History = (props: Props) => {
     });
 
     if (isLoading) {
-        <main className="overflow-x-hidden h-dvh flex flex-col items-center p-5">
-            <div className="relative flex flex-col items-center gap-4 w-full">
+        <main className="flex h-dvh flex-col items-center overflow-x-hidden p-5">
+            <div className="relative flex w-full flex-col items-center gap-4">
                 {Array(5)
                     .fill(null)
                     .map((item, index) => (
@@ -39,12 +40,12 @@ const History = (props: Props) => {
     }
 
     return (
-        <main className="overflow-x-hidden h-dvh flex flex-col items-center p-5">
-            <div className="relative flex flex-col items-center gap-4 w-full">
+        <main className="flex h-dvh flex-col items-center overflow-x-hidden p-5">
+            <div className="relative flex w-full flex-col items-center gap-4">
                 {history?.map((item, index) => (
                     <div
                         key={index}
-                        className="w-full grid grid-cols-7 bg-white rounded-lg place-items-center gap-2 py-2 px-4"
+                        className="grid w-full grid-cols-7 place-items-center gap-2 rounded-lg bg-white px-4 py-2"
                     >
                         <div className=" col-span-4 w-full">
                             <div className="flex flex-col gap-1">
@@ -65,14 +66,14 @@ const History = (props: Props) => {
                                 <span className="text-xs">{item.state}</span>
                             </div>
                         </div>
-                        <div className="col-span-3 place-items-end w-full">
-                            <div className="flex flex-col gap-1 items-end text-end">
+                        <div className="col-span-3 w-full place-items-end">
+                            <div className="flex flex-col items-end gap-1 text-end">
                                 <div className="flex  items-center gap-1 font-medium">
                                     <h2 className="">${item.price.total}</h2>
                                     <Dot className="size-[5px]" />
                                     <h2 className="flex items-center">
                                         {item.price.total_ton}
-                                        <TonIcon className="w-3 h-3" />
+                                        <TonIcon className="h-3 w-3" />
                                     </h2>
                                 </div>
                                 <span className="text-xs">

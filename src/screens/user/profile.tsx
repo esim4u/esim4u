@@ -1,21 +1,25 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getUserById } from "@/services/supabase";
-import { useTelegram } from "@/providers/telegram-provider";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect } from "react";
-import { copyReferralLinkToClipBoard, hapticFeedback, shareRef } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-// import RefLinkButton from "@/components/shared/ref-link-button";
-import Achievements from "@/components/shared/achievements";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useTelegram } from "@/providers/telegram-provider";
+import { getUserById } from "@/services/supabase";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
-import UserEsims from "@/components/esims/user-esims";
 
 import { l } from "@/lib/locale";
+import {
+    copyReferralLinkToClipBoard,
+    hapticFeedback,
+    shareRef,
+} from "@/lib/utils";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import UserEsims from "@/components/esims/user-esims";
+// import RefLinkButton from "@/components/shared/ref-link-button";
+import Achievements from "@/components/shared/achievements";
 import RefLinkButton from "@/components/shared/ref-link-button";
 
 export default function Profile() {
@@ -37,8 +41,8 @@ export default function Profile() {
         if (webApp) {
             webApp?.BackButton.show();
 
-            if(is_payment){
-                webApp?.BackButton.hide()
+            if (is_payment) {
+                webApp?.BackButton.hide();
             }
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
@@ -60,14 +64,14 @@ export default function Profile() {
     const backToEsims = useCallback(() => {
         if (webApp) {
             hapticFeedback();
-            router.push("/esims")
+            router.push("/esims");
         }
     }, [webApp]);
 
     useEffect(() => {
         webApp?.offEvent("backButtonClicked");
 
-        webApp?.onEvent("backButtonClicked", backToEsims );
+        webApp?.onEvent("backButtonClicked", backToEsims);
         return () => {
             webApp?.offEvent("backButtonClicked", backToEsims);
         };
@@ -81,24 +85,24 @@ export default function Profile() {
     }, [webApp]);
 
     return (
-        <main className="overflow-x-hidden h-dvh flex flex-col items-center p-5">
-            <div className="relative flex flex-col items-center gap-4 w-full">
+        <main className="flex h-dvh flex-col items-center overflow-x-hidden p-5">
+            <div className="relative flex w-full flex-col items-center gap-4">
                 <IoIosSettings
                     onClick={() => {
                         hapticFeedback();
                         router.push("/settings");
                     }}
-                    className="cursor-pointer absolute left-0 w-12 h-12 text-neutral-400"
+                    className="absolute left-0 h-12 w-12 cursor-pointer text-neutral-400"
                 />
                 <IoQrCode
                     onClick={() => {
                         hapticFeedback();
                         router.push("/profile/qr");
                     }}
-                    className="cursor-pointer absolute right-0 w-12 h-12 py-1 text-neutral-400"
+                    className="absolute right-0 h-12 w-12 cursor-pointer py-1 text-neutral-400"
                 />
                 <div className="flex flex-col items-center gap-2">
-                    <Avatar className="w-32 h-32">
+                    <Avatar className="h-32 w-32">
                         <AvatarImage
                             src={
                                 tgUser?.photo_url ||
@@ -111,13 +115,13 @@ export default function Profile() {
                             {tgUser?.first_name[0]}
                         </AvatarFallback>
                     </Avatar>
-                    <h2 className=" text-center text-neutral-500 font-medium leading-3">
+                    <h2 className=" text-center font-medium leading-3 text-neutral-500">
                         {tgUser?.username ? `@${tgUser?.username}` : "@user"}
                     </h2>
                     <Badge size={"md"}>{dbUserData?.badge}</Badge>
                 </div>
                 <RefLinkButton />
-                <Achievements fullWidth/>
+                <Achievements fullWidth />
                 <UserEsims />
                 {/* <Referrals /> */}
             </div>

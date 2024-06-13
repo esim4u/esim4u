@@ -21,7 +21,7 @@ export default function Pending() {
     }, [webApp]);
 
     return (
-        <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
+        <main className="flex h-dvh flex-col items-center justify-center overflow-x-hidden ">
             <div className="flex flex-col items-center gap-4">
                 <Loader />
             </div>

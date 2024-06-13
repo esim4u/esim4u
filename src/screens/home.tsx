@@ -163,14 +163,14 @@ export default function Home() {
     }, [packages, search]);
 
     return (
-        <main className=" flex flex-col px-5 gap-4">
+        <main className=" flex flex-col gap-4 px-5">
             <Collapse className="-mx-5 " isOpen={!isSearchFocused}>
                 <div className="flex flex-col gap-4">
                     <div className="px-5 pt-5">
                         <Header />
                     </div>
 
-                    <Stories className="pl-4 mr-4" />
+                    <Stories className="mr-4 pl-4" />
                 </div>
             </Collapse>
 
@@ -208,9 +208,9 @@ export default function Home() {
                             router.push("/donation");
                         }}
                         size={"lg"}
-                        className="rounded-xl gap-1 text-base"
+                        className="gap-1 rounded-xl text-base"
                     >
-                        Donate <FaDonate className="w-[14px] h-[14px]" />
+                        Donate <FaDonate className="h-[14px] w-[14px]" />
                     </Button>
                 </div>
             </Collapse>

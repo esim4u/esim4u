@@ -55,8 +55,8 @@ export function Payment({ params }: { params: { order_id: string } }) {
     }, [webApp]);
 
     return (
-        <main className="overflow-x-hidden min-h-dvh flex flex-col items-start ">
-            <div className="flex flex-col p-5 gap-4 items-center w-full ">
+        <main className="flex min-h-dvh flex-col items-start overflow-x-hidden ">
+            <div className="flex w-full flex-col items-center gap-4 p-5 ">
                 <OrderDataItem
                     orderData={orderData}
                     isOrderDataLoading={isLoading}
@@ -78,21 +78,21 @@ const OrderDataItem = ({
 }) => {
     if (isOrderDataLoading) {
         return (
-            <div className="flex items-center justify-between w-full h-12 bg-white rounded-xl py-3 px-4">
-                <div className="flex gap-2 items-center text-sm">
-                    <Skeleton className=" w-9 h-6"></Skeleton>
-                    <Skeleton className=" w-28 h-5"></Skeleton>
+            <div className="flex h-12 w-full items-center justify-between rounded-xl bg-white px-4 py-3">
+                <div className="flex items-center gap-2 text-sm">
+                    <Skeleton className=" h-6 w-9"></Skeleton>
+                    <Skeleton className=" h-5 w-28"></Skeleton>
                 </div>
-                <Skeleton className=" w-20 h-5"></Skeleton>
+                <Skeleton className=" h-5 w-20"></Skeleton>
             </div>
         );
     }
 
     return (
-        <div className="flex w-full justify-between bg-white py-3 px-4 items-center rounded-xl h-12">
-            <div className="flex gap-1 items-center text-sm">
+        <div className="flex h-12 w-full items-center justify-between rounded-xl bg-white px-4 py-3">
+            <div className="flex items-center gap-1 text-sm">
                 <Image
-                    className="  object-contain rounded-md overflow-hidden"
+                    className="  overflow-hidden rounded-md object-contain"
                     src={orderData?.image_url || ""}
                     width={32}
                     height={32}
@@ -110,10 +110,10 @@ const OrderDataItem = ({
                     {orderData?.price?.total}
                     <span className=" text-sm">$</span>
                 </h2>
-                <Dot className="w-1.5 h-1.5" />
+                <Dot className="h-1.5 w-1.5" />
                 <h2 className="flex items-center font-bold">
                     {orderData?.price?.total_ton}
-                    <TonIcon className="w-3 h-3 " />
+                    <TonIcon className="h-3 w-3 " />
                 </h2>
             </div>
         </div>
@@ -158,15 +158,15 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
     }, [orderData]);
 
     return (
-        <div className="bg-white rounded-2xl w-full">
+        <div className="w-full rounded-2xl bg-white">
             <div
-                className="w-full px-6 py-2 cursor-pointer flex items-center justify-between z-10"
+                className="z-10 flex w-full cursor-pointer items-center justify-between px-6 py-2"
                 onClick={() => {
                     hapticFeedback();
                     setIsCardPaymentOpen(!isCardPaymentOpen);
                 }}
             >
-                <h2 className="cursor-pointer flex items-center gap-1 text-xs uppercase font-medium text-neutral-500">
+                <h2 className="flex cursor-pointer items-center gap-1 text-xs font-medium uppercase text-neutral-500">
                     <svg
                         enableBackground="new -822 823.1 56.7 56.7"
                         height="44px"
@@ -224,21 +224,21 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
                 <div className={cn("-mt-14")}>
                     <div
                         className={cn(
-                            " flex flex-col gap-2 justify-between w-full h-[450px] rounded-2xl p-6 pt-16",
+                            " flex h-[450px] w-full flex-col justify-between gap-2 rounded-2xl p-6 pt-16",
                             !isLoading && "hidden",
                         )}
                     >
                         <div className="flex flex-col gap-2">
-                            <Skeleton className="w-full h-4"></Skeleton>
-                            <Skeleton className="w-full h-4"></Skeleton>
-                            <Skeleton className="w-full h-10"></Skeleton>
-                            <Skeleton className="w-full h-4"></Skeleton>
-                            <Skeleton className="w-full h-10"></Skeleton>
-                            <Skeleton className="w-full h-10"></Skeleton>
-                            <Skeleton className="w-full h-4"></Skeleton>
-                            <Skeleton className="w-full h-10"></Skeleton>
+                            <Skeleton className="h-4 w-full"></Skeleton>
+                            <Skeleton className="h-4 w-full"></Skeleton>
+                            <Skeleton className="h-10 w-full"></Skeleton>
+                            <Skeleton className="h-4 w-full"></Skeleton>
+                            <Skeleton className="h-10 w-full"></Skeleton>
+                            <Skeleton className="h-10 w-full"></Skeleton>
+                            <Skeleton className="h-4 w-full"></Skeleton>
+                            <Skeleton className="h-10 w-full"></Skeleton>
                         </div>
-                        <Skeleton className="w-full h-10"></Skeleton>
+                        <Skeleton className="h-10 w-full"></Skeleton>
                     </div>
                     <div
                         className={cn(isLoading && "hidden")}

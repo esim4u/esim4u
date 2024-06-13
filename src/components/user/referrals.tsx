@@ -29,22 +29,22 @@ const Referrals = ({ hideTitle }: Props) => {
     if (referrals?.length === 0) {
         return (
             <div className=" w-full">
-                <div className="relative flex flex-col items-center justify-center gap-2 bg-white rounded-3xl h-[180px] w-full">
+                <div className="relative flex h-[180px] w-full flex-col items-center justify-center gap-2 rounded-3xl bg-white">
                     {!hideTitle && (
                         <div
                             className={cn(
-                                "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500",
+                                "absolute left-4 top-4 flex  items-center gap-2 font-medium uppercase text-neutral-500",
                             )}
                         >
                             <h2>{l("title_frens")}</h2>{" "}
                         </div>
                     )}
-                    <div className="flex flex-col gap-2 mt-1 items-center justify-center">
-                        <div className="flex flex-col gap-2 items-center justify-between text-center px-5">
-                            <p className="font-semibold text-pretty leading-4">
+                    <div className="mt-1 flex flex-col items-center justify-center gap-2">
+                        <div className="flex flex-col items-center justify-between gap-2 px-5 text-center">
+                            <p className="text-pretty font-semibold leading-4">
                                 Invite frens and start earning money!
                             </p>
-                            <div className="flex gap-1 text-amber-500 text-sm font-semibold">
+                            <div className="flex gap-1 text-sm font-semibold text-amber-500">
                                 Just click the button below{" "}
                                 <Image
                                     src="/img/icons/hand-down.png"
@@ -66,11 +66,11 @@ const Referrals = ({ hideTitle }: Props) => {
     }
 
     return (
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex w-full flex-col gap-2">
             {!hideTitle && (
-                <div className="flex  gap-2 uppercase justify-between items-center px-4 font-medium text-neutral-500">
+                <div className="flex  items-center justify-between gap-2 px-4 font-medium uppercase text-neutral-500">
                     <h2 className="">{l("title_frens")}</h2>
-                    <div className="bg-gradient-to-r from-violet-500 to-purple-500 flex items-center justify-center text-center text-white rounded-full font-bold size-6">
+                    <div className="flex size-6 items-center justify-center rounded-full bg-gradient-to-r from-violet-500 to-purple-500 text-center font-bold text-white">
                         <span className="">{referrals?.length}</span>
                     </div>
                 </div>
@@ -85,28 +85,28 @@ const Referrals = ({ hideTitle }: Props) => {
                             "https://t.me/" + referral.username,
                         );
                     }}
-                    className="cursor-pointer active:scale-95 transition-transform flex items-center justify-between bg-white h-10 p-4 rounded-2xl"
+                    className="flex h-10 cursor-pointer items-center justify-between rounded-2xl bg-white p-4 transition-transform active:scale-95"
                 >
-                    <span className="text-blue-500 font-medium">
+                    <span className="font-medium text-blue-500">
                         @{referral.username}
                     </span>
-                    <div className=" grid grid-cols-5 gap-1 w-40 ">
-                        <div className=" col-span-2 flex items-center justify-center -mr-4">
-                            <span className="  flex items-center min-w-9 px-1 justify-center  font-medium bg-gradient-to-r from-violet-500 to-purple-500 text-white rounded-md">
+                    <div className=" grid w-40 grid-cols-5 gap-1 ">
+                        <div className=" col-span-2 -mr-4 flex items-center justify-center">
+                            <span className="  flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white">
                                 {!!referral.orders[0].count &&
                                     referral.orders[0].count}
                             </span>
                         </div>
                         <div className="col-span-2  flex items-center justify-center">
-                            <span className=" flex items-center text-purple-500 font-semibold">
+                            <span className=" flex items-center font-semibold text-purple-500">
                                 {0.0}
-                                <TonIcon className="w-4 h-4 ml-1" />
+                                <TonIcon className="ml-1 h-4 w-4" />
                             </span>
                         </div>
 
                         <div className="col-span-1  flex items-center justify-center">
                             {referral.is_premium && (
-                                <PremiumIcon className="w-6 h-6" />
+                                <PremiumIcon className="h-6 w-6" />
                             )}
                         </div>
                     </div>

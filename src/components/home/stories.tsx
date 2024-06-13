@@ -63,21 +63,21 @@ const Stories = ({ className }: Props) => {
                                 return (
                                     <CarouselItem
                                         key={index}
-                                        className="pl-1  basis-24 active:scale-95 transition-transform cursor-pointer "
+                                        className="basis-24  cursor-pointer pl-1 transition-transform active:scale-95 "
                                     >
                                         <div className="p-1">
                                             <div
                                                 className={cn(
-                                                    "p-1 rounded-full transition-all bg-neutral-400/15",
+                                                    "rounded-full bg-neutral-400/15 p-1 transition-all",
                                                 )}
                                             >
                                                 <div
                                                     className={cn(
-                                                        "relative  aspect-square flex justify-center items-end rounded-full overflow-hidden ring-2 ring-[#EFEFF3] ",
+                                                        "relative  flex aspect-square items-end justify-center overflow-hidden rounded-full ring-2 ring-[#EFEFF3] ",
                                                     )}
                                                 >
                                                     <div>
-                                                        <Skeleton className="w-full h-full" />
+                                                        <Skeleton className="h-full w-full" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -130,12 +130,12 @@ const Stories = ({ className }: Props) => {
                                         newCheckedStories.join(","),
                                     );
                                 }}
-                                className="pl-1  basis-24 active:scale-95 transition-transform cursor-pointer"
+                                className="basis-24  cursor-pointer pl-1 transition-transform active:scale-95"
                             >
                                 <div className="p-1">
                                     <div
                                         className={cn(
-                                            "p-1 rounded-full transition-all",
+                                            "rounded-full p-1 transition-all",
                                             checkedStories.length > 0 &&
                                                 !checkedStories.includes(
                                                     story.id.toString().trim(),
@@ -146,14 +146,14 @@ const Stories = ({ className }: Props) => {
                                     >
                                         <div
                                             className={cn(
-                                                "relative  aspect-square flex justify-center items-end rounded-full overflow-hidden ring-2 ring-[#EFEFF3] ",
+                                                "relative  flex aspect-square items-end justify-center overflow-hidden rounded-full ring-2 ring-[#EFEFF3] ",
                                             )}
                                         >
-                                            <div className="relative w-full h-full">
+                                            <div className="relative h-full w-full">
                                                 <Image
                                                     width={216}
                                                     height={216}
-                                                    className=" w-full h-full object-cover"
+                                                    className=" h-full w-full object-cover"
                                                     placeholder="blur"
                                                     blurDataURL={
                                                         story?.photo_url
@@ -167,7 +167,7 @@ const Stories = ({ className }: Props) => {
                                                 </div>
                                             </div>
 
-                                            <span className="absolute text-[10px] text-white text-center font-medium pb-2 uppercase leading-3 text-shadow shadow-black ">
+                                            <span className="absolute pb-2 text-center text-[10px] font-medium uppercase leading-3 text-white shadow-black text-shadow ">
                                                 {story?.title}
                                             </span>
                                         </div>

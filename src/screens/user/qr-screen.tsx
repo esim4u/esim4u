@@ -1,16 +1,17 @@
 "use client";
 
-import QrCode from "@/components/ui/qr-code";
-import { getReferralLink, hapticFeedback, shareRef } from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
 import React, { useCallback, useEffect } from "react";
+import { useTelegram } from "@/providers/telegram-provider";
+
+import { getReferralLink, hapticFeedback, shareRef } from "@/lib/utils";
+
+import QrCode from "@/components/ui/qr-code";
 
 type Props = {};
 
 const QrScreen = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
 
-    
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback("success");
@@ -29,7 +30,7 @@ const QrScreen = (props: Props) => {
     }, [webApp]);
 
     return (
-        <div className="w-full h-dvh flex flex-col items-center justify-center gap-5 p-5">
+        <div className="flex h-dvh w-full flex-col items-center justify-center gap-5 p-5">
             <div>
                 <QrCode
                     url={getReferralLink(tgUser?.id)}
@@ -39,7 +40,7 @@ const QrScreen = (props: Props) => {
                 />
             </div>
             <div>
-                <h2 className="text-center font-bold text-lg text-balance px-5">
+                <h2 className="text-balance px-5 text-center text-lg font-bold">
                     Share this link with your friends to get bonuses for their
                     purchases!
                 </h2>

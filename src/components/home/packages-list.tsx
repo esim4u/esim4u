@@ -41,7 +41,7 @@ const PackagesList = ({ packages, search }: Props) => {
                             );
                         }}
                         key={index}
-                        className="cursor-pointer active:scale-95 transition-transform bg-white flex items-center justify-between w-full p-2 rounded-xl"
+                        className="flex w-full cursor-pointer items-center justify-between rounded-xl bg-white p-2 transition-transform active:scale-95"
                     >
                         <div className="flex flex-row items-center gap-4">
                             <Image
@@ -49,7 +49,7 @@ const PackagesList = ({ packages, search }: Props) => {
                                 height={24}
                                 src={country.image.url}
                                 alt={country.title}
-                                className="rounded-md w-8 h-6"
+                                className="h-6 w-8 rounded-md"
                             />
                             <span className=" font-semibold">
                                 {highlightMatches(
@@ -63,7 +63,7 @@ const PackagesList = ({ packages, search }: Props) => {
 
                         {country.nestedMatchCountries &&
                             country.nestedMatchCountries[0]?.title && (
-                                <span className=" font-semibold text-sm">
+                                <span className=" text-sm font-semibold">
                                     incl.
                                     {highlightMatches(
                                         search,

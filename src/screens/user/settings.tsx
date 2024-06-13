@@ -1,15 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { LANGUAGES } from "@/constants";
+import { useTelegram } from "@/providers/telegram-provider";
+import {
+    disconnectUserWallet,
+    getUserById,
+    updateUserWallet,
+} from "@/services/supabase";
+import { useQuery } from "@tanstack/react-query";
+import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
+
 import {
     getPreferredCurrencyCode,
     getSupportedCurrencies,
@@ -21,20 +23,17 @@ import {
     l,
     setLanguage,
 } from "@/lib/locale";
+import { hapticFeedback, shareRef } from "@/lib/utils";
+
+import { Button } from "@/components/ui/button";
 import {
-    hapticFeedback,
-    shareRef,
-} from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
-import {
-    disconnectUserWallet,
-    getUserById,
-    updateUserWallet,
-} from "@/services/supabase";
-import { useQuery } from "@tanstack/react-query";
-import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 export default function Settings() {
     const router = useRouter();
@@ -96,8 +95,8 @@ export default function Settings() {
     }, [tonAddress]);
 
     return (
-        <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center w-full p-5">
-            <div className="flex flex-col items-center gap-4 w-full">
+        <main className="flex h-dvh w-full flex-col items-center justify-center overflow-x-hidden p-5">
+            <div className="flex w-full flex-col items-center gap-4">
                 <Select
                     onValueChange={(value) => {
                         setLanguage(value, router);
@@ -116,7 +115,7 @@ export default function Settings() {
                         <SelectGroup>
                             {getSupportedLanguages().map((lang: any) => (
                                 <SelectItem key={lang.value} value={lang.value}>
-                                    <div className="flex gap-1 items-center">
+                                    <div className="flex items-center gap-1">
                                         <span className="font-bold">
                                             {LANGUAGES[lang.value]}
                                         </span>
@@ -146,8 +145,8 @@ export default function Settings() {
                                     key={currency.value}
                                     value={currency.value}
                                 >
-                                    <div className="flex gap-1 items-center">
-                                        <span className="font-bold text-[17px]">
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-[17px] font-bold">
                                             {currency.symbol}
                                         </span>
                                         <span className="font-bold">
@@ -160,10 +159,10 @@ export default function Settings() {
                     </SelectContent>
                 </Select>
 
-                <div className=" flex gap-2 w-full">
+                <div className=" flex w-full gap-2">
                     {" "}
                     {["developer", "admin"].includes(
-                        dbUserData?.badge.toLowerCase()
+                        dbUserData?.badge.toLowerCase(),
                     ) && (
                         <>
                             <Button
@@ -172,7 +171,7 @@ export default function Settings() {
                                     router.push("/profile/sensitive-info");
                                 }}
                                 variant={"destructive"}
-                                className="rounded-full w-full"
+                                className="w-full rounded-full"
                             >
                                 Sensitive info
                             </Button>
@@ -182,7 +181,7 @@ export default function Settings() {
                                     router.push("/sandbox");
                                 }}
                                 variant={"destructive"}
-                                className="rounded-full w-full"
+                                className="w-full rounded-full"
                             >
                                 Sandbox
                             </Button>
@@ -190,13 +189,13 @@ export default function Settings() {
                     )}
                 </div>
 
-                <div className="flex gap-2 w-full">
+                <div className="flex w-full gap-2">
                     <Button
                         onClick={() => {
                             hapticFeedback();
                             router.push("/onboarding");
                         }}
-                        className="rounded-full w-full"
+                        className="w-full rounded-full"
                     >
                         {l("btn_onboarding")}
                     </Button>
@@ -204,10 +203,10 @@ export default function Settings() {
                     <Button
                         onClick={() => {
                             webApp?.openTelegramLink(
-                                "https://t.me/esim4u_support_bot/chat"
+                                "https://t.me/esim4u_support_bot/chat",
                             );
                         }}
-                        className="rounded-full w-full"
+                        className="w-full rounded-full"
                     >
                         {l("btn_support")}
                     </Button>

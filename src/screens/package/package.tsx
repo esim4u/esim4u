@@ -167,7 +167,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
 
     if (isLoading) {
         return (
-            <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
+            <main className="flex h-dvh flex-col items-center justify-center overflow-x-hidden ">
                 <Loader />
             </main>
         );
@@ -175,27 +175,27 @@ const Package = ({ params }: { params: { country_code: string } }) => {
 
     return (
         <section className="flex flex-col">
-            <div className="relative flex flex-col items-center justify-center -mb-6">
+            <div className="relative -mb-6 flex flex-col items-center justify-center">
                 <Image
                     width={200}
                     height={100}
-                    className="w-full h-48 object-cover rounded-lg overflow-hidden"
+                    className="h-48 w-full overflow-hidden rounded-lg object-cover"
                     src={"/img/countries/global.png"}
                     placeholder="blur"
                     blurDataURL={"/img/countries/global.png"}
                     alt={packageData.slug}
                 />
                 {/* <div className="absolute h-2/3 bg-gradient-to-t bottom-0 w-full backdrop-blur-lg blur-lg linear-mask"></div> */}
-                <div className="absolute h-2/3 bg-gradient-to-t from-black/75 bottom-0 w-full "></div>
+                <div className="absolute bottom-0 h-2/3 w-full bg-gradient-to-t from-black/75 "></div>
 
-                <h1 className="absolute bottom-4 text-white text-center text-2xl pb-6 uppercase  text-shadow-sm shadow-black/50 ">
+                <h1 className="absolute bottom-4 pb-6 text-center text-2xl uppercase text-white  shadow-black/50 text-shadow-sm ">
                     {packageData.slug}
                 </h1>
             </div>
-            <div className="bg-[#EFEFF3] rounded-t-3xl z-10 p-5 flex flex-col gap-4">
+            <div className="z-10 flex flex-col gap-4 rounded-t-3xl bg-[#EFEFF3] p-5">
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        <h2 className="font-bold text-3xl">
+                        <h2 className="text-3xl font-bold">
                             {preferredCurrencyPrice?.amount}
                             <span className="text-2xl">
                                 {preferredCurrencyPrice?.symbol}
@@ -207,9 +207,9 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                             <span className="text-2xl">$</span>
                         </h2> */}
                         <Dot />
-                        <h2 className="flex items-center font-bold text-3xl">
+                        <h2 className="flex items-center text-3xl font-bold">
                             {priceInTon}
-                            <TonIcon className="w-6 h-6" />
+                            <TonIcon className="h-6 w-6" />
                         </h2>
                     </div>
                     {
@@ -218,7 +218,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                     <div className={cn("flex flex-col gap-1", "-mx-5")}>
                         <h2
                             className={cn(
-                                "pl-2 text-sm uppercase font-medium text-neutral-500",
+                                "pl-2 text-sm font-medium uppercase text-neutral-500",
                                 "px-7",
                             )}
                         >
@@ -226,7 +226,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                         </h2>
                         <Carousel setApi={setApi}>
                             <CarouselContent
-                                className={cn("ml-1", "pl-4 mr-4")}
+                                className={cn("ml-1", "mr-4 pl-4")}
                             >
                                 {packageData &&
                                     packagePlans.map(
@@ -234,7 +234,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                             return (
                                                 <CarouselItem
                                                     key={index}
-                                                    className="cursor-pointer basis-[122px] pl-1"
+                                                    className="basis-[122px] cursor-pointer pl-1"
                                                 >
                                                     <div
                                                         onClick={() => {
@@ -247,13 +247,13 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                                             );
                                                         }}
                                                         className={cn(
-                                                            "p-5 border-[2px]  h-16 w-28 border-neutral-400 active:border-4 active:border-blue-500  flex flex-col items-center justify-center rounded-3xl transition-all ",
+                                                            "flex h-16  w-28 flex-col items-center justify-center rounded-3xl  border-[2px] border-neutral-400 p-5 transition-all active:border-4 active:border-blue-500 ",
                                                             selectedPackage ===
                                                                 plan &&
                                                                 "border-4 border-blue-500",
                                                         )}
                                                     >
-                                                        <h2 className="font-bold text-2xl">
+                                                        <h2 className="text-2xl font-bold">
                                                             {plan.amount / 1024}
                                                             <span className="text-xl">
                                                                 GB
@@ -262,7 +262,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                                         {/* <h2 className="text-center font-bold">
                                                             {plan.data}
                                                         </h2> */}
-                                                        <p className=" text-xs text-neutral-500 font-medium">
+                                                        <p className=" text-xs font-medium text-neutral-500">
                                                             {plan.day}{" "}
                                                             {l("text_days")}
                                                         </p>
@@ -276,14 +276,14 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                     </div>
                 </div>
 
-                <div className=" bg-white p-5 flex flex-col gap-2  rounded-2xl shadow-md">
-                    <h2 className="pl-1 text-xs uppercase font-medium text-neutral-500">
+                <div className=" flex flex-col gap-2 rounded-2xl bg-white  p-5 shadow-md">
+                    <h2 className="pl-1 text-xs font-medium uppercase text-neutral-500">
                         {l("title_information")}
                     </h2>
 
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-row items-center justify-between">
-                            <h3 className="text-sm capitalize font-bold">
+                            <h3 className="text-sm font-bold capitalize">
                                 {l("label_coverage")}
                             </h3>
                             {packageData.operators[0].coverages.length > 1 ? (
@@ -292,7 +292,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                         hapticFeedback();
                                         router.push(`${path}/coverage`);
                                     }}
-                                    className="text-sm text-blue-500 font-medium underline underline-offset-2 capitalize"
+                                    className="text-sm font-medium capitalize text-blue-500 underline underline-offset-2"
                                 >
                                     {packageData.operators[0].coverages.length}{" "}
                                     {l("text_countries")}
@@ -335,7 +335,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                     hapticFeedback();
                                     router.push(`/esims/compatible-devices`);
                                 }}
-                                className="text-sm text-blue-500 font-medium underline underline-offset-2 capitalize"
+                                className="text-sm font-medium capitalize text-blue-500 underline underline-offset-2"
                             >
                                 {l("text_compatible_devices")}
                             </button>
@@ -343,15 +343,15 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                     </div>
                 </div>
 
-                <div className=" bg-white p-5 flex flex-col rounded-2xl shadow-md">
+                <div className=" flex flex-col rounded-2xl bg-white p-5 shadow-md">
                     <div
-                        className="cursor-pointer flex items-center justify-between"
+                        className="flex cursor-pointer items-center justify-between"
                         onClick={() => {
                             hapticFeedback();
                             setIsOpen(!isOpen);
                         }}
                     >
-                        <h2 className="cursor-pointer flex items-center gap-1 text-xs uppercase font-medium text-neutral-500">
+                        <h2 className="flex cursor-pointer items-center gap-1 text-xs font-medium uppercase text-neutral-500">
                             {l("title_guide")}
                             <Badge className="capitalize ">
                                 {l("badge_guide")}
@@ -366,7 +366,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                     </div>
 
                     <Collapse isOpen={isOpen}>
-                        <div className="pt-2 flex flex-col gap-2 text-sm font-bold">
+                        <div className="flex flex-col gap-2 pt-2 text-sm font-bold">
                             <div className="flex flex-row gap-2">
                                 <h3 className="w-4">1.</h3>
                                 <h3 className="">{l("instruction_1")}</h3>
@@ -385,7 +385,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                     </h3>
                                 </div>
                                 <div className="flex flex-row gap-2">
-                                    <div className="pl-4 py-2">
+                                    <div className="py-2 pl-4">
                                         <Dot className="size-1.5" />
                                     </div>
                                     <h3 className="text-sm">
@@ -393,7 +393,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                     </h3>
                                 </div>
                                 <div className="flex flex-row gap-2">
-                                    <div className="pl-4 py-2">
+                                    <div className="py-2 pl-4">
                                         <Dot className="size-1.5" />
                                     </div>
                                     <h3 className="text-sm">
@@ -401,7 +401,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                                     </h3>
                                 </div>
                                 <div className="flex flex-row gap-2">
-                                    <div className="pl-4 py-2">
+                                    <div className="py-2 pl-4">
                                         <Dot className="size-1.5" />
                                     </div>
                                     <h3 className="text-sm">
@@ -425,7 +425,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                     </Collapse>
                 </div>
 
-                <div className="flex flex-col gap-2 p-5 border-2 border-redish rounded-3xl">
+                <div className="flex flex-col gap-2 rounded-3xl border-2 border-redish p-5">
                     <div
                         onClick={() => {
                             hapticFeedback();

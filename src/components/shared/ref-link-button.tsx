@@ -20,7 +20,7 @@ const RefLinkButton = ({ className }: Props) => {
                 copyReferralLinkToClipBoard(tgUser?.id);
             }}
             className={cn(
-                "bg-white h-10 p-2 pr-3 min-w-32 gap-1 flex items-center rounded-full cursor-pointer active:scale-95 transition-transform",
+                "flex h-10 min-w-32 cursor-pointer items-center gap-1 rounded-full bg-white p-2 pr-3 transition-transform active:scale-95",
                 className,
             )}
         >
@@ -306,10 +306,10 @@ const RefLinkButton = ({ className }: Props) => {
             </svg>
 
             <div className=" flex flex-col">
-                <span className="text-[10px]  font-semibold leading-3 text-center">
+                <span className="text-center  text-[10px] font-semibold leading-3">
                     {l("btn_top_share")}
                 </span>
-                <span className="text-[9px] text-neutral-500  text-center leading-3">
+                <span className="text-center text-[9px]  leading-3 text-neutral-500">
                     {l("btn_top_share_subtitle")}
                 </span>
             </div>

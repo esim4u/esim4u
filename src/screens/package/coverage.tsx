@@ -62,25 +62,25 @@ const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
 
     if (isLoading) {
         return (
-            <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
+            <main className="flex h-dvh flex-col items-center justify-center overflow-x-hidden ">
                 <Loader />
             </main>
         );
     }
 
     return (
-        <section className="flex flex-col h-dvh p-5 gap-4">
-            <div className="fixed top-0 left-0 w-screen z-10 bg-background p-5">
+        <section className="flex h-dvh flex-col gap-4 p-5">
+            <div className="fixed left-0 top-0 z-10 w-screen bg-background p-5">
                 <SearchInput search={search} setSearch={setSearch} />
             </div>
-            <div className="relative flex flex-col gap-2 -mb-6 no-scrollbar py-16">
+            <div className="no-scrollbar relative -mb-6 flex flex-col gap-2 py-16">
                 {filteredCoverage.map((country: any, index: number) => {
                     return (
                         <div
                             key={index}
-                            className="cursor-pointer active:scale-95 transition-transform bg-white flex items-center justify-between w-full p-2 rounded-xl"
+                            className="flex w-full cursor-pointer items-center justify-between rounded-xl bg-white p-2 transition-transform active:scale-95"
                         >
-                            <div className="flex flex-row items-center gap-4">
+                            <div className="flex flex-row items-center  gap-4">
                                 <ReactCountryFlag
                                     countryCode={country?.name}
                                     className="rounded-md"
@@ -90,7 +90,7 @@ const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
                                     }}
                                     svg
                                 />
-                                <span className="uppercase text-balance text-sm leading-4 font-semibold">
+                                <span className="text-balance text-sm font-semibold uppercase leading-4">
                                     {highlightMatches(search, country.fullName)}
                                 </span>
                             </div>

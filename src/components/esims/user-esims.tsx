@@ -33,16 +33,16 @@ const UserEsims = (props: Props) => {
 
     if (!userEsims && isLoading) {
         return (
-            <div className="flex flex-col gap-2 w-full">
-                <div className="pl-4 flex  gap-2 uppercase items-center font-medium text-neutral-500">
+            <div className="flex w-full flex-col gap-2">
+                <div className="flex items-center  gap-2 pl-4 font-medium uppercase text-neutral-500">
                     <h2>{l("title_esims")}</h2>
                 </div>
-                <div className="flex flex-col gap-5 w-full">
+                <div className="flex w-full flex-col gap-5">
                     {Array(2)
                         .fill(null)
                         .map((_, index) => (
                             <Skeleton
-                                className="w-full h-36 rounded-2xl"
+                                className="h-36 w-full rounded-2xl"
                                 key={index}
                             />
                         ))}
@@ -54,16 +54,16 @@ const UserEsims = (props: Props) => {
     if (!userEsims) {
         return (
             <div className=" w-full">
-                <div className="relative flex flex-col items-center justify-center gap-2 bg-white rounded-3xl h-[180px] w-full">
+                <div className="relative flex h-[180px] w-full flex-col items-center justify-center gap-2 rounded-3xl bg-white">
                     <div
                         className={cn(
-                            "absolute left-4 top-4 flex  gap-2 uppercase items-center font-medium text-neutral-500",
+                            "absolute left-4 top-4 flex  items-center gap-2 font-medium uppercase text-neutral-500",
                         )}
                     >
                         <h2>{l("title_esims")}</h2>{" "}
                     </div>
-                    <div className="flex flex-col gap-2 mt-1 items-center justify-center">
-                        <RiSimCard2Fill className=" -scale-x-100  text-neutral-300/75 size-[52px] " />
+                    <div className="mt-1 flex flex-col items-center justify-center gap-2">
+                        <RiSimCard2Fill className=" size-[52px]  -scale-x-100 text-neutral-300/75 " />
                     </div>
                 </div>
             </div>
@@ -71,21 +71,21 @@ const UserEsims = (props: Props) => {
     }
 
     return (
-        <div className="flex flex-col gap-2 w-full">
-            <div className="px-4 flex  gap-2 uppercase items-center justify-between font-medium text-neutral-500">
+        <div className="flex w-full flex-col gap-2">
+            <div className="flex items-center  justify-between gap-2 px-4 font-medium uppercase text-neutral-500">
                 <h2>{l("title_esims")}</h2>{" "}
                 <h2
                     onClick={() => {
                         hapticFeedback();
                         router.push("/profile/history");
                     }}
-                    className="flex active:scale-95 active:bg-white/50 cursor-pointer underline underline-offset-4"
+                    className="flex cursor-pointer underline underline-offset-4 active:scale-95 active:bg-white/50"
                 >
-                    <RiHistoryFill className="w-6 h-6" />
+                    <RiHistoryFill className="h-6 w-6" />
                     {/* {l("title_history")} */}
                 </h2>
             </div>
-            <div className="flex flex-col gap-5 w-full">
+            <div className="flex w-full flex-col gap-5">
                 {userEsims?.map((esim: Esim) => (
                     <EsimCard
                         key={esim.iccid}

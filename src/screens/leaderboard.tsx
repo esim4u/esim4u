@@ -72,33 +72,33 @@ const LeaderBoard = (props: Props) => {
     }, [webApp]);
 
     return (
-        <main className="overflow-x-hidden h-dvh flex flex-col items-center gap-2 p-5">
-            <div className="flex items-center justify-between bg-white w-full rounded-xl px-5 py-3">
+        <main className="flex h-dvh flex-col items-center gap-2 overflow-x-hidden p-5">
+            <div className="flex w-full items-center justify-between rounded-xl bg-white px-5 py-3">
                 <div className="p-2">
-                    <GrTrophy className=" w-12 h-12 text-amber-500 " />
+                    <GrTrophy className=" h-12 w-12 text-amber-500 " />
                 </div>
 
                 <div className="flex-1 flex-col">
-                    <h2 className="font-bold text-center uppercase">
+                    <h2 className="text-center font-bold uppercase">
                         invited the most frens
                     </h2>
-                    <p className="text-center leading-4 text-sm text-pretty">
+                    <p className="text-pretty text-center text-sm leading-4">
                         Invite more frens to get into the leader board!{" "}
                     </p>
                 </div>
             </div>
-            <div className="flex flex-col items-center gap-2 w-full">
+            <div className="flex w-full flex-col items-center gap-2">
                 {leaders?.map((leader: any, index: number) => {
                     return (
                         <div
                             key={leader.telegram_id}
-                            className="w-full flex flex-col gap-2"
+                            className="flex w-full flex-col gap-2"
                         >
                             <div className="flex items-center gap-2">
                                 <div
                                     key={leader.telegram_id}
                                     className={cn(
-                                        "w-full h-10 bg-white rounded-lg grid grid-cols-7 ",
+                                        "grid h-10 w-full grid-cols-7 rounded-lg bg-white ",
                                         tgUser?.id == leader.telegram_id &&
                                             " ring-2 ring-purple-500",
                                     )}
@@ -106,8 +106,8 @@ const LeaderBoard = (props: Props) => {
                                     <div className="col-span-1 flex items-center justify-center">
                                         <PlaceLabel index={index} />
                                     </div>
-                                    <div className="col-span-5 gap-2 flex items-center">
-                                        <Avatar className="w-6 h-6">
+                                    <div className="col-span-5 flex items-center gap-2">
+                                        <Avatar className="h-6 w-6">
                                             <AvatarImage
                                                 src={
                                                     (tgUser?.id ==
@@ -123,13 +123,13 @@ const LeaderBoard = (props: Props) => {
                                                 {leader?.first_name[0]}
                                             </AvatarFallback>
                                         </Avatar>
-                                        <p className="text-ellipsis overflow-hidden line-clamp-1">
+                                        <p className="line-clamp-1 overflow-hidden text-ellipsis">
                                             {leader?.first_name ||
                                                 "Esim4U Fren"}
                                         </p>
                                     </div>
                                     <div className="col-span-1 flex items-center justify-center">
-                                        <span className="  flex items-center min-w-9 px-1 justify-center  font-medium bg-gradient-to-r from-violet-500 to-purple-500 text-white rounded-md">
+                                        <span className="  flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white">
                                             {leader.referrals_count || 0}
                                         </span>
                                     </div>
@@ -137,7 +137,7 @@ const LeaderBoard = (props: Props) => {
                                 {tgUser?.id == leader.telegram_id && (
                                     <Button
                                         className={cn(
-                                            "bg-white aspect-square min-w-10  text-purple-600",
+                                            "aspect-square min-w-10 bg-white  text-purple-600",
                                             isOpen &&
                                                 " bg-gradient-to-tr from-indigo-500 to-purple-500 text-white",
                                         )}

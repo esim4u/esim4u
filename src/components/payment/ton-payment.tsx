@@ -91,14 +91,14 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
     }
     return (
         <>
-            <div className="flex flex-col items-start bg-white rounded-2xl p-6 gap-4 w-full">
+            <div className="flex w-full flex-col items-start gap-4 rounded-2xl bg-white p-6">
                 <div className="flex flex-row items-center  gap-1">
-                    <h2 className="font-bold text-center">Pay with TON</h2>
-                    <TonIcon className=" w-4 h-4" />
+                    <h2 className="text-center font-bold">Pay with TON</h2>
+                    <TonIcon className=" h-4 w-4" />
                 </div>
 
                 {tonPayment.isPending || pay.isPending ? (
-                    <Button className="w-full rounded-xl text-white gap-1 text-base">
+                    <Button className="w-full gap-1 rounded-xl text-base text-white">
                         <BiLoaderAlt className="animate-spin" />
                     </Button>
                 ) : (
@@ -107,10 +107,10 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
                             hapticFeedback("medium");
                             handlePayButtonClick();
                         }}
-                        className="w-full rounded-xl text-white gap-1 text-base"
+                        className="w-full gap-1 rounded-xl text-base text-white"
                     >
                         Pay {currentPriceInTon.toFixed(3)}
-                        <TonIcon className="text-white w-3 h-3 " />
+                        <TonIcon className="h-3 w-3 text-white " />
                     </Button>
                 )}
             </div>

@@ -75,13 +75,13 @@ export default function OnBoarding() {
     }, [tgUser, webApp]);
 
     return (
-        <main className="overflow-x-hidden h-dvh flex flex-col justify-center">
-            <div className="flex flex-col h-full pt-[10dvh] pb-5 justify-between gap-5">
+        <main className="flex h-dvh flex-col justify-center overflow-x-hidden">
+            <div className="flex h-full flex-col justify-between gap-5 pb-5 pt-[10dvh]">
                 <Carousel setApi={setApi} className="w-full">
                     <CarouselContent className=" py-5">
-                        <CarouselItem className="w-full flex flex-col items-center">
+                        <CarouselItem className="flex w-full flex-col items-center">
                             <div className="flex flex-col gap-5 p-5">
-                                <h2 className=" text-4xl font-medium text-center">
+                                <h2 className=" text-center text-4xl font-medium">
                                     {l("onboarding_title_1")}
                                 </h2>
                                 <p className="text-center text-neutral-500">
@@ -169,9 +169,9 @@ export default function OnBoarding() {
                                 </div> */}
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="w-full  flex flex-col  items-center overflow-hidden">
-                            <div className="flex flex-col gap-5 p-5 overflow-hidden">
-                                <h2 className=" text-4xl font-medium text-center">
+                        <CarouselItem className="flex  w-full flex-col  items-center overflow-hidden">
+                            <div className="flex flex-col gap-5 overflow-hidden p-5">
+                                <h2 className=" text-center text-4xl font-medium">
                                     {l("onboarding_title_2")}
                                 </h2>
                                 <p className="text-center text-neutral-500">
@@ -218,7 +218,7 @@ export default function OnBoarding() {
                                                                             c
                                                                         }
                                                                         svg
-                                                                        className="h-10 w-10 object-cover rounded-full"
+                                                                        className="h-10 w-10 rounded-full object-cover"
                                                                         key={
                                                                             key
                                                                         }
@@ -236,22 +236,22 @@ export default function OnBoarding() {
                                 </div>
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="w-full flex flex-col items-center">
-                            <div className="flex justify-between items-stretch flex-col gap-5 p-5 overflow-hidden">
-                                <h2 className=" text-4xl font-medium text-center">
+                        <CarouselItem className="flex w-full flex-col items-center">
+                            <div className="flex flex-col items-stretch justify-between gap-5 overflow-hidden p-5">
+                                <h2 className=" text-center text-4xl font-medium">
                                     <br /> {l("onboarding_title_3")}
                                 </h2>
                                 <p className="text-center text-neutral-500">
                                     {l("onboarding_description_3")}
                                 </p>
-                                <div className="p-5 pt-24 flex flex-col justify-center items-center">
+                                <div className="flex flex-col items-center justify-center p-5 pt-24">
                                     <TonConnectButton />
                                 </div>
                             </div>
                         </CarouselItem>
                     </CarouselContent>
                 </Carousel>
-                <div className="px-5 flex flex-row justify-between items-center">
+                <div className="flex flex-row items-center justify-between px-5">
                     <div className="flex flex-row gap-1.5 py-2 text-center text-sm text-muted-foreground">
                         {Array(count)
                             .fill(null)
@@ -259,9 +259,9 @@ export default function OnBoarding() {
                                 <Dot
                                     key={index}
                                     className={cn(
-                                        "bg-neutral-400 transition-all size-3",
+                                        "size-3 bg-neutral-400 transition-all",
                                         index + 1 == current &&
-                                            "bg-blue-500 w-7",
+                                            "w-7 bg-blue-500",
                                     )}
                                 ></Dot>
                             ))}
@@ -297,7 +297,7 @@ export default function OnBoarding() {
                                     duration: 10000, // 10 seconds
                                     title: "Are you sure?",
                                     description: (
-                                        <div className="flex -mt-1">
+                                        <div className="-mt-1 flex">
                                             <span className=" text-xs leading-[14px]">
                                                 If you connect wallet you can
                                                 get bonuses for your referrals
@@ -305,7 +305,7 @@ export default function OnBoarding() {
                                         </div>
                                     ),
                                     action: (
-                                        <div className=" w-1/2 flex items-center gap-2  ">
+                                        <div className=" flex w-1/2 items-center gap-2  ">
                                             <Button
                                                 asChild
                                                 onClick={() => {
@@ -316,7 +316,7 @@ export default function OnBoarding() {
                                                     router.push("/esims");
                                                 }}
                                                 variant={"ghost"}
-                                                className=" w-1/3 underline underline-offset-4 px-0 text-base border-none rounded-xl hover:bg-white/60"
+                                                className=" w-1/3 rounded-xl border-none px-0 text-base underline underline-offset-4 hover:bg-white/60"
                                             >
                                                 <ToastAction altText="yes">
                                                     Yes
@@ -328,7 +328,7 @@ export default function OnBoarding() {
                                                     hapticFeedback();
                                                 }}
                                                 variant={"secondary"}
-                                                className=" w-2/3 text-base rounded-xl "
+                                                className=" w-2/3 rounded-xl text-base "
                                                 asChild
                                             >
                                                 <ToastAction altText="undo">
@@ -343,7 +343,7 @@ export default function OnBoarding() {
                             }}
                             size={"bean"}
                             variant={"unstyled"}
-                            className="text-neutral-500 font-semibold underline underline-offset-2"
+                            className="font-semibold text-neutral-500 underline underline-offset-2"
                         >
                             {l("btn_skip")}
                         </Button>

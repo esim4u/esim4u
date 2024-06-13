@@ -68,7 +68,7 @@ const Devices = () => {
 
     if (isLoading) {
         return (
-            <main className="overflow-x-hidden h-dvh flex flex-col justify-center items-center ">
+            <main className="flex h-dvh flex-col items-center justify-center overflow-x-hidden ">
                 <Loader />
             </main>
         );
@@ -76,15 +76,15 @@ const Devices = () => {
 
     return (
         <div>
-            <section className="flex flex-col h-dvh p-5 gap-4">
-                <div className="fixed top-0 left-0 w-screen z-10 bg-background p-5">
+            <section className="flex h-dvh flex-col gap-4 p-5">
+                <div className="fixed left-0 top-0 z-10 w-screen bg-background p-5">
                     <SearchInput
                         search={search}
                         setSearch={setSearch}
                         placeholder={l("input_search_device")}
                     />{" "}
                 </div>
-                <div className="flex flex-col gap-5 -mb-6 py-16">
+                <div className="-mb-6 flex flex-col gap-5 py-16">
                     {Object.entries(filteredDevices).map(
                         ([brand, devices], index) => {
                             return (
@@ -92,7 +92,7 @@ const Devices = () => {
                                     key={index}
                                     className="flex flex-col gap-3"
                                 >
-                                    <h1 className="uppercase font-semibold text-md ml-4">
+                                    <h1 className="text-md ml-4 font-semibold uppercase">
                                         {brand}
                                     </h1>
                                     {devices.map(
@@ -100,10 +100,10 @@ const Devices = () => {
                                             return (
                                                 <div
                                                     key={index}
-                                                    className="cursor-pointer active:scale-95 transition-transform bg-white flex items-center justify-between w-full py-3 px-3 rounded-xl"
+                                                    className="flex w-full cursor-pointer items-center justify-between rounded-xl bg-white px-3 py-3 transition-transform active:scale-95"
                                                 >
                                                     <div className="flex flex-row items-center gap-4">
-                                                        <span className="uppercase text-sm leading-4 font-semibold">
+                                                        <span className="text-sm font-semibold uppercase leading-4">
                                                             {highlightMatches(
                                                                 search,
                                                                 device.name,

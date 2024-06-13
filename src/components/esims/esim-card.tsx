@@ -45,7 +45,7 @@ const EsimCard = ({
                     hapticFeedback();
                     setIsOpen(!isOpen);
                 }}
-                className="cursor-pointer flex flex-row justify-between items-center bg-white z-10 py-2 px-5 rounded-3xl"
+                className="z-10 flex cursor-pointer flex-row items-center justify-between rounded-3xl bg-white px-5 py-2"
             >
                 <div className="flex flex-col font-bold ">
                     <div className="flex items-center gap-0.5">
@@ -57,7 +57,7 @@ const EsimCard = ({
                             <span className="first-letter:capitalize">
                                 {l("text_click_to_activate")}
                             </span>
-                            <TbHandClick className="w-5 h-5" />
+                            <TbHandClick className="h-5 w-5" />
                         </h2>
                     )}
                     {expired_at && (
@@ -77,18 +77,18 @@ const EsimCard = ({
                         }
                         strokeWidth={9}
                     >
-                        <div className="flex flex-col leading-4 text-center mt-1">
+                        <div className="mt-1 flex flex-col text-center leading-4">
                             <span className=" font-bold ">
                                 {(usage?.remaining / 1024).toFixed(1)}
                             </span>{" "}
-                            <span className=" font-bold text-xs">Gb</span>
+                            <span className=" text-xs font-bold">Gb</span>
                         </div>
                     </CircleProgressBar>
                 </div>
             </div>
-            <div className="bg-gradient-to-tr from-blue-500/75 to-sky-400/50  rounded-b-2xl pt-5  -mt-5">
+            <div className="-mt-5 rounded-b-2xl bg-gradient-to-tr  from-blue-500/75 to-sky-400/50  pt-5">
                 <Collapse className=" px-4  duration-200" isOpen={isOpen}>
-                    <div className="py-2 pt-4 w-full">
+                    <div className="w-full py-2 pt-4">
                         <Tabs
                             defaultValue={
                                 detectIOSVersion() > 17.5 ? "auto" : "qr"
@@ -117,20 +117,20 @@ const EsimCard = ({
                                 </TabsTrigger>
                             </TabsList>
                             <TabsContent value="auto">
-                                <div className="h-72 flex items-center justify-center">
-                                    <div className="flex flex-col gap-6 pt-2 px-2 text-sm font-bold">
+                                <div className="flex h-72 items-center justify-center">
+                                    <div className="flex flex-col gap-6 px-2 pt-2 text-sm font-bold">
                                         <div className="flex flex-col gap-2">
-                                            <div className=" border-2 rounded-lg border-redish bg-white/10 py-1 px-2">
-                                                <h2 className="text-redish font-semibold">
+                                            <div className=" rounded-lg border-2 border-redish bg-white/10 px-2 py-1">
+                                                <h2 className="font-semibold text-redish">
                                                     {l("important_note")}
                                                 </h2>
                                             </div>
-                                            <h2 className=" text-center text-balance">
+                                            <h2 className=" text-balance text-center">
                                                 {l("instruction_auto")}
                                             </h2>
                                         </div>
                                         <Button
-                                            className="rounded-full h-14 text-base w-full"
+                                            className="h-14 w-full rounded-full text-base"
                                             asChild
                                         >
                                             <Link
@@ -171,14 +171,14 @@ const EsimCard = ({
                                 </div>
                             </TabsContent>
                             <TabsContent value="qr">
-                                <div className="flex items-center justify-center h-72 pt-2">
+                                <div className="flex h-72 items-center justify-center pt-2">
                                     <QrCode url={activationLink} />
                                 </div>
                             </TabsContent>
                             <TabsContent value="manual">
-                                <div className="h-72 flex flex-col gap-3 pt-2 px-2 text-sm font-bold">
-                                    <div className=" border-2 rounded-lg border-redish bg-white/10 py-1 px-2">
-                                        <h2 className="text-redish text-shadow-sm font-semibold">
+                                <div className="flex h-72 flex-col gap-3 px-2 pt-2 text-sm font-bold">
+                                    <div className=" rounded-lg border-2 border-redish bg-white/10 px-2 py-1">
+                                        <h2 className="font-semibold text-redish text-shadow-sm">
                                             {l("important_note")}
                                         </h2>
                                     </div>
@@ -206,8 +206,8 @@ const EsimCard = ({
                         </Tabs>
                     </div>
                 </Collapse>
-                <div className=" px-4 py-3 text-sm text-white flex items-center justify-between font-semibold">
-                    <div className="flex gap-2 items-center">
+                <div className=" flex items-center justify-between px-4 py-3 text-sm font-semibold text-white">
+                    <div className="flex items-center gap-2">
                         <Image
                             width={28}
                             height={28}

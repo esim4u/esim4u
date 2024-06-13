@@ -15,14 +15,14 @@ const CopyBadge = ({ text, textToCopy }: Props) => {
                 hapticFeedback();
                 copyText(textToCopy || text || "");
             }}
-            className="cursor-pointer flex items-center gap-1 justify-between"
+            className="flex cursor-pointer items-center justify-between gap-1"
         >
             {!!text && (
-                <div className="px-2 bg-white h-7  rounded-md flex items-center justify-center w-full ">
+                <div className="flex h-7 w-full  items-center justify-center rounded-md bg-white px-2 ">
                     <h2 className="text-center text-xs">{text}</h2>
                 </div>
             )}
-            <div className="bg-white size-7 min-w-7 flex items-center justify-center rounded-md">
+            <div className="flex size-7 min-w-7 items-center justify-center rounded-md bg-white">
                 <TbCopy />
             </div>
         </div>

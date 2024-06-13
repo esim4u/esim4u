@@ -33,7 +33,7 @@ const SearchInput = ({
             id={id}
             className={cn(
                 "relative flex items-center",
-                isError && "ring-2 ring-redish rounded-full animate-wiggle",
+                isError && "animate-wiggle rounded-full ring-2 ring-redish",
             )}
         >
             <HiMiniMagnifyingGlass
@@ -44,7 +44,7 @@ const SearchInput = ({
             />
             <input
                 className={cn(
-                    "px-10 h-10 rounded-full w-full ring-redish focus-visible:outline-none",
+                    "h-10 w-full rounded-full px-10 ring-redish focus-visible:outline-none",
                     isError && "text-redish",
                 )}
                 value={search}
@@ -63,7 +63,7 @@ const SearchInput = ({
                         }
                     }}
                     className={cn(
-                        "cursor-pointer w-5 h-5 right-[14px] absolute text-neutral-500",
+                        "absolute right-[14px] h-5 w-5 cursor-pointer text-neutral-500",
                         isError && "text-redish",
                     )}
                 />
