@@ -22,7 +22,11 @@ import {
     l,
     setLanguage,
 } from "@/lib/locale";
-import { copyReferralLinkToClipBoard, hapticFeedback, shareRef } from "@/lib/utils";
+import {
+    copyReferralLinkToClipBoard,
+    hapticFeedback,
+    shareRef,
+} from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import {
     disconnectUserWallet,
@@ -88,10 +92,12 @@ export default function Settings() {
         const disconnectWallet = async () => {
             await disconnectUserWallet(tgUser.id);
         };
-        if (tonAddress) {
-            updateWallet();
-        } else {
-            disconnectWallet();
+        if (tgUser?.id && tonAddress) {
+            if (tonAddress) {
+                updateWallet();
+            } else {
+                disconnectWallet();
+            }
         }
     }, [tonAddress]);
 
@@ -113,7 +119,7 @@ export default function Settings() {
                         <SelectValue placeholder={l("input_title_language")} />
                     </SelectTrigger>
                     <SelectContent className="max-h-72">
-                        <SelectGroup >
+                        <SelectGroup>
                             {getSupportedLanguages().map((lang: any) => (
                                 <SelectItem key={lang.value} value={lang.value}>
                                     <div className="flex gap-1 items-center">

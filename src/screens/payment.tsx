@@ -1,14 +1,15 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
-import { cn, hapticFeedback, shareRef} from "@/lib/utils";
+import { cn, hapticFeedback, shareRef } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState, useCallback} from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { getOrderById } from "@/services/supabase";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
@@ -20,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { TonIcon } from "@/components/icons";
 import { BiLoaderAlt } from "react-icons/bi";
 import { l } from "@/lib/locale";
-
+const TonPayment = dynamic(() => import('@/components/payment/ton-payment'), { ssr: false });
 
 export function Payment({ params }: { params: { order_id: string } }) {
     const { user: tgUser, webApp } = useTelegram();
@@ -67,6 +68,7 @@ export function Payment({ params }: { params: { order_id: string } }) {
                     isOrderDataLoading={isLoading}
                 />
                 <TonPayment orderData={orderData} />
+
                 <CardPayment orderData={orderData} />
             </div>
         </main>
@@ -111,12 +113,12 @@ const OrderDataItem = ({
 
             <div className="flex items-center gap-1">
                 <h2 className="font-bold">
-                    {orderData?.price.total}
+                    {orderData?.price?.total}
                     <span className=" text-sm">$</span>
                 </h2>
                 <Dot className="w-1.5 h-1.5" />
                 <h2 className="flex items-center font-bold">
-                    {orderData?.price.total_ton}
+                    {orderData?.price?.total_ton}
                     <TonIcon className="w-3 h-3 " />
                 </h2>
             </div>
@@ -251,99 +253,5 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
                 </div>
             </Collapse>
         </div>
-    );
-};
-
-const TonPayment = ({ orderData }: { orderData: any }) => {
-    const router = useRouter();
-    const [tonConnectUI, setOptions] = useTonConnectUI();
-    const { webApp } = useTelegram();
-
-    const rawAddress = useTonAddress();
-
-    const { data: rateTonUsd } = useQuery({
-        queryKey: ["ratetonusd"],
-        queryFn: async () => {
-            const { data } = await axios.get(
-                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd"
-            );
-
-            return data.rates.TON.prices.USD;
-        },
-        refetchInterval: 1000 * 10, // 10 sec
-    });
-
-    const tonPayment = useMutation({
-        mutationFn: async (transaction:any) => {
-            return await tonConnectUI.sendTransaction(transaction);
-        },
-        onSuccess: async (data) => {
-            if(data.boc){
-                await axios.post("/api/pay/tonconnect", {
-                        order_id: orderData.id,
-                        boc: data.boc,
-                    }
-                )
-                router.push("/esims/pay/pending");
-                return
-            }
-            webApp.close()
-        },
-    })
-
-    const currentPriceInTon = useMemo(() => {
-        if (orderData && orderData?.price?.total && rateTonUsd) {
-            return orderData.price.total / rateTonUsd;
-        }
-        return 99999;
-    }, [orderData, rateTonUsd]);
-
-    const transaction = useMemo(() => {
-        if (orderData && orderData?.price?.total && rateTonUsd) {
-            return createTransaction(currentPriceInTon);
-        }
-        return null;
-    }, [orderData, rateTonUsd]);
-
-    const handlePayButtonClick = async () => {
-            if (transaction) {
-                tonPayment.mutate(transaction);
-            }
-    };
-
-    if (!rawAddress) {
-        return <></>;
-    }
-    return (
-        <>
-            <div className="flex flex-col items-start bg-white rounded-2xl p-6 gap-4 w-full">
-                <div className="flex flex-row items-center  gap-1">
-                    <h2 className="font-bold text-center">Pay with TON</h2>
-                    <TonIcon className=" w-4 h-4" />
-                </div>
-
-                {tonPayment.isPending ? (
-                    <Button
-                        className="w-full rounded-xl text-white gap-1 text-base"
-                    >
-                        <BiLoaderAlt className="animate-spin" />
-                    </Button>
-                    ) : (                
-                    <Button
-                        onClick={() => {
-                            hapticFeedback("medium");
-                            handlePayButtonClick();
-                        }}
-                        className="w-full rounded-xl text-white gap-1 text-base"
-                    >
-                        Pay {currentPriceInTon.toFixed(3)}
-                        <TonIcon className="text-white w-3 h-3 " />
-                    </Button>
-                )}
-
-            </div>
-
-            <span className=" text-sm text-neutral-500">or</span>
-        </>
     );
 };
