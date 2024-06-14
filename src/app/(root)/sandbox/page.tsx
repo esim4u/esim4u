@@ -1,8 +1,12 @@
 "use client";
 
-import EsimCard from "@/components/esims/esim-card";
-import UserEsims from "@/components/esims/user-esims";
-import RefLinkButton from "@/components/shared/ref-link-button";
+import React from "react";
+import { useRouter } from "next/navigation";
+import { useTelegram } from "@/providers/telegram-provider";
+
+import { l, resetLanguage } from "@/lib/locale";
+import { cn, hapticFeedback } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import {
     Carousel,
@@ -12,13 +16,8 @@ import {
 import CircleProgressBar from "@/components/ui/circle-progress";
 import Loader from "@/components/ui/loader";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ESIM_STATE } from "@/enums";
-import { l, resetLanguage, setLanguage } from "@/lib/locale";
-import { cn, getReferralLink, hapticFeedback } from "@/lib/utils";
-import { useTelegram } from "@/providers/telegram-provider";
-import { useRouter } from "next/navigation";
-import QRCodeStyling from "qr-code-styling";
-import React from "react";
+import UserEsims from "@/components/esims/user-esims";
+import RefLinkButton from "@/components/shared/ref-link-button";
 
 type Props = {};
 
@@ -29,7 +28,7 @@ const SandboxPage = (props: Props) => {
     const [percent, setPercent] = React.useState(50);
 
     return (
-        <div className="p-20 flex flex-col gap-4 w-full">
+        <div className="flex w-full flex-col gap-4 p-20">
             <CircleProgressBar percent={percent}>
                 <span>10Gb</span>
             </CircleProgressBar>
@@ -90,9 +89,12 @@ const SandboxPage = (props: Props) => {
 
             <Button
                 onClick={() => {
-                    webApp?.openLink(`https://t.me/share?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`, {
-                        try_instant_view: true,
-                    });
+                    webApp?.openLink(
+                        `https://t.me/share?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`,
+                        {
+                            try_instant_view: true,
+                        },
+                    );
                 }}
             >
                 openLink alt
@@ -100,42 +102,34 @@ const SandboxPage = (props: Props) => {
 
             <Button
                 onClick={() => {
-                    webApp?.openTelegramLink(`https://t.me/share?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`);
+                    webApp?.openTelegramLink(
+                        `https://t.me/share?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`,
+                    );
                 }}
             >
                 openTelegramLink alt
             </Button>
 
-            <a onClick={()=>{hapticFeedback()}} href={`https://t.me/share?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`}>
+            <a
+                onClick={() => {
+                    hapticFeedback();
+                }}
+                href={`https://t.me/share?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`}
+            >
                 https://t.me share
             </a>
 
-            <a onClick={()=>{hapticFeedback()}} href={`tg://msg_url?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`}>
+            <a
+                onClick={() => {
+                    hapticFeedback();
+                }}
+                href={`tg://msg_url?url=https://core.telegram.org/api/links#share-links&text=shareandgetrewards`}
+            >
                 tg://msg_url share
             </a>
 
             <Button
                 onClick={async () => {
-
-                    // const qrCode = new QRCodeStyling({
-                    //     width: 300,
-                    //     height: 300,
-                    //     type: "svg",
-                    //     data: "https://www.facebook.com/",
-                    //     image: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
-                    //     dotsOptions: {
-                    //         color: "#4267b2",
-                    //         type: "rounded"
-                    //     },
-                    //     backgroundOptions: {
-                    //         color: "#e9ebee",
-                    //     },
-                    //     imageOptions: {
-                    //         crossOrigin: "anonymous",
-                    //         margin: 20
-                    //     }
-                    // });
-
                     const shareData = {
                         title: "Esim 4U",
                         text: "Share this order to pay!",
@@ -160,20 +154,20 @@ const SandboxPage = (props: Props) => {
                                 return (
                                     <CarouselItem
                                         key={index}
-                                        className="pl-1  basis-24 active:scale-95 transition-transform cursor-pointer"
+                                        className="basis-24  cursor-pointer pl-1 transition-transform active:scale-95"
                                     >
                                         <div className="p-1">
                                             <div
                                                 className={cn(
-                                                    "p-1 rounded-full transition-all"
+                                                    "rounded-full p-1 transition-all",
                                                 )}
                                             >
                                                 <div
                                                     className={cn(
-                                                        "relative  aspect-square flex justify-center items-end rounded-full overflow-hidden ring-2 ring-[#EFEFF3] "
+                                                        "relative  flex aspect-square items-end justify-center overflow-hidden rounded-full ring-2 ring-[#EFEFF3] ",
                                                     )}
                                                 >
-                                                    <Skeleton className="w-full h-full" />
+                                                    <Skeleton className="h-full w-full" />
                                                 </div>
                                             </div>
                                         </div>

@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useRef } from "react";
-import { useTelegram } from "@/providers/telegram-provider";
+import dynamic from "next/dynamic";
 import { PiShareFatFill } from "react-icons/pi";
 
-import { cn, copyText, getReferralLink, hapticFeedback } from "@/lib/utils";
-import dynamic from "next/dynamic";
+import { cn, copyText, hapticFeedback } from "@/lib/utils";
+
 const Qr = dynamic(() => import("./qr"), {
     ssr: false,
-    loading: () => <>Loading...</>,
 });
 
 type Props = {
@@ -29,7 +28,11 @@ const QrCode = ({
     return (
         <div className="relative flex flex-col items-center justify-center">
             <Qr
-                className={cn("w-64 h-64", allowCopy && " cursor-pointer")}
+                className={cn(
+                    "h-64 w-64",
+                    "bg-white/25",
+                    allowCopy && " cursor-pointer",
+                )}
                 onClick={() => {
                     if (!allowCopy) return;
                     hapticFeedback("success");
@@ -63,12 +66,12 @@ const ShareButton = ({
                 onClick={() => {
                     hapticFeedback("success");
                 }}
-                className="bg-white aspect-square p-2 rounded-xl absolute -right-12 text-blue-500 underline"
+                className="absolute -right-12 aspect-square rounded-xl bg-white p-2 text-blue-500 underline"
                 href={`https://t.me/share/url?url=${url}&text=${
                     shareText || ""
                 }`}
             >
-                <PiShareFatFill className="w-5 h-5" />
+                <PiShareFatFill className="h-5 w-5" />
             </a>
         );
     }
@@ -79,9 +82,9 @@ const ShareButton = ({
                 onClick={() => {
                     hapticFeedback("success");
                 }}
-                className="bg-white aspect-square p-2 rounded-xl absolute -right-12 text-blue-500 underline"
+                className="absolute -right-12 aspect-square rounded-xl bg-white p-2 text-blue-500 underline"
             >
-                <PiShareFatFill className="w-5 h-5" />
+                <PiShareFatFill className="h-5 w-5" />
             </button>
         );
     }
