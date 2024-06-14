@@ -4,13 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LANGUAGES } from "@/constants";
 import { useTelegram } from "@/providers/telegram-provider";
-import {
-    disconnectUserWallet,
-    getUserById,
-    updateUserWallet,
-} from "@/services/supabase";
+import { getUserById } from "@/services/supabase";
 import { useQuery } from "@tanstack/react-query";
-import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
 import { FaDonate } from "react-icons/fa";
 
 import {
@@ -35,12 +30,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import TCButton from "@/components/ui/tc-button";
 
 export default function Settings() {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
     const [preferredLang, setPreferredLang] = useState("");
-    const tonAddress = useTonAddress();
 
     const { data: dbUserData, isLoading } = useQuery({
         queryKey: ["user", tgUser?.id],
@@ -78,22 +73,6 @@ export default function Settings() {
             webApp?.offEvent("mainButtonClicked", copyReferralLink);
         };
     }, [webApp]);
-
-    useEffect(() => {
-        const updateWallet = async () => {
-            await updateUserWallet(tgUser.id, tonAddress);
-        };
-        const disconnectWallet = async () => {
-            await disconnectUserWallet(tgUser.id);
-        };
-        if (tgUser?.id && tonAddress) {
-            if (tonAddress) {
-                updateWallet();
-            } else {
-                disconnectWallet();
-            }
-        }
-    }, [tonAddress]);
 
     return (
         <main className="flex h-dvh w-full flex-col items-center justify-center overflow-x-hidden p-5">
@@ -212,7 +191,7 @@ export default function Settings() {
                         {l("btn_support")}
                     </Button>
                 </div>
-
+                <TCButton />
                 <Button
                     onClick={() => {
                         hapticFeedback();

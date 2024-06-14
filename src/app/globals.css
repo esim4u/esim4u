@@ -16,6 +16,22 @@ body::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
 
+
+#ton-connect-button {
+    width: 100% !important;
+}
+
+button[data-tc-connect-button="true"], button[data-tc-dropdown-button="true"]{
+    justify-content: center;
+    height: 44px;
+    width: 100%;
+    border-radius: 12px;
+}
+div:has(> button[data-tc-dropdown-button="true"]) {
+    width: 100%;
+}
+
+
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
         display: none;
