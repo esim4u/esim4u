@@ -24,11 +24,14 @@ export async function GET() {
             { status: 500 },
         );
     }
-    if(newsletters.data.length === 0) {
-        return Response.json({
-            message: "No active newsletters found",
-            description: "There are no active newsletters to send",
-        },{ status: 200 });
+    if (newsletters.data.length === 0) {
+        return Response.json(
+            {
+                message: "No active newsletters found",
+                description: "There are no active newsletters to send",
+            },
+            { status: 200 },
+        );
     }
 
     newsletters.data.forEach(async (newsletter) => {
@@ -49,9 +52,7 @@ export async function GET() {
         message: newsletters.data[0].message,
         image_url: newsletters.data[0].image_url,
         match_query: "newsletter=" + newsletters.data[0].id,
-    }
-
-    );
+    });
 
     return Response.json({ status: 200 });
 }
