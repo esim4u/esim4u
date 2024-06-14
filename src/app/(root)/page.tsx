@@ -29,8 +29,6 @@ export default function IndexPage() {
                     newsletter_id: match,
                     story_id: null,
                 });
-
-                alert(JSON.stringify(res));
             }
             await updateUser(tgUser, dbUser);
             return router.push("/esims");
