@@ -1,7 +1,8 @@
-import Loader from "@/components/ui/loader";
-import Profile from "@/screens/user/profile";
-import { Metadata } from "next";
 import { Suspense } from "react";
+import { Metadata } from "next";
+import Profile from "@/screens/user/profile";
+
+import Loader from "@/components/ui/loader";
 
 export const metadata: Metadata = {
     title: "Profile",
@@ -17,7 +18,7 @@ export default function ProfilePage() {
                 </div>
             }
         >
-            <Profile />;
+            <Profile />
         </Suspense>
     );
 }
