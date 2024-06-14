@@ -6,7 +6,7 @@
         },
         {
             "path": "/api/cron/newsletter",
-            "schedule": "*/10 * * * *"
+            "schedule": "0 16 * * 5"
         }
     ]
 }

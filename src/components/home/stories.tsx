@@ -7,6 +7,7 @@ import {
     getStories,
     incrementStoryTotalViews,
     incrementStoryUniqueViews,
+    updateUserActivity,
 } from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
@@ -25,7 +26,7 @@ type Props = {
 };
 
 const Stories = ({ className }: Props) => {
-    const { webApp } = useTelegram();
+    const { user: tgUser, webApp } = useTelegram();
     const [checkedStories, setCheckedStories] = useState<string[]>([]);
 
     const { data: stories, isLoading } = useQuery({
@@ -129,6 +130,11 @@ const Stories = ({ className }: Props) => {
                                         "checked_stories",
                                         newCheckedStories.join(","),
                                     );
+                                    await updateUserActivity({
+                                        telegram_id: tgUser.id,
+                                        newsletter_id: null,
+                                        story_id: story.id,
+                                    });
                                 }}
                                 className="basis-24  cursor-pointer pl-1 transition-transform active:scale-95"
                             >
