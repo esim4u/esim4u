@@ -456,3 +456,82 @@ export const getLeaderboard = async () => {
     const orders = await supabase.rpc("get_leaderboard");
     return orders.data;
 };
+
+// ACTIVITY
+
+export const updateUserActivity = async ({
+    telegram_id,
+    newsletter_id,
+    story_id,
+}) => {
+    const userActivity = await supabase
+        .from("activity")
+        .select("*")
+        .eq("telegram_id", telegram_id);
+
+    if (userActivity.error) {
+        return userActivity.error;
+    }
+
+    let newsletter = [];
+
+    if (userActivity.data.length > 0 && userActivity.data[0].newsletter) {
+        newsletter = userActivity.data[0].newsletter ?? [];
+    }
+
+    if (newsletter_id) {
+        let newsletterIndex = newsletter.findIndex(
+            (item) => item.id === newsletter_id,
+        );
+        if (newsletterIndex !== -1) {
+            newsletter[newsletterIndex].last_view_date = new Date();
+            newsletter[newsletterIndex].views = newsletter[newsletterIndex]
+                .views
+                ? newsletter[newsletterIndex].views + 1
+                : 1;
+        } else {
+            newsletter = [
+                ...newsletter,
+                { id: newsletter_id, last_view_date: new Date(), views: 1 },
+            ];
+        }
+    }
+
+    let stories = [];
+    if (userActivity.data.length > 0 && userActivity.data[0].stories) {
+        stories = userActivity.data[0].stories ?? [];
+    }
+
+    if (story_id) {
+        let storyIndex = stories.findIndex((item) => item.id === story_id);
+        if (storyIndex !== -1) {
+            stories[storyIndex].last_view_date = new Date();
+            stories[storyIndex].views = stories[storyIndex].views
+                ? stories[storyIndex].views + 1
+                : 1;
+        } else {
+            stories = [
+                ...stories,
+                { id: story_id, last_view_date: new Date(), views: 1 },
+            ];
+        }
+    }
+
+    if (userActivity.data.length === 0) {
+        const newUserActivity = await supabase.from("activity").insert({
+            telegram_id,
+            newsletter: newsletter,
+            stories: stories,
+        });
+
+        return newUserActivity.data;
+    }
+
+    const updatedUserActivity = await supabase
+        .from("activity")
+        .update({
+            newsletter: newsletter,
+            stories: stories,
+        })
+        .eq("telegram_id", telegram_id);
+};
