@@ -14,8 +14,8 @@ import { sendTgLog } from "@/services/tg-logger";
 
 export default function IndexPage() {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const newsletter = searchParams.get("newsletter");
+    const urlParams = new URLSearchParams(window.location.search);
+    const newsletter = urlParams.get("newsletter");
 
     const { user: tgUser, webApp, start_param } = useTelegram();
 

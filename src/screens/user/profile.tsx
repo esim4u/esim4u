@@ -103,6 +103,7 @@ export default function Profile() {
                     }}
                     className="absolute right-0 h-12 w-12 cursor-pointer py-1 text-neutral-400"
                 />
+                <pre> {is_payment ? <h2>true</h2> : <h2>false</h2>}</pre>
                 <div className="flex flex-col items-center gap-2">
                     <Avatar className="h-32 w-32">
                         <AvatarImage
