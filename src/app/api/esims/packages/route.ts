@@ -1,7 +1,9 @@
-import axios from "axios";
 import { NextRequest } from "next/server";
 import t from "@/assets/data/country-translations.json";
+import { EXCHANGE_RATE, MARGIN_RATE } from "@/constants";
 import { Translations } from "@/types";
+import axios from "axios";
+
 const translations: Translations = t as Translations;
 
 export async function GET(request: NextRequest) {
@@ -31,8 +33,6 @@ export async function GET(request: NextRequest) {
     };
 
     if (response?.data && response.data.data) {
-        const exchangeRate = 0.93;
-        const marginRate = 0.2;
         //add total_price field to each package
         response.data.data.forEach((country: any) => {
             if (
@@ -47,9 +47,9 @@ export async function GET(request: NextRequest) {
 
             country.operators.forEach((operator: any) => {
                 operator.packages.forEach((p: any) => {
-                    p.price_eur = ceil(p.price * exchangeRate);
-                    p.total_price_eur =
-                        ceil(p.price_eur + p.price_eur * marginRate, 0) - 0.01; //ceil to whole number
+                    p.total_price =
+                        ceil(p.price + p.price * MARGIN_RATE, 0) - 0.01; //ceil to whole number
+                    p.total_price_eur = ceil(p.total_price * EXCHANGE_RATE, 2);
                 });
                 operator.countries.forEach((c: any) => {
                     if (

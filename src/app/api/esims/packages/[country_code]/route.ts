@@ -1,6 +1,7 @@
 import { ceil } from "@/lib/utils";
 import axios from "axios";
 import dummy_data from "@/assets/data/dummy_country.json";
+import { EXCHANGE_RATE, MARGIN_RATE } from "@/constants";
 
 export async function GET(
     request: Request,
@@ -60,8 +61,8 @@ export async function GET(
             country.operators.forEach((operator: any) => {
                 operator.packages.forEach((p: any) => {
                     p.total_price =
-                        ceil(p.price + p.price * marginRate, 0) - 0.01; //ceil to whole number
-                    p.total_price_eur = ceil(p.total_price * 0.92, 2);
+                        ceil(p.price + p.price * MARGIN_RATE, 0) - 0.01; //ceil to whole number
+                    p.total_price_eur = ceil(p.total_price * EXCHANGE_RATE, 2);
                 });
             });
         });

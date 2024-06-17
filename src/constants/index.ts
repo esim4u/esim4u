@@ -1,3 +1,6 @@
+export const EXCHANGE_RATE =  0.93;
+export const MARGIN_RATE = 0.2;
+
 export const COUNTRIES: any = {
     us: "United States",
     fr: "France",
