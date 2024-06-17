@@ -22,13 +22,13 @@ const Qr = ({ url, onClick, className }: QrProps) => {
                 height: 384,
                 type: "canvas",
                 margin: 20,
-                image: "/svg/telegram-logo.svg",
-                imageOptions: {
-                    hideBackgroundDots: true,
-                    imageSize: 0.4,
-                    margin: 10,
-                    crossOrigin: "anonymous",
-                },
+                // image: "/svg/telegram-logo.svg",
+                // imageOptions: {
+                //     hideBackgroundDots: true,
+                //     imageSize: 0.4,
+                //     margin: 10,
+                //     crossOrigin: "anonymous",
+                // },
                 qrOptions: {
                     typeNumber: 0,
                     mode: "Byte",
