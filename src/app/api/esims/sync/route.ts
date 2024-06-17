@@ -1,6 +1,9 @@
+import { EXCHANGE_RATE, MARGIN_RATE } from "@/constants";
 import { ORDER_STATUS } from "@/enums";
 import { supabase } from "@/services/supabase";
 import axios from "axios";
+
+import { ceil } from "@/lib/utils";
 
 export const maxDuration = 50;
 export const dynamic = "force-dynamic";
@@ -12,6 +15,7 @@ export async function GET() {
     const orders = await supabase
         .from("orders")
         .select("*")
+        .eq("type", "ESIM")
         .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
 
     if (orders.error) {
@@ -70,6 +74,12 @@ export async function GET() {
                 .catch((e) => e.response);
 
             if (availableTopups && availableTopups?.data?.length) {
+                availableTopups.data.forEach((topup: any) => {
+                    topup.total_price =
+                        ceil(topup.price + topup.price * MARGIN_RATE, 0) - 0.01; //ceil to whole number
+                    topup.total_price_eur = ceil(topup.total_price * EXCHANGE_RATE, 2);
+                });
+
                 const updatedOrder = await supabase
                     .from("orders")
                     .update({
