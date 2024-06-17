@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 
@@ -144,7 +144,9 @@ const SandboxPage = (props: Props) => {
             </Button>
 
             {l("hello_world")}
-            <UserEsims />
+            <Suspense fallback={<div></div>}>
+                <UserEsims />
+            </Suspense>
             <div>
                 <Carousel className="w-full">
                     <CarouselContent className={cn("-ml-1")}>

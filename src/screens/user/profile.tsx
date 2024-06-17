@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { Suspense, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
@@ -124,7 +124,10 @@ export default function Profile() {
                 </div>
                 <RefLinkButton />
                 <Achievements fullWidth />
-                <UserEsims />
+                <Suspense fallback={<div></div>}>
+                    <UserEsims />
+                </Suspense>
+
                 {/* <Referrals /> */}
                 <Button
                     onClick={() => {

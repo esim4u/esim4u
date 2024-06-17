@@ -100,24 +100,22 @@ const UserEsims = (props: Props) => {
             </div>
             <div className="flex w-full flex-col gap-5">
                 {userEsims?.map((esim: Esim) => (
-                    <Suspense key={esim.iccid} fallback={<div></div>}>
-                        <EsimCard
-                            iccid={esim.iccid}
-                            state={esim.state}
-                            coverage={esim.coverage}
-                            image_url={esim.image_url}
-                            validity={esim.validity}
-                            data={esim.data}
-                            sm_dp={esim.sm_dp}
-                            confirmation_code={esim.confirmation_code}
-                            type={esim.type}
-                            usage={esim.usage}
-                            expired_at={esim.expired_at}
-                            available_topups={esim.available_topups}
-
-                            open_iccid={iccid || ""}
-                        />
-                    </Suspense>
+                    <EsimCard
+                        key={esim.iccid}
+                        iccid={esim.iccid}
+                        state={esim.state}
+                        coverage={esim.coverage}
+                        image_url={esim.image_url}
+                        validity={esim.validity}
+                        data={esim.data}
+                        sm_dp={esim.sm_dp}
+                        confirmation_code={esim.confirmation_code}
+                        type={esim.type}
+                        usage={esim.usage}
+                        expired_at={esim.expired_at}
+                        available_topups={esim.available_topups}
+                        open_iccid={iccid || ""}
+                    />
                 ))}
             </div>
         </div>
