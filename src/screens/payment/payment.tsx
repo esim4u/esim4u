@@ -8,7 +8,8 @@ import { useTelegram } from "@/providers/telegram-provider";
 import { getOrderById } from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
 import { useQuery } from "@tanstack/react-query";
-import { MdArrowForwardIos } from "react-icons/md";
+import { MdArrowForwardIos, MdOutlineLibraryAdd } from "react-icons/md";
+import { RiAddBoxLine } from "react-icons/ri";
 
 import { l } from "@/lib/locale";
 import { cn, hapticFeedback } from "@/lib/utils";
@@ -86,17 +87,24 @@ const OrderDataItem = ({
     return (
         <div className="flex h-12 w-full items-center justify-between rounded-xl bg-white px-4 py-3">
             <div className="flex items-center gap-1 text-sm">
-                <Image
-                    className="  overflow-hidden rounded-md object-contain"
-                    src={orderData?.image_url || ""}
-                    width={32}
-                    height={32}
-                    alt="country"
-                />
+                <div className="relative flex items-center justify-center">
+                    <Image
+                        className="  overflow-hidden rounded-md object-contain"
+                        src={orderData?.image_url || ""}
+                        width={32}
+                        height={32}
+                        alt="country"
+                    />
+                    {/* <div className="absolute size-4 bg-black/10 blur-sm"></div>
+
+                    <RiAddBoxLine className=" border-1 absolute size-5 text-white" /> */}
+                </div>
+
                 <span className="">
-                    {orderData?.coverage} <span className="text-xs">|</span>{" "}
-                    {orderData?.data} <span className="text-xs">|</span>{" "}
-                    {orderData?.validity} days
+                    {orderData?.type == "TOPUP" ? "Topup" : orderData?.coverage}{" "}
+                    <span className="text-xs">|</span> {orderData?.data}{" "}
+                    <span className="text-xs">|</span> {orderData?.validity}{" "}
+                    days
                 </span>
             </div>
 

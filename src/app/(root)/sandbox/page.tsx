@@ -177,15 +177,6 @@ const SandboxPage = (props: Props) => {
                     </CarouselContent>
                 </Carousel>
             </div>
-            {/* <EsimCard
-                iccid={"89852350923520031607"}
-                coverage={"12"}
-                state={ESIM_STATE.NOT_ACTIVE}
-                usage={{
-                    total: 1024,
-                    remaining: 1024,
-                }}
-            /> */}
         </div>
     );
 };

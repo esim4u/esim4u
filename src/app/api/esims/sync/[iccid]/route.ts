@@ -16,7 +16,8 @@ export async function GET( request: Request,
     const orders = await supabase
         .from("orders")
         .select("*")
-        .eq("iccid", iccid);
+        .eq("iccid", iccid)
+        .eq("type", "ESIM");
 
     if (orders.error) {
         console.log("An cron error occurred while fetching orders");

@@ -51,6 +51,7 @@ export async function GET(
         .from("orders")
         .select("*")
         .eq("telegram_id", telegram_id)
+        .eq("type", "ESIM")
         .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
 
     if (orders.error) {
@@ -73,46 +74,4 @@ export async function GET(
     }
 
     return Response.json(orders.data, { status: 200 });
-
-    // try {
-    //     for (const esim of orders.data) {
-    //         const usage = await axios
-    //             .get(
-    //                 process.env.AIRALO_API_URL + `/v2/sims/${esim.iccid}/usage`,
-    //                 {
-    //                     headers: {
-    //                         Accept: "application/json",
-    //                         Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
-    //                     },
-    //                 }
-    //             )
-    //             .then((res) => res.data)
-    //             .catch((e) => e.response);
-
-    //         console.log(usage);
-    //         if (usage && usage?.data?.status) {
-    //             const updatedOrder = await supabase
-    //                 .from("orders")
-    //                 .update({
-    //                     state: usage?.data?.status,
-    //                     usage: {
-    //                         remaining: usage.data?.remaining,
-    //                         total: usage.data?.total,
-    //                     },
-    //                     expired_at: usage.data?.expired_at,
-    //                 })
-    //                 .eq("id", esim.id);
-
-    //             console.log(updatedOrder);
-    //         }
-    //     }
-    // } catch (error) {}
-
-    // const currentOrders = await supabase
-    //     .from("orders")
-    //     .select()
-    //     .eq("telegram_id", telegram_id)
-    //     .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
-
-    // return Response.json(currentOrders.data, { status: 200 });
 }

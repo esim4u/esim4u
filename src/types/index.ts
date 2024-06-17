@@ -15,6 +15,7 @@ export interface Esim {
         total: number;
     };
     expired_at: string;
+    available_topups: any[];
 }
 
 export interface ShowPromiseResult {

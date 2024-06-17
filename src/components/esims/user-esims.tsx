@@ -100,6 +100,7 @@ const UserEsims = (props: Props) => {
                         type={esim.type}
                         usage={esim.usage}
                         expired_at={esim.expired_at}
+                        available_topups={esim.available_topups}
                     />
                 ))}
             </div>
