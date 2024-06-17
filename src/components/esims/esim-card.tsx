@@ -47,7 +47,7 @@ const EsimCard = ({
     expired_at,
     available_topups,
 
-    open_iccid
+    open_iccid,
 }: Esim) => {
     const [isOpen, setIsOpen] = useState(false);
     const activationLink = useMemo(() => {
@@ -57,11 +57,21 @@ const EsimCard = ({
     useEffect(() => {
         if (open_iccid && open_iccid === iccid) {
             setIsOpen(true);
+
+            const element = document.getElementById(iccid);
+            if (element) {
+                element.scrollIntoView({ block: "start", behavior: "smooth" });
+            }
         }
     }, [open_iccid]);
 
     return (
-        <div id={iccid} className="flex flex-col">
+        <div className="relative flex flex-col">
+            <div
+                id={iccid}
+                className="absolute -top-10"
+            ></div>
+
             <div
                 onClick={() => {
                     hapticFeedback();

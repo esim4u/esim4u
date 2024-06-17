@@ -34,16 +34,6 @@ const UserEsims = (props: Props) => {
         refetchInterval: 1000 * 60 * 1, // 1 minutes
     });
 
-    useEffect(() => {
-        if (iccid) {
-            //scrolll to the esim card with id iccid
-            const element = document.getElementById(iccid);
-            if (element) {
-                element.scrollIntoView({ behavior: "smooth" });
-            }
-        }
-    }, [iccid]);
-
     if (!userEsims && isLoading) {
         return (
             <div className="flex w-full flex-col gap-2">
