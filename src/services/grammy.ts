@@ -57,16 +57,18 @@ export const sendMessageToMultipleUsers = async ({
     image_url?: string;
     match_query?: string;
 }) => {
-    const inlineButton = new InlineKeyboard().url(l("bot_btn_open"), `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${match_query}`);
+    // const inlineButton = new InlineKeyboard().url(l("bot_btn_open"), `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${match_query}`);
+    const buyEsimButtonWithParam = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl + `?${match_query}`);
+
     for (const chatId of chatIds) {
         if (image_url) {
             await bot.api.sendPhoto(chatId, new InputFile(new URL(image_url)), {
                 caption: message,
-                reply_markup: inlineButton,
+                reply_markup: buyEsimButtonWithParam,
             });
         } else {
             await bot.api.sendMessage(chatId, message, {
-                reply_markup: inlineButton,
+                reply_markup: buyEsimButtonWithParam,
             });
         }
     }

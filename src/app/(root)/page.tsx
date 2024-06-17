@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 import {
     getUserById,
@@ -10,25 +10,26 @@ import {
 } from "@/services/supabase";
 
 import Loader from "@/components/ui/loader";
+import { sendTgLog } from "@/services/tg-logger";
 
 export default function IndexPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const newsletter = searchParams.get("newsletter");
+
     const { user: tgUser, webApp, start_param } = useTelegram();
 
     const fetchUser = async (id: number | string) => {
         const dbUser = await getUserById(id);
 
         if (dbUser?.id) {
-            if (
-                start_param &&
-                start_param.toString().startsWith("newsletter=")
-            ) {
-                const match = start_param.toString().split("newsletter=")[1];
+            if (newsletter) {
                 const res = await updateUserActivity({
                     telegram_id: tgUser.id,
-                    newsletter_id: match,
+                    newsletter_id: newsletter,
                     story_id: null,
                 });
+                await sendTgLog(`User ${tgUser.id} checkedF to newsletter ${newsletter}`);
             }
             await updateUser(tgUser, dbUser);
             return router.push("/esims");
