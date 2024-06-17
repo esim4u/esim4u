@@ -67,10 +67,7 @@ const EsimCard = ({
 
     return (
         <div className="relative flex flex-col">
-            <div
-                id={iccid}
-                className="absolute -top-10"
-            >{iccid}</div>
+            <div id={iccid} className="absolute -top-10"></div>
 
             <div
                 onClick={() => {
