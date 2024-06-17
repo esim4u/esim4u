@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { useRouter } from "next/navigation";
+import React, { Suspense, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 import { Esim } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -20,6 +20,9 @@ const UserEsims = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
     const router = useRouter();
 
+    const searchParams = useSearchParams();
+    const iccid = searchParams.get("iccid");
+
     const { data: userEsims, isLoading } = useQuery({
         queryKey: ["user-esims", tgUser?.id],
         queryFn: async () => {
@@ -30,6 +33,16 @@ const UserEsims = (props: Props) => {
         enabled: !!tgUser?.id,
         refetchInterval: 1000 * 60 * 1, // 1 minutes
     });
+
+    useEffect(() => {
+        if (iccid) {
+            //scrolll to the esim card with id iccid
+            const element = document.getElementById(iccid);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [iccid]);
 
     if (!userEsims && isLoading) {
         return (
@@ -87,21 +100,24 @@ const UserEsims = (props: Props) => {
             </div>
             <div className="flex w-full flex-col gap-5">
                 {userEsims?.map((esim: Esim) => (
-                    <EsimCard
-                        key={esim.iccid}
-                        iccid={esim.iccid}
-                        state={esim.state}
-                        coverage={esim.coverage}
-                        image_url={esim.image_url}
-                        validity={esim.validity}
-                        data={esim.data}
-                        sm_dp={esim.sm_dp}
-                        confirmation_code={esim.confirmation_code}
-                        type={esim.type}
-                        usage={esim.usage}
-                        expired_at={esim.expired_at}
-                        available_topups={esim.available_topups}
-                    />
+                    <Suspense key={esim.iccid} fallback={<div></div>}>
+                        <EsimCard
+                            iccid={esim.iccid}
+                            state={esim.state}
+                            coverage={esim.coverage}
+                            image_url={esim.image_url}
+                            validity={esim.validity}
+                            data={esim.data}
+                            sm_dp={esim.sm_dp}
+                            confirmation_code={esim.confirmation_code}
+                            type={esim.type}
+                            usage={esim.usage}
+                            expired_at={esim.expired_at}
+                            available_topups={esim.available_topups}
+
+                            open_iccid={iccid || ""}
+                        />
+                    </Suspense>
                 ))}
             </div>
         </div>

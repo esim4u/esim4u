@@ -46,14 +46,22 @@ const EsimCard = ({
     usage,
     expired_at,
     available_topups,
+
+    open_iccid
 }: Esim) => {
     const [isOpen, setIsOpen] = useState(false);
     const activationLink = useMemo(() => {
         return generateEsimActivationLink(sm_dp, confirmation_code);
     }, [sm_dp, confirmation_code]);
 
+    useEffect(() => {
+        if (open_iccid && open_iccid === iccid) {
+            setIsOpen(true);
+        }
+    }, [open_iccid]);
+
     return (
-        <div className="flex flex-col">
+        <div id={iccid} className="flex flex-col">
             <div
                 onClick={() => {
                     hapticFeedback();
@@ -101,14 +109,16 @@ const EsimCard = ({
                 </div>
             </div>
             <div className=" -mt-5 overflow-hidden rounded-b-2xl bg-gradient-to-tr  from-blue-500/75 to-sky-400/50  pt-5">
-                {usage && (usage.remaining == 0 || usage.remaining / usage.total < 0.5) && (
-                    <TopUpCarousel
-                        topUps={available_topups}
-                        iccid={iccid}
-                        image_url={image_url}
-                        coverage={coverage}
-                    />
-                )}
+                {usage &&
+                    (usage.remaining == 0 ||
+                        usage.remaining / usage.total < 0.5) && (
+                        <TopUpCarousel
+                            topUps={available_topups}
+                            iccid={iccid}
+                            image_url={image_url}
+                            coverage={coverage}
+                        />
+                    )}
 
                 <Collapse className=" px-4  duration-200" isOpen={isOpen}>
                     <div className="w-full py-2 pt-4">

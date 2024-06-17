@@ -38,7 +38,12 @@ export const sendPhotoToUser = async (
     });
 };
 
-export const sendMessagesToUser = async (chatId: number, message: string) => {
+export const sendMessagesToUser = async (chatId: number, message: string, iccid?: string) => {
+    const checkEsimButton = new InlineKeyboard().webApp(
+        "Check your esim state at your profile",
+        webAppUrl + "/profile?iccid=" + iccid,
+    );
+
     await bot.api.sendMessage(chatId, message, {
         parse_mode: "Markdown",
         disable_notification: true,

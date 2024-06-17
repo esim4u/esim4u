@@ -16,6 +16,8 @@ export interface Esim {
     };
     expired_at: string;
     available_topups: any[];
+
+    open_iccid?: string;
 }
 
 export interface ShowPromiseResult {

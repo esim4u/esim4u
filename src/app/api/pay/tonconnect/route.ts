@@ -107,6 +107,7 @@ export async function POST(req: Request) {
                 )}: \`${esim.data[0].confirmation_code}\` \n\n ${l(
                     "bot_instruction_3",
                 )}`,
+                esim.data[0].iccid,
             );
         } catch (e) {
             console.error(e);
