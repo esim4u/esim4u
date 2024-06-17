@@ -147,6 +147,11 @@ export async function POST(req: Request) {
             .eq("id", order.data[0].id)
             .select();
 
+        const resp = await axios
+            .get(`/api/esims/sync/` + order.data[0].iccid)
+            .then((res) => res.data)
+            .catch((e) => e.response);
+
         return Response.json(topup);
     }
 }
