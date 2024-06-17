@@ -22,7 +22,7 @@ export async function GET() {
                 message: "An error occurred while fetching orders",
                 description: orders.error.message,
             },
-            { status: 500 }
+            { status: 500 },
         );
     }
 
@@ -36,7 +36,7 @@ export async function GET() {
                             Accept: "application/json",
                             Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
                         },
-                    }
+                    },
                 )
                 .then((res) => res.data)
                 .catch((e) => e.response);
@@ -54,6 +54,29 @@ export async function GET() {
                     })
                     .eq("id", esim.id);
             }
+
+            const availableTopups = await axios
+                .get(
+                    process.env.AIRALO_API_URL +
+                        `/v2/sims/${esim.iccid}/topups`,
+                    {
+                        headers: {
+                            Accept: "application/json",
+                            Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+                        },
+                    },
+                )
+                .then((res) => res.data)
+                .catch((e) => e.response);
+
+            if (availableTopups && availableTopups?.data?.length) {
+                const updatedOrder = await supabase
+                    .from("orders")
+                    .update({
+                        available_topups: availableTopups.data,
+                    })
+                    .eq("id", esim.id);
+            }
         }
     } catch (error) {
         console.log("An error occurred while updating orders", error);
@@ -63,7 +86,7 @@ export async function GET() {
                 message: "An error occurred while updating orders",
                 description: error,
             },
-            { status: 500 }
+            { status: 500 },
         );
     }
 
