@@ -10,7 +10,7 @@ import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import axios from "axios";
 import { BiLoaderAlt } from "react-icons/bi";
 
-import { hapticFeedback } from "@/lib/utils";
+import { hapticFeedback, tonPaymentErrorToast } from "@/lib/utils";
 
 import { TonIcon } from "../icons";
 import { Button } from "../ui/button";
@@ -56,12 +56,19 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
             return await axios.post("/api/pay/tonconnect", {
                 order_id: orderData.id,
                 boc: boc,
-            });
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_ESIM4U_ACCESS_TOKEN}`,
+                },
+            }
+        );
         },
         onSuccess: (data) => {
             router.push("/esims/pay/pending");
         },
         onError: (error) => {
+            tonPaymentErrorToast()
             console.log(error);
         },
     });

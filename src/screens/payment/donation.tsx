@@ -61,11 +61,19 @@ const Donation = (props: Props) => {
 
     const donate = useMutation({
         mutationFn: async (boc: string) => {
-            return await axios.post("/api/pay/tonconnect/donate", {
-                telegram_id: tgUser.id,
-                amount: donationAmount,
-                boc: boc,
-            });
+            return await axios.post(
+                "/api/pay/tonconnect/donate",
+                {
+                    telegram_id: tgUser.id,
+                    amount: donationAmount,
+                    boc: boc,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ESIM4U_ACCESS_TOKEN}`,
+                    },
+                },
+            );
         },
         onSuccess: (data) => {
             router.push("/esims/pay/success");

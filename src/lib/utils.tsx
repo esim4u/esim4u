@@ -74,6 +74,12 @@ export function copyText(text: string | number, e?: any) {
     }
 }
 
+export function tonPaymentErrorToast(){
+    toast({
+        variant: "destructive",
+        title: "Error: Please try again",
+    });
+}
 export function donationErrorToast(){
     toast({
         variant: "destructive",
