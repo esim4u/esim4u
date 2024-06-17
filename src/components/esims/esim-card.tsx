@@ -70,7 +70,7 @@ const EsimCard = ({
             <div
                 id={iccid}
                 className="absolute -top-10"
-            ></div>
+            >{iccid}</div>
 
             <div
                 onClick={() => {
