@@ -35,6 +35,9 @@ export async function POST(req: Request) {
         .update({
             boc: boc,
             status: TRANSACTION_STATUS.SUCCESS,
+            amount: order.data[0].price.total_ton,
+            currency: "TON",
+            merchant: "TONCONNECT",
         })
         .eq("id", order.data[0].transaction_id);
 
