@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect, useMemo, useState } from "react";
+import React, { use, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 import { sendTgLog } from "@/services/tg-logger";
@@ -58,6 +58,18 @@ const Donation = (props: Props) => {
             sendTgLog(JSON.stringify(error));
         },
     });
+
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp]);
 
     const donate = useMutation({
         mutationFn: async (boc: string) => {

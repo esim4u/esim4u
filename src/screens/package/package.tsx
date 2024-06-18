@@ -83,6 +83,18 @@ const Package = ({ params }: { params: { country_code: string } }) => {
     }, [webApp]);
 
     useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp]);
+
+    useEffect(() => {
         if (terms.terms1 && terms.terms2) {
             webApp?.MainButton.setParams({
                 text: l("btn_pay"),

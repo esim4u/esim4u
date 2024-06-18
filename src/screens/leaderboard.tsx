@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getLeaderboard, getUserById } from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -16,6 +16,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import Referrals from "@/components/user/referrals";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -42,6 +43,7 @@ const PlaceLabel = ({ index }: { index: number }) => {
 
 const LeaderBoard = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
+    const router = useRouter();
     useReferralLink(webApp, tgUser);
 
     const [isOpen, setIsOpen] = useState(false);
@@ -73,6 +75,18 @@ const LeaderBoard = (props: Props) => {
                 is_visible: true,
             });
         }
+    }, [webApp]);
+
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
     }, [webApp]);
 
     return (

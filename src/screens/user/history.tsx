@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import Image from "next/image";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUsersEsimHistory } from "@/services/supabase";
@@ -10,11 +10,14 @@ import moment from "moment";
 import Dot from "@/components/ui/dot";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TonIcon } from "@/components/icons";
+import { hapticFeedback } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const History = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
+    const router = useRouter();
     const { data: history, isLoading } = useQuery({
         queryKey: ["history", tgUser?.id],
         queryFn: async () => {
@@ -23,6 +26,17 @@ const History = (props: Props) => {
         },
         enabled: !!tgUser?.id,
     });
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp]);
 
     if (isLoading) {
         <main className="flex h-dvh flex-col items-center overflow-x-hidden p-5">

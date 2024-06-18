@@ -74,6 +74,18 @@ export default function Settings() {
         };
     }, [webApp]);
 
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp]);
+
     return (
         <main className="flex h-dvh w-full flex-col items-center justify-center overflow-x-hidden p-5">
             <div className="flex w-full flex-col items-center gap-4">

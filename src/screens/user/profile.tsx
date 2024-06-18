@@ -43,9 +43,9 @@ export default function Profile() {
         if (webApp) {
             webApp?.BackButton.show();
 
-            if (is_payment) {
-                webApp?.BackButton.hide();
-            }
+            // if (is_payment) {
+            //     webApp?.BackButton.hide();
+            // }
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
                 color: "#3b82f6",
@@ -63,20 +63,16 @@ export default function Profile() {
         }
     }, [webApp]);
 
-    const backToEsims = useCallback(() => {
-        if (webApp) {
-            hapticFeedback();
-            router.push("/esims");
-        }
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
     }, [webApp]);
 
-    useEffect(() => {
-        webApp?.offEvent("backButtonClicked");
-
-        webApp?.onEvent("backButtonClicked", backToEsims);
-        return () => {
-            webApp?.offEvent("backButtonClicked", backToEsims);
-        };
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.push("/esims");
     }, [webApp]);
 
     useEffect(() => {

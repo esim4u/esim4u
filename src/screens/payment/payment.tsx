@@ -26,6 +26,7 @@ const TonPayment = dynamic(() => import("@/components/payment/ton-payment"), {
 
 export function Payment({ params }: { params: { order_id: string } }) {
     const { user: tgUser, webApp } = useTelegram();
+    const router = useRouter();
     useReferralLink(webApp, tgUser);
 
     const { data: orderData, isLoading } = useQuery({
@@ -47,6 +48,18 @@ export function Payment({ params }: { params: { order_id: string } }) {
                 is_visible: true,
             });
         }
+    }, [webApp]);
+
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
     }, [webApp]);
 
     return (

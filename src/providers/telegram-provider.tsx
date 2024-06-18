@@ -39,11 +39,6 @@ export const TelegramProvider = ({
 
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;
-        // const AdController = (window as any).Adsgram.init({ blockId: "86"});
-
-        // if(AdController) {
-        //     setAdContoller(AdController);
-        // }
 
         if (app) {
             app.setHeaderColor("#EFEFF3");
@@ -71,18 +66,6 @@ export const TelegramProvider = ({
             setWebApp(app);
         }
     }, []);
-
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp, path]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp, path]);
 
     const value = useMemo(() => {
         return webApp

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { COUNTRIES } from "@/constants";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -11,8 +11,13 @@ import { highlightMatches } from "@/lib/markup";
 
 import CustomInput from "@/components/ui/custom-input";
 import Loader from "@/components/ui/loader";
+import { useTelegram } from "@/providers/telegram-provider";
+import { hapticFeedback } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const Networks = ({ params }: { params: { package_id: string } }) => {
+    const { webApp } = useTelegram();
+    const router = useRouter();
     const [search, setSearch] = useState("");
 
     const { data: networks, isLoading } = useQuery({
@@ -55,6 +60,18 @@ const Networks = ({ params }: { params: { package_id: string } }) => {
             });
         });
     }, [networks, search]);
+
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp]);
 
     if (isLoading) {
         return (

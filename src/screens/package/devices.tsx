@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
@@ -10,9 +10,14 @@ import { highlightMatches } from "@/lib/markup";
 
 import CustomInput from "@/components/ui/custom-input";
 import Loader from "@/components/ui/loader";
+import { hapticFeedback } from "@/lib/utils";
+import { useTelegram } from "@/providers/telegram-provider";
+import { useRouter } from "next/navigation";
 
 const Devices = () => {
     const [search, setSearch] = useState("");
+    const {webApp} = useTelegram();
+    const router = useRouter();
 
     const { data: devices, isLoading } = useQuery({
         queryKey: ["compatible-devices"],
@@ -66,6 +71,18 @@ const Devices = () => {
 
         return filtered;
     }, [devices, search]);
+
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp]);
 
     if (isLoading) {
         return (

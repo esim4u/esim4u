@@ -6,11 +6,13 @@ import { useTelegram } from "@/providers/telegram-provider";
 import { getReferralLink, hapticFeedback, shareRef } from "@/lib/utils";
 
 import QrCode from "@/components/ui/qr-code";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const QrScreen = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
+    const router = useRouter();
 
     const copyReferralLink = useCallback(() => {
         if (webApp) {
@@ -28,7 +30,17 @@ const QrScreen = (props: Props) => {
             webApp?.offEvent("mainButtonClicked", copyReferralLink);
         };
     }, [webApp]);
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
 
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp]);
     return (
         <div className="flex h-dvh w-full flex-col items-center justify-center gap-5 p-5">
             <div>

@@ -109,6 +109,13 @@ const SandboxPage = (props: Props) => {
             >
                 openTelegramLink alt
             </Button>
+            <Button
+                onClick={() => {
+                    router.push("/esims/pay/pending");
+                }}
+            >
+                To Pending
+            </Button>
 
             <a
                 onClick={() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { COUNTRIES } from "@/constants";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -11,8 +11,13 @@ import { highlightMatches } from "@/lib/markup";
 
 import CustomInput from "@/components/ui/custom-input";
 import Loader from "@/components/ui/loader";
+import { hapticFeedback } from "@/lib/utils";
+import { useTelegram } from "@/providers/telegram-provider";
+import { useRouter } from "next/navigation";
 
 const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
+    const { webApp } = useTelegram();
+    const router = useRouter();
     const [search, setSearch] = useState("");
 
     const {
@@ -60,6 +65,18 @@ const PackageCoverage = ({ params }: { params: { country_code: string } }) => {
             });
         });
     }, [search, packageData?.operators[0].coverages]);
+
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp]);
 
     if (isLoading) {
         return (
