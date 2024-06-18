@@ -6,7 +6,11 @@ import { useTelegram } from "@/providers/telegram-provider";
 import { sendTgLog } from "@/services/tg-logger";
 import { createTransaction } from "@/services/tonconnect";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
+import {
+    TonConnectButton,
+    useTonAddress,
+    useTonConnectUI,
+} from "@tonconnect/ui-react";
 import axios from "axios";
 import { BiLoaderAlt } from "react-icons/bi";
 
@@ -14,6 +18,7 @@ import { hapticFeedback, tonPaymentErrorToast } from "@/lib/utils";
 
 import { TonIcon } from "../icons";
 import { Button } from "../ui/button";
+import TCButton from "../ui/tc-button";
 
 const TonPayment = ({ orderData }: { orderData: any }) => {
     const router = useRouter();
@@ -53,22 +58,24 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
 
     const pay = useMutation({
         mutationFn: async (boc: string) => {
-            return await axios.post("/api/pay/tonconnect", {
-                order_id: orderData.id,
-                boc: boc,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_ESIM4U_ACCESS_TOKEN}`,
+            return await axios.post(
+                "/api/pay/tonconnect",
+                {
+                    order_id: orderData.id,
+                    boc: boc,
                 },
-            }
-        );
+                {
+                    headers: {
+                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ESIM4U_ACCESS_TOKEN}`,
+                    },
+                },
+            );
         },
         onSuccess: (data) => {
             router.push("/esims/pay/pending");
         },
         onError: (error) => {
-            tonPaymentErrorToast()
+            tonPaymentErrorToast();
             console.log(error);
         },
     });
@@ -93,9 +100,6 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
         }
     };
 
-    if (!rawAddress) {
-        return <></>;
-    }
     return (
         <>
             <div className="flex w-full flex-col items-start gap-4 rounded-2xl bg-white p-6">
@@ -103,8 +107,9 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
                     <h2 className="text-center font-bold">Pay with TON</h2>
                     <TonIcon className=" h-4 w-4" />
                 </div>
-
-                {tonPayment.isPending || pay.isPending ? (
+                {!rawAddress ? (
+                    <TCButton />
+                ) : tonPayment.isPending || pay.isPending ? (
                     <Button className="w-full gap-1 rounded-xl text-base text-white">
                         <BiLoaderAlt className="animate-spin" />
                     </Button>

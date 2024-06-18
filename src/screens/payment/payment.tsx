@@ -8,8 +8,7 @@ import { useTelegram } from "@/providers/telegram-provider";
 import { getOrderById } from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
 import { useQuery } from "@tanstack/react-query";
-import { MdArrowForwardIos, MdOutlineLibraryAdd } from "react-icons/md";
-import { RiAddBoxLine } from "react-icons/ri";
+import { MdArrowForwardIos } from "react-icons/md";
 
 import { l } from "@/lib/locale";
 import { cn, hapticFeedback } from "@/lib/utils";
