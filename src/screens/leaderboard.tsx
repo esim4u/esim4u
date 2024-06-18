@@ -88,10 +88,10 @@ const LeaderBoard = (props: Props) => {
                             <div
                                 className={cn(
                                     "flex items-center gap-2",
-                                    index == 0 && "z-30 rotate-[0.75deg]",
-                                    index == 1 &&
-                                        "z-20 -mt-1 -rotate-[0.75deg]",
-                                    index == 2 && "z-10 -mt-1 rotate-[0.75deg]",
+                                    index == 0 && "z-30 -rotate-[0.75deg]",
+                                    index == 1 && "z-20 -mt-1 rotate-[0.75deg]",
+                                    index == 2 &&
+                                        "z-10 -mt-1 -rotate-[0.75deg]",
                                     // index == 0 && "z-30 rotate-[0.75deg]",
                                     // index == 1 &&
                                     //     "z-20 -mt-1 -rotate-[0.75deg]",
@@ -101,7 +101,7 @@ const LeaderBoard = (props: Props) => {
                                 <div
                                     key={leader.telegram_id}
                                     className={cn(
-                                        "grid h-10 w-full grid-cols-7 rounded-lg bg-white shadow-lg",
+                                        "grid h-11 w-full grid-cols-7 rounded-lg bg-white shadow-lg",
                                         tgUser?.id == leader.telegram_id &&
                                             " ring-2 ring-purple-500",
                                         index == 0 &&
@@ -125,18 +125,20 @@ const LeaderBoard = (props: Props) => {
                                                 alt="@shadcn"
                                             />
                                             <AvatarFallback className=" bg-neutral-500 text-white">
-                                                {leader?.first_name[0]}
+                                                <span>
+                                                    {leader?.first_name[0]}
+                                                </span>
                                             </AvatarFallback>
                                         </Avatar>
-                                        <p className="line-clamp-1 overflow-hidden text-ellipsis">
+                                        <p className=" w-32 line-clamp-1 overflow-hidden text-ellipsis">
                                             {leader?.first_name ||
                                                 "Esim4U Fren"}
                                         </p>
                                     </div>
-                                    <div className="col-span-1 flex items-center justify-center">
+                                    <div className="col-span-1 flex items-center justify-center ">
                                         <span
                                             className={cn(
-                                                "  flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white",
+                                                " mr-2 flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white",
                                                 index == 0 &&
                                                     " bg-gradient-to-r from-[#FFE142] to-[#FD9B2E] font-semibold text-orange-700/90 ring-1 ring-[#FFE142]/75 ",
                                             )}
