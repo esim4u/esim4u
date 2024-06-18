@@ -92,6 +92,7 @@ const UserEsims = (props: Props) => {
                 {userEsims?.map((esim: Esim) => (
                     <EsimCard
                         key={esim.iccid}
+                        package_id={esim.package_id}
                         iccid={esim.iccid}
                         state={esim.state}
                         coverage={esim.coverage}

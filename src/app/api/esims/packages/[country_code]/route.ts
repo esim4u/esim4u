@@ -9,10 +9,6 @@ export async function GET(
 ) {
     const country_code = params.country_code;
 
-    if (country_code == "TEST") {
-        return Response.json(dummy_data);
-    }
-
     let config;
 
     if (country_code.length == 2) {

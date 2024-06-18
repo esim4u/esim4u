@@ -1,6 +1,7 @@
 import { ESIM_STATE, ORDER_STATUS } from "@/enums";
 
 export interface Esim {
+    package_id: string;
     iccid: string;
     coverage: string;
     image_url: string;

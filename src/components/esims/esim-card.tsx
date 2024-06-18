@@ -34,6 +34,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import CopyBadge from "./copy-badge";
 
 const EsimCard = ({
+    package_id,
     iccid,
     coverage,
     image_url,
@@ -49,6 +50,8 @@ const EsimCard = ({
 
     open_iccid,
 }: Esim) => {
+    const router = useRouter();
+
     const [isOpen, setIsOpen] = useState(false);
     const activationLink = useMemo(() => {
         return generateEsimActivationLink(sm_dp, confirmation_code);
@@ -239,7 +242,16 @@ const EsimCard = ({
                                     </div>
                                     <h2>5. Turn On Roaming</h2>
                                     <div className="flex items-center justify-between">
-                                        <h2>6. Select needed network</h2>
+                                        <h2>6. Select network</h2>{" "}
+                                        <span
+                                            onClick={() => {
+                                                hapticFeedback();
+                                                router.push("/esims/networks/" + package_id);
+                                            }}
+                                            className=" text-blue-600 underline underline-offset-2"
+                                        >
+                                            Check list
+                                        </span>
                                     </div>
                                 </div>
                             </TabsContent>
