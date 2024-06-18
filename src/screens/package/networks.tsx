@@ -101,7 +101,10 @@ const Networks = ({ params }: { params: { package_id: string } }) => {
 
                         <div className="flex w-1/2 justify-end gap-1">
                             {network.networks.map((n: any, index: number) => (
-                                <div className=" rounded-sm border-2 border-black px-2 text-sm">
+                                <div
+                                    key={index}
+                                    className=" rounded-sm border-2 border-black px-2 text-sm"
+                                >
                                     <h2>
                                         {highlightMatches(search, n.name)}(
                                         {n.types})
