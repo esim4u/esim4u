@@ -1,9 +1,10 @@
 import { supabase } from "@/services/supabase";
+import { sendAdminTgLog } from "@/services/tg-logger";
 
 export async function POST(req: Request) {
     const { telegram_id, amount, boc } = await req.json();
 
-    if(!telegram_id || !amount || !boc || amount < 1) {
+    if (!telegram_id || !amount || !boc || amount < 1) {
         return Response.json({ error: "Invalid request" });
     }
 
@@ -17,9 +18,25 @@ export async function POST(req: Request) {
             currency: "TON",
             status: "SUCCESS",
             merchant: "TONCONNECT",
-            type: "DONATION"
+            type: "DONATION",
         })
         .select();
 
+    if (transaction.error || !transaction.data.length) {
+        return Response.json({ error: "Transaction not found" });
+    }
+
+    const users = await supabase
+        .from("users")
+        .select("*")
+        .eq("telegram_id", telegram_id);
+
+    if (users.error || !users.data.length) {
+        return Response.json({ error: "User not found" });
+    }
+
+    await sendAdminTgLog(
+        `🍩Someone donated ${amount} TON \n\nUsername: @${users.data[0].username}\nTransaction ID: ${transaction.data[0].id}`,
+    );
     return Response.json(transaction);
 }

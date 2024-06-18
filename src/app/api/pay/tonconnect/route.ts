@@ -1,6 +1,7 @@
 import { TRANSACTION_STATUS } from "@/enums";
 import { sendMessagesToUser, sendPhotoToUser } from "@/services/grammy";
 import { supabase } from "@/services/supabase";
+import { sendAdminTgLog } from "@/services/tg-logger";
 import axios from "axios";
 
 import { l } from "@/lib/locale";
@@ -40,6 +41,18 @@ export async function POST(req: Request) {
             merchant: "TONCONNECT",
         })
         .eq("id", order.data[0].transaction_id);
+
+    const users = await supabase
+        .from("users")
+        .select("*")
+        .eq("telegram_id", order.data[0].telegram_id);
+
+    if (users.error || !users.data.length) {
+        return Response.json({ error: "User not found" });
+    }
+    await sendAdminTgLog(
+        `🎯${order.data[0].type} order №${order.data[0].id} is purchased! \n\nUsername: @${users.data[0].username} \nCoverage: ${order.data[0].coverage} \n\nTransaction ID: ${order.data[0].transaction_id}\nAmount: ${order.data[0].price.total_ton} TON\nMerchant: Tonconnect\n`,
+    );
 
     if (order.data[0].type == "ESIM") {
         const response = await axios
