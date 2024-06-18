@@ -6,7 +6,7 @@ export const fetchCache = "force-no-store";
 
 export async function GET() {
     let response = await fetch(
-        process.env.NEXT_PUBLIC_WEB_APP_URL + "api/admin/newsletter/send",
+        process.env.NEXT_PUBLIC_WEB_APP_URL + "/api/admin/newsletter/send",
         {
             cache: "no-store",
         },
