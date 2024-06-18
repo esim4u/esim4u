@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 
@@ -26,6 +26,18 @@ const SandboxPage = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
 
     const [percent, setPercent] = React.useState(50);
+    
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
+    }, [webApp]);
 
     return (
         <div className="flex w-full flex-col gap-4 p-20">
