@@ -21,7 +21,11 @@ type Props = {};
 
 const PlaceLabel = ({ index }: { index: number }) => {
     if (index === 0) {
-        return <PiMedalFill className=" size-6 text-yellow-500" />;
+        // return <PiMedalFill className=" size-6 text-yellow-500" />;
+        // return <PiMedalFill className=" size-6 text-orange-500" />;
+        return (
+            <PiMedalFill className=" size-6 text-clip text-orange-700/90 drop-shadow-[0_3px_3px_rgba(255,255,255,0.5)] " />
+        );
     } else if (index === 1) {
         return <PiMedalFill className=" size-5 text-gray-500" />;
     } else if (index === 2) {
@@ -79,22 +83,36 @@ const LeaderBoard = (props: Props) => {
                     return (
                         <div
                             key={leader.telegram_id}
-                            className="flex w-full flex-col gap-2"
+                            className={cn("flex w-full flex-col")}
                         >
-                            <div className="flex items-center gap-2">
+                            <div
+                                className={cn(
+                                    "flex items-center gap-2",
+                                    index == 0 && "z-30 rotate-[0.75deg]",
+                                    index == 1 &&
+                                        "z-20 -mt-1 -rotate-[0.75deg]",
+                                    index == 2 && "z-10 -mt-1 rotate-[0.75deg]",
+                                    // index == 0 && "z-30 rotate-[0.75deg]",
+                                    // index == 1 &&
+                                    //     "z-20 -mt-1 -rotate-[0.75deg]",
+                                    // index == 2 && "z-10 -mt-1 rotate-[0.75deg]",
+                                )}
+                            >
                                 <div
                                     key={leader.telegram_id}
                                     className={cn(
-                                        "grid h-10 w-full grid-cols-7 rounded-lg bg-white ",
+                                        "grid h-10 w-full grid-cols-7 rounded-lg bg-white shadow-lg",
                                         tgUser?.id == leader.telegram_id &&
                                             " ring-2 ring-purple-500",
+                                        index == 0 &&
+                                            " bg-gradient-to-r from-[#FFE142] to-[#FD9B2E] font-semibold text-orange-700/90 ring-2 ring-[#FFE142]",
                                     )}
                                 >
                                     <div className="col-span-1 flex items-center justify-center">
                                         <PlaceLabel index={index} />
                                     </div>
                                     <div className="col-span-5 flex items-center gap-2">
-                                        <Avatar className="h-6 w-6">
+                                        <Avatar className="h-6 w-6 drop-shadow-[0_3px_3px_rgba(255,255,255,0.5)] ">
                                             <AvatarImage
                                                 src={
                                                     (tgUser?.id ==
@@ -116,7 +134,13 @@ const LeaderBoard = (props: Props) => {
                                         </p>
                                     </div>
                                     <div className="col-span-1 flex items-center justify-center">
-                                        <span className="  flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white">
+                                        <span
+                                            className={cn(
+                                                "  flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white",
+                                                index == 0 &&
+                                                    " bg-gradient-to-r from-[#FFE142] to-[#FD9B2E] font-semibold text-orange-700/90 ring-1 ring-[#FFE142]/75 ",
+                                            )}
+                                        >
                                             {leader.referrals_count || 0}
                                         </span>
                                     </div>
@@ -125,8 +149,10 @@ const LeaderBoard = (props: Props) => {
                                     <Button
                                         className={cn(
                                             "aspect-square min-w-10 bg-white  text-purple-600",
+                                            index == 0 &&
+                                                " bg-gradient-to-r from-[#FFE142] to-[#FD9B2E] font-semibold text-orange-700/90 ring-2 ring-[#FFE142]",
                                             isOpen &&
-                                                " bg-gradient-to-tr from-indigo-500 to-purple-500 text-white",
+                                                " bg-gradient-to-tr from-indigo-500 to-purple-500 text-white ring-0",
                                         )}
                                         onClick={() => {
                                             hapticFeedback();
@@ -142,7 +168,9 @@ const LeaderBoard = (props: Props) => {
 
                             {tgUser?.id == leader.telegram_id && (
                                 <Collapse className="" isOpen={isOpen}>
-                                    <Referrals hideTitle />
+                                    <div className="mt-2">
+                                        <Referrals hideTitle />
+                                    </div>
                                 </Collapse>
                             )}
                         </div>

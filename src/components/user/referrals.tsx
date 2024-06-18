@@ -13,9 +13,10 @@ import PremiumIcon from "../icons/premium-icon";
 
 interface Props {
     hideTitle?: boolean;
+    className?: string;
 }
 
-const Referrals = ({ hideTitle }: Props) => {
+const Referrals = ({ hideTitle, className }: Props) => {
     const { user: tgUser, webApp } = useTelegram();
 
     const { data: referrals, isLoading } = useQuery({
@@ -28,7 +29,7 @@ const Referrals = ({ hideTitle }: Props) => {
 
     if (referrals?.length === 0) {
         return (
-            <div className=" w-full">
+            <div className={cn(" w-full", className)}>
                 <div className="relative flex h-[180px] w-full flex-col items-center justify-center gap-2 rounded-3xl bg-white">
                     {!hideTitle && (
                         <div
