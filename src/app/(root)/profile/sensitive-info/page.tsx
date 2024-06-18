@@ -1,10 +1,13 @@
 "use client";
 
+import { hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/providers/telegram-provider";
-import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export default function Home() {
     const { webApp } = useTelegram();
+    const router = useRouter();
     const [items, setItems] = useState([]);
     const [localStorageData, setLocalStorageData] = useState([]);
 
@@ -12,6 +15,18 @@ export default function Home() {
         if (webApp) {
             webApp?.BackButton.show();
         }
+    }, [webApp]);
+
+    useEffect(() => {
+        webApp?.onEvent("backButtonClicked", goBack);
+        return () => {
+            webApp?.offEvent("backButtonClicked", goBack);
+        };
+    }, [webApp]);
+
+    const goBack = useCallback(() => {
+        hapticFeedback("heavy");
+        router.back();
     }, [webApp]);
 
     useEffect(() => {
