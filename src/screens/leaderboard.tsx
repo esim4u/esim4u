@@ -199,7 +199,7 @@ const LeaderBoardUser = ({
                     </div>
                 </div>
                 {(tgUser?.id == leader.telegram_id ||
-                    dbUserData.badge.toLowerCase() == "admin") && (
+                    dbUserData?.badge.toLowerCase() == "admin") && (
                     <Button
                         className={cn(
                             "aspect-square min-w-10 bg-white  text-purple-600 shadow-lg",
