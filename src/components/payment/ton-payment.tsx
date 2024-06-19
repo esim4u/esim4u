@@ -89,7 +89,7 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
 
     const transaction = useMemo(() => {
         if (orderData && orderData?.price?.total && rateTonUsd) {
-            return createTransaction(currentPriceInTon);
+            return createTransaction(currentPriceInTon, `t.me/esim4u_bot - Experience seamless connectivity`);
         }
         return null;
     }, [orderData, rateTonUsd]);

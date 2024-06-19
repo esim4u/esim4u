@@ -97,7 +97,7 @@ const Donation = (props: Props) => {
 
     const transaction = useMemo(() => {
         if (+donationAmount >= 1) {
-            return createTransaction(+donationAmount);
+            return createTransaction(+donationAmount, `t.me/esim4u_bot - Experience seamless connectivity`);
         }
         return null;
     }, [donationAmount]);
