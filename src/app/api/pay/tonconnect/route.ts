@@ -50,6 +50,9 @@ export async function POST(req: Request) {
     if (users.error || !users.data.length) {
         return Response.json({ error: "User not found" });
     }
+
+    const user_lang = users.data[0].language_code;
+
     await sendAdminTgLog(
         `🎯${order.data[0].type} order №${order.data[0].id} is purchased! \n\nUsername: @${users.data[0].username} \nCoverage: ${order.data[0].coverage} \n\nTransaction ID: ${order.data[0].transaction_id}\nAmount: ${order.data[0].price.total_ton} TON\nMerchant: Tonconnect\n`,
     );
@@ -113,10 +116,12 @@ export async function POST(req: Request) {
                 l("bot_instruction_qr"),
             );
 
-            const message = `${l("bot_instruction_1")}: \`${esim.data[0].sm_dp}\` \n\n${l(
+            const message = `${l("bot_instruction_1", user_lang)}: \`${esim.data[0].sm_dp}\` \n\n${l(
                 "bot_instruction_2",
+                user_lang,
             )}: \`${esim.data[0].confirmation_code}\` \n\n ${l(
                 "bot_instruction_3",
+                user_lang,
             )}`;
             await sendMessagesToUser(
                 esim.data[0].telegram_id,
