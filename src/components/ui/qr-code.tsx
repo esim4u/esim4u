@@ -8,6 +8,9 @@ import { cn, copyText, hapticFeedback } from "@/lib/utils";
 
 const Qr = dynamic(() => import("./qr"), {
     ssr: false,
+    loading: () => (
+        <div className="h-64 w-64 animate-pulse rounded-xl bg-white/25"></div>
+    ),
 });
 
 type Props = {
