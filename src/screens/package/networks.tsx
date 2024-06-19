@@ -32,6 +32,7 @@ const Networks = ({ params }: { params: { package_id: string } }) => {
     });
 
     const filteredNetworks = useMemo(() => {
+        if (!networks) return [];
         const updatedNetworks = networks.map((country: any) => {
             return {
                 ...country,
