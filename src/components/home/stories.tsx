@@ -112,6 +112,12 @@ const Stories = ({ className }: Props) => {
                                         );
                                     }
 
+                                    await updateUserActivity({
+                                        telegram_id: tgUser.id,
+                                        newsletter_id: null,
+                                        story_id: story.id,
+                                    })
+
                                     webApp?.openLink(story.telegraph_url, {
                                         try_instant_view: true,
                                     });
