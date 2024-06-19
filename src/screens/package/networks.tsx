@@ -117,7 +117,7 @@ const Networks = ({ params }: { params: { package_id: string } }) => {
                             </h2>
                         </div>
 
-                        <div className="flex w-1/2 justify-end gap-1">
+                        <div className="flex w-1/2 overflow-hidden justify-end gap-1 flex-wrap content-end">
                             {network.networks.map((n: any, index: number) => (
                                 <div
                                     key={index}

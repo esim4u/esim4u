@@ -28,9 +28,13 @@ const PlaceLabel = ({ index }: { index: number }) => {
             <PiMedalFill className=" size-6 text-clip text-[#ff9721] drop-shadow-[0_3px_3px_rgba(255,255,255,0.25)] " />
         );
     } else if (index === 1) {
-        return <PiMedalFill className=" size-5 text-gray-500 drop-shadow-[0_3px_3px_rgba(255,255,255,0.25)]" />;
+        return (
+            <PiMedalFill className=" size-5 text-gray-500 drop-shadow-[0_3px_3px_rgba(255,255,255,0.25)]" />
+        );
     } else if (index === 2) {
-        return <PiMedalFill className=" size-5 text-amber-700 drop-shadow-[0_3px_3px_rgba(255,255,255,0.25)]" />;
+        return (
+            <PiMedalFill className=" size-5 text-amber-700 drop-shadow-[0_3px_3px_rgba(255,255,255,0.25)]" />
+        );
     } else {
         return (
             <span className=" font-semibold text-neutral-500">
@@ -115,11 +119,11 @@ const LeaderBoard = (props: Props) => {
                                         tgUser?.id == leader.telegram_id &&
                                             " ring-2 ring-purple-500",
                                         index == 0 &&
-                                            " bg-gradient-to-r from-[#FFE142] via-[#fff7cd]  via-40% to-[#FD9B2E] font-semibold text-orange-700/90 ring-2 ring-[#FFE142]",
+                                            " bg-gradient-to-r from-[#FFE142] via-[#fff7cd]  via-40% to-[#FD9B2E] font-semibold text-orange-700/90 ring-1 ring-[#FFE142]",
                                         index == 1 &&
-                                            " bg-gradient-to-r from-zinc-200 via-white  via-60% to-zinc-500 font-semibold text-zinc-500 ring-2 ring-zinc-300/50",
+                                            " bg-gradient-to-r from-zinc-400/90 via-white  via-60% to-zinc-500 font-semibold text-zinc-500 ring-1 ring-zinc-300/50",
                                         index == 2 &&
-                                            " bg-gradient-to-r from-amber-500 via-white via-40%  to-amber-700 font-semibold text-amber-700 ring-2 ring-amber-400/50",
+                                            " bg-gradient-to-r from-amber-500/70 via-amber-100 via-40%  to-amber-700 font-semibold text-amber-700 ring-1 ring-amber-400/50",
                                     )}
                                 >
                                     <div className="col-span-1 flex items-center justify-center">
@@ -156,7 +160,8 @@ const LeaderBoard = (props: Props) => {
                                                 }}
                                                 className=" line-clamp-1 w-32 overflow-hidden text-ellipsis"
                                             >
-                                                @{leader.username || "user"}
+                                                {leader?.first_name ||
+                                                    "Esim4U Fren"}
                                             </p>
                                         ) : (
                                             <p className=" line-clamp-1 w-32 overflow-hidden text-ellipsis">
@@ -174,7 +179,7 @@ const LeaderBoard = (props: Props) => {
                                                 index == 1 &&
                                                     " bg-gradient-to-r from-zinc-200 via-white via-60% to-zinc-500 font-semibold text-zinc-500 ring-1 ring-zinc-300",
                                                 index == 2 &&
-                                                    " bg-gradient-to-r from-amber-500 via-white via-40%  to-amber-700 font-semibold text-amber-700 ring-1 ring-amber-400/50",
+                                                    " bg-gradient-to-r from-amber-500 via-amber-100 via-40%  to-amber-700 font-semibold text-amber-700 ring-1 ring-amber-400/50",
                                             )}
                                         >
                                             {leader.referrals_count || 0}
@@ -184,7 +189,7 @@ const LeaderBoard = (props: Props) => {
                                 {tgUser?.id == leader.telegram_id && (
                                     <Button
                                         className={cn(
-                                            "aspect-square min-w-10 bg-white  text-purple-600",
+                                            "aspect-square min-w-10 bg-white  text-purple-600 shadow-lg",
                                             index == 0 &&
                                                 " bg-gradient-to-r from-[#FFE142] via-[#fff7cd] via-40% to-[#FD9B2E] font-semibold text-orange-700/90 ring-2 ring-[#FFE142]",
                                             index == 1 &&
