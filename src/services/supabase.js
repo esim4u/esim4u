@@ -453,7 +453,8 @@ export const disconnectUserWallet = async (telegram_id) => {
 // LEADERBOARD
 
 export const getLeaderboard = async () => {
-    const orders = await supabase.rpc("get_leaderboard");
+    const orders = await supabase.rpc("get_leaderboard_v2");
+    console.log(orders);
     return orders.data;
 };
 

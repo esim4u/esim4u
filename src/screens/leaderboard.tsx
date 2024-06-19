@@ -16,6 +16,7 @@ import useReferralLink from "@/hooks/useRefLink";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
+import ReferralList from "@/components/shared/referral-list";
 import Referrals from "@/components/user/referrals";
 
 type Props = {};
@@ -49,8 +50,6 @@ const LeaderBoard = (props: Props) => {
     const { user: tgUser, webApp } = useTelegram();
     const router = useRouter();
     useReferralLink(webApp, tgUser);
-
-    const [isOpen, setIsOpen] = useState(false);
 
     const { data: leaders, isLoading } = useQuery({
         queryKey: ["leaderboard"],
@@ -99,130 +98,149 @@ const LeaderBoard = (props: Props) => {
             <div className="flex w-full flex-col items-center gap-2">
                 {leaders?.map((leader: any, index: number) => {
                     return (
-                        <div
+                        <LeaderBoardUser
                             key={leader.telegram_id}
-                            className={cn("flex w-full flex-col")}
-                        >
-                            <div
-                                className={cn(
-                                    "flex items-center gap-2",
-                                    index == 0 && "z-30 -rotate-[0.75deg]",
-                                    index == 1 && "z-20 -mt-1 rotate-[0.75deg]",
-                                    index == 2 &&
-                                        "z-10 -mt-1 -rotate-[0.75deg]",
-                                )}
-                            >
-                                <div
-                                    key={leader.telegram_id}
-                                    className={cn(
-                                        "grid h-11 w-full grid-cols-7 rounded-lg bg-white shadow-lg",
-                                        tgUser?.id == leader.telegram_id &&
-                                            " ring-2 ring-purple-500",
-                                        index == 0 &&
-                                            " bg-gradient-to-r from-[#FFE142] via-[#fff7cd]  via-40% to-[#FD9B2E] font-semibold text-orange-700/90 ring-1 ring-[#FFE142]",
-                                        index == 1 &&
-                                            " bg-gradient-to-r from-zinc-400/90 via-white  via-60% to-zinc-500 font-semibold text-zinc-500 ring-1 ring-zinc-300/50",
-                                        index == 2 &&
-                                            " bg-gradient-to-r from-amber-500/70 via-amber-100 via-40%  to-amber-700 font-semibold text-amber-700 ring-1 ring-amber-400/50",
-                                    )}
-                                >
-                                    <div className="col-span-1 flex items-center justify-center">
-                                        <PlaceLabel index={index} />
-                                    </div>
-                                    <div className="col-span-5 flex items-center gap-2">
-                                        <Avatar className="h-6 w-6 drop-shadow-[0_3px_3px_rgba(255,255,255,0.25)] ">
-                                            <AvatarImage
-                                                src={
-                                                    (tgUser?.id ==
-                                                        leader.telegram_id &&
-                                                        dbUserData?.photo_url) ||
-                                                    leader?.photo_url ||
-                                                    `https://api.dicebear.com/8.x/bottts-neutral/svg?seed=${leader.telegram_id}` ||
-                                                    "/img/default-user.png"
-                                                }
-                                                alt="@shadcn"
-                                            />
-                                            <AvatarFallback className=" bg-neutral-500 text-white">
-                                                <span>
-                                                    {leader?.first_name[0]}
-                                                </span>
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        {dbUserData?.badge.toLowerCase() ==
-                                        "admin" ? (
-                                            <p
-                                                onClick={() => {
-                                                    hapticFeedback();
-                                                    webApp?.openTelegramLink(
-                                                        "https://t.me/" +
-                                                            leader.username,
-                                                    );
-                                                }}
-                                                className=" line-clamp-1 w-32 overflow-hidden text-ellipsis"
-                                            >
-                                                {leader?.first_name ||
-                                                    "Esim4U Fren"}
-                                            </p>
-                                        ) : (
-                                            <p className=" line-clamp-1 w-32 overflow-hidden text-ellipsis">
-                                                {leader?.first_name ||
-                                                    "Esim4U Fren"}
-                                            </p>
-                                        )}
-                                    </div>
-                                    <div className="col-span-1 flex items-center justify-center ">
-                                        <span
-                                            className={cn(
-                                                " mr-2 flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white",
-                                                index == 0 &&
-                                                    " bg-gradient-to-r from-[#FFE142] via-[#fff7cd] via-40%  to-[#FD9B2E] font-semibold text-orange-700/90 ring-1 ring-[#FFE142]/75 ",
-                                                index == 1 &&
-                                                    " bg-gradient-to-r from-zinc-200 via-white via-60% to-zinc-500 font-semibold text-zinc-500 ring-1 ring-zinc-300",
-                                                index == 2 &&
-                                                    " bg-gradient-to-r from-amber-500 via-amber-100 via-40%  to-amber-700 font-semibold text-amber-700 ring-1 ring-amber-400/50",
-                                            )}
-                                        >
-                                            {leader.referrals_count || 0}
-                                        </span>
-                                    </div>
-                                </div>
-                                {tgUser?.id == leader.telegram_id && (
-                                    <Button
-                                        className={cn(
-                                            "aspect-square min-w-10 bg-white  text-purple-600 shadow-lg",
-                                            index == 0 &&
-                                                " bg-gradient-to-r from-[#FFE142] via-[#fff7cd] via-40% to-[#FD9B2E] font-semibold text-orange-700/90 ring-2 ring-[#FFE142]",
-                                            index == 1 &&
-                                                " bg-gradient-to-r from-zinc-200 via-white via-60% to-zinc-500 font-semibold text-zinc-500 ring-2 ring-zinc-300",
-                                            index == 2 &&
-                                                " bg-gradient-to-r from-amber-500 via-white via-40%  to-amber-700 font-semibold text-amber-700 ring-2 ring-amber-400/50",
-                                            isOpen &&
-                                                " bg-gradient-to-tr from-indigo-500 via-purple-500 via-100% to-purple-500 text-white ring-0",
-                                        )}
-                                        onClick={() => {
-                                            hapticFeedback();
-                                            setIsOpen(!isOpen);
-                                        }}
-                                        variant={"unstyled"}
-                                        size={"icon"}
-                                    >
-                                        <FaUserFriends className=" size-5" />
-                                    </Button>
-                                )}
-                            </div>
-
-                            {tgUser?.id == leader.telegram_id && (
-                                <Collapse className="" isOpen={isOpen}>
-                                    <div className="mt-2">
-                                        <Referrals hideTitle />
-                                    </div>
-                                </Collapse>
-                            )}
-                        </div>
+                            leader={leader}
+                            index={index}
+                            dbUserData={dbUserData}
+                        />
                     );
                 })}
             </div>
         </main>
+    );
+};
+const LeaderBoardUser = ({
+    leader,
+    index,
+    dbUserData,
+}: {
+    leader: any;
+    index: number;
+    dbUserData: any;
+}) => {
+    const { user: tgUser, webApp } = useTelegram();
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <div className={cn("flex w-full flex-col")}>
+            <div
+                className={cn(
+                    "flex items-center gap-2",
+                    index == 0 && "z-30 -rotate-[0.75deg]",
+                    index == 1 && "z-20 -mt-1 rotate-[0.75deg]",
+                    index == 2 && "z-10 -mt-1 -rotate-[0.75deg]",
+                )}
+            >
+                <div
+                    key={leader.telegram_id}
+                    className={cn(
+                        "grid h-11 w-full grid-cols-7 rounded-lg bg-white shadow-lg",
+                        tgUser?.id == leader.telegram_id &&
+                            " ring-2 ring-purple-500",
+                        index == 0 &&
+                            " bg-gradient-to-r from-[#FFE142] via-[#fff7cd]  via-40% to-[#FD9B2E] font-semibold text-orange-700/90 ring-1 ring-[#FFE142]",
+                        index == 1 &&
+                            " bg-gradient-to-r from-zinc-400/90 via-white  via-60% to-zinc-500 font-semibold text-zinc-500 ring-1 ring-zinc-300/50",
+                        index == 2 &&
+                            " bg-gradient-to-r from-amber-500/70 via-amber-100 via-40%  to-amber-700 font-semibold text-amber-700 ring-1 ring-amber-400/50",
+                    )}
+                >
+                    <div className="col-span-1 flex items-center justify-center">
+                        <PlaceLabel index={index} />
+                    </div>
+                    <div className="col-span-5 flex items-center gap-2">
+                        <Avatar className="h-6 w-6 drop-shadow-[0_3px_3px_rgba(255,255,255,0.25)] ">
+                            <AvatarImage
+                                src={
+                                    (tgUser?.id == leader.telegram_id &&
+                                        dbUserData?.photo_url) ||
+                                    leader?.photo_url ||
+                                    `https://api.dicebear.com/8.x/bottts-neutral/svg?seed=${leader.telegram_id}` ||
+                                    "/img/default-user.png"
+                                }
+                                alt="@shadcn"
+                            />
+                            <AvatarFallback className=" bg-neutral-500 text-white">
+                                <span>{leader?.first_name[0]}</span>
+                            </AvatarFallback>
+                        </Avatar>
+                        {dbUserData?.badge.toLowerCase() == "admin" ? (
+                            <p
+                                onClick={() => {
+                                    hapticFeedback();
+                                    webApp?.openTelegramLink(
+                                        "https://t.me/" + leader.username,
+                                    );
+                                }}
+                                className=" line-clamp-1 w-32 overflow-hidden text-ellipsis"
+                            >
+                                {leader?.first_name || "Esim4U Fren"}
+                            </p>
+                        ) : (
+                            <p className=" line-clamp-1 w-32 overflow-hidden text-ellipsis">
+                                {leader?.first_name || "Esim4U Fren"}
+                            </p>
+                        )}
+                    </div>
+                    <div className="col-span-1 flex items-center justify-center ">
+                        <span
+                            className={cn(
+                                " mr-2 flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white",
+                                index == 0 &&
+                                    " bg-gradient-to-r from-[#FFE142] via-[#fff7cd] via-40%  to-[#FD9B2E] font-semibold text-orange-700/90 ring-1 ring-[#FFE142]/75 ",
+                                index == 1 &&
+                                    " bg-gradient-to-r from-zinc-200 via-white via-60% to-zinc-500 font-semibold text-zinc-500 ring-1 ring-zinc-300",
+                                index == 2 &&
+                                    " bg-gradient-to-r from-amber-500 via-amber-100 via-40%  to-amber-700 font-semibold text-amber-700 ring-1 ring-amber-400/50",
+                            )}
+                        >
+                            {leader.referrals_count || 0}
+                        </span>
+                    </div>
+                </div>
+                {(tgUser?.id == leader.telegram_id ||
+                    dbUserData.badge.toLowerCase() == "admin") && (
+                    <Button
+                        className={cn(
+                            "aspect-square min-w-10 bg-white  text-purple-600 shadow-lg",
+                            index == 0 &&
+                                " bg-gradient-to-r from-[#FFE142] via-[#fff7cd] via-40% to-[#FD9B2E] font-semibold text-orange-700/90 ring-2 ring-[#FFE142]",
+                            index == 1 &&
+                                " bg-gradient-to-r from-zinc-200 via-white via-60% to-zinc-500 font-semibold text-zinc-500 ring-2 ring-zinc-300",
+                            index == 2 &&
+                                " bg-gradient-to-r from-amber-500 via-white via-40%  to-amber-700 font-semibold text-amber-700 ring-2 ring-amber-400/50",
+                            isOpen &&
+                                " bg-gradient-to-tr from-indigo-500 via-purple-500 via-100% to-purple-500 text-white ring-0",
+                        )}
+                        onClick={() => {
+                            hapticFeedback();
+                            setIsOpen(!isOpen);
+                        }}
+                        variant={"unstyled"}
+                        size={"icon"}
+                    >
+                        <FaUserFriends className=" size-5" />
+                    </Button>
+                )}
+            </div>
+            <ReferralCollapse isOpen={isOpen} referrals={leader.referrals} />
+        </div>
+    );
+};
+
+const ReferralCollapse = ({
+    referrals,
+    isOpen,
+}: {
+    referrals: any[];
+    isOpen: boolean;
+}) => {
+    return (
+        <Collapse className="" isOpen={isOpen}>
+            <div className="mt-2">
+                <ReferralList referrals={referrals} />
+            </div>
+        </Collapse>
     );
 };
 
