@@ -4,6 +4,7 @@ import { Suspense, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
+import { sendGAEvent } from "@next/third-parties/google";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { FaDonate } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
@@ -59,6 +60,8 @@ export default function Profile() {
         if (webApp) {
             hapticFeedback();
             // copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
+            sendGAEvent({ event: "share", value: "main-share-button-clicked" });
+
             webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
     }, [webApp]);

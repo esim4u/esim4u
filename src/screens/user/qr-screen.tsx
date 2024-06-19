@@ -7,6 +7,7 @@ import { getReferralLink, hapticFeedback, shareRef } from "@/lib/utils";
 
 import QrCode from "@/components/ui/qr-code";
 import { useRouter } from "next/navigation";
+import { sendGAEvent } from "@next/third-parties/google";
 
 type Props = {};
 
@@ -20,6 +21,8 @@ const QrScreen = (props: Props) => {
             // copyReferralLinkToClipBoard(
             //     webApp?.initDataUnsafe?.user?.id.toString()
             // );
+            sendGAEvent({ event: "share", value: "main-share-button-clicked" });
+
             webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
     }, [webApp]);

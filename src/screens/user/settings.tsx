@@ -31,6 +31,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import TCButton from "@/components/ui/tc-button";
+import { sendGAEvent } from "@next/third-parties/google";
 
 export default function Settings() {
     const router = useRouter();
@@ -63,6 +64,8 @@ export default function Settings() {
             // copyReferralLinkToClipBoard(
             //     webApp?.initDataUnsafe?.user?.id.toString()
             // );
+            sendGAEvent({ event: "share", value: "main-share-button-clicked" });
+
             webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
     }, [webApp]);

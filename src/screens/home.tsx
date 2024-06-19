@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { COUNTRIES } from "@/constants";
 import { useTelegram } from "@/providers/telegram-provider";
+import { sendGAEvent } from "@next/third-parties/google";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Fuse from "fuse.js";
@@ -50,7 +51,6 @@ export default function Home() {
         }
     }, [webApp]);
 
-    
     useEffect(() => {
         webApp?.onEvent("backButtonClicked", goBack);
         return () => {
@@ -63,12 +63,12 @@ export default function Home() {
         router.back();
     }, [webApp]);
 
-
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback("success");
 
             webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
+            sendGAEvent({ event: "share", value: "main-share-button-clicked" });
 
             // copyReferralLinkToClipBoard(
             //     webApp?.initDataUnsafe?.user?.id.toString()
