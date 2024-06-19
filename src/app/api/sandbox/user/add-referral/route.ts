@@ -1,4 +1,3 @@
-import { sendMessagesToUser, sendPhotoToUser } from "@/services/grammy";
 import { addReferrerToUser } from "@/services/supabase";
 
 export async function POST(req: Request) {

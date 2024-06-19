@@ -1,5 +1,4 @@
-import { sendMessagesToUser, sendPhotoToUser } from "@/services/grammy";
-import { addReferrerToUser, incrementStoryTotalViews } from "@/services/supabase";
+import { incrementStoryTotalViews } from "@/services/supabase";
 
 export async function POST(req: Request) {
     const { story_id } = await req.json();

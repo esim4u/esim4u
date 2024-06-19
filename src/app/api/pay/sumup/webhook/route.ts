@@ -115,13 +115,14 @@ export async function POST(req: Request) {
                 l("bot_instruction_qr"),
             );
 
+            const message = `${l("bot_instruction_1")}: \`${esim.data[0].sm_dp}\` \n\n${l(
+                "bot_instruction_2",
+            )}: \`${esim.data[0].confirmation_code}\` \n\n ${l(
+                "bot_instruction_3",
+            )}`;
             await sendMessagesToUser(
                 esim.data[0].telegram_id,
-                `${l("bot_instruction_1")}: \`${esim.data[0].sm_dp}\` \n\n${l(
-                    "bot_instruction_2",
-                )}: \`${esim.data[0].confirmation_code}\` \n\n ${l(
-                    "bot_instruction_3",
-                )}`,
+                message,
                 esim.data[0].iccid,
             );
         } catch (e) {

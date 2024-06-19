@@ -11,11 +11,9 @@ const bot = new Bot(token);
 const webAppUrl = process.env.NEXT_PUBLIC_WEB_APP_URL;
 if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 
-const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
-const checkEsimButton = new InlineKeyboard().webApp(
-    "Check your esim state at your profile",
-    webAppUrl + "/profile",
-);
+const buyEsimButton = (lang: string = "en") => {
+    return new InlineKeyboard().webApp(l("bot_btn_open", lang), webAppUrl);
+};
 
 export const getPhotoUrlFromFileId = async (fileId: string) => {
     try {
@@ -38,7 +36,11 @@ export const sendPhotoToUser = async (
     });
 };
 
-export const sendMessagesToUser = async (chatId: number, message: string, iccid?: string) => {
+export const sendMessagesToUser = async (
+    chatId: number,
+    message: string,
+    iccid?: string,
+) => {
     const checkEsimButton = new InlineKeyboard().webApp(
         "Check your esim state at your profile",
         webAppUrl + "/profile?iccid=" + iccid,
@@ -55,15 +57,17 @@ export const sendMessageToMultipleUsers = async ({
     chatIds,
     message,
     image_url,
-    match_query
+    match_query,
 }: {
     chatIds: number[];
     message: string;
     image_url?: string;
     match_query?: string;
 }) => {
-    // const inlineButton = new InlineKeyboard().url(l("bot_btn_open"), `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${match_query}`);
-    const buyEsimButtonWithParam = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl + `?${match_query}`);
+    const buyEsimButtonWithParam = new InlineKeyboard().webApp(
+        l("bot_btn_open"),
+        webAppUrl + `?${match_query}`,
+    );
 
     for (const chatId of chatIds) {
         if (image_url) {
@@ -80,14 +84,10 @@ export const sendMessageToMultipleUsers = async ({
 };
 
 export const sendWelcomeMessageToUser = async (chatId: number) => {
-    await bot.api.sendMessage(
-        chatId,
-        "Hello! This is Esim4U bot. With this bot you can easily buy esim plans all across the world!",
-        {
-            disable_notification: true,
-            reply_markup: buyEsimButton,
-        },
-    );
+    await bot.api.sendMessage(chatId, l("bot_welcome_text"), {
+        disable_notification: true,
+        reply_markup: buyEsimButton(),
+    });
 
     await updateUserPhoto(chatId);
 };
