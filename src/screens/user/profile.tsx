@@ -100,7 +100,7 @@ export default function Profile() {
                     className="absolute right-0 h-12 w-12 cursor-pointer py-1 text-neutral-400"
                 />
                 <div className="flex flex-col items-center gap-2">
-                    <Avatar className="h-32 w-32">
+                    <Avatar className="h-32 w-32  ring-[3px] ring-neutral-400/30 ring-offset-2">
                         <AvatarImage
                             src={
                                 tgUser?.photo_url ||
