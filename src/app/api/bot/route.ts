@@ -22,7 +22,10 @@ const bot = new Bot(token);
 const webAppUrl = process.env.NEXT_PUBLIC_WEB_APP_URL;
 if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 
-const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
+const buyEsimButton = (lang:string) =>{
+    return new InlineKeyboard().webApp(l("bot_btn_open", lang), webAppUrl);
+}
+// const buyEsimButton = new InlineKeyboard().webApp(l("bot_btn_open"), webAppUrl);
 // const loginEsimButton = new InlineKeyboard().login("Login", webAppUrl)
 
 /////////////////////
@@ -85,7 +88,7 @@ bot.command("start", async (ctx) => {
     await addUserPhoto(ctx);
     await ctx.react("👍");
     await ctx.reply(l("bot_welcome_text"), {
-        reply_markup: buyEsimButton,
+        reply_markup: buyEsimButton(ctx.from?.language_code || "en"),
     });
 });
 
@@ -94,7 +97,7 @@ bot.command("esim", async (ctx) => {
     await ctx.reply(
         "You can buy esims from all across the world with this bot! Just click the button below to buy an esim plan!",
         {
-            reply_markup: buyEsimButton,
+            reply_markup: buyEsimButton(ctx.from?.language_code || "en"),
         }
     );
 });

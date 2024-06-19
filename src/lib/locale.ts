@@ -58,14 +58,14 @@ export function setLanguage(language: string, router: any) {
     }
 }
 
-export function l(key: string): string {
+export function l(key: string, initial_language:string = "en"): string {
     let value = "undefined";
     let language: string;
 
     if (typeof window !== "undefined") {
-        language = window.localStorage.getItem("language") || "en";
+        language = window.localStorage.getItem("language") || initial_language;
     } else {
-        language = "en";
+        language = initial_language;
     }
     if (!translations[language]) {
         language = "en";
