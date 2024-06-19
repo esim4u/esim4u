@@ -55,11 +55,7 @@ const Referrals = ({ hideTitle, className }: Props) => {
                                     className="object-cover"
                                 />
                             </div>
-                            {/* <RefLinkButton className="shadow-lg" /> */}
                         </div>
-                        {/* <h2 className="text-center font-medium text-3xl text-neutral-300">
-                            NO FRENS YET
-                        </h2> */}
                     </div>
                 </div>
             </div>
