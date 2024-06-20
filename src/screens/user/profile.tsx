@@ -6,16 +6,13 @@ import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
 import { sendGAEvent } from "@next/third-parties/google";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { track } from "@vercel/analytics/react";
 import { FaDonate } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
 
 import { l } from "@/lib/locale";
-import {
-    copyReferralLinkToClipBoard,
-    hapticFeedback,
-    shareRef,
-} from "@/lib/utils";
+import { hapticFeedback, shareRef } from "@/lib/utils";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -61,6 +58,7 @@ export default function Profile() {
             hapticFeedback();
             // copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
             sendGAEvent({ event: "share", value: "main-share-button-clicked" });
+            track("main-share-button-clicked");
 
             webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }

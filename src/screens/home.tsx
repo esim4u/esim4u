@@ -23,6 +23,7 @@ import Stories from "@/components/home/stories";
 import Achievements from "@/components/shared/achievements";
 import PopularCountries from "@/components/shared/popular-countries";
 import SubscribeBanner from "@/components/shared/subscribe-banner";
+import { track } from "@vercel/analytics/react";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
@@ -70,7 +71,8 @@ export default function Home() {
 
             webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
             sendGAEvent({ event: "share", value: "main-share-button-clicked" });
-
+            track("subscription_banner-clicked")
+            track("main-share-button-clicked")
             // copyReferralLinkToClipBoard(
             //     webApp?.initDataUnsafe?.user?.id.toString()
             // );

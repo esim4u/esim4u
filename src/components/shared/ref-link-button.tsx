@@ -5,6 +5,7 @@ import { useTelegram } from "@/providers/telegram-provider";
 
 import { l } from "@/lib/locale";
 import { cn, copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
+import { track } from "@vercel/analytics/react";
 
 type Props = {
     className?: string;
@@ -18,6 +19,7 @@ const RefLinkButton = ({ className }: Props) => {
             onClick={() => {
                 hapticFeedback("success");
                 copyReferralLinkToClipBoard(tgUser?.id);
+                track("copy-ref-link-button-clicked")
             }}
             className={cn(
                 "flex h-10 min-w-32 cursor-pointer items-center gap-1 rounded-full bg-white p-2 pr-3 transition-transform active:scale-95",

@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { LANGUAGES } from "@/constants";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
+import { sendGAEvent } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
+import { track } from "@vercel/analytics/react";
 import { FaDonate } from "react-icons/fa";
 
 import {
@@ -31,7 +33,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import TCButton from "@/components/ui/tc-button";
-import { sendGAEvent } from "@next/third-parties/google";
 
 export default function Settings() {
     const router = useRouter();
@@ -65,6 +66,7 @@ export default function Settings() {
             //     webApp?.initDataUnsafe?.user?.id.toString()
             // );
             sendGAEvent({ event: "share", value: "main-share-button-clicked" });
+            track("main-share-button-clicked");
 
             webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
         }
