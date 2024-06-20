@@ -24,6 +24,7 @@ import Achievements from "@/components/shared/achievements";
 import PopularCountries from "@/components/shared/popular-countries";
 import SubscribeBanner from "@/components/shared/subscribe-banner";
 import { track } from "@vercel/analytics/react";
+import SupportProjectButton from "@/components/shared/support-project-button";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
@@ -224,16 +225,7 @@ export default function Home() {
                 <div className="flex flex-col gap-4 pb-4">
                     <PopularCountries />
                     <Achievements fullWidth />
-                    <Button
-                        onClick={() => {
-                            hapticFeedback();
-                            router.push("/donation");
-                        }}
-                        size={"lg"}
-                        className="w-full gap-1 rounded-xl  text-base"
-                    >
-                        Donate <FaDonate className="h-[14px] w-[14px]" />
-                    </Button>
+                    <SupportProjectButton/>
                 </div>
             </Collapse>
         </main>

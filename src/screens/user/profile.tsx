@@ -21,6 +21,8 @@ import UserEsims from "@/components/esims/user-esims";
 // import RefLinkButton from "@/components/shared/ref-link-button";
 import Achievements from "@/components/shared/achievements";
 import RefLinkButton from "@/components/shared/ref-link-button";
+import SupportProject from "@/components/shared/support-project-button";
+import SupportProjectButton from "@/components/shared/support-project-button";
 
 export default function Profile() {
     const router = useRouter();
@@ -126,16 +128,7 @@ export default function Profile() {
                 </Suspense>
 
                 {/* <Referrals /> */}
-                <Button
-                    onClick={() => {
-                        hapticFeedback();
-                        router.push("/donation");
-                    }}
-                    size={"lg"}
-                    className="w-full gap-1 rounded-xl  text-base"
-                >
-                    Donate <FaDonate className="h-[14px] w-[14px]" />
-                </Button>
+                <SupportProjectButton />
             </div>
         </main>
     );

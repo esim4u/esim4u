@@ -8,7 +8,6 @@ import { getUserById } from "@/services/supabase";
 import { sendGAEvent } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
 import { track } from "@vercel/analytics/react";
-import { FaDonate } from "react-icons/fa";
 
 import {
     getPreferredCurrencyCode,
@@ -33,6 +32,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import TCButton from "@/components/ui/tc-button";
+import SupportProject from "@/components/shared/support-project-button";
+import SupportProjectButton from "@/components/shared/support-project-button";
 
 export default function Settings() {
     const router = useRouter();
@@ -62,9 +63,6 @@ export default function Settings() {
     const copyReferralLink = useCallback(() => {
         if (webApp) {
             hapticFeedback("success");
-            // copyReferralLinkToClipBoard(
-            //     webApp?.initDataUnsafe?.user?.id.toString()
-            // );
             sendGAEvent({ event: "share", value: "main-share-button-clicked" });
             track("main-share-button-clicked");
 
@@ -209,16 +207,7 @@ export default function Settings() {
                     </Button>
                 </div>
                 <TCButton />
-                <Button
-                    onClick={() => {
-                        hapticFeedback();
-                        router.push("/donation");
-                    }}
-                    size={"lg"}
-                    className="w-full gap-1 rounded-xl text-base"
-                >
-                    Donate <FaDonate className="h-[14px] w-[14px]" />
-                </Button>
+                <SupportProjectButton />
             </div>
         </main>
     );
