@@ -22,6 +22,7 @@ import PackagesList from "@/components/home/packages-list";
 import Stories from "@/components/home/stories";
 import Achievements from "@/components/shared/achievements";
 import PopularCountries from "@/components/shared/popular-countries";
+import SubscribeBanner from "@/components/shared/subscribe-banner";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
@@ -186,6 +187,8 @@ export default function Home() {
                     </div>
 
                     <Stories className="mr-4 pl-4" />
+                    <SubscribeBanner className={"mx-5"} />
+
                 </div>
             </Collapse>
 

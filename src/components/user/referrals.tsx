@@ -6,10 +6,8 @@ import { getUserReferrals } from "@/services/supabase";
 import { useQuery } from "@tanstack/react-query";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
-import { TonIcon } from "../icons";
-import PremiumIcon from "../icons/premium-icon";
 import ReferralList from "../shared/referral-list";
 
 interface Props {
