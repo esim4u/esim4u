@@ -187,7 +187,7 @@ export default function Home() {
                     </div>
 
                     <Stories className="mr-4 pl-4" />
-                    <SubscribeBanner className={"mx-5"} />
+                    <SubscribeBanner className={"mx-4"} />
 
                 </div>
             </Collapse>

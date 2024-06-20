@@ -31,8 +31,26 @@ div:has(> button[data-tc-dropdown-button="true"]) {
     width: 100%;
 }
 
+@keyframes animated-background-anim {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+    
+    50% {
+        background-position: 100% 50%;
+    }
+}
 
 @layer utilities {
+    .animated-background {
+        background-size: 400%;
+    
+        -webkit-animation: animated-background-anim 3s ease infinite;
+        -moz-animation: animated-background-anim 3s ease infinite;
+        animation: animated-background-anim 3s ease infinite;
+    }
+
     .no-scrollbar::-webkit-scrollbar {
         display: none;
     }
