@@ -15,6 +15,13 @@ const buyEsimButton = (lang: string = "en") => {
     return new InlineKeyboard().webApp(l("bot_btn_open", lang), webAppUrl);
 };
 
+const subscribeToChannelButton = (lang: string = "en") => {
+    return new InlineKeyboard().url(
+        "Subscribe to our channels",
+        "https://t.me/esim4u",
+    );
+};
+
 export const getPhotoUrlFromFileId = async (fileId: string) => {
     try {
         const file = await bot.api.getFile(fileId);
@@ -84,10 +91,23 @@ export const sendMessageToMultipleUsers = async ({
 };
 
 export const sendWelcomeMessageToUser = async (chatId: number) => {
-    await bot.api.sendMessage(chatId, l("bot_welcome_text"), {
-        disable_notification: true,
-        reply_markup: buyEsimButton(),
-    });
+    const subscribeAwardImage = new InputFile(
+        new URL(process.env.NEXT_PUBLIC_WEB_APP_URL +"/img/subscribe-award.png"),
+    );
+
+    if (subscribeAwardImage) {
+        await bot.api.sendPhoto(chatId, subscribeAwardImage, {
+            caption:
+                "🌟 Support Our App and Enjoy Rewards! 🌟\nClick to subscribe to our channel and get 3 months of Telegram Premium for FREE! 🎁✨",
+            disable_notification: true,
+            reply_markup: subscribeToChannelButton(),
+        });
+    } else {
+        await bot.api.sendMessage(chatId, l("bot_welcome_text"), {
+            disable_notification: true,
+            reply_markup: buyEsimButton(),
+        });
+    }
 
     await updateUserPhoto(chatId);
 };
