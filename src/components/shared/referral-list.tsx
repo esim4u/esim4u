@@ -22,14 +22,14 @@ const ReferralList = ({ referrals }: Props) => {
                     }}
                     className="flex h-10 cursor-pointer items-center justify-between rounded-lg bg-white p-4 transition-transform active:scale-95"
                 >
-                    <span className="font-medium text-blue-500">
+                    <span className="font-medium text-blue-500 truncate max-w-28">
                         @{referral.username}
                     </span>
                     <div className=" grid w-40 grid-cols-5 gap-1 ">
                         <div className=" col-span-2 -mr-4 flex items-center justify-center">
                             <span className="  flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white">
-                                {/* {!!referral.orders[0].count &&
-                                    referral.orders[0].count} */}
+                                {!!referral.orders &&
+                                    referral.orders[0].count}
                             </span>
                         </div>
                         <div className="col-span-2  flex items-center justify-center">

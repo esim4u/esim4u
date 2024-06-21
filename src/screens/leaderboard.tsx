@@ -1,9 +1,13 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
-import { getLeaderboard, getUserById } from "@/services/supabase";
+import {
+    getLeaderboard,
+    getUserById,
+    getUserReferrals,
+} from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { FaUserFriends } from "react-icons/fa";
 import { GrTrophy } from "react-icons/gr";
@@ -223,22 +227,38 @@ const LeaderBoardUser = ({
                     </Button>
                 )}
             </div>
-            <ReferralCollapse isOpen={isOpen} referrals={leader.referrals} />
+            <ReferralCollapse
+                isOpen={isOpen}
+                telegram_id={leader.telegram_id}
+                referrals={leader.referrals}
+            />
         </div>
     );
 };
 
 const ReferralCollapse = ({
-    referrals,
+    telegram_id,
     isOpen,
+    referrals
 }: {
-    referrals: any[];
+    telegram_id: string;
     isOpen: boolean;
+    referrals: any[];
 }) => {
+    const { data: userReferrals } = useQuery({
+        queryKey: ["referrals", telegram_id],
+        queryFn: async () => {
+            const data = await getUserReferrals(telegram_id);
+            return data;
+        },
+        placeholderData: referrals,
+        enabled: isOpen,
+    });
+
     return (
         <Collapse className="" isOpen={isOpen}>
             <div className="mt-2">
-                <ReferralList referrals={referrals} />
+                <ReferralList referrals={userReferrals} />
             </div>
         </Collapse>
     );
