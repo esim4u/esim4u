@@ -65,26 +65,39 @@ export const sendMessageToMultipleUsers = async ({
     message,
     image_url,
     match_query,
+    custom_button_url,
+    custom_button_title,
 }: {
     chatIds: number[];
     message: string;
     image_url?: string;
     match_query?: string;
+
+    custom_button_url?: string;
+    custom_button_title?: string;
 }) => {
-    const buyEsimButtonWithParam = new InlineKeyboard().webApp(
-        l("bot_btn_open"),
-        webAppUrl + `?${match_query}`,
-    );
+    let buttonToSend;
+    if (custom_button_url) {
+        buttonToSend = new InlineKeyboard().url(
+            custom_button_title || l("bot_btn_open"),
+            custom_button_url,
+        );
+    } else {
+        buttonToSend = new InlineKeyboard().webApp(
+            l("bot_btn_open"),
+            webAppUrl + `?${match_query}`,
+        );
+    }
 
     for (const chatId of chatIds) {
         if (image_url) {
             await bot.api.sendPhoto(chatId, new InputFile(new URL(image_url)), {
                 caption: message,
-                reply_markup: buyEsimButtonWithParam,
+                reply_markup: buttonToSend,
             });
         } else {
             await bot.api.sendMessage(chatId, message, {
-                reply_markup: buyEsimButtonWithParam,
+                reply_markup: buttonToSend,
             });
         }
     }
@@ -92,7 +105,9 @@ export const sendMessageToMultipleUsers = async ({
 
 export const sendWelcomeMessageToUser = async (chatId: number) => {
     const subscribeAwardImage = new InputFile(
-        new URL(process.env.NEXT_PUBLIC_WEB_APP_URL +"/img/subscribe-award.png"),
+        new URL(
+            process.env.NEXT_PUBLIC_WEB_APP_URL + "/img/subscribe-award.png",
+        ),
     );
 
     if (subscribeAwardImage) {

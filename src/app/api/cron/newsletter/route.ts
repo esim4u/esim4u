@@ -11,12 +11,6 @@ export async function GET() {
             cache: "no-store",
         },
     );
-    let resp = await fetch(
-        process.env.NEXT_PUBLIC_WEB_APP_URL + "/api/admin/newsletter/subscribe-to-channel",
-        {
-            cache: "no-store",
-        }
-    );
 
     if (!response.ok) {
         return Response.json(

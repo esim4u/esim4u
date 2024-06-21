@@ -27,3 +27,9 @@ export enum STORY_STATUS {
     ENABLED = "ENABLED",
     DISABLED = "DISABLED",
 }
+
+export enum NEWSLETTER_STATUS {
+    DRAFT = "DRAFT",
+    TO_SEND = "TO_SEND",
+    DELIVERED = "DELIVERED",
+}  

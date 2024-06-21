@@ -1,3 +1,4 @@
+import { NEWSLETTER_STATUS } from "@/enums";
 import { sendMessageToMultipleUsers } from "@/services/grammy";
 import { supabase } from "@/services/supabase";
 
@@ -11,7 +12,7 @@ export async function GET() {
     const newsletters = await supabase
         .from("newsletter")
         .select("*")
-        .in("status", ["ACTIVE"]);
+        .in("status", [NEWSLETTER_STATUS.TO_SEND]);
 
     if (newsletters.error) {
         console.log("An cron error occurred while fetching newsletters");
@@ -35,11 +36,12 @@ export async function GET() {
     }
 
     newsletters.data.forEach(async (newsletter) => {
-        const triggered_at = [...newsletter.triggered_at, new Date()];
+        const triggered_at = [new Date(), ...newsletter.triggered_at];
         await supabase
-            .from("newsletters")
+            .from("newsletter")
             .update({
                 triggered_at,
+                status: NEWSLETTER_STATUS.DELIVERED,
             })
             .eq("id", newsletter.id);
     });
@@ -52,6 +54,8 @@ export async function GET() {
         message: newsletters.data[0].message,
         image_url: newsletters.data[0].image_url,
         match_query: "newsletter=" + newsletters.data[0].id,
+        custom_button_url: newsletters.data[0].button_url,
+        custom_button_title: newsletters.data[0].button_title,
     });
 
     return Response.json({ status: 200 });
