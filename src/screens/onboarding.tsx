@@ -14,7 +14,7 @@ import {
 import ReactCountryFlag from "react-country-flag";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn, hapticFeedback, showConfirmationToast } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -213,52 +213,15 @@ export default function OnBoarding() {
                         <Button
                             onClick={() => {
                                 hapticFeedback("warning");
-                                toast({
-                                    duration: 10000, // 10 seconds
+                                showConfirmationToast({
                                     title: "Are you sure?",
-                                    description: (
-                                        <div className="-mt-1 flex">
-                                            <span className=" text-xs leading-[14px]">
-                                                If you connect wallet you can
-                                                get bonuses for your referrals
-                                            </span>
-                                        </div>
-                                    ),
-                                    action: (
-                                        <div className=" flex w-1/2 items-center gap-2  ">
-                                            <Button
-                                                asChild
-                                                onClick={() => {
-                                                    hapticFeedback("success");
-                                                    finishOnboaringForUser.mutate(
-                                                        tgUser,
-                                                    );
-                                                    router.push("/esims");
-                                                }}
-                                                variant={"ghost"}
-                                                className=" w-1/3 rounded-xl border-none px-0 text-base underline underline-offset-4 hover:bg-white/60"
-                                            >
-                                                <ToastAction altText="yes">
-                                                    Yes
-                                                </ToastAction>
-                                            </Button>
-
-                                            <Button
-                                                onClick={() => {
-                                                    hapticFeedback();
-                                                }}
-                                                variant={"secondary"}
-                                                className=" w-2/3 rounded-xl text-base "
-                                                asChild
-                                            >
-                                                <ToastAction altText="undo">
-                                                    No
-                                                </ToastAction>
-                                            </Button>
-                                        </div>
-                                    ),
-                                    variant: "esim4u",
-                                    hideClose: true,
+                                    description:
+                                        "If you connect wallet you can get bonuses for your referrals",
+                                    onNo: () => {},
+                                    onYes: () => {
+                                        finishOnboaringForUser.mutate(tgUser);
+                                        router.push("/esims");
+                                    },
                                 });
                             }}
                             size={"bean"}

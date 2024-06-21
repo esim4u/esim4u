@@ -4,13 +4,65 @@ import { MdOutlineContentCopy } from "react-icons/md";
 import { PiCopyBold } from "react-icons/pi";
 import { twMerge } from "tailwind-merge";
 
-import { ButtonProps } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
+import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/components/ui/use-toast";
 
 import { l } from "./locale";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
+}
+
+export function showConfirmationToast({
+    title = "Are you sure?",
+    description = "",
+    onYes,
+    onNo,
+}: {
+    title?: string;
+    description?: string;
+    onYes: any;
+    onNo: any;
+}) {
+    toast({
+        duration: 10000, // 10 seconds
+        title: title,
+        description: (
+            <div className="-mt-1 flex">
+                <span className="text-xs leading-[14px]">{description}</span>
+            </div>
+        ),
+        action: (
+            <div className="flex w-1/2 items-center gap-2">
+                <Button
+                    asChild
+                    onClick={() => {
+                        hapticFeedback("success");
+                        onYes();
+                    }}
+                    variant={"ghost"}
+                    className="w-1/3 rounded-xl border-none px-0 text-base underline underline-offset-4 hover:bg-white/60"
+                >
+                    <ToastAction altText="yes">Yes</ToastAction>
+                </Button>
+
+                <Button
+                    onClick={() => {
+                        hapticFeedback();
+                        onNo();
+                    }}
+                    variant={"secondary"}
+                    className="w-2/3 rounded-xl text-base"
+                    asChild
+                >
+                    <ToastAction altText="undo">No</ToastAction>
+                </Button>
+            </div>
+        ),
+        variant: "esim4u",
+        hideClose: true,
+    });
 }
 
 export const hapticFeedback = (type = "medium") => {
@@ -61,7 +113,7 @@ export function copyText(text: string | number, e?: any) {
             variant: "esim4u",
             description: (
                 <span className="flex flex-row items-center gap-2 font-semibold">
-                    <PiCopyBold className="w-[18px] h-[18px]" />
+                    <PiCopyBold className="h-[18px] w-[18px]" />
                     <p>{l("toast_copied")}</p>
                 </span>
             ),
@@ -74,16 +126,23 @@ export function copyText(text: string | number, e?: any) {
     }
 }
 
-export function tonPaymentErrorToast(){
+export function tonPaymentErrorToast() {
     toast({
         variant: "destructive",
         title: "Error: Please try again",
     });
 }
-export function donationErrorToast(){
+export function donationErrorToast() {
     toast({
         variant: "destructive",
         title: "Minimum donation amount is 1 TON",
+    });
+}
+
+export function successToast() {
+    toast({
+        variant: "success",
+        title: "Success",
     });
 }
 
@@ -98,7 +157,7 @@ export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
             variant: "esim4u",
             description: (
                 <span className="flex flex-row items-center gap-2 font-semibold">
-                    <PiCopyBold className="w-[18px] h-[18px]" />
+                    <PiCopyBold className="h-[18px] w-[18px]" />
                     <p>{l("toast_referral_copied")}</p>
                 </span>
             ),

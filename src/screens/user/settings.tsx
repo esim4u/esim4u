@@ -190,7 +190,7 @@ export default function Settings() {
                             hapticFeedback();
                             router.push("/onboarding");
                         }}
-                        className="w-full rounded-full"
+                        className="w-full rounded-full truncate"
                     >
                         {l("btn_onboarding")}
                     </Button>
@@ -201,7 +201,7 @@ export default function Settings() {
                                 "https://t.me/esim4u_support_bot/chat",
                             );
                         }}
-                        className="w-full rounded-full"
+                        className="w-full rounded-full truncate"
                     >
                         {l("btn_support")}
                     </Button>
