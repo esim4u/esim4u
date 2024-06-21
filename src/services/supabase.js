@@ -337,11 +337,12 @@ export const getUsersEsimHistory = async (telegram_id) => {
 // STORIES
 
 export const getStories = async (lang) => {
+    const language = ["EN", lang.toUpperCase()];
     const { data, error } = await supabase
         .from("stories")
         .select("*")
         .eq("status", STORY_STATUS.ENABLED)
-        .eq("language", "EN")
+        .in("language", language)
         .order("created_at", { ascending: false });
 
     return data;

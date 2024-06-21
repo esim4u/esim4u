@@ -1,29 +1,18 @@
 "use client";
 
-import React, { Suspense, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 import axios from "axios";
 
-import { l, resetLanguage } from "@/lib/locale";
 import {
-    cn,
     hapticFeedback,
     showConfirmationToast,
     successToast,
 } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-} from "@/components/ui/carousel";
-import CircleProgressBar from "@/components/ui/circle-progress";
 import Loader from "@/components/ui/loader";
-import { Skeleton } from "@/components/ui/skeleton";
-import UserEsims from "@/components/esims/user-esims";
-import RefLinkButton from "@/components/shared/ref-link-button";
 
 type Props = {};
 

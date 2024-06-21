@@ -2,16 +2,15 @@ import t from "@/assets/data/translations.json";
 import { Translations } from "@/types";
 
 const translations: Translations = t as Translations;
+const covertMap: { [key: string]: string } = {
+    uk: "ua",
+    en: "us",
+    kk: "kz",
+};
 
 export function getSupportedLanguages() {
     let languages = Object.keys(translations);
 
-    // convert ISO 639-1 language codes to classic country codes
-    const covertMap: { [key: string]: string } = {
-        uk: "ua",
-        en: "us",
-        kk: "kz",
-    };
     const convertedLanguages = languages
         .map((lang) => {
             return {
@@ -24,6 +23,11 @@ export function getSupportedLanguages() {
         });
 
     return convertedLanguages;
+}
+
+export function getCountryFromLanguage(language: string) {
+    language = language.toLowerCase();
+    return language in covertMap ? covertMap[language] : language;
 }
 
 export function getPreferredLanguage() {
@@ -58,7 +62,7 @@ export function setLanguage(language: string, router: any) {
     }
 }
 
-export function l(key: string, initial_language:string = "en"): string {
+export function l(key: string, initial_language: string = "en"): string {
     let value = "undefined";
     let language: string;
 

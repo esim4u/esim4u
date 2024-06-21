@@ -10,7 +10,9 @@ import {
     updateUserActivity,
 } from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import ReactCountryFlag from "react-country-flag";
 
+import { getCountryFromLanguage, getPreferredLanguage } from "@/lib/locale";
 import { cn, hapticFeedback } from "@/lib/utils";
 
 import {
@@ -32,11 +34,31 @@ const Stories = ({ className }: Props) => {
     const { data: stories, isLoading } = useQuery({
         queryKey: ["stories"],
         queryFn: async () => {
-            const data = await getStories();
+            const data = await getStories(getPreferredLanguage());
             return data;
         },
         placeholderData: keepPreviousData,
     });
+
+    const filteredStories = useMemo(() => {
+        if (!stories) return [];
+
+        let checked = stories.filter((story) =>
+            checkedStories.includes(story.id.toString().trim()),
+        );
+        checked = checked.sort((a, b) => {
+            return a.language === "EN" ? 1 : -1;
+        });
+
+        let unchecked = stories.filter(
+            (story) => !checkedStories.includes(story.id.toString().trim()),
+        );
+        unchecked = unchecked.sort((a, b) => {
+            return a.language === "EN" ? 1 : -1;
+        });
+
+        return [...unchecked, ...checked];
+    }, [stories, checkedStories]);
 
     useEffect(() => {
         if (webApp) {
@@ -95,7 +117,7 @@ const Stories = ({ className }: Props) => {
         <div>
             <Carousel className="w-full">
                 <CarouselContent className={cn("-ml-1", className)}>
-                    {stories?.map((story, index) => {
+                    {filteredStories?.map((story, index) => {
                         return (
                             <CarouselItem
                                 key={index}
@@ -150,32 +172,44 @@ const Stories = ({ className }: Props) => {
                                                 : "bg-neutral-400/15",
                                         )}
                                     >
-                                        <div
-                                            className={cn(
-                                                "relative  flex aspect-square items-end justify-center overflow-hidden rounded-full ring-2 ring-[#EFEFF3] ",
-                                            )}
-                                        >
-                                            <div className="relative h-full w-full">
-                                                <Image
-                                                    width={216}
-                                                    height={216}
-                                                    className=" h-full w-full object-cover"
-                                                    placeholder="blur"
-                                                    blurDataURL={
-                                                        story?.photo_url
-                                                    }
-                                                    quality={25}
-                                                    src={story?.photo_url}
-                                                    alt="news"
-                                                />
-                                                <div className="absolute bottom-0 h-2/3 w-full bg-gradient-to-t from-black/55">
-                                                    {" "}
+                                        <div className="relative h-fit w-fit">
+                                            <div
+                                                className={cn(
+                                                    "relative  flex aspect-square items-end justify-center overflow-hidden rounded-full ring-2 ring-[#EFEFF3] ",
+                                                )}
+                                            >
+                                                <div className="relative h-full w-full">
+                                                    <Image
+                                                        width={216}
+                                                        height={216}
+                                                        className=" h-full w-full object-cover"
+                                                        placeholder="blur"
+                                                        blurDataURL={
+                                                            story?.photo_url
+                                                        }
+                                                        quality={25}
+                                                        src={story?.photo_url}
+                                                        alt="news"
+                                                    />
+                                                    <div className="absolute bottom-0 h-2/3 w-full bg-gradient-to-t from-black/55">
+                                                        {" "}
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <span className="absolute pb-2 text-center text-[10px] font-medium uppercase leading-3 text-white shadow-black text-shadow ">
-                                                {story?.title}
-                                            </span>
+                                                <span className="absolute pb-2 text-center text-[10px] font-medium uppercase leading-3 text-white shadow-black text-shadow ">
+                                                    {story?.title}
+                                                </span>
+                                            </div>
+                                            {story?.language &&
+                                                story?.language != "EN" && (
+                                                    <ReactCountryFlag
+                                                        countryCode={getCountryFromLanguage(
+                                                            story?.language,
+                                                        )}
+                                                        svg
+                                                        className="absolute bottom-[3px] right-[3px] rounded-full object-cover"
+                                                    />
+                                                )}
                                         </div>
                                     </div>
                                 </div>
