@@ -46,11 +46,24 @@ export async function GET() {
             .eq("id", newsletter.id);
     });
 
-    // const users = await supabase.from("users").select("id");
-    const users = [473700512, 258793];
+    const users = await supabase.from("users").select("id");
+
+    if (users.error) {
+        console.log("An cron error occurred while fetching users");
+
+        return Response.json(
+            {
+                message: "An error occurred while fetching users",
+                description: users.error.message,
+            },
+            { status: 500 },
+        );
+    }
+    const userIds = users.data.map((user) => user.id);
+    // const userIds = [473700512, 258793];
 
     await sendMessageToMultipleUsers({
-        chatIds: users,
+        chatIds: userIds,
         message: newsletters.data[0].message,
         image_url: newsletters.data[0].image_url,
         match_query: "newsletter=" + newsletters.data[0].id,
