@@ -83,7 +83,7 @@ export function tonPaymentErrorToast(){
 export function donationErrorToast(){
     toast({
         variant: "destructive",
-        title: "Minimum donation amount is 0.5 TON",
+        title: "Minimum donation amount is 1 TON",
     });
 }
 

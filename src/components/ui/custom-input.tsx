@@ -17,6 +17,7 @@ type CustomInputProps = {
     onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
     icon?: any;
+    onClear?: () => void;
 };
 
 const CustomInput = ({
@@ -31,6 +32,7 @@ const CustomInput = ({
     onFocus,
     onBlur,
     icon,
+    onClear,
 }: CustomInputProps) => {
     const Icon = icon;
 
@@ -67,7 +69,11 @@ const CustomInput = ({
                 <IoCloseOutline
                     onClick={() => {
                         hapticFeedback();
-                        setValue("");
+                        if (onClear) {
+                            onClear();
+                        } else {
+                            setValue("");
+                        }
                         if (setIsFocused) {
                             setIsFocused(false);
                         }

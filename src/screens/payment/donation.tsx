@@ -151,6 +151,7 @@ const Donation = (props: Props) => {
                     }}
                     placeholder="Enter amount"
                     isError={isDonationError}
+                    onClear={() => setDonationAmount(1)}
                 />
             </div>
 
