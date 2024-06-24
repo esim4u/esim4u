@@ -109,6 +109,39 @@ export async function POST(req: Request) {
             return Response.json(esim.error);
         }
 
+        const usage = await axios
+            .get(
+                process.env.AIRALO_API_URL + `/v2/sims/${esim.data[0].iccid}/usage`,
+                {
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+                    },
+                }
+            )
+            .then((res) => res.data)
+            .catch((e) => e.response);
+
+        if (usage && usage?.data?.status) {
+            const updatedOrder = await supabase
+                .from("orders")
+                .update({
+                    state: usage?.data?.status,
+                    usage: {
+                        remaining: usage.data?.remaining,
+                        total: usage.data?.total,
+                    },
+                    expired_at: usage.data?.expired_at,
+                })
+                .eq("id", esim.data[0].id)
+                .select()
+
+            if(updatedOrder.error){
+                return;
+            }
+            return Response.json(updatedOrder, { status: 200 })
+        }
+
         try {
             await sendPhotoToUser(
                 esim.data[0].telegram_id,
@@ -132,11 +165,6 @@ export async function POST(req: Request) {
             console.error(e);
             return Response.json(e);
         }
-
-        const resp = await axios
-            .get(`/api/esims/sync/` + response.data.sims[0].iccid)
-            .then((res) => res.data)
-            .catch((e) => e.response);
 
         return Response.json(esim);
     } else if (order.data[0].type == "TOPUP") {
@@ -169,11 +197,6 @@ export async function POST(req: Request) {
             })
             .eq("id", order.data[0].id)
             .select();
-
-        const resp = await axios
-            .get(`/api/esims/sync/` + order.data[0].iccid)
-            .then((res) => res.data)
-            .catch((e) => e.response);
 
         return Response.json(topup);
     }
