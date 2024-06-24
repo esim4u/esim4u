@@ -56,6 +56,18 @@ const SandboxPage = (props: Props) => {
             >
                 Send newsletters
             </Button>
+            <Button
+                onClick={() => {
+                    hapticFeedback()
+                    router.push(
+                        "/esims/pay/success" + ("1805" ? `?order_id=1805` : ""),
+                    );
+                }}
+                variant={"destructive"}
+                className="w-full rounded-full"
+            >
+                Redirect to pending
+            </Button>
         </div>
     );
 };
