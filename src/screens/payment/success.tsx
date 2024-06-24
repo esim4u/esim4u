@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import confettiAnim from "@/assets/anim/confetti.json";
@@ -34,19 +34,43 @@ export default function Success() {
         enabled: !!order_id,
     });
 
+    const copyReferralLink = useCallback(() => {
+        if (webApp) {
+            hapticFeedback("success");
+            router.push("/profile?is_payment=true");
+        }
+    }, [webApp, tgUser]);
+
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.hide();
+            webApp?.onEvent("mainButtonClicked", copyReferralLink);
 
             setTimeout(() => {
                 setIsPageLoading(false);
-            }, 3000);
+            }, 4000);
 
             setTimeout(() => {
                 router.push("/profile?is_payment=true");
-            }, 12000);
+            }, 16000);
+            return () => {
+                webApp?.offEvent("mainButtonClicked", copyReferralLink);
+            };
         }
     }, [webApp]);
+
+    useEffect(() => {
+        if (webApp) {
+            if (!isLoading && !isPageLoading) {
+                webApp?.MainButton.setParams({
+                    text: "Go to my eSims",
+                    color: "#3b82f6",
+                    is_active: true,
+                    is_visible: true,
+                });
+            }
+        }
+    }, [isLoading, isPageLoading, webApp]);
 
     if (isLoading || isPageLoading)
         return (
@@ -58,19 +82,21 @@ export default function Success() {
         );
 
     return (
-        <main className="flex h-dvh flex-col items-center justify-center overflow-x-hidden ">
-            <div className="z-0 flex flex-col items-center gap-24">
+        <main className="flex h-dvh flex-col items-center justify-between overflow-x-hidden ">
+            <div className="z-0 h-full flex flex-col items-center justify-center gap-28">
                 <div className="flex flex-col items-center justify-center gap-4">
-                    <div className="text-center">
+                    <div className="flex flex-col  gap-1 text-center">
                         <h2 className="text-5xl font-bold ">Thank u Fren</h2>
-                        <h2 className="font-medium">
-                            Your eSim is waiting for you!
-                        </h2>
+                        <p className="font-medium">
+                            Your {orderData?.coverage} eSim is waiting for you{" "}
+                            <br />
+                            Enjoy your trip!
+                        </p>
                     </div>
                     <div className=" w-32">
                         <div className=" animate-appear drop-shadow-lg">
                             <Image
-                                className="esim-mask"
+                                className="esim-mask bg-neutral-300"
                                 src={orderData?.image_url || ""}
                                 width={128}
                                 height={128}
@@ -79,9 +105,10 @@ export default function Success() {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col items-center justify-center gap-4">
-                    <SubscribeBanner className={"mx-4"} />
-                    <div
+            </div>
+            <div className="z-20 h-fit my-4 flex flex-col items-center justify-center gap-4">
+                <SubscribeBanner className={"mx-4"} />
+                {/* <div
                         onClick={() => {
                             hapticFeedback("success");
                             router.push("/profile?is_payment=true");
@@ -89,15 +116,16 @@ export default function Success() {
                         className="text-2xl font-medium text-blue-500 underline underline-offset-4"
                     >
                         Go to my eSims
-                    </div>
-                </div>
+                    </div> */}
             </div>
-            <Lottie
-                lottieRef={lottieRef}
-                className="absolute -z-10 w-dvw max-w-96"
-                animationData={confettiAnim}
-                loop={false}
-            />
+            <div className="absolute z-10 max-h-dvh w-dvw max-w-96 overflow-hidden">
+                <Lottie
+                    lottieRef={lottieRef}
+                    animationData={confettiAnim}
+                    loop={false}
+                    className="-mt-12"
+                />
+            </div>
         </main>
     );
 }

@@ -158,12 +158,12 @@ const Stories = ({ className }: Props) => {
                                         story_id: story.id,
                                     });
                                 }}
-                                className="basis-24  cursor-pointer pl-1 transition-transform active:scale-95"
+                                className="flex h-full basis-24 cursor-pointer  pl-1 transition-transform active:scale-95"
                             >
-                                <div className="p-1">
+                                <div className="h-full p-1">
                                     <div
                                         className={cn(
-                                            "rounded-full p-1 transition-all",
+                                            "flex h-full rounded-full p-1 transition-all",
                                             checkedStories.length > 0 &&
                                                 !checkedStories.includes(
                                                     story.id.toString().trim(),
@@ -172,13 +172,13 @@ const Stories = ({ className }: Props) => {
                                                 : "bg-neutral-400/15",
                                         )}
                                     >
-                                        <div className="relative h-fit w-fit">
+                                        <div className="relative flex h-[76px] w-fit">
                                             <div
                                                 className={cn(
-                                                    "relative  flex aspect-square items-end justify-center overflow-hidden rounded-full ring-2 ring-[#EFEFF3] ",
+                                                    "relative flex aspect-square h-full items-end justify-center overflow-hidden rounded-full ring-2 ring-[#EFEFF3] ",
                                                 )}
                                             >
-                                                <div className="relative h-full w-full">
+                                                <div className="relative flex h-full w-full">
                                                     <Image
                                                         width={216}
                                                         height={216}
@@ -207,7 +207,7 @@ const Stories = ({ className }: Props) => {
                                                             story?.language,
                                                         )}
                                                         svg
-                                                        className="absolute bottom-[3px] right-[3px] rounded-full object-cover"
+                                                        className="absolute bottom-[3px] right-[3px] h-full rounded-full object-cover"
                                                     />
                                                 )}
                                         </div>
