@@ -30,7 +30,7 @@ export async function GET() {
         );
     }
 
-    await sendAdminTgLog(
+    sendAdminTgLog(
         `${users.data.length} new users signed up in the last 24 hours`,
     );
 
