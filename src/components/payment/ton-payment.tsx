@@ -47,7 +47,7 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
         onSuccess: (data) => {
             if (data.boc) {
                 pay.mutate(data.boc);
-                sendTgLog(JSON.stringify(data));
+                sendTgLog("Ton connect: " + JSON.stringify(data));
             }
         },
         onError: (error) => {

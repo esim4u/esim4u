@@ -8,13 +8,11 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Fuse from "fuse.js";
-import { FaDonate } from "react-icons/fa";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 
 import { getPreferredLanguage, l } from "@/lib/locale";
 import { hapticFeedback, loseFocus, shareRef } from "@/lib/utils";
 
-import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import CustomInput from "@/components/ui/custom-input";
 import Header from "@/components/home/header";

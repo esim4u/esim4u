@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 
 import Loader from "@/components/ui/loader";
@@ -9,13 +9,18 @@ import Loader from "@/components/ui/loader";
 export default function Pending() {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
+    const searchParams = useSearchParams();
+    const order_id = searchParams.get("order_id");
 
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.hide();
 
             setTimeout(() => {
-                router.push("/esims/pay/success");
+                router.push(
+                    "/esims/pay/success" +
+                        (order_id ? `?order_id=${order_id}` : ""),
+                );
             }, 3000);
         }
     }, [webApp]);

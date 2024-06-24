@@ -89,7 +89,7 @@ const config = {
                 appear: {
                     from: {
                         scale: "0.01",
-                        transform: "rotate(-135deg)",
+                        // transform: "rotate(-135deg)",
                         opacity: "0",
                     },
                     to: {
@@ -120,7 +120,7 @@ const config = {
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
-                appear: "appear 1s ease-in-out",
+                appear: "appear 0.5s ease-in-out",
                 "logo-cloud": "logo-cloud 30s linear infinite",
                 "logo-cloud-reverse": "logo-cloud 30s linear infinite reverse",
                 "wiggle": "wiggle 0.5s"

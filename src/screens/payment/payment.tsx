@@ -150,7 +150,7 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
                 showFooter: false,
                 onResponse: async function (type: any, body: any) {
                     if (type == "success" && body && body.status == "PAID") {
-                        router.push("/esims/pay/pending");
+                        router.push("/esims/pay/success?order_id=" + orderData.id);
                     } else if (body && body.status == "FAILED") {
                         toast({
                             variant: "destructive",

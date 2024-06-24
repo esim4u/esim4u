@@ -44,13 +44,16 @@ const PackagesList = ({ packages, search }: Props) => {
                         className="flex w-full cursor-pointer items-center justify-between rounded-xl bg-white p-2 transition-transform active:scale-95"
                     >
                         <div className="flex flex-row items-center gap-4">
-                            <Image
-                                width={32}
-                                height={24}
-                                src={country.image.url}
-                                alt={country.title}
-                                className="h-6 w-8 rounded-md"
-                            />
+                            <div className="drop-shadow-[0_0px_2px_rgba(0,0,0,0.25)]">
+                                <Image
+                                    width={32}
+                                    height={24}
+                                    src={country.image.url}
+                                    alt={country.title}
+                                    className="esim-mask h-6 w-8"
+                                />
+                            </div>
+
                             <span className=" font-semibold">
                                 {highlightMatches(
                                     search,
