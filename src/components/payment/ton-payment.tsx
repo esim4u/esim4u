@@ -72,7 +72,7 @@ const TonPayment = ({ orderData }: { orderData: any }) => {
             );
         },
         onSuccess: (data) => {
-            router.push("/esims/pay/pending");
+            router.push("/esims/pay/success?order_id=" + orderData.id);
         },
         onError: (error) => {
             tonPaymentErrorToast();

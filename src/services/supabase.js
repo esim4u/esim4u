@@ -1,4 +1,4 @@
-import { STORY_STATUS } from "@/enums";
+import { ORDER_STATUS, STORY_STATUS } from "@/enums";
 import { createClient } from "@supabase/supabase-js";
 
 import {
@@ -300,12 +300,35 @@ export const getUserReferrals = async (id) => {
 
 // ORDERS
 
-export const getOrderById = async (id) => {
+export const getCreatedOrderById = async (id) => {
     const orders = await supabase
         .from("orders")
         .select(`*`)
         .eq("id", id)
         .eq("status", "CREATED")
+        .order("created_at", { ascending: false });
+
+    if (orders.error || orders.data.length === 0) {
+        return [];
+    }
+
+    const transactions = await supabase
+        .from("transactions")
+        .select(`checkout_id`)
+        .eq("id", orders.data[0].transaction_id);
+
+    if (transactions.error || transactions.data.length === 0) {
+        return [];
+    }
+
+    return { ...orders.data[0], checkout_id: transactions.data[0].checkout_id };
+};
+
+export const getOrderById = async (id) => {
+    const orders = await supabase
+        .from("orders")
+        .select(`*`)
+        .eq("id", id)
         .order("created_at", { ascending: false });
 
     if (orders.error || orders.data.length === 0) {

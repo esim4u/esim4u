@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
-import { getOrderById } from "@/services/supabase";
+import { getCreatedOrderById } from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
 import { useQuery } from "@tanstack/react-query";
 import { MdArrowForwardIos } from "react-icons/md";
@@ -32,7 +32,7 @@ export function Payment({ params }: { params: { order_id: string } }) {
     const { data: orderData, isLoading } = useQuery({
         queryKey: ["order", params.order_id],
         queryFn: async () => {
-            const data = await getOrderById(params.order_id);
+            const data = await getCreatedOrderById(params.order_id);
             return data;
         },
         refetchInterval: 1000 * 10, // 10 sec
