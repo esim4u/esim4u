@@ -1,5 +1,6 @@
 import { supabase } from "@/services/supabase";
 import { sendAdminTgLog } from "@/services/tg-logger";
+import { count } from "console";
 
 export const maxDuration = 50;
 export const dynamic = "force-dynamic";
@@ -15,7 +16,7 @@ export async function GET() {
 
     const users = await supabase
         .from("users")
-        .select("*")
+        .select("id", { count: "exact" })
         .gte("created_date", twentyFourHoursAgo);
 
     if (users.error) {
@@ -30,8 +31,21 @@ export async function GET() {
         );
     }
 
+    const totalUserCount = await supabase.from("users").select("id", { count: "exact" });
+
+    if(totalUserCount.error) {
+        console.log("An error occurred while fetching total user count");
+        return Response.json(
+            {
+                message: "An error occurred while fetching total user count",
+                description: totalUserCount.error.message,
+            },
+            { status: 500 },
+        );
+    }
+
     sendAdminTgLog(
-        `${users.data.length} new users signed up in the last 24 hours`,
+        `In the past 24 hours: \nNew users: ${users.count} \nTotal users: ${totalUserCount.count}`,
     );
 
     return Response.json({ status: 200 });
