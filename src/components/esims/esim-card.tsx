@@ -265,7 +265,7 @@ const EsimCard = ({
                             height={28}
                             src={image_url}
                             alt={coverage}
-                            className="rounded-sm"
+                            className="rounded-sm esim-mask"
                         />
                         <h3 className="uppercase">{coverage}</h3>
                     </div>
