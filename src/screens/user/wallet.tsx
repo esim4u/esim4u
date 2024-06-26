@@ -12,7 +12,7 @@ import { IoMdTime } from "react-icons/io";
 import { RiHistoryFill } from "react-icons/ri";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback, withdrawAmountErrorToast } from "@/lib/utils";
+import { cn, hapticFeedback, withdrawAmountWarningToast } from "@/lib/utils";
 
 import { Switch } from "@/components/ui/switch";
 import { TonIcon } from "@/components/icons";
@@ -119,7 +119,7 @@ const Wallet = (props: Props) => {
                     onClick={() => {
                         if (walletData?.amount < 10) {
                             hapticFeedback("error");
-                            withdrawAmountErrorToast();
+                            withdrawAmountWarningToast();
                         } else {
                             hapticFeedback("success");
                             alert("Withdraw");
