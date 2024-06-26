@@ -7,27 +7,30 @@ import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getCreatedOrderById } from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
-import { useQuery } from "@tanstack/react-query";
+import { createTransaction } from "@/services/tonconnect";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
+import axios from "axios";
+import { BiLoaderAlt } from "react-icons/bi";
+import { FaApplePay } from "react-icons/fa";
 import { MdArrowForwardIos } from "react-icons/md";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
-import useReferralLink from "@/hooks/useRefLink";
+import { cn, hapticFeedback, tonPaymentErrorToast } from "@/lib/utils";
 
+import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
 import { Skeleton } from "@/components/ui/skeleton";
+import TCButton from "@/components/ui/tc-button";
 import { toast } from "@/components/ui/use-toast";
 import { TonIcon } from "@/components/icons";
 
-const TonPayment = dynamic(() => import("@/components/payment/ton-payment"), {
-    ssr: false,
-});
-
 export function Payment({ params }: { params: { order_id: string } }) {
     const { user: tgUser, webApp } = useTelegram();
+    const [tonConnectUI] = useTonConnectUI();
     const router = useRouter();
-    useReferralLink(webApp, tgUser);
+    const rawAddress = useTonAddress();
 
     const { data: orderData, isLoading } = useQuery({
         queryKey: ["order", params.order_id],
@@ -38,17 +41,86 @@ export function Payment({ params }: { params: { order_id: string } }) {
         refetchInterval: 1000 * 10, // 10 sec
     });
 
+    const { data: rateTonUsd } = useQuery({
+        queryKey: ["ratetonusd"],
+        queryFn: async () => {
+            const { data } = await axios.get(
+                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd",
+            );
+
+            return data.rates.TON.prices.USD;
+        },
+        refetchInterval: 1000 * 10, // 10 sec
+    });
+
+    const currentPriceInTon = useMemo(() => {
+        if (orderData && orderData?.price?.total && rateTonUsd) {
+            return +(orderData.price.total / rateTonUsd).toFixed(3);
+        }
+        return 99999;
+    }, [orderData, rateTonUsd]);
+
     useEffect(() => {
         if (webApp) {
             webApp?.BackButton.show();
-            webApp?.MainButton.setParams({
-                text: l("btn_main_share"),
-                color: "#3b82f6",
-                is_active: true,
-                is_visible: true,
-            });
         }
-    }, [webApp]);
+    }, [webApp, currentPriceInTon]);
+
+    const tonPayment = useMutation({
+        mutationFn: async (transaction: any) => {
+            return await tonConnectUI.sendTransaction(transaction);
+        },
+        onSuccess: (data) => {
+            if (data.boc) {
+                pay.mutate(data.boc);
+                sendTgLog("Ton connect: " + JSON.stringify(data));
+            }
+        },
+        onError: (error) => {
+            console.log(error);
+            sendTgLog(JSON.stringify(error));
+        },
+    });
+
+    const pay = useMutation({
+        mutationFn: async (boc: string) => {
+            return await axios.post(
+                "/api/pay/tonconnect",
+                {
+                    order_id: orderData.id,
+                    boc: boc,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ESIM4U_ACCESS_TOKEN}`,
+                    },
+                },
+            );
+        },
+        onSuccess: (data) => {
+            router.push("/esims/pay/success?order_id=" + orderData.id);
+        },
+        onError: (error) => {
+            tonPaymentErrorToast();
+            console.log(error);
+        },
+    });
+
+    const transaction = useMemo(() => {
+        if (orderData && orderData?.price?.total && currentPriceInTon) {
+            return createTransaction(
+                currentPriceInTon,
+                `t.me/esim4u_bot - Experience seamless connectivity`,
+            );
+        }
+        return null;
+    }, [orderData, currentPriceInTon]);
+
+    const handlePayButtonClick = async () => {
+        if (transaction) {
+            tonPayment.mutate(transaction);
+        }
+    };
 
     useEffect(() => {
         webApp?.onEvent("backButtonClicked", goBack);
@@ -56,6 +128,29 @@ export function Payment({ params }: { params: { order_id: string } }) {
             webApp?.offEvent("backButtonClicked", goBack);
         };
     }, [webApp]);
+
+    useEffect(() => {
+        if(rawAddress){
+            webApp?.MainButton.setParams({
+                text: `PAY ${currentPriceInTon} TON`,
+                color: "#3b82f6",
+                is_active: true,
+                is_visible: true,
+            });
+        }else{
+            webApp?.MainButton.setParams({
+                text: `PAY ${currentPriceInTon} TON`,
+                color: "#444444",
+                is_active: false,
+                is_visible: true,
+            });
+        }
+
+        webApp?.onEvent("mainButtonClicked", handlePayButtonClick);
+        return () => {
+            webApp?.offEvent("mainButtonClicked", handlePayButtonClick);
+        };
+    }, [webApp, transaction, rawAddress]);
 
     const goBack = useCallback(() => {
         hapticFeedback("heavy");
@@ -68,8 +163,15 @@ export function Payment({ params }: { params: { order_id: string } }) {
                 <OrderDataItem
                     orderData={orderData}
                     isOrderDataLoading={isLoading}
+                    currentPriceInTon={currentPriceInTon}
                 />
-                <TonPayment orderData={orderData} />
+                <TonPayment
+                    orderData={orderData}
+                    currentPriceInTon={currentPriceInTon}
+                    handlePayButtonClick={handlePayButtonClick}
+                    isTonPaymentPending={tonPayment.isPending}
+                    isPayPending={pay.isPending}
+                />
 
                 <CardPayment orderData={orderData} />
             </div>
@@ -80,9 +182,11 @@ export function Payment({ params }: { params: { order_id: string } }) {
 const OrderDataItem = ({
     orderData,
     isOrderDataLoading,
+    currentPriceInTon,
 }: {
     orderData: any;
     isOrderDataLoading: boolean;
+    currentPriceInTon: number;
 }) => {
     if (isOrderDataLoading) {
         return (
@@ -127,7 +231,7 @@ const OrderDataItem = ({
                 </h2>
                 <Dot className="h-1.5 w-1.5" />
                 <h2 className="flex items-center font-bold">
-                    {orderData?.price?.total_ton}
+                    {currentPriceInTon}
                     <TonIcon className="h-3 w-3 " />
                 </h2>
             </div>
@@ -135,10 +239,56 @@ const OrderDataItem = ({
     );
 };
 
+const TonPayment = ({
+    currentPriceInTon,
+    handlePayButtonClick,
+    isTonPaymentPending,
+    isPayPending,
+}: {
+    orderData: any;
+    currentPriceInTon: number;
+    handlePayButtonClick: () => void;
+    isTonPaymentPending: boolean;
+    isPayPending: boolean;
+}) => {
+    const rawAddress = useTonAddress();
+
+    return (
+        <>
+            <div className="flex w-full flex-col items-start gap-4 rounded-2xl bg-white p-6">
+                <div className="flex flex-row items-center  gap-1">
+                    <h2 className="text-center font-bold">Pay with TON</h2>
+                    <TonIcon className=" h-4 w-4" />
+                </div>
+                {!rawAddress ? (
+                    <TCButton />
+                ) : isTonPaymentPending || isPayPending ? (
+                    <Button className="w-full gap-1 rounded-xl text-base text-white">
+                        <BiLoaderAlt className="animate-spin" />
+                    </Button>
+                ) : (
+                    <Button
+                        onClick={() => {
+                            hapticFeedback("medium");
+                            handlePayButtonClick();
+                        }}
+                        className="w-full gap-1 rounded-xl text-base text-white"
+                    >
+                        Pay {currentPriceInTon}
+                        <TonIcon className="h-3 w-3 text-white " />
+                    </Button>
+                )}
+            </div>
+
+            <span className=" text-sm text-neutral-500">or</span>
+        </>
+    );
+};
+
 const CardPayment = ({ orderData }: { orderData: any }) => {
     const router = useRouter();
 
-    const [isCardPaymentOpen, setIsCardPaymentOpen] = useState(true);
+    const [isCardPaymentOpen, setIsCardPaymentOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -150,7 +300,9 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
                 showFooter: false,
                 onResponse: async function (type: any, body: any) {
                     if (type == "success" && body && body.status == "PAID") {
-                        router.push("/esims/pay/success?order_id=" + orderData.id);
+                        router.push(
+                            "/esims/pay/success?order_id=" + orderData.id,
+                        );
                     } else if (body && body.status == "FAILED") {
                         toast({
                             variant: "destructive",
@@ -181,7 +333,7 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
                     setIsCardPaymentOpen(!isCardPaymentOpen);
                 }}
             >
-                <h2 className="flex cursor-pointer items-center gap-1 text-xs font-medium uppercase text-neutral-500">
+                <h2 className="flex cursor-pointer items-center gap-2 text-xs font-medium uppercase text-neutral-500">
                     <svg
                         enableBackground="new -822 823.1 56.7 56.7"
                         height="44px"
@@ -227,6 +379,7 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
                             </g>
                         </g>
                     </svg>
+                    <FaApplePay className="mx-1 h-10 w-10 text-black" />
                 </h2>
                 <MdArrowForwardIos
                     className={cn(
