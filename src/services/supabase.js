@@ -472,6 +472,13 @@ export const getWalletByUserId = async (telegram_id) => {
     }
 };
 
+export const setWalletAutoWithdraw = async (telegram_id, auto_withdraw) => {
+    const updatedWallet = await supabase
+        .from("wallet")
+        .update({ auto_withdraw: auto_withdraw })
+        .eq("telegram_id", telegram_id);
+};
+
 export const updateUserWallet = async (telegram_id, wallet_address) => {
     const updatedWallet = await supabase
         .from("wallet")

@@ -3,8 +3,8 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
-import { getWalletByUserId } from "@/services/supabase";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { getWalletByUserId, setWalletAutoWithdraw } from "@/services/supabase";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BsArrowDownCircleFill } from "react-icons/bs";
 import { FaRegGem } from "react-icons/fa";
@@ -35,7 +35,7 @@ const Wallet = (props: Props) => {
         refetchInterval: 1000 * 10, // 10 sec
     });
 
-    const { data: walletData } = useQuery({
+    const { data: walletData, refetch: refetchWalletData } = useQuery({
         queryKey: ["wallet", tgUser?.id],
         queryFn: async () => {
             const data = await getWalletByUserId(tgUser.id);
@@ -43,6 +43,15 @@ const Wallet = (props: Props) => {
         },
         placeholderData: keepPreviousData,
         refetchInterval: 1000 * 10, // 10 sec
+    });
+
+    const setAutoWithdraw = useMutation({
+        mutationFn: async (autoWithdraw: boolean) => {
+            await setWalletAutoWithdraw(tgUser.id, autoWithdraw);
+        },
+        onSettled: () => {
+            refetchWalletData()
+        },
     });
 
     const amountInUsd = useMemo(() => {
@@ -132,8 +141,10 @@ const Wallet = (props: Props) => {
                     </span>
                     <div className="flex items-center gap-1">
                         <Switch
-                            onCheckedChange={() => {
+                            checked={walletData?.auto_withdraw}
+                            onCheckedChange={(checked) => {
                                 hapticFeedback("success");
+                                setAutoWithdraw.mutate(checked);
                             }}
                             id="auto-withdraw"
                         />
