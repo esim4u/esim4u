@@ -461,6 +461,17 @@ export const finishOnboarding = async (telegram_id, wallet_address) => {
 
 // WALLET
 
+export const getWalletByUserId = async (telegram_id) => {
+    const wallets = await supabase
+        .from("wallet")
+        .select("*")
+        .eq("telegram_id", telegram_id);
+
+    if (wallets.data.length > 0) {
+        return wallets.data[0]
+    }
+};
+
 export const updateUserWallet = async (telegram_id, wallet_address) => {
     const updatedWallet = await supabase
         .from("wallet")

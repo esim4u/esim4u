@@ -138,6 +138,12 @@ export function donationErrorToast() {
         title: "Minimum donation amount is 1 TON",
     });
 }
+export function withdrawAmountErrorToast() {
+    toast({
+        variant: "destructive",
+        title: "Minimum 10 TON withdrawal amount",
+    });
+}
 
 export function successToast() {
     toast({

@@ -1,19 +1,21 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTelegram } from "@/providers/telegram-provider";
+import { getWalletByUserId } from "@/services/supabase";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { BsArrowDownCircleFill } from "react-icons/bs";
 import { FaRegGem } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { RiHistoryFill } from "react-icons/ri";
 
 import { l } from "@/lib/locale";
-import { hapticFeedback } from "@/lib/utils";
+import { cn, hapticFeedback, withdrawAmountErrorToast } from "@/lib/utils";
 
 import { Switch } from "@/components/ui/switch";
 import { TonIcon } from "@/components/icons";
-import ReferralList from "@/components/shared/referral-list";
 import Referrals from "@/components/user/referrals";
 
 type Props = {};
@@ -21,6 +23,33 @@ type Props = {};
 const Wallet = (props: Props) => {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
+
+    const { data: rateTonUsd } = useQuery({
+        queryKey: ["ratetonusd"],
+        queryFn: async () => {
+            const { data } = await axios.get(
+                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd",
+            );
+            return data.rates.TON.prices.USD;
+        },
+        refetchInterval: 1000 * 10, // 10 sec
+    });
+
+    const { data: walletData } = useQuery({
+        queryKey: ["wallet", tgUser?.id],
+        queryFn: async () => {
+            const data = await getWalletByUserId(tgUser.id);
+            return data;
+        },
+        placeholderData: keepPreviousData,
+        refetchInterval: 1000 * 10, // 10 sec
+    });
+
+    const amountInUsd = useMemo(() => {
+        if (!walletData || !rateTonUsd) return 0;
+        const res = walletData.amount * rateTonUsd;
+        return +res.toFixed(2);
+    }, [walletData, rateTonUsd]);
 
     useEffect(() => {
         if (webApp) {
@@ -66,23 +95,37 @@ const Wallet = (props: Props) => {
                 <div className="flex flex-col">
                     <div className="flex items-center justify-center gap-1 text-neutral-700">
                         <span className="text-[40px] font-bold leading-10">
-                            {12.04}
+                            {walletData?.amount}
                         </span>{" "}
                         <TonIcon className="-mt-0.5 h-7 w-7" />
                     </div>
                     <div className="flex items-center justify-center gap-1 text-center text-3xl  text-neutral-600/60">
                         <span>≈</span>
-                        <span className="font-semibold">{96}$</span>
+                        <span className="font-semibold">{amountInUsd}$</span>
                     </div>
                 </div>
             </div>
             <div className="flex w-full items-center justify-between">
-                <div className="flex items-center gap-2 rounded-[14px] bg-white px-4 py-2 text-neutral-700 shadow-lg">
+                <button
+                    onClick={() => {
+                        if (walletData?.amount < 10) {
+                            hapticFeedback("error");
+                            withdrawAmountErrorToast();
+                        } else {
+                            hapticFeedback("success");
+                            alert("Withdraw");
+                        }
+                    }}
+                    className={cn(
+                        "flex items-center gap-2 rounded-[14px] bg-white px-4 py-2 text-neutral-700 shadow-lg active:scale-95",
+                        walletData?.amount < 10 && " text-neutral-500/50",
+                    )}
+                >
                     <BsArrowDownCircleFill className="h-5 w-5" />
                     <span className=" text-xs font-bold uppercase">
                         {l("btn_withdraw")}
                     </span>
-                </div>
+                </button>
                 <div className="flex items-center gap-3">
                     <span className="text-xs font-medium text-neutral-700 first-letter:uppercase">
                         {l("wallet_autowithdraw_text")}
@@ -98,7 +141,7 @@ const Wallet = (props: Props) => {
                     </div>
                 </div>
             </div>
-            <Referrals hideTitle/>
+            <Referrals hideTitle />
         </div>
     );
 };

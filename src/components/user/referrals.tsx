@@ -9,13 +9,15 @@ import { l } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 import ReferralList from "../shared/referral-list";
+import { Skeleton } from "../ui/skeleton";
 
 interface Props {
     hideTitle?: boolean;
+    hideSkeleton?: boolean;
     className?: string;
 }
 
-const Referrals = ({ hideTitle, className }: Props) => {
+const Referrals = ({ hideTitle, className, hideSkeleton = false }: Props) => {
     const { user: tgUser, webApp } = useTelegram();
 
     const { data: referrals, isLoading } = useQuery({
@@ -25,6 +27,23 @@ const Referrals = ({ hideTitle, className }: Props) => {
             return data;
         },
     });
+
+    if (isLoading && !hideSkeleton) {
+        return (
+            <div className="flex w-full flex-col gap-2">
+                {Array(4)
+                    .fill(null)
+                    .map((_, index) => {
+                        return (
+                            <Skeleton
+                                className="h-10 w-full rounded-lg"
+                                key={index}
+                            />
+                        );
+                    })}
+            </div>
+        );
+    }
 
     if (referrals?.length === 0) {
         return (
