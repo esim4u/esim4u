@@ -68,6 +68,18 @@ const SandboxPage = (props: Props) => {
             >
                 Redirect to pending
             </Button>
+            <Button
+                onClick={() => {
+                    hapticFeedback()
+                    router.push(
+                        "/profile/wallet",
+                    );
+                }}
+                variant={"destructive"}
+                className="w-full rounded-full"
+            >
+                Wallet
+            </Button>
         </div>
     );
 };
