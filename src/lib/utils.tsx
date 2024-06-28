@@ -146,6 +146,14 @@ export function withdrawAmountWarningToast() {
         className: "pl-8"
     });
 }
+export function autoWithdrawWarningToast() {
+    toast({
+        variant: "warning",
+        title: "First turn off auto withdrawal",
+        hideClose: true,
+        className: "pl-8"
+    });
+}
 
 export function successToast() {
     toast({

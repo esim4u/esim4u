@@ -9,10 +9,14 @@ import axios from "axios";
 import { BsArrowDownCircleFill } from "react-icons/bs";
 import { FaRegGem } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
-import { RiHistoryFill } from "react-icons/ri";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback, withdrawAmountWarningToast } from "@/lib/utils";
+import {
+    autoWithdrawWarningToast,
+    cn,
+    hapticFeedback,
+    withdrawAmountWarningToast,
+} from "@/lib/utils";
 
 import { Switch } from "@/components/ui/switch";
 import { TonIcon } from "@/components/icons";
@@ -50,7 +54,7 @@ const Wallet = (props: Props) => {
             await setWalletAutoWithdraw(tgUser.id, autoWithdraw);
         },
         onSettled: () => {
-            refetchWalletData()
+            refetchWalletData();
         },
     });
 
@@ -93,7 +97,10 @@ const Wallet = (props: Props) => {
                         {l("wallet_rewards_title")}
                     </h2>
                     <p className="text-balance text-center font-medium leading-5 text-neutral-600/90">
-                        {l("wallet_rewards_subtitle")}
+                        {" "}
+                        {l("wallet_rewards_subtitle_1")}
+                        0.2 TON ≈ ${(rateTonUsd * 0.2).toFixed(2)}
+                        {l("wallet_rewards_subtitle_2")}
                     </p>
                 </div>
             </div>
@@ -120,6 +127,9 @@ const Wallet = (props: Props) => {
                         if (walletData?.amount < 10) {
                             hapticFeedback("error");
                             withdrawAmountWarningToast();
+                        } else if (walletData?.auto_withdraw) {
+                            hapticFeedback("error");
+                            autoWithdrawWarningToast();
                         } else {
                             hapticFeedback("success");
                             alert("Withdraw");
@@ -127,7 +137,7 @@ const Wallet = (props: Props) => {
                     }}
                     className={cn(
                         "flex items-center gap-2 rounded-[14px] bg-white px-4 py-2 text-neutral-700 shadow-lg active:scale-95",
-                        walletData?.amount < 10 && " text-neutral-500/50",
+                        (walletData?.amount < 10 || walletData?.auto_withdraw) && " text-neutral-500/50",
                     )}
                 >
                     <BsArrowDownCircleFill className="h-5 w-5" />
