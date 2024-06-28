@@ -23,6 +23,7 @@ import PopularCountries from "@/components/shared/popular-countries";
 import SubscribeBanner from "@/components/shared/subscribe-banner";
 import { track } from "@vercel/analytics/react";
 import SupportProjectButton from "@/components/shared/support-project-button";
+import { getWalletByUserId } from "@/services/supabase";
 
 export default function Home() {
     const { user: tgUser, webApp } = useTelegram();
@@ -45,6 +46,16 @@ export default function Home() {
         },
         placeholderData: keepPreviousData,
     });
+
+    const { } = useQuery({
+        queryKey: ["wallet", tgUser?.id],
+        queryFn: async () => {
+            const data = await getWalletByUserId(tgUser.id);
+            return data;
+        },
+        placeholderData: keepPreviousData,
+    });
+
 
     useEffect(() => {
         if (webApp) {
