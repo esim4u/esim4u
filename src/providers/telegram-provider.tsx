@@ -13,7 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import type { ITelegramUser, IWebApp } from "@/types";
 
 import { initLanguage, l, setLanguage } from "@/lib/locale";
-import { hapticFeedback } from "@/lib/utils";
+import { getAccentColor, hapticFeedback } from "@/lib/utils";
 
 export interface ITelegramContext {
     webApp?: any;
@@ -50,7 +50,7 @@ export const TelegramProvider = ({
 
             app?.MainButton.setParams({
                 text: l("btn_main_share"),
-                color: "#3b82f6",
+                color: getAccentColor(),
                 is_active: true,
                 is_visible: false,
             });

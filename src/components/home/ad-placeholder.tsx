@@ -34,7 +34,7 @@ const AdPlaceholder = (props: Props) => {
                             );
                             webApp?.close();
                         }}
-                        className="font-medium text-blue-500 underline underline-offset-2"
+                        className="font-medium text-tgaccent underline underline-offset-2"
                     >
                         contact us
                     </span>

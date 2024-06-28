@@ -19,19 +19,19 @@ export default function BounceLoader({
         >
             <div
                 className={cn(
-                    "h-5 w-5 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.3s]",
+                    "h-5 w-5 animate-bounce rounded-full bg-tgaccent [animation-delay:-0.3s]",
                     dotClassName
                 )}
             ></div>
             <div
                 className={cn(
-                    "h-5 w-5 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.13s]",
+                    "h-5 w-5 animate-bounce rounded-full bg-tgaccent [animation-delay:-0.13s]",
                     dotClassName
                 )}
             ></div>
             <div
                 className={cn(
-                    "h-5 w-5 animate-bounce rounded-full bg-blue-500",
+                    "h-5 w-5 animate-bounce rounded-full bg-tgaccent",
                     dotClassName
                 )}
             ></div>

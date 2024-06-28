@@ -11,7 +11,7 @@ import axios from "axios";
 import Lottie from "lottie-react";
 import { FaRegCircleCheck } from "react-icons/fa6";
 
-import { hapticFeedback } from "@/lib/utils";
+import { getAccentColor, hapticFeedback } from "@/lib/utils";
 
 import Loader from "@/components/ui/loader";
 import SubscribeBanner from "@/components/shared/subscribe-banner";
@@ -64,7 +64,7 @@ export default function Success() {
             if (!isLoading && !isPageLoading) {
                 webApp?.MainButton.setParams({
                     text: "Go to my eSims",
-                    color: "#3b82f6",
+                    color: getAccentColor(),
                     is_active: true,
                     is_visible: true,
                 });
@@ -108,15 +108,6 @@ export default function Success() {
             </div>
             <div className="z-20 h-fit my-4 flex flex-col items-center justify-center gap-4">
                 <SubscribeBanner className={"mx-4"} />
-                {/* <div
-                        onClick={() => {
-                            hapticFeedback("success");
-                            router.push("/profile?is_payment=true");
-                        }}
-                        className="text-2xl font-medium text-blue-500 underline underline-offset-4"
-                    >
-                        Go to my eSims
-                    </div> */}
             </div>
             <div className="absolute z-10 max-h-dvh w-dvw max-w-96 overflow-hidden">
                 <Lottie

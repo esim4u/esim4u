@@ -181,7 +181,7 @@ export default function OnBoarding() {
                                     className={cn(
                                         "size-3 bg-neutral-400 transition-all",
                                         index + 1 == current &&
-                                            "w-7 bg-blue-500",
+                                            "w-7 bg-tgaccent",
                                     )}
                                 ></Dot>
                             ))}
@@ -193,7 +193,7 @@ export default function OnBoarding() {
                                 api?.scrollNext();
                             }}
                             size={"bean"}
-                            variant={"blue"}
+                            variant={"telegram"}
                         >
                             {l("btn_next")}
                         </Button>
@@ -205,7 +205,7 @@ export default function OnBoarding() {
                                 router.push("/esims");
                             }}
                             size={"bean"}
-                            variant={"blue"}
+                            variant={"telegram"}
                         >
                             {l("btn_start")}
                         </Button>

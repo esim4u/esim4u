@@ -37,6 +37,8 @@ const config = {
                 lg: "0 8px 16px var(--tw-shadow-color)",
             },
             colors: {
+                tgbutton: "var(--tg-theme-button-color)",
+                tgaccent: "var(--tg-theme-accent-text-color)",
                 redish: "#EF3671",
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",

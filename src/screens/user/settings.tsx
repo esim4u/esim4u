@@ -20,7 +20,7 @@ import {
     l,
     setLanguage,
 } from "@/lib/locale";
-import { hapticFeedback, shareRef } from "@/lib/utils";
+import { getAccentColor, hapticFeedback, shareRef } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -53,7 +53,7 @@ export default function Settings() {
             webApp?.BackButton.show();
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
-                color: "#3b82f6",
+                color: getAccentColor(),
                 is_active: true,
                 is_visible: true,
             });

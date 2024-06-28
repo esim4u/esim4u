@@ -118,7 +118,7 @@ const EsimCard = ({
                     </CircleProgressBar>
                 </div>
             </div>
-            <div className=" -mt-5 overflow-hidden rounded-b-2xl bg-gradient-to-tr  from-blue-500/75 to-sky-400/50  pt-5">
+            <div className=" -mt-5 overflow-hidden rounded-b-2xl bg-gradient-to-tr  from-tgaccent to-sky-400/50  pt-5">
                 {usage &&
                     (usage.remaining == 0 ||
                         usage.remaining / usage.total < 0.5) && (
@@ -260,7 +260,7 @@ const EsimCard = ({
                                                         package_id,
                                                 );
                                             }}
-                                            className=" text-blue-600 underline underline-offset-2"
+                                            className=" text-tgaccent underline underline-offset-2"
                                         >
                                             Check list
                                         </span>

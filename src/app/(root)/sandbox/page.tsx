@@ -20,8 +20,6 @@ const SandboxPage = (props: Props) => {
     const router = useRouter();
     const { user: tgUser, webApp } = useTelegram();
 
-    const [percent, setPercent] = React.useState(50);
-
     useEffect(() => {
         webApp?.onEvent("backButtonClicked", goBack);
         return () => {
@@ -56,9 +54,11 @@ const SandboxPage = (props: Props) => {
             >
                 Send newsletters
             </Button>
+            <div className="h-12 w-12 bg-tgbutton">tgbutton color</div>
+            <div className="h-12 w-12 bg-tgaccent ">tgaccent color</div>
             <Button
                 onClick={() => {
-                    hapticFeedback()
+                    hapticFeedback();
                     router.push(
                         "/esims/pay/success" + ("1805" ? `?order_id=1805` : ""),
                     );
@@ -70,10 +70,8 @@ const SandboxPage = (props: Props) => {
             </Button>
             <Button
                 onClick={() => {
-                    hapticFeedback()
-                    router.push(
-                        "/profile/wallet",
-                    );
+                    hapticFeedback();
+                    router.push("/profile/wallet");
                 }}
                 variant={"destructive"}
                 className="w-full rounded-full"

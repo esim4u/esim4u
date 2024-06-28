@@ -15,6 +15,7 @@ import { l } from "@/lib/locale";
 import {
     autoWithdrawWarningToast,
     cn,
+    getAccentColor,
     hapticFeedback,
     withdrawAmountWarningToast,
 } from "@/lib/utils";
@@ -70,7 +71,7 @@ const Wallet = (props: Props) => {
             webApp?.BackButton.show();
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
-                color: "#3b82f6",
+                color: getAccentColor(),
                 is_active: true,
                 is_visible: true,
             });

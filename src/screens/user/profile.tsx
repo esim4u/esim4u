@@ -11,7 +11,7 @@ import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback, shareRef } from "@/lib/utils";
+import { cn, getAccentColor, hapticFeedback, shareRef } from "@/lib/utils";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -45,7 +45,7 @@ export default function Profile() {
             // }
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
-                color: "#3b82f6",
+                color: getAccentColor(),
                 is_active: true,
                 is_visible: true,
             });
@@ -163,8 +163,8 @@ const WalletBanner = ({ className }: { className?: string }) => {
                 className,
             )}
         >
-            <WalletIcon className={" h-9 w-9"} />
-            <div className="flex items-center justify-center text-blue-500">
+            <WalletIcon className={" h-9 w-9 text-tgaccent"} />
+            <div className="flex items-center justify-center text-tgaccent">
                 <span className="text-[22px]  font-bold">
                     {walletData?.amount}
                 </span>

@@ -14,7 +14,7 @@ import { GrTrophy } from "react-icons/gr";
 import { PiMedalFill } from "react-icons/pi";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn, getAccentColor, hapticFeedback } from "@/lib/utils";
 import useReferralLink from "@/hooks/useRefLink";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -77,7 +77,7 @@ const LeaderBoard = (props: Props) => {
             webApp?.BackButton.show();
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
-                color: "#3b82f6",
+                color: getAccentColor(),
                 is_active: true,
                 is_visible: true,
             });

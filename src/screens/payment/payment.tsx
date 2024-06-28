@@ -16,7 +16,7 @@ import { FaApplePay } from "react-icons/fa";
 import { MdArrowForwardIos } from "react-icons/md";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback, tonPaymentErrorToast } from "@/lib/utils";
+import { cn, getAccentColor, hapticFeedback, tonPaymentErrorToast } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
@@ -133,7 +133,7 @@ export function Payment({ params }: { params: { order_id: string } }) {
         if(rawAddress){
             webApp?.MainButton.setParams({
                 text: `PAY ${currentPriceInTon} TON`,
-                color: "#3b82f6",
+                color: getAccentColor(),
                 is_active: true,
                 is_visible: true,
             });

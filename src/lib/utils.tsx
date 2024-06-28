@@ -143,15 +143,21 @@ export function withdrawAmountWarningToast() {
         variant: "warning",
         title: "Minimum 10 TON withdrawal amount",
         hideClose: true,
-        className: "pl-8"
+        className: "pl-8",
     });
+}
+
+export function getAccentColor() {
+    return getComputedStyle(document.documentElement)
+        .getPropertyValue("--tg-theme-accent-text-color")
+        .trim();
 }
 export function autoWithdrawWarningToast() {
     toast({
         variant: "warning",
         title: "First turn off auto withdrawal",
         hideClose: true,
-        className: "pl-8"
+        className: "pl-8",
     });
 }
 

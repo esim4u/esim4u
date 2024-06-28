@@ -12,7 +12,7 @@ const tabsListTriggerVariants = cva(
         variants: {
             variant: {
                 default: " rounded-md bg-muted text-muted-foreground",
-                esim4u: "rounded-xl bg-blue-500 text-white",
+                esim4u: "rounded-xl bg-tgaccent text-white",
             },
         },
         defaultVariants: {

@@ -24,7 +24,7 @@ const ReferralList = ({ referrals }: Props) => {
                     }}
                     className="flex h-10 cursor-pointer items-center justify-between rounded-lg bg-white p-4 transition-transform active:scale-95"
                 >
-                    <span className="max-w-28 truncate font-medium text-blue-500">
+                    <span className="max-w-28 truncate font-medium text-tgaccent">
                         @{referral.username}
                     </span>
                     <div className=" grid w-40 grid-cols-5 gap-1 ">

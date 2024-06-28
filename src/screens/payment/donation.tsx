@@ -16,7 +16,7 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { RiTokenSwapFill } from "react-icons/ri";
 
 import { l } from "@/lib/locale";
-import { cn, donationErrorToast, hapticFeedback } from "@/lib/utils";
+import { cn, donationErrorToast, getAccentColor, hapticFeedback } from "@/lib/utils";
 import useReferralLink from "@/hooks/useRefLink";
 
 import { Button } from "@/components/ui/button";
@@ -113,7 +113,7 @@ const Donation = (props: Props) => {
             webApp?.BackButton.show();
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
-                color: "#3b82f6",
+                color: getAccentColor(),
                 is_active: true,
                 is_visible: true,
             });
@@ -227,9 +227,9 @@ const DonationPriceCarousel = ({
                                         api?.scrollTo(index);
                                     }}
                                     className={cn(
-                                        "flex h-16  w-28 flex-col items-center justify-center rounded-3xl  border-[2px] border-neutral-400 p-5 transition-all active:border-4 active:border-blue-500 ",
+                                        "flex h-16  w-28 flex-col items-center justify-center rounded-3xl  border-[2px] border-neutral-400 p-5 transition-all active:border-4 active:border-tgaccent ",
                                         donationAmount === amount &&
-                                            "border-4 border-blue-500",
+                                            "border-4 border-tgaccent",
                                     )}
                                 >
                                     <h2 className="flex items-center text-2xl font-bold">

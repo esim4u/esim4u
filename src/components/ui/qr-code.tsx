@@ -69,7 +69,7 @@ const ShareButton = ({
                 onClick={() => {
                     hapticFeedback("success");
                 }}
-                className="absolute -right-12 aspect-square rounded-xl bg-white p-2 text-blue-500 underline"
+                className="absolute -right-12 aspect-square rounded-xl bg-white p-2 text-tgaccent underline"
                 href={`https://t.me/share/url?url=${url}&text=${
                     shareText || ""
                 }`}
@@ -85,7 +85,7 @@ const ShareButton = ({
                 onClick={() => {
                     hapticFeedback("success");
                 }}
-                className="absolute -right-12 aspect-square rounded-xl bg-white p-2 text-blue-500 underline"
+                className="absolute -right-12 aspect-square rounded-xl bg-white p-2 text-tgaccent underline"
             >
                 <PiShareFatFill className="h-5 w-5" />
             </button>

@@ -11,7 +11,7 @@ import Fuse from "fuse.js";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 
 import { getPreferredLanguage, l } from "@/lib/locale";
-import { hapticFeedback, loseFocus, shareRef } from "@/lib/utils";
+import { getAccentColor, hapticFeedback, loseFocus, shareRef } from "@/lib/utils";
 
 import Collapse from "@/components/ui/collapse";
 import CustomInput from "@/components/ui/custom-input";
@@ -123,7 +123,7 @@ export default function Home() {
         } else {
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
-                color: "#3b82f6",
+                color: getAccentColor(),
                 is_active: true,
                 is_visible: true,
             });

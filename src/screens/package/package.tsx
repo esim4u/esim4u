@@ -11,7 +11,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 
 import { convertUsdToPreferredCurrency } from "@/lib/currency";
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn, getAccentColor, hapticFeedback } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -98,7 +98,7 @@ const Package = ({ params }: { params: { country_code: string } }) => {
         if (terms.terms1 && terms.terms2) {
             webApp?.MainButton.setParams({
                 text: l("btn_pay"),
-                color: "#3b82f6",
+                color: getAccentColor(),
                 is_active: true,
                 is_visible: true,
             });
@@ -277,9 +277,9 @@ const PriceCarousel = ({
                                             api?.scrollTo(index);
                                         }}
                                         className={cn(
-                                            "flex h-16  w-28 flex-col items-center justify-center rounded-3xl  border-[2px] border-neutral-400 p-5 transition-all active:border-4 active:border-blue-500 ",
+                                            "flex h-16  w-28 flex-col items-center justify-center rounded-3xl  border-[2px] border-neutral-400 p-5 transition-all active:border-4 active:border-tgaccent ",
                                             selectedPackage === plan &&
-                                                "border-4 border-blue-500",
+                                                "border-4 border-tgaccent",
                                         )}
                                     >
                                         <h2 className="text-2xl font-bold">
@@ -323,7 +323,7 @@ const AdditionalInfo = ({ packageData }: { packageData: any }) => {
                                 hapticFeedback();
                                 router.push(`${path}/coverage`);
                             }}
-                            className="text-sm font-medium capitalize text-blue-500 underline underline-offset-2"
+                            className="text-sm font-medium capitalize text-tgaccent underline underline-offset-2"
                         >
                             {packageData.operators[0].coverages.length}{" "}
                             {l("text_countries")}
@@ -363,7 +363,7 @@ const AdditionalInfo = ({ packageData }: { packageData: any }) => {
                             hapticFeedback();
                             router.push(`/esims/compatible-devices`);
                         }}
-                        className="text-sm font-medium capitalize text-blue-500 underline underline-offset-2"
+                        className="text-sm font-medium capitalize text-tgaccent underline underline-offset-2"
                     >
                         {l("text_compatible_devices")}
                     </button>
