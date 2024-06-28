@@ -140,6 +140,9 @@ const EsimCard = ({
                             <TabsList className="w-full">
                                 {detectIOSVersion() > 17.5 && (
                                     <TabsTrigger
+                                        onClick={() => {
+                                            hapticFeedback();
+                                        }}
                                         className="w-full capitalize"
                                         value="auto"
                                     >
@@ -147,12 +150,18 @@ const EsimCard = ({
                                     </TabsTrigger>
                                 )}
                                 <TabsTrigger
+                                    onClick={() => {
+                                        hapticFeedback();
+                                    }}
                                     className="w-full capitalize"
                                     value="qr"
                                 >
                                     {l("nav_activation_qr")}
                                 </TabsTrigger>
                                 <TabsTrigger
+                                    onClick={() => {
+                                        hapticFeedback();
+                                    }}
                                     className="w-full capitalize"
                                     value="manual"
                                 >
@@ -246,7 +255,10 @@ const EsimCard = ({
                                         <span
                                             onClick={() => {
                                                 hapticFeedback();
-                                                router.push("/esims/networks/" + package_id);
+                                                router.push(
+                                                    "/esims/networks/" +
+                                                        package_id,
+                                                );
                                             }}
                                             className=" text-blue-600 underline underline-offset-2"
                                         >
@@ -265,7 +277,7 @@ const EsimCard = ({
                             height={28}
                             src={image_url}
                             alt={coverage}
-                            className="rounded-sm esim-mask"
+                            className="esim-mask rounded-sm"
                         />
                         <h3 className="uppercase">{coverage}</h3>
                     </div>

@@ -101,6 +101,7 @@ export default function Home() {
 
     const handleLoseFocus = useCallback(() => {
         if (webApp) {
+            hapticFeedback()
             setIsSearchFocused(false);
             loseFocus();
         }
