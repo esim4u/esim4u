@@ -1,7 +1,9 @@
-import { hapticFeedback } from "@/lib/utils";
 import React from "react";
-import { TonIcon, PremiumIcon } from "../icons";
 import { useTelegram } from "@/providers/telegram-provider";
+
+import { hapticFeedback } from "@/lib/utils";
+
+import { PremiumIcon, TonIcon } from "../icons";
 
 type Props = {
     referrals: any;
@@ -22,15 +24,17 @@ const ReferralList = ({ referrals }: Props) => {
                     }}
                     className="flex h-10 cursor-pointer items-center justify-between rounded-lg bg-white p-4 transition-transform active:scale-95"
                 >
-                    <span className="font-medium text-blue-500 truncate max-w-28">
+                    <span className="max-w-28 truncate font-medium text-blue-500">
                         @{referral.username}
                     </span>
                     <div className=" grid w-40 grid-cols-5 gap-1 ">
                         <div className=" col-span-2 -mr-4 flex items-center justify-center">
-                            <span className="  flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white">
-                                {!!referral.orders &&
-                                    referral.orders[0].count}
-                            </span>
+                            {!!referral.orders &&
+                                referral.orders[0].count > 0 && (
+                                    <span className="  flex min-w-9 items-center justify-center rounded-md  bg-gradient-to-r from-violet-500 to-purple-500 px-1 font-medium text-white">
+                                        {referral.orders[0].count}
+                                    </span>
+                                )}
                         </div>
                         <div className="col-span-2  flex items-center justify-center">
                             <span className=" flex items-center font-semibold text-purple-500">
