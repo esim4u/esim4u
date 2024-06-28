@@ -1,6 +1,4 @@
 "use client";
-
-import { debug } from "console";
 import {
     createContext,
     useCallback,
@@ -10,9 +8,8 @@ import {
     useState,
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import type { ITelegramUser, IWebApp } from "@/types";
 
-import { initLanguage, l, setLanguage } from "@/lib/locale";
+import { initLanguage, l } from "@/lib/locale";
 import { getAccentColor, hapticFeedback } from "@/lib/utils";
 
 export interface ITelegramContext {
@@ -20,9 +17,6 @@ export interface ITelegramContext {
     user?: any;
     start_param?: string | number;
     cloudStorage?: any;
-    // webApp?: IWebApp;
-    // user?: ITelegramUser;
-    // adContoller?: any;
 }
 
 export const TelegramContext = createContext<ITelegramContext>({});
@@ -39,11 +33,10 @@ export const TelegramProvider = ({
 
     useEffect(() => {
         const app = (window as any).Telegram?.WebApp;
+        app.setHeaderColor("#EFEFF3");
+        app.setBackgroundColor("#EFEFF3");
 
         if (app) {
-            app.setHeaderColor("#EFEFF3");
-            app.setBackgroundColor("#EFEFF3");
-
             app.enableClosingConfirmation();
 
             initLanguage(app.initDataUnsafe?.user?.language_code);
