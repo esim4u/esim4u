@@ -94,7 +94,7 @@ const Wallet = (props: Props) => {
             <div className="flex flex-col items-center justify-center  ">
                 <div className="relative flex h-16 w-20 items-center justify-center">
                     <Lottie
-                        className="absolute h-28 w-28"
+                        className="absolute h-32 w-32"
                         animationData={gemSpinAnim}
                     />
                 </div>
