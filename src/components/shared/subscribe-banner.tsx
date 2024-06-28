@@ -37,7 +37,7 @@ const SubscribeBanner = ({ className }: Props) => {
                     />
                 </div>
                 <div>
-                    <h2 className=" text-center text-[15px] font-semibold tracking-tighter	">
+                    <h2 className=" text-center text-[15px] font-semibold tracking-tighte leading-4">
                         🌟 Support Our App and Enjoy Rewards! 🌟
                     </h2>
                     <p className="text-center text-xs tracking-tighter leading-[14px]">

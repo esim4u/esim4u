@@ -311,7 +311,7 @@ const RefLinkButton = ({ className }: Props) => {
                 <span className="text-center  text-[10px] font-semibold leading-3">
                     {l("btn_top_share")}
                 </span>
-                <span className="text-center text-[9px]  leading-3 text-neutral-500">
+                <span className="text-center text-[9px] text-neutral-500 leading-[10px]">
                     {l("btn_top_share_subtitle")}
                 </span>
             </div>
