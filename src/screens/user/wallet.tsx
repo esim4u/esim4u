@@ -2,12 +2,13 @@
 
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import gemSpinAnim from "@/assets/anim/gem.json";
 import { useTelegram } from "@/providers/telegram-provider";
 import { getWalletByUserId, setWalletAutoWithdraw } from "@/services/supabase";
 import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Lottie from "lottie-react";
 import { BsArrowDownCircleFill } from "react-icons/bs";
-import { FaRegGem } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 
 import { l } from "@/lib/locale";
@@ -91,17 +92,23 @@ const Wallet = (props: Props) => {
     return (
         <div className="flex h-dvh w-full flex-col items-center gap-5 p-5">
             <div className="flex flex-col items-center justify-center  ">
-                <FaRegGem className="h-12 w-12 text-neutral-700" />
+                <div className="relative flex h-16 w-20 items-center justify-center">
+                    <Lottie
+                        className="absolute h-28 w-28"
+                        animationData={gemSpinAnim}
+                    />
+                </div>
+
+                {/* <FaRegGem className="h-12 w-12 text-neutral-700" /> */}
                 <div className="flex flex-col items-center justify-center ">
                     <h2 className=" text-center text-[28px] font-bold text-neutral-700 first-letter:uppercase">
                         {l("wallet_rewards_title")}
                     </h2>
-                    <p className="text-balance text-center font-medium leading-5 text-neutral-600/90">
-                        {" "}
-                        {l("wallet_rewards_subtitle_1")}
-                        0.2 TON ≈ ${(rateTonUsd * 0.2).toFixed(2)}
+                    <pre className=" text-balance text-center font-sans font-medium leading-5 text-neutral-600/90">
+                        {l("wallet_rewards_subtitle_1")} 0.2 TON ≈ $
+                        {(rateTonUsd * 0.2).toFixed(2)}
                         {l("wallet_rewards_subtitle_2")}
-                    </p>
+                    </pre>
                 </div>
             </div>
             <div className="flex w-full flex-col justify-center gap-2 rounded-3xl bg-white p-4 shadow-lg">
@@ -137,7 +144,9 @@ const Wallet = (props: Props) => {
                     }}
                     className={cn(
                         "flex items-center gap-2 rounded-[14px] bg-white px-4 py-2 text-neutral-700 shadow-lg active:scale-95",
-                        (walletData?.amount < 10 || walletData?.auto_withdraw) && " text-neutral-500/50",
+                        (walletData?.amount < 10 ||
+                            walletData?.auto_withdraw) &&
+                            " text-neutral-500/50",
                     )}
                 >
                     <BsArrowDownCircleFill className="h-5 w-5" />
