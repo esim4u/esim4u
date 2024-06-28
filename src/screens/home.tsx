@@ -55,6 +55,16 @@ export default function Home() {
         },
         placeholderData: keepPreviousData,
     });
+    
+    const { } = useQuery({
+        queryKey: ["ratetonusd"],
+        queryFn: async () => {
+            const { data } = await axios.get(
+                "https://tonapi.io/v2/rates?tokens=ton&currencies=usd",
+            );
+            return data.rates.TON.prices.USD;
+        },
+    });
 
 
     useEffect(() => {
