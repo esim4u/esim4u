@@ -118,7 +118,9 @@ const EsimCard = ({
                     </CircleProgressBar>
                 </div>
             </div>
-            <div className=" -mt-5 overflow-hidden rounded-b-2xl bg-gradient-to-tr  from-tgaccent to-sky-400/50  pt-5">
+            <div className="relative -mt-5 overflow-hidden rounded-b-2xl  pt-5">
+                <div className="absolute -mt-5 -z-10 h-full w-full  bg-gradient-to-tr from-tgaccent to-sky-400 opacity-75"></div>
+
                 {usage &&
                     (usage.remaining == 0 ||
                         usage.remaining / usage.total < 0.5) && (
