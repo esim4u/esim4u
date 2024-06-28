@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     const user_lang = users.data[0].language_code;
 
     await sendAdminTgLog(
-        `🎯${order.data[0].type} order №${order.data[0].id} is purchased! \n\nUsername: @${users.data[0].username} \nCoverage: ${order.data[0].coverage} \n\nTransaction ID: ${order.data[0].transaction_id}\nAmount: ${order.data[0].price.total_ton} EUR\nMerchant: Sumup\n`,
+        `🎯${order.data[0].type} order №${order.data[0].id} is purchased! \n\nUsername: @${users.data[0].username} \nCoverage: ${order.data[0].coverage} \n\nTransaction ID: ${order.data[0].transaction_id}\nAmount: ${order.data[0].price.total_eur} EUR\nMerchant: Sumup\n`,
     );
 
     await supabase
