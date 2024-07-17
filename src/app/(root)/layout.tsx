@@ -56,10 +56,9 @@ export default function RootLayout({
                                 strategy="beforeInteractive"
                             /> */}
                             <Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
-                            {/* <div className="no-scrollbar absolute bottom-0 left-0 right-0 top-0 overflow-y-auto overflow-x-hidden ">
+                            <div className="no-scrollbar absolute bottom-0 left-0 right-0 top-0 overflow-y-auto overflow-x-hidden ">
                                 <div style={{height: "calc(100% + 1px)"}}>{children}</div>
-                            </div> */}
-                            {children}
+                            </div>
                             <Toaster />
                             <Analytics />
                         </body>
