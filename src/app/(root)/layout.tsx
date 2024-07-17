@@ -43,7 +43,7 @@ export default function RootLayout({
                     <html lang="en" suppressHydrationWarning>
                         <body
                             className={cn(
-                                "no-select no-scrollbar h-screen w-screen overflow-hidden bg-background font-sans antialiased",
+                                "no-select no-scrollbar h-screen w-screen overflow-x-hidden bg-background font-sans antialiased",
                                 fontSans.variable,
                             )}
                         >

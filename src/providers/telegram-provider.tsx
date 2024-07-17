@@ -54,6 +54,7 @@ export const TelegramProvider = ({
                 router.push("/settings");
             });
 
+            app?.disableVerticalSwipes();
             app.ready();
             app.expand();
             setWebApp(app);
