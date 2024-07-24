@@ -109,10 +109,6 @@ bot.command("id", async (ctx) => {
     await ctx.reply("Your chat ID is: " + ctx.chat.id);
 });
 
-bot.on("::url", async (ctx) => {
-    await ctx.reply("You sent me a URL: " + ctx.message?.text);
-});
-
 bot.catch((err) => {
     const ctx = err.ctx;
     console.error(`Error while processing update ${ctx.update.update_id}:`);
