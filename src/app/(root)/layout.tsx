@@ -1,4 +1,5 @@
 import "../globals.css";
+import dynamic from 'next/dynamic'
 
 import { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
@@ -12,6 +13,10 @@ import { Analytics } from "@vercel/analytics/react";
 import { cn } from "@/lib/utils";
 
 import { Toaster } from "@/components/ui/toaster";
+// import TelegramAnalyticsProvider from "@/providers/telegram-analytics-provider";
+const TelegramAnalyticsProvider = dynamic(() => import('@/providers/telegram-analytics-provider'), {
+    ssr: false
+})
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -47,14 +52,16 @@ export default function RootLayout({
                 <ReactQueryProvider>
                     <TelegramProvider>
                         <TonConnectProvider>
-                            <Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
-                            <div className="no-scrollbar absolute bottom-0 left-0 right-0 top-0 overflow-y-auto overflow-x-hidden ">
-                                <div style={{ height: "calc(100% + 1px)" }}>
-                                    {children}
+                            <TelegramAnalyticsProvider>
+                                <Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
+                                <div className="no-scrollbar absolute bottom-0 left-0 right-0 top-0 overflow-y-auto overflow-x-hidden ">
+                                    <div style={{ height: "calc(100% + 1px)" }}>
+                                        {children}
+                                    </div>
                                 </div>
-                            </div>
-                            <Toaster />
-                            <Analytics />
+                                <Toaster />
+                                <Analytics />
+                            </TelegramAnalyticsProvider>
                         </TonConnectProvider>
                     </TelegramProvider>
                 </ReactQueryProvider>
