@@ -11,6 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { initLanguage, l } from "@/lib/locale";
 import { getAccentColor, hapticFeedback } from "@/lib/utils";
+import Script from "next/script";
 
 export interface ITelegramContext {
     webApp?: any;
@@ -80,10 +81,10 @@ export const TelegramProvider = ({
     return (
         <TelegramContext.Provider value={value}>
             {/* Make sure to include script tag with "beforeInteractive" strategy to pre-load web-app script */}
-            {/*<Script
+            <Script
                 src="https://telegram.org/js/telegram-web-app.js"
                 strategy="beforeInteractive"
-            />*/}
+            />
             {children}
         </TelegramContext.Provider>
     );
