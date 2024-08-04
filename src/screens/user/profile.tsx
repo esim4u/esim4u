@@ -40,9 +40,6 @@ export default function Profile() {
         if (webApp) {
             webApp?.BackButton.show();
 
-            // if (is_payment) {
-            //     webApp?.BackButton.hide();
-            // }
             webApp?.MainButton.setParams({
                 text: l("btn_main_share"),
                 color: getAccentColor(),
