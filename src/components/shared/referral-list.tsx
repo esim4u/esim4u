@@ -17,6 +17,10 @@ const ReferralList = ({ referrals }: Props) => {
                 <div
                     key={referral.telegram_id}
                     onClick={() => {
+                        if(!referral.username) {
+                            hapticFeedback("error");
+                            return;
+                        }
                         hapticFeedback();
                         webApp?.openTelegramLink(
                             "https://t.me/" + referral.username,
@@ -25,7 +29,7 @@ const ReferralList = ({ referrals }: Props) => {
                     className="flex h-10 cursor-pointer items-center justify-between rounded-lg bg-white p-4 transition-transform active:scale-95"
                 >
                     <span className="max-w-28 truncate font-medium text-tgaccent">
-                        @{referral.username}
+                        @{referral.username || referral.first_name}
                     </span>
                     <div className=" grid w-40 grid-cols-5 gap-1 ">
                         <div className=" col-span-2 -mr-4 flex items-center justify-center">

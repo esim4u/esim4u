@@ -21,7 +21,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import ReferralList from "@/components/shared/referral-list";
-import Referrals from "@/components/user/referrals";
 
 type Props = {};
 
