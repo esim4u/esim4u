@@ -495,7 +495,7 @@ export const disconnectUserWallet = async (telegram_id) => {
 
 // LEADERBOARD
 
-export const getLeaderboard = async (limit = 30, offset = 0) => {
+export const getLeaderboard = async (limit = 20, offset = 0) => {
     console.log('Getting leaderboard...');
     const users = await supabase.rpc('get_leaderboard_v4', {
         p_limit: limit,
