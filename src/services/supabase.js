@@ -495,10 +495,15 @@ export const disconnectUserWallet = async (telegram_id) => {
 
 // LEADERBOARD
 
-export const getLeaderboard = async () => {
-    const orders = await supabase.rpc("get_leaderboard_v2");
-    console.log(orders);
-    return orders.data;
+export const getLeaderboard = async (limit = 30, offset = 0) => {
+    console.log('Getting leaderboard...');
+    const users = await supabase.rpc('get_leaderboard_v4', {
+        p_limit: limit,
+        p_offset: offset,
+    });
+
+    console.log('Users:', users);
+    return users.data || [];   
 };
 
 // ACTIVITY
