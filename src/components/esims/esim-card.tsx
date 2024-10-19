@@ -121,7 +121,7 @@ const EsimCard = ({
             <div className="relative -mt-5 overflow-hidden rounded-b-2xl  pt-5">
                 <div className="absolute -z-10 -mt-5 h-full w-full  bg-gradient-to-tr from-tgaccent to-sky-400 opacity-75"></div>
 
-                {usage && state != "EXPIRED" &&
+                {usage &&
                     (usage.remaining == 0 ||
                         usage.remaining / usage.total < 0.5) && (
                         <TopUpCarousel
