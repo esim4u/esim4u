@@ -39,7 +39,7 @@ export const TelegramProvider = ({
 
         if (app) {
             app.enableClosingConfirmation();
-
+            app.requestFullscreen()
             initLanguage(app.initDataUnsafe?.user?.language_code);
 
             app?.MainButton.setParams({
@@ -57,7 +57,7 @@ export const TelegramProvider = ({
 
             app?.disableVerticalSwipes();
             app.ready();
-            app.expand();
+            // app.expand();
             setWebApp(app);
         }
     }, []);
