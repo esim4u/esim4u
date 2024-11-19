@@ -7,7 +7,6 @@ html {
 }
 
 body {
-    top: 46px;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
     overflow-y: scroll;
@@ -44,6 +43,15 @@ div:has(> button[data-tc-dropdown-button="true"]) {
 }
 
 @layer utilities {
+    
+    .contentSafeArea {
+        position: absolute;
+        top: calc(var(--tg-content-safe-area-inset-top, 0) + 40px) ;
+        bottom: var(--tg-content-safe-inset-bottom, 0);
+        left: var(--tg-content-safe-inset-left, 0);
+        right: var(--tg-content-safe-inset-right, 0);
+    }
+
     .animated-background {
         background-size: 400%;
     

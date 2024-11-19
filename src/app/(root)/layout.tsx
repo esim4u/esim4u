@@ -54,7 +54,7 @@ export default function RootLayout({
                         <TonConnectProvider>
                             {/* <TelegramAnalyticsProvider> */}
                                 <Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
-                                <div className={cn("no-scrollbar absolute bottom-0 left-0 right-0 top-0 overflow-y-auto overflow-x-hidden ", )}>
+                                <div className={cn("no-scrollbar contentSafeArea", )}>
                                     <div style={{ height: "calc(100% + 1px)" }}>
                                         {children}
                                     </div>
