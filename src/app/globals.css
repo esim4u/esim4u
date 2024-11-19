@@ -46,10 +46,10 @@ div:has(> button[data-tc-dropdown-button="true"]) {
     
     .contentSafeArea {
         position: absolute;
-        top: calc(var(--tg-content-safe-area-inset-top, 0) + 40px) ;
-        bottom: var(--tg-content-safe-inset-bottom, 0);
-        left: var(--tg-content-safe-inset-left, 0);
-        right: var(--tg-content-safe-inset-right, 0);
+        top: calc(var(--tg-safe-area-inset-top, 0) + var(--tg-content-safe-area-inset-top, 0)) ;
+        bottom: calc(var(--tg-safe-area-inset-bottom, 0) + var(--tg-content-safe-area-inset-bottom, 0));
+        left: calc(var(--tg-safe-area-inset-left, 0) + var(--tg-content-safe-area-inset-left, 0));
+        right: calc(var(--tg-safe-area-inset-right, 0) + var(--tg-content-safe-area-inset-right, 0));
     }
 
     .animated-background {
