@@ -18,6 +18,7 @@ export interface ITelegramContext {
     user?: any;
     start_param?: string | number;
     cloudStorage?: any;
+    safeAreaInset?: any;
 }
 
 export const TelegramContext = createContext<ITelegramContext>({});
