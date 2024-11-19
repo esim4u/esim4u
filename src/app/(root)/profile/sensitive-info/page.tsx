@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 export default function Home() {
-    const { webApp } = useTelegram();
+    const { webApp, safeAreaInset  } = useTelegram();
     const router = useRouter();
     const [items, setItems] = useState([]);
     const [localStorageData, setLocalStorageData] = useState([]);
@@ -62,6 +62,11 @@ export default function Home() {
             <pre className="text-balance">
                 {JSON.stringify(webApp, null, 2)}
             </pre>
+            SAFE AREA INSET
+            <pre className="text-balance">
+                {JSON.stringify(safeAreaInset, null, 2)}
+            </pre>
+
             CLOUD STORAGE
             <pre className="text-balance">{JSON.stringify(items, null, 2)}</pre>
             LOCAL STORAGE

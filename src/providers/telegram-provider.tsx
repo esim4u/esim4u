@@ -73,6 +73,7 @@ export const TelegramProvider = ({
                   },
                   start_param: webApp?.initDataUnsafe.start_param,
                   cloudStorage: webApp?.cloudStorage,
+                  safeAreaInset: webApp?.safeAreaInset,
                   //   adContoller
               }
             : {};
