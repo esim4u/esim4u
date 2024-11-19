@@ -57,7 +57,7 @@ export const TelegramProvider = ({
 
             app?.disableVerticalSwipes();
             app.ready();
-            // app.expand();
+            app.expand();
             setWebApp(app);
         }
     }, []);
