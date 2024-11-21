@@ -24,7 +24,7 @@ const webAppUrl = process.env.NEXT_PUBLIC_WEB_APP_URL;
 if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
 
 const buyEsimButton = (lang: string = "en") => {
-    return new InlineKeyboard().webApp(l("bot_btn_open", lang), webAppUrl);
+    return new InlineKeyboard().url(l("bot_btn_open", lang), webAppUrl);
 };
 
 /////////////////////
