@@ -13,7 +13,7 @@ type Props = {
 const Loader = ({ className }: Props) => {
     return (
         <div className={cn("w-56 h-56", className)}>
-            <Lottie animationData={amongUsAnim} />
+            <Lottie className="-mt-14" animationData={amongUsAnim} />
         </div>
     );
 };

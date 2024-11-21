@@ -208,6 +208,14 @@ export default function Settings() {
                 </div>
                 <TCButton />
                 <SupportProjectButton />
+                <Button
+                    onClick={() => {
+                        webApp?.addToHomeScreen() 
+                    }}
+                    className="w-full rounded-xl text-base h-12 truncate"
+                >
+                    {l("btn_add_to_home_screen")}
+                </Button>
             </div>
         </main>
     );
