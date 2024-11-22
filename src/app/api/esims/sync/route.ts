@@ -1,5 +1,5 @@
 import { EXCHANGE_RATE, MARGIN_RATE } from "@/constants";
-import { ORDER_STATUS } from "@/enums";
+import { ESIM_STATE, ORDER_STATUS } from "@/enums";
 import { supabase } from "@/services/supabase";
 import axios from "axios";
 
@@ -12,11 +12,17 @@ export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
 export async function GET() {
+    // select esims older than 12 hours
+    const timestampzISOStr = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(); 
     const orders = await supabase
         .from("orders")
         .select("*")
         .eq("type", "ESIM")
-        .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
+        .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING])
+        .in("state", [ESIM_STATE.ACTIVE, ESIM_STATE.NOT_ACTIVE, ESIM_STATE.FINISHED])
+        .or(`updated_at.lte.${timestampzISOStr},updated_at.is.null`) // select orders older than 12 hours or null(new orders)
+        .order("id", { ascending: false })
+        .limit(10)
 
     if (orders.error) {
         console.log("An cron error occurred while fetching orders");
@@ -30,6 +36,7 @@ export async function GET() {
         );
     }
 
+    let updatedOrders = [];
     try {
         for (const esim of orders.data) {
             const usage = await axios
@@ -55,8 +62,9 @@ export async function GET() {
                             total: usage.data?.total,
                         },
                         expired_at: usage.data?.expired_at,
+                        updated_at: new Date(),
                     })
-                    .eq("id", esim.id);
+                    .eq("id", esim.id)
             }
 
             const availableTopups = await axios
@@ -85,7 +93,10 @@ export async function GET() {
                     .update({
                         available_topups: availableTopups.data,
                     })
-                    .eq("id", esim.id);
+                    .eq("id", esim.id)
+                    .select("*")
+
+                updatedOrders.push(updatedOrder);
             }
         }
     } catch (error) {
@@ -100,5 +111,5 @@ export async function GET() {
         );
     }
 
-    return Response.json(orders, { status: 200 });
+    return Response.json(updatedOrders, { status: 200 });
 }
