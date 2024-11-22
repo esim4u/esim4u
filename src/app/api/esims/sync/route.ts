@@ -12,15 +12,15 @@ export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
 export async function GET() {
-    // select esims older than 12 hours
-    const timestampzISOStr = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(); 
+    // select esims older than 1 hour
+    const timestampzISOStr = new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(); // 1 hour ago
     const orders = await supabase
         .from("orders")
         .select("*")
         .eq("type", "ESIM")
         .in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING])
         .in("state", [ESIM_STATE.ACTIVE, ESIM_STATE.NOT_ACTIVE, ESIM_STATE.FINISHED])
-        .or(`updated_at.lte.${timestampzISOStr},updated_at.is.null`) // select orders older than 12 hours or null(new orders)
+        .or(`updated_at.lte.${timestampzISOStr},updated_at.is.null`) // select orders older than 1 hour or null(new orders)
         .order("id", { ascending: false })
         .limit(10)
 
