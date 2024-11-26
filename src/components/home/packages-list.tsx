@@ -4,7 +4,6 @@ import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { l } from "@/lib/locale";
 import { highlightMatches } from "@/lib/markup";
 import { hapticFeedback } from "@/lib/utils";
 

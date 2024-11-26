@@ -1,6 +1,5 @@
 import { supabase } from "@/services/supabase";
 import { sendAdminTgLog } from "@/services/tg-logger";
-import { count } from "console";
 
 export const maxDuration = 50;
 export const dynamic = "force-dynamic";

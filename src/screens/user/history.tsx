@@ -1,17 +1,16 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { getUsersEsimHistory } from "@/services/supabase";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 
+import { useTelegram } from "@/hooks/use-telegram";
+
 import Dot from "@/components/ui/dot";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TonIcon } from "@/components/icons";
-import { hapticFeedback } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import { useTelegram } from "@/hooks/use-telegram";
 
 type Props = {};
 

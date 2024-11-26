@@ -3,8 +3,6 @@
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { useTelegram } from "@/hooks/use-telegram";
-
 import Loader from "@/components/ui/loader";
 
 export default function Pending() {

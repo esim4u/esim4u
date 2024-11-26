@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import { NextRequest } from "next/server";
 import { sendTgLog } from "@/services/tg-logger";
 

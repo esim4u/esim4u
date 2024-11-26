@@ -3,13 +3,11 @@ import {
     addReferrerToUser,
     addUserPhotoFileId,
 } from "@/services/supabase";
-import { sendTgLog } from "@/services/tg-logger";
 import {
     Bot,
     GrammyError,
     HttpError,
     InlineKeyboard,
-    InputFile,
     Keyboard,
     webhookCallback,
 } from "grammy";

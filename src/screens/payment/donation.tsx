@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { sendTgLog } from "@/services/tg-logger";
 import { createTransaction } from "@/services/tonconnect";
@@ -14,15 +14,8 @@ import axios from "axios";
 import { BiLoaderAlt } from "react-icons/bi";
 import { RiTokenSwapFill } from "react-icons/ri";
 
-import { l } from "@/lib/locale";
-import {
-    cn,
-    donationErrorToast,
-    getAccentColor,
-    hapticFeedback,
-} from "@/lib/utils";
+import { cn, donationErrorToast, hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
-import useReferralLink from "@/hooks/useRefLink";
 
 import { Button } from "@/components/ui/button";
 import {

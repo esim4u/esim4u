@@ -1,6 +1,5 @@
 "use client";
 
-import React, { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Esim } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";

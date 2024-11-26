@@ -18,7 +18,7 @@ const ACHIEVEMENTS = [
     "/img/achievements/4.png",
 ];
 const Achievements = ({ fullWidth = false }: Props) => {
-    if ("coming soon") {
+    if (true) {
         return (
             <div className=" w-full">
                 <div className="relative flex h-[180px] w-full flex-col items-center justify-center gap-2 rounded-3xl bg-white">

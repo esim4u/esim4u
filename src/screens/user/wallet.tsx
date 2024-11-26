@@ -14,7 +14,6 @@ import { l } from "@/lib/locale";
 import {
     autoWithdrawWarningToast,
     cn,
-    getAccentColor,
     hapticFeedback,
     withdrawAmountWarningToast,
 } from "@/lib/utils";

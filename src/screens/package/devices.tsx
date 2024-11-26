@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
@@ -10,12 +10,9 @@ import { highlightMatches } from "@/lib/markup";
 
 import CustomInput from "@/components/ui/custom-input";
 import Loader from "@/components/ui/loader";
-import { hapticFeedback } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 
 const Devices = () => {
     const [search, setSearch] = useState("");
-    const router = useRouter();
 
     const { data: devices, isLoading } = useQuery({
         queryKey: ["compatible-devices"],

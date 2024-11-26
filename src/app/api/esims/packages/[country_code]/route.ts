@@ -1,6 +1,5 @@
 import { ceil } from "@/lib/utils";
 import axios from "axios";
-import dummy_data from "@/assets/data/dummy_country.json";
 import { EXCHANGE_RATE, MARGIN_RATE } from "@/constants";
 
 export async function GET(
