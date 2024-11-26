@@ -6,7 +6,6 @@ import { getUserById, updateUser } from "@/services/supabase";
 
 import Loader from "@/components/ui/loader";
 import { initData, useLaunchParams, useSignal } from "@telegram-apps/sdk-react";
-import { platform } from "os";
 
 export default function IndexPage() {
     const router = useRouter();
