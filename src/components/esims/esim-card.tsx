@@ -61,9 +61,9 @@ const EsimCard = ({
             setIsOpen(true);
 
             // const element = document.getElementById(iccid);
-            if (element) {
-                element.scrollIntoView({ block: "start", behavior: "smooth" });
-            }
+            // if (element) {
+            //     element.scrollIntoView({ block: "start", behavior: "smooth" });
+            // }
         }
     }, [open_iccid]);
 
