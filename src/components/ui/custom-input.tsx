@@ -1,9 +1,8 @@
 import React from "react";
-import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { IoCloseOutline } from "react-icons/io5";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 type CustomInputProps = {
     id?: string;
@@ -68,7 +67,7 @@ const CustomInput = ({
             {(value || isFocused) && (
                 <IoCloseOutline
                     onClick={() => {
-                        hapticFeedback();
+                        
                         if (onClear) {
                             onClear();
                         } else {

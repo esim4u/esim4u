@@ -2,8 +2,6 @@
 
 import React from "react";
 
-import { hapticFeedback } from "@/lib/utils";
-
 type Props = {};
 
 const AdPlaceholder = (props: Props) => {
@@ -23,9 +21,7 @@ const AdPlaceholder = (props: Props) => {
                         your ad could be here
                     </h2>
                     <span
-                        onClick={() => {
-                            hapticFeedback();
-                        }}
+                        onClick={() => {}}
                         className="font-medium text-tgaccent underline underline-offset-2"
                     >
                         contact us

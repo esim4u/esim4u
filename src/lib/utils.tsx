@@ -36,7 +36,6 @@ export function showConfirmationToast({
                 <Button
                     asChild
                     onClick={() => {
-                        hapticFeedback("success");
                         onYes();
                     }}
                     variant={"ghost"}
@@ -47,7 +46,6 @@ export function showConfirmationToast({
 
                 <Button
                     onClick={() => {
-                        hapticFeedback();
                         onNo();
                     }}
                     variant={"secondary"}
@@ -62,18 +60,6 @@ export function showConfirmationToast({
         hideClose: true,
     });
 }
-
-export const hapticFeedback = (type = "medium") => {
-    const webApp = (window as any).Telegram?.WebApp;
-
-    if (["light", "medium", "heavy"].includes(type)) {
-        webApp?.HapticFeedback?.impactOccurred(type);
-    }
-
-    if (["success", "error", "warning"].includes(type)) {
-        webApp?.HapticFeedback?.notificationOccurred(type);
-    }
-};
 
 export const highlightText = (query: string, text: string) => {
     if (!query.trim()) {

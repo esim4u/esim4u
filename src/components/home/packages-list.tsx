@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { highlightMatches } from "@/lib/markup";
-import { hapticFeedback } from "@/lib/utils";
 
 import AdPlaceholder from "./ad-placeholder";
 
@@ -26,7 +25,6 @@ const PackagesList = ({ packages, search }: Props) => {
                 return (
                     <div
                         onClick={() => {
-                            hapticFeedback();
                             router.push(
                                 `/esims/${country.country_code || country.slug}`,
                             );

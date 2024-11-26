@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { GrTrophy } from "react-icons/gr";
 import { MdArrowForwardIos } from "react-icons/md";
 
-import { hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
 
 import RefLinkButton from "../shared/ref-link-button";
@@ -34,7 +33,6 @@ const Header = (props: Props) => {
             <div className="flex w-full items-center justify-between gap-5">
                 <div
                     onClick={() => {
-                        hapticFeedback();
                         router.push("/profile");
                     }}
                     className="flex cursor-pointer items-center  gap-2 transition-transform active:scale-95"
@@ -71,7 +69,6 @@ const Header = (props: Props) => {
                     <RefLinkButton />
                     <div
                         onClick={() => {
-                            hapticFeedback();
                             router.push("/leaderboard");
                         }}
                         className="flex size-10 min-w-10 items-center justify-center rounded-full bg-white active:scale-95"

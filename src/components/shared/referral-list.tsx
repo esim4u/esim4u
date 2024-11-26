@@ -1,7 +1,5 @@
 import React from "react";
 
-import { hapticFeedback } from "@/lib/utils";
-
 import { PremiumIcon, TonIcon } from "../icons";
 
 type Props = {
@@ -16,10 +14,8 @@ const ReferralList = ({ referrals }: Props) => {
                     key={referral.telegram_id}
                     onClick={() => {
                         if (!referral.username) {
-                            hapticFeedback("error");
                             return;
                         }
-                        hapticFeedback();
                     }}
                     className="flex h-10 cursor-pointer items-center justify-between rounded-lg bg-white p-4 transition-transform active:scale-95"
                 >

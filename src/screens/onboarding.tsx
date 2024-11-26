@@ -13,7 +13,7 @@ import {
 import ReactCountryFlag from "react-country-flag";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback, showConfirmationToast } from "@/lib/utils";
+import { cn, showConfirmationToast } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
 
 import { Button } from "@/components/ui/button";
@@ -187,7 +187,6 @@ export default function OnBoarding() {
                     {count !== current ? (
                         <Button
                             onClick={() => {
-                                hapticFeedback();
                                 api?.scrollNext();
                             }}
                             size={"bean"}
@@ -198,7 +197,6 @@ export default function OnBoarding() {
                     ) : wallet ? (
                         <Button
                             onClick={() => {
-                                hapticFeedback();
                                 finishOnboaringForUser.mutate(tgUser);
                                 router.push("/esims");
                             }}
@@ -210,7 +208,6 @@ export default function OnBoarding() {
                     ) : (
                         <Button
                             onClick={() => {
-                                hapticFeedback("warning");
                                 showConfirmationToast({
                                     title: "Are you sure?",
                                     description:

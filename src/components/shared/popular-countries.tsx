@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { MdArrowForwardIos } from "react-icons/md";
 
 import { l } from "@/lib/locale";
-import { hapticFeedback } from "@/lib/utils";
 
 type Props = {
     hasTitle?: boolean;
@@ -27,7 +26,6 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                     onClick={() => {
                         if (!interactive) return;
 
-                        hapticFeedback();
                         router.push("/esims/eg");
                     }}
                     className=" relative flex cursor-pointer items-end justify-center overflow-hidden rounded-3xl transition-transform active:scale-95	"
@@ -63,7 +61,6 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                     onClick={() => {
                         if (!interactive) return;
 
-                        hapticFeedback();
                         router.push("/esims/ch");
                     }}
                     className=" relative flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 "
@@ -99,7 +96,6 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                     onClick={() => {
                         if (!interactive) return;
 
-                        hapticFeedback();
                         router.push("/esims/es");
                     }}
                     className=" relative col-span-2 row-span-2 flex cursor-pointer items-end justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
@@ -135,7 +131,6 @@ const PopularCountries = ({ hasTitle = true, interactive = true }: Props) => {
                     onClick={() => {
                         if (!interactive) return;
 
-                        hapticFeedback();
                         router.push("/esims/it");
                     }}
                     className=" relative col-span-2 row-span-1 flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"

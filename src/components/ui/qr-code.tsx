@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 import dynamic from "next/dynamic";
 import { PiShareFatFill } from "react-icons/pi";
 
-import { cn, copyText, hapticFeedback } from "@/lib/utils";
+import { cn, copyText } from "@/lib/utils";
 
 const Qr = dynamic(() => import("./qr"), {
     ssr: false,
@@ -38,7 +38,6 @@ const QrCode = ({
                 )}
                 onClick={() => {
                     if (!allowCopy) return;
-                    hapticFeedback("success");
                     copyText(url);
                 }}
                 url={url}
@@ -66,9 +65,7 @@ const ShareButton = ({
     if (shareMethod === "url") {
         return (
             <a
-                onClick={() => {
-                    hapticFeedback("success");
-                }}
+                onClick={() => {}}
                 className="absolute -right-12 aspect-square rounded-xl bg-white p-2 text-tgaccent underline"
                 href={`https://t.me/share/url?url=${url}&text=${
                     shareText || ""
@@ -82,9 +79,7 @@ const ShareButton = ({
     if (shareMethod === "qr") {
         return (
             <button
-                onClick={() => {
-                    hapticFeedback("success");
-                }}
+                onClick={() => {}}
                 className="absolute -right-12 aspect-square rounded-xl bg-white p-2 text-tgaccent underline"
             >
                 <PiShareFatFill className="h-5 w-5" />

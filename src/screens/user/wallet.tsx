@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import gemSpinAnim from "@/assets/anim/gem.json";
 import { getWalletByUserId, setWalletAutoWithdraw } from "@/services/supabase";
@@ -14,7 +14,6 @@ import { l } from "@/lib/locale";
 import {
     autoWithdrawWarningToast,
     cn,
-    hapticFeedback,
     withdrawAmountWarningToast,
 } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
@@ -108,13 +107,10 @@ const Wallet = (props: Props) => {
                 <button
                     onClick={() => {
                         if (walletData?.amount < 10) {
-                            hapticFeedback("error");
                             withdrawAmountWarningToast();
                         } else if (walletData?.auto_withdraw) {
-                            hapticFeedback("error");
                             autoWithdrawWarningToast();
                         } else {
-                            hapticFeedback("success");
                             alert("Withdraw");
                         }
                     }}
@@ -138,7 +134,6 @@ const Wallet = (props: Props) => {
                         <Switch
                             checked={walletData?.auto_withdraw}
                             onCheckedChange={(checked) => {
-                                hapticFeedback("success");
                                 setAutoWithdraw.mutate(checked);
                             }}
                             id="auto-withdraw"

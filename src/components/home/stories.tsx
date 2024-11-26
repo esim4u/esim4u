@@ -12,7 +12,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ReactCountryFlag from "react-country-flag";
 
 import { getCountryFromLanguage, getPreferredLanguage } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
 
 import {
@@ -138,7 +138,6 @@ const Stories = ({ className }: Props) => {
                                     // webApp?.openLink(story.telegraph_url, {
                                     //     try_instant_view: true,
                                     // });
-                                    hapticFeedback();
 
                                     let unique = new Set([
                                         ...checkedStories,

@@ -14,7 +14,7 @@ import axios from "axios";
 import { BiLoaderAlt } from "react-icons/bi";
 import { RiTokenSwapFill } from "react-icons/ri";
 
-import { cn, donationErrorToast, hapticFeedback } from "@/lib/utils";
+import { cn, donationErrorToast } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
 
 import { Button } from "@/components/ui/button";
@@ -139,11 +139,9 @@ const Donation = (props: Props) => {
                     <Button
                         onClick={() => {
                             if (+donationAmount < 1) {
-                                hapticFeedback("error");
                                 donationErrorToast();
                                 return;
                             }
-                            hapticFeedback("medium");
                             handlePayButtonClick();
                         }}
                         size={"lg"}
@@ -197,7 +195,6 @@ const DonationPriceCarousel = ({
                             >
                                 <div
                                     onClick={() => {
-                                        hapticFeedback();
                                         setDonationAmount(amount);
                                         api?.scrollTo(index);
                                     }}

@@ -11,13 +11,13 @@ import { FaUserFriends } from "react-icons/fa";
 import { GrTrophy } from "react-icons/gr";
 import { PiMedalFill } from "react-icons/pi";
 
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import ReferralList from "@/components/shared/referral-list";
-import { useTelegram } from "@/hooks/use-telegram";
 
 type Props = {};
 
@@ -140,9 +140,7 @@ const LeaderBoardUser = ({
                         </Avatar>
                         {dbUserData?.badge.toLowerCase() == "admin" ? (
                             <p
-                                onClick={() => {
-                                    hapticFeedback();
-                                }}
+                                onClick={() => {}}
                                 className=" line-clamp-1 w-32 overflow-hidden text-ellipsis"
                             >
                                 {leader?.first_name || "Esim4U Fren"}
@@ -184,7 +182,6 @@ const LeaderBoardUser = ({
                                 " bg-gradient-to-tr from-indigo-500 via-purple-500 via-100% to-purple-500 text-white ring-0",
                         )}
                         onClick={() => {
-                            hapticFeedback();
                             setIsOpen(!isOpen);
                         }}
                         variant={"unstyled"}

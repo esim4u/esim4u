@@ -3,7 +3,7 @@ import Image from "next/image";
 import { GiAchievement } from "react-icons/gi";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 
@@ -65,9 +65,7 @@ const Achievements = ({ fullWidth = false }: Props) => {
                             return (
                                 <CarouselItem
                                     key={index}
-                                    onClick={() => {
-                                        hapticFeedback();
-                                    }}
+                                    onClick={() => {}}
                                     className=" basis-28 cursor-pointer  pl-1 transition-transform active:scale-95"
                                 >
                                     <div className="p-1">

@@ -9,7 +9,6 @@ import Fuse from "fuse.js";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 
 import { getPreferredLanguage, l } from "@/lib/locale";
-import { hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
 
 import Collapse from "@/components/ui/collapse";
@@ -150,14 +149,12 @@ export default function Home() {
 
                     if (value.length > 2 && filteredPackages?.length === 0) {
                         setIsSearchError(true);
-                        hapticFeedback("warning");
                     } else {
                         setIsSearchError(false);
                     }
                 }}
                 isFocused={isSearchFocused}
                 onFocus={() => {
-                    hapticFeedback();
                     setIsSearchFocused(true);
                 }}
                 setIsFocused={setIsSearchFocused}

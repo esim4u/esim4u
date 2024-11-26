@@ -10,7 +10,8 @@ import { MdArrowForwardIos } from "react-icons/md";
 
 import { convertUsdToPreferredCurrency } from "@/lib/currency";
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -24,7 +25,6 @@ import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
 import Loader from "@/components/ui/loader";
 import { TonIcon } from "@/components/icons";
-import { useTelegram } from "@/hooks/use-telegram";
 
 const Package = ({ params }: { params: { country_code: string } }) => {
     const router = useRouter();
@@ -80,7 +80,6 @@ const Package = ({ params }: { params: { country_code: string } }) => {
     }, [isFetched, packageData]);
 
     const createEsimOrder = useCallback(async () => {
-        hapticFeedback();
         await axios
             .post("/api/esims/create", {
                 net_price: selectedPackage.net_price,
@@ -224,7 +223,6 @@ const PriceCarousel = ({
                                 >
                                     <div
                                         onClick={() => {
-                                            hapticFeedback();
                                             setSelectedPackage(plan);
                                             api?.scrollTo(index);
                                         }}
@@ -272,7 +270,6 @@ const AdditionalInfo = ({ packageData }: { packageData: any }) => {
                     {packageData.operators[0].coverages.length > 1 ? (
                         <button
                             onClick={() => {
-                                hapticFeedback();
                                 router.push(`${path}/coverage`);
                             }}
                             className="text-sm font-medium capitalize text-tgaccent underline underline-offset-2"
@@ -312,7 +309,6 @@ const AdditionalInfo = ({ packageData }: { packageData: any }) => {
                     </h3>
                     <button
                         onClick={() => {
-                            hapticFeedback();
                             router.push(`/esims/compatible-devices`);
                         }}
                         className="text-sm font-medium capitalize text-tgaccent underline underline-offset-2"
@@ -333,7 +329,6 @@ const Manual = () => {
             <div
                 className="flex cursor-pointer items-center justify-between"
                 onClick={() => {
-                    hapticFeedback();
                     setIsOpen(!isOpen);
                 }}
             >
@@ -404,12 +399,7 @@ const Manual = () => {
 const Terms = ({ terms, setTerms }: { terms: any; setTerms: any }) => {
     return (
         <div className="flex flex-col gap-2 rounded-3xl border-2 border-redish p-5">
-            <div
-                onClick={() => {
-                    hapticFeedback();
-                }}
-                className="flex items-center space-x-2"
-            >
+            <div onClick={() => {}} className="flex items-center space-x-2">
                 <Checkbox
                     onCheckedChange={(checked: boolean) => {
                         setTerms({
@@ -427,12 +417,7 @@ const Terms = ({ terms, setTerms }: { terms: any; setTerms: any }) => {
                     {l("text_terms_conditions")}
                 </label>
             </div>
-            <div
-                onClick={() => {
-                    hapticFeedback();
-                }}
-                className=" flex items-center space-x-2"
-            >
+            <div onClick={() => {}} className=" flex items-center space-x-2">
                 <Checkbox
                     onCheckedChange={(checked: boolean) => {
                         setTerms({

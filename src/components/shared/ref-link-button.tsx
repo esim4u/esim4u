@@ -4,7 +4,7 @@ import React from "react";
 import { track } from "@vercel/analytics/react";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 type Props = {
     className?: string;
@@ -14,7 +14,6 @@ const RefLinkButton = ({ className }: Props) => {
     return (
         <div
             onClick={() => {
-                hapticFeedback("success");
                 track("copy-ref-link-button-clicked");
             }}
             className={cn(

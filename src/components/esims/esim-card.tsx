@@ -11,12 +11,8 @@ import moment from "moment";
 import { TbHandClick } from "react-icons/tb";
 
 import { l } from "@/lib/locale";
-import {
-    cn,
-    detectIOSVersion,
-    generateEsimActivationLink,
-    hapticFeedback,
-} from "@/lib/utils";
+import { cn, detectIOSVersion, generateEsimActivationLink } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import {
     Carousel,
@@ -30,7 +26,6 @@ import Dot from "../ui/dot";
 import QrCode from "../ui/qr-code";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import CopyBadge from "./copy-badge";
-import { useTelegram } from "@/hooks/use-telegram";
 
 const EsimCard = ({
     package_id,
@@ -73,7 +68,6 @@ const EsimCard = ({
 
             <div
                 onClick={() => {
-                    hapticFeedback();
                     setIsOpen(!isOpen);
                 }}
                 className="z-10 flex cursor-pointer flex-row items-center justify-between rounded-3xl bg-white px-5 py-2"
@@ -138,9 +132,7 @@ const EsimCard = ({
                             <TabsList className="w-full">
                                 {
                                     <TabsTrigger
-                                        onClick={() => {
-                                            hapticFeedback();
-                                        }}
+                                        onClick={() => {}}
                                         className="w-full capitalize"
                                         value="auto"
                                     >
@@ -148,9 +140,7 @@ const EsimCard = ({
                                     </TabsTrigger>
                                 }
                                 <TabsTrigger
-                                    onClick={() => {
-                                        hapticFeedback();
-                                    }}
+                                    onClick={() => {}}
                                     className="w-full capitalize"
                                     value="manual"
                                 >
@@ -174,9 +164,7 @@ const EsimCard = ({
                                         </div>
                                         {detectIOSVersion() > 17.5 ? (
                                             <Link
-                                                onClick={() => {
-                                                    hapticFeedback("success");
-                                                }}
+                                                onClick={() => {}}
                                                 href={
                                                     "https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=" +
                                                     activationLink
@@ -218,7 +206,6 @@ const EsimCard = ({
                                         <h2>6. Select network</h2>{" "}
                                         <span
                                             onClick={() => {
-                                                hapticFeedback();
                                                 router.push(
                                                     "/esims/networks/" +
                                                         package_id,
@@ -325,7 +312,6 @@ const TopUpCarousel = ({
     }, [rateTonUsd, selectedPackage]);
 
     const createEsimOrder = async () => {
-        hapticFeedback();
         await axios
             .post("/api/topup/create", {
                 iccid: iccid,
@@ -383,7 +369,6 @@ const TopUpCarousel = ({
                                 >
                                     <div
                                         onClick={() => {
-                                            hapticFeedback();
                                             setSelectedPackage(plan);
                                             api?.scrollTo(index);
                                         }}
@@ -412,7 +397,6 @@ const TopUpCarousel = ({
                                     {selectedPackage.id == plan.id && (
                                         <div
                                             onClick={() => {
-                                                hapticFeedback("medium");
                                                 createEsimOrder();
                                             }}
                                             className="relative -mt-2 ml-2 mr-4 rounded-b-xl bg-emerald-300 pb-1.5 pt-3 hover:bg-emerald-300 active:scale-95"

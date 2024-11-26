@@ -7,7 +7,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
 
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -38,7 +38,6 @@ export default function Profile() {
             <div className="relative flex w-full flex-col items-center gap-4">
                 <IoIosSettings
                     onClick={() => {
-                        hapticFeedback();
                         router.push("/settings");
                     }}
                     className="absolute left-0 top-8 h-12 w-12 cursor-pointer text-neutral-400"
@@ -70,7 +69,6 @@ export default function Profile() {
                     <button className=" flex h-10 w-10 items-center justify-center rounded-full bg-white active:scale-90">
                         <IoQrCode
                             onClick={() => {
-                                hapticFeedback();
                                 router.push("/profile/qr");
                             }}
                             className=" h-7 w-7 cursor-pointer py-1 text-neutral-400"
@@ -106,7 +104,6 @@ const WalletBanner = ({ className }: { className?: string }) => {
     return (
         <button
             onClick={() => {
-                hapticFeedback();
                 router.push("/profile/wallet");
             }}
             className={cn(

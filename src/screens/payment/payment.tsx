@@ -13,7 +13,7 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { FaApplePay } from "react-icons/fa";
 import { MdArrowForwardIos } from "react-icons/md";
 
-import { cn, hapticFeedback, tonPaymentErrorToast } from "@/lib/utils";
+import { cn, tonPaymentErrorToast } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
 
 import { Button } from "@/components/ui/button";
@@ -226,7 +226,6 @@ const TonPayment = ({
                 ) : (
                     <Button
                         onClick={() => {
-                            hapticFeedback("medium");
                             handlePayButtonClick();
                         }}
                         className="w-full gap-1 rounded-xl text-base text-white"
@@ -286,7 +285,6 @@ const CardPayment = ({ orderData }: { orderData: any }) => {
             <div
                 className="z-10 flex w-full cursor-pointer items-center justify-between px-6 py-2"
                 onClick={() => {
-                    hapticFeedback();
                     setIsCardPaymentOpen(!isCardPaymentOpen);
                 }}
             >

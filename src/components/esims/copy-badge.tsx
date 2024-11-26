@@ -1,7 +1,7 @@
 import React from "react";
 import { TbCopy } from "react-icons/tb";
 
-import { copyText, hapticFeedback } from "@/lib/utils";
+import { copyText } from "@/lib/utils";
 
 type Props = {
     text?: string;
@@ -12,7 +12,6 @@ const CopyBadge = ({ text, textToCopy }: Props) => {
     return (
         <div
             onClick={() => {
-                hapticFeedback();
                 copyText(textToCopy || text || "");
             }}
             className="flex cursor-pointer items-center justify-between gap-1"

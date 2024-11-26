@@ -7,11 +7,11 @@ import axios from "axios";
 import { RiHistoryFill, RiSimCard2Fill } from "react-icons/ri";
 
 import { l } from "@/lib/locale";
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import { Skeleton } from "../ui/skeleton";
 import EsimCard from "./esim-card";
-import { useTelegram } from "@/hooks/use-telegram";
 
 type Props = {};
 
@@ -78,7 +78,6 @@ const UserEsims = (props: Props) => {
                 <h2>{l("title_esims")}</h2>{" "}
                 <h2
                     onClick={() => {
-                        hapticFeedback();
                         router.push("/profile/history");
                     }}
                     className="flex cursor-pointer underline underline-offset-4 active:scale-95 active:bg-white/50"
