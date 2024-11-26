@@ -1,4 +1,5 @@
+import Settings from "@/screens/user/settings";
+
 export default function SettingsPage() {
-    // return <Settings />;
-    return <div>Settings</div>;
+    return <Settings />;
 }

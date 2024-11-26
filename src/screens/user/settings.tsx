@@ -17,7 +17,6 @@ import {
     l,
     setLanguage,
 } from "@/lib/locale";
-import { hapticFeedback } from "@/lib/utils";
 import { useTelegram } from "@/hooks/use-telegram";
 
 import { Button } from "@/components/ui/button";
@@ -53,12 +52,9 @@ export default function Settings() {
                     onValueChange={(value) => {
                         setLanguage(value, router);
                         setPreferredLang(value);
-                        hapticFeedback("success");
                     }}
                     defaultValue={getPreferredLanguage()}
-                    onOpenChange={() => {
-                        hapticFeedback();
-                    }}
+                    onOpenChange={() => {}}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={l("input_title_language")} />
@@ -80,12 +76,9 @@ export default function Settings() {
                 <Select
                     onValueChange={(value) => {
                         setPreferredCurrency(value, router);
-                        hapticFeedback("success");
                     }}
                     defaultValue={getPreferredCurrencyCode()}
-                    onOpenChange={() => {
-                        hapticFeedback();
-                    }}
+                    onOpenChange={() => {}}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={l("input_title_currency")} />
@@ -119,7 +112,6 @@ export default function Settings() {
                         <>
                             <Button
                                 onClick={() => {
-                                    hapticFeedback();
                                     router.push("/profile/sensitive-info");
                                 }}
                                 variant={"destructive"}
@@ -129,7 +121,6 @@ export default function Settings() {
                             </Button>
                             <Button
                                 onClick={() => {
-                                    hapticFeedback();
                                     router.push("/sandbox");
                                 }}
                                 variant={"destructive"}
@@ -144,7 +135,6 @@ export default function Settings() {
                 <div className="flex w-full gap-2">
                     <Button
                         onClick={() => {
-                            hapticFeedback();
                             router.push("/onboarding");
                         }}
                         className="w-full truncate rounded-full"
