@@ -9,6 +9,7 @@
     - **State management**: react-query
     - **Payments**: tonconnect/ui-react, sumup
 
+
 ## Project structure
 
 - **src**: Contains the source code for the frontend application
@@ -21,6 +22,7 @@
 - **tests**: Contains test files and configurations
 - **.env**: Environment variables configuration file
 - **package.json**: Contains project dependencies and scripts
+
 
 ## Useful links
 
