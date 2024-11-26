@@ -1,22 +1,14 @@
 import "../globals.css";
-import dynamic from 'next/dynamic'
 
 import { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
 import Script from "next/script";
-import ReactQueryProvider from "@/providers/query-provider";
-import { TelegramProvider } from "@/providers/telegram-provider";
-import TonConnectProvider from "@/providers/tonconnect-provider";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 
 import { cn } from "@/lib/utils";
 
 import { Toaster } from "@/components/ui/toaster";
-// import TelegramAnalyticsProvider from "@/providers/telegram-analytics-provider";
-// const TelegramAnalyticsProvider = dynamic(() => import('@/providers/telegram-analytics-provider'), {
-//     ssr: false
-// })
+import MainProvider from "@/providers/providers";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -49,26 +41,17 @@ export default function RootLayout({
                     fontSans.variable,
                 )}
             >
-                <ReactQueryProvider>
-                    <TelegramProvider>
-                        <TonConnectProvider>
-                            {/* <TelegramAnalyticsProvider> */}
-                                <Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
-                                <div className={cn("no-scrollbar contentSafeArea", )}>
-                                    <div style={{ height: "calc(100% + 1px)" }}>
-                                        {children}
-                                    </div>
-                                </div>
-                                <Toaster />
-                                <Analytics />
-                            {/* </TelegramAnalyticsProvider> */}
-                        </TonConnectProvider>
-                    </TelegramProvider>
-                </ReactQueryProvider>
+                <MainProvider>
+                    <Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
+                    <div className={cn("no-scrollbar contentSafeArea")}>
+                        <div style={{ height: "calc(100% + 1px)" }}>
+                            {children}
+                        </div>
+                    </div>
+                    <Toaster />
+                    <Analytics />
+                </MainProvider>
             </body>
-            <GoogleAnalytics
-                gaId={process.env.NEXT_PUBLIC_MEASUREMENT_ID ?? ""}
-            />
         </html>
     );
 }
