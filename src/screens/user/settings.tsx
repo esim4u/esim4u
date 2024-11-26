@@ -1,13 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LANGUAGES } from "@/constants";
-import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
-import { sendGAEvent } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
-import { track } from "@vercel/analytics/react";
 
 import {
     getPreferredCurrencyCode,
@@ -20,7 +17,8 @@ import {
     l,
     setLanguage,
 } from "@/lib/locale";
-import { getAccentColor, hapticFeedback, shareRef } from "@/lib/utils";
+import { hapticFeedback } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,62 +30,21 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import TCButton from "@/components/ui/tc-button";
-import SupportProject from "@/components/shared/support-project-button";
 import SupportProjectButton from "@/components/shared/support-project-button";
 
 export default function Settings() {
     const router = useRouter();
-    const { user: tgUser, webApp } = useTelegram();
     const [preferredLang, setPreferredLang] = useState("");
+
+    const { tgUser } = useTelegram();
 
     const { data: dbUserData, isLoading } = useQuery({
         queryKey: ["user", tgUser?.id],
         queryFn: async () => {
-            const data = await getUserById(tgUser.id);
+            const data = await getUserById(tgUser?.id);
             return data;
         },
     });
-
-    useEffect(() => {
-        if (webApp) {
-            webApp?.BackButton.show();
-            webApp?.MainButton.setParams({
-                text: l("btn_main_share"),
-                color: getAccentColor(),
-                is_active: true,
-                is_visible: true,
-            });
-        }
-    }, [webApp, preferredLang]);
-
-    const copyReferralLink = useCallback(() => {
-        if (webApp) {
-            hapticFeedback("success");
-            sendGAEvent({ event: "share", value: "main-share-button-clicked" });
-            track("main-share-button-clicked");
-
-            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
-        }
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("mainButtonClicked", copyReferralLink);
-        return () => {
-            webApp?.offEvent("mainButtonClicked", copyReferralLink);
-        };
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
 
     return (
         <main className="flex h-dvh w-full flex-col items-center justify-center overflow-x-hidden p-5">
@@ -190,32 +147,20 @@ export default function Settings() {
                             hapticFeedback();
                             router.push("/onboarding");
                         }}
-                        className="w-full rounded-full truncate"
+                        className="w-full truncate rounded-full"
                     >
                         {l("btn_onboarding")}
                     </Button>
 
                     <Button
-                        onClick={() => {
-                            webApp?.openTelegramLink(
-                                "https://t.me/esim4u_support_bot/chat",
-                            );
-                        }}
-                        className="w-full rounded-full truncate"
+                        onClick={() => {}}
+                        className="w-full truncate rounded-full"
                     >
                         {l("btn_support")}
                     </Button>
                 </div>
                 <TCButton />
                 <SupportProjectButton />
-                <Button
-                    onClick={() => {
-                        webApp?.addToHomeScreen() 
-                    }}
-                    className="w-full rounded-xl text-base h-12 truncate"
-                >
-                    {l("btn_add_to_home_screen")}
-                </Button>
             </div>
         </main>
     );

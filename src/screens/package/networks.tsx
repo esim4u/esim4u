@@ -11,12 +11,10 @@ import { highlightMatches } from "@/lib/markup";
 
 import CustomInput from "@/components/ui/custom-input";
 import Loader from "@/components/ui/loader";
-import { useTelegram } from "@/providers/telegram-provider";
 import { hapticFeedback } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 const Networks = ({ params }: { params: { package_id: string } }) => {
-    const { webApp } = useTelegram();
     const router = useRouter();
     const [search, setSearch] = useState("");
 
@@ -61,18 +59,6 @@ const Networks = ({ params }: { params: { package_id: string } }) => {
             });
         });
     }, [networks, search]);
-
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
 
     if (isLoading) {
         return (

@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
 
 import { l } from "@/lib/locale";
 import { highlightMatches } from "@/lib/markup";
@@ -17,7 +16,6 @@ type Props = {
 };
 
 const PackagesList = ({ packages, search }: Props) => {
-    const { webApp } = useTelegram();
     const router = useRouter();
 
     if (packages.length === 0) {
@@ -30,12 +28,6 @@ const PackagesList = ({ packages, search }: Props) => {
                     <div
                         onClick={() => {
                             hapticFeedback();
-                            webApp?.MainButton.setParams({
-                                text: l("btn_pay"),
-                                color: "#444444",
-                                is_active: false,
-                                is_visible: true,
-                            });
                             router.push(
                                 `/esims/${country.country_code || country.slug}`,
                             );

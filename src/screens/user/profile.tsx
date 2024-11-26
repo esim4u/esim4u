@@ -1,17 +1,14 @@
 "use client";
 
-import { Suspense, useCallback, useEffect } from "react";
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById, getWalletByUserId } from "@/services/supabase";
-import { sendGAEvent } from "@next/third-parties/google";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { track } from "@vercel/analytics/react";
 import { IoIosSettings } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
 
-import { l } from "@/lib/locale";
-import { cn, getAccentColor, hapticFeedback, shareRef } from "@/lib/utils";
+import { cn, hapticFeedback } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -23,61 +20,18 @@ import SupportProjectButton from "@/components/shared/support-project-button";
 
 export default function Profile() {
     const router = useRouter();
-    const { user: tgUser, webApp } = useTelegram();
+    const { tgUser } = useTelegram();
     const searchParams = useSearchParams();
     const is_payment = searchParams.get("is_payment") || false;
 
     const { data: dbUserData, isLoading } = useQuery({
         queryKey: ["user", tgUser?.id],
         queryFn: async () => {
-            const data = await getUserById(tgUser.id);
+            const data = await getUserById(tgUser?.id);
             return data;
         },
         placeholderData: keepPreviousData,
     });
-
-    useEffect(() => {
-        if (webApp) {
-            webApp?.BackButton.show();
-
-            webApp?.MainButton.setParams({
-                text: l("btn_main_share"),
-                color: getAccentColor(),
-                is_active: true,
-                is_visible: true,
-            });
-        }
-    }, [webApp]);
-
-    const copyReferralLink = useCallback(() => {
-        if (webApp) {
-            hapticFeedback();
-            // copyReferralLinkToClipBoard(webApp?.initDataUnsafe?.user?.id.toString())
-            sendGAEvent({ event: "share", value: "main-share-button-clicked" });
-            track("main-share-button-clicked");
-
-            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
-        }
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.push("/esims");
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("mainButtonClicked", copyReferralLink);
-        return () => {
-            webApp?.offEvent("mainButtonClicked", copyReferralLink);
-        };
-    }, [webApp]);
 
     return (
         <main className="no-scrollbar flex h-dvh flex-col items-center overflow-x-hidden px-5 py-2">
@@ -95,14 +49,14 @@ export default function Profile() {
                     <Avatar className="h-32 w-32  ring-[3px] ring-neutral-400/30 ring-offset-2">
                         <AvatarImage
                             src={
-                                tgUser?.photo_url ||
+                                tgUser?.photoUrl ||
                                 dbUserData?.photo_url ||
                                 "/img/default-user.png"
                             }
                             alt="@shadcn"
                         />
                         <AvatarFallback className=" bg-neutral-500 text-white">
-                            {tgUser?.first_name[0]}
+                            {tgUser?.firstName && tgUser?.firstName[0]}
                         </AvatarFallback>
                     </Avatar>
                     <h2 className=" text-center font-medium leading-3 text-neutral-500">
@@ -113,7 +67,7 @@ export default function Profile() {
                 <div className="flex flex-row items-center gap-2">
                     <RefLinkButton />
 
-                    <button className=" active:scale-90 flex h-10 w-10 items-center justify-center rounded-full bg-white">
+                    <button className=" flex h-10 w-10 items-center justify-center rounded-full bg-white active:scale-90">
                         <IoQrCode
                             onClick={() => {
                                 hapticFeedback();
@@ -137,12 +91,12 @@ export default function Profile() {
 
 const WalletBanner = ({ className }: { className?: string }) => {
     const router = useRouter();
-    const { user: tgUser } = useTelegram();
+    const { tgUser } = useTelegram();
 
     const { data: walletData } = useQuery({
         queryKey: ["wallet", tgUser?.id],
         queryFn: async () => {
-            const data = await getWalletByUserId(tgUser.id);
+            const data = await getWalletByUserId(tgUser?.id);
             return data;
         },
         placeholderData: keepPreviousData,

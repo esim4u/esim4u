@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RUNNING_LINE_COUNTRIES } from "@/constants";
-import { useTelegram } from "@/providers/telegram-provider";
 import { createUser, finishOnboarding } from "@/services/supabase";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import {
     TonConnectButton,
     useTonAddress,
@@ -15,6 +14,7 @@ import ReactCountryFlag from "react-country-flag";
 
 import { l } from "@/lib/locale";
 import { cn, hapticFeedback, showConfirmationToast } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,8 +24,6 @@ import {
     CarouselItem,
 } from "@/components/ui/carousel";
 import Dot from "@/components/ui/dot";
-import { ToastAction } from "@/components/ui/toast";
-import { toast } from "@/components/ui/use-toast";
 import PopularCountries from "@/components/shared/popular-countries";
 
 export default function OnBoarding() {
@@ -33,7 +31,6 @@ export default function OnBoarding() {
     const wallet = useTonWallet();
     const tonAddress = useTonAddress();
 
-    const { user: tgUser, webApp, start_param } = useTelegram();
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
     const [count, setCount] = useState(0);
@@ -53,7 +50,7 @@ export default function OnBoarding() {
 
     const createAppUser = useMutation({
         mutationFn: async (tgUser: any) => {
-            return await createUser(tgUser, start_param);
+            return await createUser(tgUser, tgUser.start_param);
         },
         onError: (error) => {},
         onSuccess: (data) => {},
@@ -67,15 +64,16 @@ export default function OnBoarding() {
         onSuccess: (data) => {},
     });
 
+    const { tgUser } = useTelegram();
+
     useEffect(() => {
-        if (tgUser && webApp) {
-            webApp?.MainButton.hide();
+        if (tgUser) {
             createAppUser.mutate(tgUser);
         }
-    }, [tgUser, webApp]);
+    }, [tgUser]);
 
     return (
-        <main className="flex h-dvh flex-col justify-center overflow-x-hidden">
+        <main className="container flex h-dvh flex-col justify-center overflow-x-hidden">
             <div className="flex h-full flex-col justify-between gap-5 pb-5 pt-[10dvh]">
                 <Carousel setApi={setApi} className="w-full">
                     <CarouselContent className=" py-5">

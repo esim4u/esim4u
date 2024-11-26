@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useTelegram } from "@/providers/telegram-provider";
 import { getUserReferrals } from "@/services/supabase";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 import ReferralList from "../shared/referral-list";
 import { Skeleton } from "../ui/skeleton";
+import { useTelegram } from "@/hooks/use-telegram";
 
 interface Props {
     hideTitle?: boolean;
@@ -18,12 +18,12 @@ interface Props {
 }
 
 const Referrals = ({ hideTitle, className, hideSkeleton = false }: Props) => {
-    const { user: tgUser, webApp } = useTelegram();
+    const { tgUser } = useTelegram();
 
     const { data: referrals, isLoading } = useQuery({
         queryKey: ["referrals", tgUser?.id],
         queryFn: async () => {
-            const data = await getUserReferrals(tgUser.id);
+            const data = await getUserReferrals(tgUser?.id);
             return data;
         },
     });

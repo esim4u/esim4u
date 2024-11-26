@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
 import { Esim } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -19,7 +18,6 @@ import {
     hapticFeedback,
 } from "@/lib/utils";
 
-import { Button } from "../ui/button";
 import {
     Carousel,
     CarouselApi,
@@ -32,6 +30,7 @@ import Dot from "../ui/dot";
 import QrCode from "../ui/qr-code";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import CopyBadge from "./copy-badge";
+import { useTelegram } from "@/hooks/use-telegram";
 
 const EsimCard = ({
     package_id,
@@ -121,7 +120,8 @@ const EsimCard = ({
             <div className="relative -mt-5 overflow-hidden rounded-b-2xl  pt-5">
                 <div className="absolute -z-10 -mt-5 h-full w-full  bg-gradient-to-tr from-tgaccent to-sky-400 opacity-75"></div>
 
-                {usage && state != "EXPIRED" &&
+                {usage &&
+                    state != "EXPIRED" &&
                     (usage.remaining == 0 ||
                         usage.remaining / usage.total < 0.5) && (
                         <TopUpCarousel
@@ -300,7 +300,8 @@ const TopUpCarousel = ({
     image_url: string;
     coverage: string;
 }) => {
-    const { user: tgUser } = useTelegram();
+    const { tgUser } = useTelegram();
+
     const router = useRouter();
 
     const [selectedPackage, setSelectedPackage] = useState<any>(topUps[0]);

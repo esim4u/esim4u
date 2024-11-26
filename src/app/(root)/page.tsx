@@ -2,34 +2,45 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById, updateUser } from "@/services/supabase";
 
 import Loader from "@/components/ui/loader";
+import { initData, useLaunchParams, useSignal } from "@telegram-apps/sdk-react";
+import { platform } from "os";
 
 export default function IndexPage() {
     const router = useRouter();
-    const { user: tgUser, webApp, start_param } = useTelegram();
+    const initDataState = useSignal(initData.state);
+	const lp = useLaunchParams();
 
-    const fetchUser = async (id: number | string) => {
-        const dbUser = await getUserById(id);
 
-        if (dbUser?.id) {
-            await updateUser(tgUser, dbUser);
-            return router.push("/esims");
-        }
-
-        return router.push("/onboarding");
-    };
 
     useEffect(() => {
-        if (tgUser && webApp) {
+        const fetchUser = async (tgUser: any) => {
+            const dbUser = await getUserById(tgUser.id);
+    
+            if (dbUser?.id) {
+                await updateUser(tgUser, dbUser);
+                return router.push("/esims");
+            }
+    
+            return router.push("/onboarding");
+        };
+
+        if (initDataState && lp) {
+            const tgUser = {
+                ...initDataState.user,
+                start_param: initData.startParam,
+                platform: lp?.platform,
+            }
             fetchUser(tgUser.id);
         }
-    }, [tgUser]);
+    }, [initDataState, lp, router]);
+
+
 
     return (
-        <main className="flex h-dvh flex-col items-center justify-center overflow-x-hidden ">
+        <main className="container flex h-screen items-center justify-center bg-white py-5">
             <Loader />
         </main>
     );

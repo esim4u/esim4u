@@ -1,17 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 import { COUNTRIES } from "@/constants";
-import { useTelegram } from "@/providers/telegram-provider";
-import { sendGAEvent } from "@next/third-parties/google";
+import { getWalletByUserId } from "@/services/supabase";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Fuse from "fuse.js";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 
 import { getPreferredLanguage, l } from "@/lib/locale";
-import { getAccentColor, hapticFeedback, loseFocus, shareRef } from "@/lib/utils";
+import { hapticFeedback } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import Collapse from "@/components/ui/collapse";
 import CustomInput from "@/components/ui/custom-input";
@@ -21,18 +20,14 @@ import Stories from "@/components/home/stories";
 import Achievements from "@/components/shared/achievements";
 import PopularCountries from "@/components/shared/popular-countries";
 import SubscribeBanner from "@/components/shared/subscribe-banner";
-import { track } from "@vercel/analytics/react";
 import SupportProjectButton from "@/components/shared/support-project-button";
-import { getWalletByUserId } from "@/services/supabase";
 
 export default function Home() {
-    const { user: tgUser, webApp } = useTelegram();
-
     const [search, setSearch] = useState("");
     const [isSearchError, setIsSearchError] = useState(false);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-    const router = useRouter();
+    const { tgUser } = useTelegram();
 
     const { data: packages, isLoading } = useQuery({
         queryKey: ["esim-packages"],
@@ -47,16 +42,16 @@ export default function Home() {
         placeholderData: keepPreviousData,
     });
 
-    const { } = useQuery({
+    const {} = useQuery({
         queryKey: ["wallet", tgUser?.id],
         queryFn: async () => {
-            const data = await getWalletByUserId(tgUser.id);
+            const data = await getWalletByUserId(tgUser?.id);
             return data;
         },
         placeholderData: keepPreviousData,
     });
-    
-    const { } = useQuery({
+
+    const {} = useQuery({
         queryKey: ["ratetonusd"],
         queryFn: async () => {
             const { data } = await axios.get(
@@ -65,74 +60,6 @@ export default function Home() {
             return data.rates.TON.prices.USD;
         },
     });
-
-
-    useEffect(() => {
-        if (webApp) {
-            webApp?.BackButton.hide();
-        }
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
-
-    const copyReferralLink = useCallback(() => {
-        if (webApp) {
-            hapticFeedback("success");
-
-            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
-            sendGAEvent({ event: "share", value: "main-share-button-clicked" });
-            track("subscription_banner-clicked")
-            track("main-share-button-clicked")
-            // copyReferralLinkToClipBoard(
-            //     webApp?.initDataUnsafe?.user?.id.toString()
-            // );
-        }
-    }, [webApp]);
-
-    const handleLoseFocus = useCallback(() => {
-        if (webApp) {
-            hapticFeedback()
-            setIsSearchFocused(false);
-            loseFocus();
-        }
-    }, [webApp]);
-
-    useEffect(() => {
-        if (isSearchFocused) {
-            webApp?.MainButton.setParams({
-                text: "Finish searching",
-                color: "#EF3671",
-                is_active: true,
-                is_visible: true,
-            });
-
-            webApp?.onEvent("mainButtonClicked", handleLoseFocus);
-            return () => {
-                webApp?.offEvent("mainButtonClicked", handleLoseFocus);
-            };
-        } else {
-            webApp?.MainButton.setParams({
-                text: l("btn_main_share"),
-                color: getAccentColor(),
-                is_active: true,
-                is_visible: true,
-            });
-            webApp?.onEvent("mainButtonClicked", copyReferralLink);
-            return () => {
-                webApp?.offEvent("mainButtonClicked", copyReferralLink);
-            };
-        }
-    }, [webApp, isSearchFocused]);
 
     const filteredPackages = useMemo(() => {
         if (!search) return [];
@@ -211,7 +138,6 @@ export default function Home() {
 
                     <Stories className="mr-4 pl-4" />
                     <SubscribeBanner className={"mx-4"} />
-
                 </div>
             </Collapse>
 
@@ -245,7 +171,7 @@ export default function Home() {
                 <div className="flex flex-col gap-4 pb-4">
                     <PopularCountries />
                     <Achievements fullWidth />
-                    <SupportProjectButton/>
+                    <SupportProjectButton />
                 </div>
             </Collapse>
         </main>

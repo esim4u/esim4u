@@ -2,7 +2,6 @@
 
 import React, { useCallback, useEffect } from "react";
 import Image from "next/image";
-import { useTelegram } from "@/providers/telegram-provider";
 import { getUsersEsimHistory } from "@/services/supabase";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
@@ -12,31 +11,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { TonIcon } from "@/components/icons";
 import { hapticFeedback } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useTelegram } from "@/hooks/use-telegram";
 
 type Props = {};
 
 const History = (props: Props) => {
-    const { user: tgUser, webApp } = useTelegram();
+    const { tgUser } = useTelegram();
     const router = useRouter();
     const { data: history, isLoading } = useQuery({
         queryKey: ["history", tgUser?.id],
         queryFn: async () => {
-            const data = await getUsersEsimHistory(tgUser.id);
+            const data = await getUsersEsimHistory(tgUser?.id);
             return data;
         },
         enabled: !!tgUser?.id,
     });
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
 
     if (isLoading) {
         <main className="flex h-dvh flex-col items-center overflow-x-hidden p-5">

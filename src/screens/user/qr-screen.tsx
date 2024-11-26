@@ -1,56 +1,18 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
-import { useTelegram } from "@/providers/telegram-provider";
-
-import { getReferralLink, hapticFeedback, shareRef } from "@/lib/utils";
+import { getReferralLink } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import QrCode from "@/components/ui/qr-code";
-import { useRouter } from "next/navigation";
-import { sendGAEvent } from "@next/third-parties/google";
-import { track } from "@vercel/analytics/react";
 
-type Props = {};
+const QrScreen = () => {
+    const { tgUser } = useTelegram();
 
-const QrScreen = (props: Props) => {
-    const { user: tgUser, webApp } = useTelegram();
-    const router = useRouter();
-
-    const copyReferralLink = useCallback(() => {
-        if (webApp) {
-            hapticFeedback("success");
-            // copyReferralLinkToClipBoard(
-            //     webApp?.initDataUnsafe?.user?.id.toString()
-            // );
-            sendGAEvent({ event: "share", value: "main-share-button-clicked" });
-            track("main-share-button-clicked")
-
-            webApp.openTelegramLink(shareRef(tgUser?.id.toString()));
-        }
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("mainButtonClicked", copyReferralLink);
-        return () => {
-            webApp?.offEvent("mainButtonClicked", copyReferralLink);
-        };
-    }, [webApp]);
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
     return (
         <div className="flex h-dvh w-full flex-col items-center justify-center gap-5 p-5">
             <div>
                 <QrCode
-                    url={getReferralLink(tgUser?.id)}
+                    url={getReferralLink(tgUser?.id || "")}
                     shareMethod="url"
                     shareText="Join me on this app and get bonuses for your purchases!"
                     allowCopy

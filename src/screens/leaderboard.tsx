@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
+import { useState } from "react";
 import {
     getLeaderboard,
     getUserById,
@@ -13,14 +11,13 @@ import { FaUserFriends } from "react-icons/fa";
 import { GrTrophy } from "react-icons/gr";
 import { PiMedalFill } from "react-icons/pi";
 
-import { l } from "@/lib/locale";
-import { cn, getAccentColor, hapticFeedback } from "@/lib/utils";
-import useReferralLink from "@/hooks/useRefLink";
+import { cn, hapticFeedback } from "@/lib/utils";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import ReferralList from "@/components/shared/referral-list";
+import { useTelegram } from "@/hooks/use-telegram";
 
 type Props = {};
 
@@ -50,9 +47,7 @@ const PlaceLabel = ({ index }: { index: number }) => {
 };
 
 const LeaderBoard = (props: Props) => {
-    const { user: tgUser, webApp } = useTelegram();
-    const router = useRouter();
-    useReferralLink(webApp, tgUser);
+    const { tgUser } = useTelegram();
 
     const { data: leaders, isLoading } = useQuery({
         queryKey: ["leaderboard"],
@@ -65,35 +60,11 @@ const LeaderBoard = (props: Props) => {
     const { data: dbUserData } = useQuery({
         queryKey: ["user", tgUser?.id],
         queryFn: async () => {
-            const data = await getUserById(tgUser.id);
+            const data = await getUserById(tgUser?.id);
             return data;
         },
         placeholderData: keepPreviousData,
     });
-
-    useEffect(() => {
-        if (webApp) {
-            webApp?.BackButton.show();
-            webApp?.MainButton.setParams({
-                text: l("btn_main_share"),
-                color: getAccentColor(),
-                is_active: true,
-                is_visible: true,
-            });
-        }
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
 
     return (
         <main className="flex h-dvh flex-col items-center gap-2 overflow-x-hidden p-5">
@@ -122,7 +93,7 @@ const LeaderBoardUser = ({
     index: number;
     dbUserData: any;
 }) => {
-    const { user: tgUser, webApp } = useTelegram();
+    const { tgUser } = useTelegram();
     const [isOpen, setIsOpen] = useState(false);
     return (
         <div className={cn("flex w-full flex-col")}>
@@ -171,9 +142,6 @@ const LeaderBoardUser = ({
                             <p
                                 onClick={() => {
                                     hapticFeedback();
-                                    webApp?.openTelegramLink(
-                                        "https://t.me/" + leader.username,
-                                    );
                                 }}
                                 className=" line-clamp-1 w-32 overflow-hidden text-ellipsis"
                             >
@@ -238,7 +206,7 @@ const LeaderBoardUser = ({
 const ReferralCollapse = ({
     telegram_id,
     isOpen,
-    referrals
+    referrals,
 }: {
     telegram_id: string;
     isOpen: boolean;

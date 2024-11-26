@@ -2,22 +2,17 @@
 
 import React from "react";
 import Image from "next/image";
-import { useTelegram } from "@/providers/telegram-provider";
 
-import { cn, hapticFeedback } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 type Props = {
     className?: string;
 };
 
 const SubscribeBanner = ({ className }: Props) => {
-    const { webApp } = useTelegram();
     return (
         <div
-            onClick={() => {
-                hapticFeedback("success");
-                webApp?.openTelegramLink("https://t.me/esim4travel");
-            }}
+            onClick={() => {}}
             className={cn(
                 " animated-background rounded-3xl bg-gradient-to-tr from-red-400 via-purple-500 to-sky-400 p-[3px]  transition-transform active:scale-95",
                 className,
@@ -37,10 +32,10 @@ const SubscribeBanner = ({ className }: Props) => {
                     />
                 </div>
                 <div>
-                    <h2 className=" text-center text-[15px] font-semibold tracking-tighte leading-4">
+                    <h2 className=" tracking-tighte text-center text-[15px] font-semibold leading-4">
                         🌟 Support Our App and Enjoy Rewards! 🌟
                     </h2>
-                    <p className="text-center text-xs tracking-tighter leading-[14px]">
+                    <p className="text-center text-xs leading-[14px] tracking-tighter">
                         Click to subscribe to our channel and get 3 months of{" "}
                         <b>Telegram Premium for FREE!</b> 🎁✨
                     </p>

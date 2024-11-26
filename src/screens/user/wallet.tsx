@@ -3,7 +3,6 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import gemSpinAnim from "@/assets/anim/gem.json";
-import { useTelegram } from "@/providers/telegram-provider";
 import { getWalletByUserId, setWalletAutoWithdraw } from "@/services/supabase";
 import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -19,6 +18,7 @@ import {
     hapticFeedback,
     withdrawAmountWarningToast,
 } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import { Switch } from "@/components/ui/switch";
 import { TonIcon } from "@/components/icons";
@@ -28,7 +28,7 @@ type Props = {};
 
 const Wallet = (props: Props) => {
     const router = useRouter();
-    const { user: tgUser, webApp } = useTelegram();
+    const { tgUser } = useTelegram();
 
     const { data: rateTonUsd } = useQuery({
         queryKey: ["ratetonusd"],
@@ -44,7 +44,7 @@ const Wallet = (props: Props) => {
     const { data: walletData, refetch: refetchWalletData } = useQuery({
         queryKey: ["wallet", tgUser?.id],
         queryFn: async () => {
-            const data = await getWalletByUserId(tgUser.id);
+            const data = await getWalletByUserId(tgUser?.id);
             return data;
         },
         placeholderData: keepPreviousData,
@@ -53,7 +53,7 @@ const Wallet = (props: Props) => {
 
     const setAutoWithdraw = useMutation({
         mutationFn: async (autoWithdraw: boolean) => {
-            await setWalletAutoWithdraw(tgUser.id, autoWithdraw);
+            await setWalletAutoWithdraw(tgUser?.id, autoWithdraw);
         },
         onSettled: () => {
             refetchWalletData();
@@ -65,30 +65,6 @@ const Wallet = (props: Props) => {
         const res = walletData.amount * rateTonUsd;
         return +res.toFixed(2);
     }, [walletData, rateTonUsd]);
-
-    useEffect(() => {
-        if (webApp) {
-            webApp?.BackButton.show();
-            webApp?.MainButton.setParams({
-                text: l("btn_main_share"),
-                color: getAccentColor(),
-                is_active: true,
-                is_visible: true,
-            });
-        }
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
 
     return (
         <div className="flex h-dvh w-full flex-col items-center gap-5 p-5">

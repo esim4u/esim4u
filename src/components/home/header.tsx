@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
 import { getUserById } from "@/services/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { GrTrophy } from "react-icons/gr";
 import { MdArrowForwardIos } from "react-icons/md";
 
 import { hapticFeedback } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import RefLinkButton from "../shared/ref-link-button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -18,12 +18,13 @@ type Props = {};
 
 const Header = (props: Props) => {
     const router = useRouter();
-    const { user: tgUser, webApp } = useTelegram();
+
+    const { tgUser } = useTelegram();
 
     const { data: dbUserData, isLoading } = useQuery({
         queryKey: ["user", tgUser?.id],
         queryFn: async () => {
-            const data = await getUserById(tgUser.id);
+            const data = await getUserById(tgUser?.id);
             return data;
         },
     });
@@ -41,14 +42,14 @@ const Header = (props: Props) => {
                     <Avatar>
                         <AvatarImage
                             src={
-                                tgUser?.photo_url ||
+                                tgUser?.photoUrl ||
                                 dbUserData?.photo_url ||
                                 "/img/default-user.png"
                             }
                             alt="@shadcn"
                         />
                         <AvatarFallback className=" bg-neutral-500 text-white">
-                            {tgUser?.first_name ? tgUser?.first_name[0] : "U"}
+                            {tgUser?.firstName ? tgUser?.firstName[0] : "U"}
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col gap-1">

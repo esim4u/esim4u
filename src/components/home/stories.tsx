@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
-import { useTelegram } from "@/providers/telegram-provider";
 import {
     getStories,
     incrementStoryTotalViews,
@@ -14,6 +13,7 @@ import ReactCountryFlag from "react-country-flag";
 
 import { getCountryFromLanguage, getPreferredLanguage } from "@/lib/locale";
 import { cn, hapticFeedback } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import {
     Carousel,
@@ -28,8 +28,9 @@ type Props = {
 };
 
 const Stories = ({ className }: Props) => {
-    const { user: tgUser, webApp } = useTelegram();
     const [checkedStories, setCheckedStories] = useState<string[]>([]);
+
+    const { tgUser } = useTelegram();
 
     const { data: stories, isLoading } = useQuery({
         queryKey: ["stories"],
@@ -60,20 +61,20 @@ const Stories = ({ className }: Props) => {
         return [...unchecked, ...checked];
     }, [stories, checkedStories]);
 
-    useEffect(() => {
-        if (webApp) {
-            webApp?.CloudStorage?.getItem(
-                "checked_stories",
-                (err: any, result: any) => {
-                    if (err) {
-                        return null;
-                    }
-                    const arrayFromString = result.split(",");
-                    setCheckedStories(arrayFromString);
-                },
-            );
-        }
-    }, [webApp]);
+    // useEffect(() => {
+    //     if (webApp) {
+    //         webApp?.CloudStorage?.getItem(
+    //             "checked_stories",
+    //             (err: any, result: any) => {
+    //                 if (err) {
+    //                     return null;
+    //                 }
+    //                 const arrayFromString = result.split(",");
+    //                 setCheckedStories(arrayFromString);
+    //             },
+    //         );
+    //     }
+    // }, [webApp]);
 
     if (isLoading)
         return (
@@ -134,9 +135,9 @@ const Stories = ({ className }: Props) => {
                                         );
                                     }
 
-                                    webApp?.openLink(story.telegraph_url, {
-                                        try_instant_view: true,
-                                    });
+                                    // webApp?.openLink(story.telegraph_url, {
+                                    //     try_instant_view: true,
+                                    // });
                                     hapticFeedback();
 
                                     let unique = new Set([
@@ -148,12 +149,12 @@ const Stories = ({ className }: Props) => {
 
                                     setCheckedStories(newCheckedStories);
 
-                                    webApp?.CloudStorage.setItem(
-                                        "checked_stories",
-                                        newCheckedStories.join(","),
-                                    );
+                                    // webApp?.CloudStorage.setItem(
+                                    //     "checked_stories",
+                                    //     newCheckedStories.join(","),
+                                    // );
                                     await updateUserActivity({
-                                        telegram_id: tgUser.id,
+                                        telegram_id: tgUser?.id,
                                         newsletter_id: null,
                                         story_id: story.id,
                                     });

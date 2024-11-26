@@ -1,6 +1,4 @@
-import { useTelegram } from "@/providers/telegram-provider";
 import { clsx, type ClassValue } from "clsx";
-import { MdOutlineContentCopy } from "react-icons/md";
 import { PiCopyBold } from "react-icons/pi";
 import { twMerge } from "tailwind-merge";
 

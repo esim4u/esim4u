@@ -1,25 +1,21 @@
 "use client";
 
 import React from "react";
-import { useTelegram } from "@/providers/telegram-provider";
+import { track } from "@vercel/analytics/react";
 
 import { l } from "@/lib/locale";
-import { cn, copyReferralLinkToClipBoard, hapticFeedback } from "@/lib/utils";
-import { track } from "@vercel/analytics/react";
+import { cn, hapticFeedback } from "@/lib/utils";
 
 type Props = {
     className?: string;
 };
 
 const RefLinkButton = ({ className }: Props) => {
-    const { user: tgUser, webApp } = useTelegram();
-
     return (
         <div
             onClick={() => {
                 hapticFeedback("success");
-                copyReferralLinkToClipBoard(tgUser?.id);
-                track("copy-ref-link-button-clicked")
+                track("copy-ref-link-button-clicked");
             }}
             className={cn(
                 "flex h-10 min-w-32 cursor-pointer items-center gap-1 rounded-full bg-white p-2 pr-3 transition-transform active:scale-95",
@@ -311,7 +307,7 @@ const RefLinkButton = ({ className }: Props) => {
                 <span className="text-center  text-[10px] font-semibold leading-3">
                     {l("btn_top_share")}
                 </span>
-                <span className="text-center text-[9px] text-neutral-500 leading-[10px]">
+                <span className="text-center text-[9px] leading-[10px] text-neutral-500">
                     {l("btn_top_share_subtitle")}
                 </span>
             </div>

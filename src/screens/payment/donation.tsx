@@ -1,8 +1,7 @@
 "use client";
 
-import React, { use, useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
 import { sendTgLog } from "@/services/tg-logger";
 import { createTransaction } from "@/services/tonconnect";
 import { useMutation } from "@tanstack/react-query";
@@ -16,7 +15,13 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { RiTokenSwapFill } from "react-icons/ri";
 
 import { l } from "@/lib/locale";
-import { cn, donationErrorToast, getAccentColor, hapticFeedback } from "@/lib/utils";
+import {
+    cn,
+    donationErrorToast,
+    getAccentColor,
+    hapticFeedback,
+} from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 import useReferralLink from "@/hooks/useRefLink";
 
 import { Button } from "@/components/ui/button";
@@ -32,7 +37,7 @@ import { TonIcon } from "@/components/icons";
 type Props = {};
 
 const Donation = (props: Props) => {
-    const { user: tgUser, webApp } = useTelegram();
+    const { tgUser } = useTelegram();
     const [tonConnectUI, setOptions] = useTonConnectUI();
     const rawAddress = useTonAddress();
 
@@ -40,8 +45,6 @@ const Donation = (props: Props) => {
 
     const [donationAmount, setDonationAmount] = useState<number | string>(1);
     const [isDonationError, setIsDonationError] = useState(false);
-
-    useReferralLink(webApp, tgUser);
 
     const tonPayment = useMutation({
         mutationFn: async (transaction: any) => {
@@ -59,24 +62,12 @@ const Donation = (props: Props) => {
         },
     });
 
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
-
     const donate = useMutation({
         mutationFn: async (boc: string) => {
             return await axios.post(
                 "/api/pay/tonconnect/donate",
                 {
-                    telegram_id: tgUser.id,
+                    telegram_id: tgUser?.id,
                     amount: donationAmount,
                     boc: boc,
                 },
@@ -97,7 +88,10 @@ const Donation = (props: Props) => {
 
     const transaction = useMemo(() => {
         if (+donationAmount >= 1) {
-            return createTransaction(+donationAmount, `t.me/esim4u_bot - Experience seamless connectivity`);
+            return createTransaction(
+                +donationAmount,
+                `t.me/esim4u_bot - Experience seamless connectivity`,
+            );
         }
         return null;
     }, [donationAmount]);
@@ -107,18 +101,6 @@ const Donation = (props: Props) => {
             tonPayment.mutate(transaction);
         }
     };
-
-    useEffect(() => {
-        if (webApp) {
-            webApp?.BackButton.show();
-            webApp?.MainButton.setParams({
-                text: l("btn_main_share"),
-                color: getAccentColor(),
-                is_active: true,
-                is_visible: true,
-            });
-        }
-    }, [webApp]);
 
     useEffect(() => {
         if (+donationAmount >= 1) {

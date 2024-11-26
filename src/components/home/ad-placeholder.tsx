@@ -2,15 +2,12 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
 
 import { hapticFeedback } from "@/lib/utils";
 
 type Props = {};
 
 const AdPlaceholder = (props: Props) => {
-    const { webApp } = useTelegram();
-    const router = useRouter();
     return (
         <div className=" w-full">
             <div className="relative flex h-[180px] w-full flex-col items-center justify-center gap-2 rounded-3xl bg-white">
@@ -29,10 +26,6 @@ const AdPlaceholder = (props: Props) => {
                     <span
                         onClick={() => {
                             hapticFeedback();
-                            webApp?.openTelegramLink(
-                                "https://t.me/esim4u_support_bot",
-                            );
-                            webApp?.close();
                         }}
                         className="font-medium text-tgaccent underline underline-offset-2"
                     >

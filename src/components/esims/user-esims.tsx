@@ -2,7 +2,6 @@
 
 import React, { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
 import { Esim } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -13,11 +12,12 @@ import { cn, hapticFeedback } from "@/lib/utils";
 
 import { Skeleton } from "../ui/skeleton";
 import EsimCard from "./esim-card";
+import { useTelegram } from "@/hooks/use-telegram";
 
 type Props = {};
 
 const UserEsims = (props: Props) => {
-    const { user: tgUser, webApp } = useTelegram();
+    const { tgUser } = useTelegram();
     const router = useRouter();
 
     const searchParams = useSearchParams();

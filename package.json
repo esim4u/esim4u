@@ -24,6 +24,7 @@
     "@sentry/nextjs": "^8.22.0",
     "@supabase/supabase-js": "^2.43.1",
     "@tanstack/react-query": "^5.35.5",
+    "@telegram-apps/sdk-react": "^2.0.13",
     "@ton/core": "^0.56.3",
     "@ton/crypto": "^3.2.0",
     "@ton/ton": "^13.11.2",

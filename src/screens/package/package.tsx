@@ -4,14 +4,13 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { COUNTRIES } from "@/constants";
-import { useTelegram } from "@/providers/telegram-provider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { MdArrowForwardIos } from "react-icons/md";
 
 import { convertUsdToPreferredCurrency } from "@/lib/currency";
 import { l } from "@/lib/locale";
-import { cn, getAccentColor, hapticFeedback } from "@/lib/utils";
+import { cn, hapticFeedback } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -25,12 +24,12 @@ import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
 import Loader from "@/components/ui/loader";
 import { TonIcon } from "@/components/icons";
+import { useTelegram } from "@/hooks/use-telegram";
 
 const Package = ({ params }: { params: { country_code: string } }) => {
     const router = useRouter();
-    const path = usePathname();
 
-    const { user: tgUser, webApp } = useTelegram();
+    const { tgUser } = useTelegram();
     const [selectedPackage, setSelectedPackage] = useState<any>(null);
     const [terms, setTerms] = useState({
         terms1: false,
@@ -75,44 +74,6 @@ const Package = ({ params }: { params: { country_code: string } }) => {
     });
 
     useEffect(() => {
-        if (webApp) {
-            webApp?.MainButton.show();
-
-            webApp?.BackButton.show();
-        }
-    }, [webApp]);
-
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
-
-    useEffect(() => {
-        if (terms.terms1 && terms.terms2) {
-            webApp?.MainButton.setParams({
-                text: l("btn_pay"),
-                color: getAccentColor(),
-                is_active: true,
-                is_visible: true,
-            });
-        } else {
-            webApp?.MainButton.setParams({
-                text: l("btn_pay"),
-                color: "#444444",
-                is_active: false,
-                is_visible: true,
-            });
-        }
-    }, [terms]);
-
-    useEffect(() => {
         if (isFetched && packageData) {
             setSelectedPackage(packagePlans[0]);
         }
@@ -140,15 +101,6 @@ const Package = ({ params }: { params: { country_code: string } }) => {
                     router.push(`/esims/pay/${res.data.order_id}`);
                 }
             });
-    }, [selectedPackage, rateTonUsd]);
-
-    useEffect(() => {
-        webApp?.offEvent("mainButtonClicked");
-
-        webApp?.onEvent("mainButtonClicked", createEsimOrder);
-        return () => {
-            webApp?.offEvent("mainButtonClicked", createEsimOrder);
-        };
     }, [selectedPackage, rateTonUsd]);
 
     const packagePlans = useMemo(() => {

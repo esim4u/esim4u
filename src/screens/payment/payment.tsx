@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useTelegram } from "@/providers/telegram-provider";
 import { getCreatedOrderById } from "@/services/supabase";
 import { sendTgLog } from "@/services/tg-logger";
 import { createTransaction } from "@/services/tonconnect";
@@ -15,8 +13,8 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { FaApplePay } from "react-icons/fa";
 import { MdArrowForwardIos } from "react-icons/md";
 
-import { l } from "@/lib/locale";
-import { cn, getAccentColor, hapticFeedback, tonPaymentErrorToast } from "@/lib/utils";
+import { cn, hapticFeedback, tonPaymentErrorToast } from "@/lib/utils";
+import { useTelegram } from "@/hooks/use-telegram";
 
 import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
@@ -27,7 +25,7 @@ import { toast } from "@/components/ui/use-toast";
 import { TonIcon } from "@/components/icons";
 
 export function Payment({ params }: { params: { order_id: string } }) {
-    const { user: tgUser, webApp } = useTelegram();
+    const { tgUser } = useTelegram();
     const [tonConnectUI] = useTonConnectUI();
     const router = useRouter();
     const rawAddress = useTonAddress();
@@ -59,12 +57,6 @@ export function Payment({ params }: { params: { order_id: string } }) {
         }
         return 99999;
     }, [orderData, rateTonUsd]);
-
-    useEffect(() => {
-        if (webApp) {
-            webApp?.BackButton.show();
-        }
-    }, [webApp, currentPriceInTon]);
 
     const tonPayment = useMutation({
         mutationFn: async (transaction: any) => {
@@ -121,41 +113,6 @@ export function Payment({ params }: { params: { order_id: string } }) {
             tonPayment.mutate(transaction);
         }
     };
-
-    useEffect(() => {
-        webApp?.onEvent("backButtonClicked", goBack);
-        return () => {
-            webApp?.offEvent("backButtonClicked", goBack);
-        };
-    }, [webApp]);
-
-    useEffect(() => {
-        if(rawAddress){
-            webApp?.MainButton.setParams({
-                text: `PAY ${currentPriceInTon} TON`,
-                color: getAccentColor(),
-                is_active: true,
-                is_visible: true,
-            });
-        }else{
-            webApp?.MainButton.setParams({
-                text: `PAY ${currentPriceInTon} TON`,
-                color: "#444444",
-                is_active: false,
-                is_visible: true,
-            });
-        }
-
-        webApp?.onEvent("mainButtonClicked", handlePayButtonClick);
-        return () => {
-            webApp?.offEvent("mainButtonClicked", handlePayButtonClick);
-        };
-    }, [webApp, transaction, rawAddress]);
-
-    const goBack = useCallback(() => {
-        hapticFeedback("heavy");
-        router.back();
-    }, [webApp]);
 
     return (
         <main className="flex min-h-dvh flex-col items-start overflow-x-hidden ">

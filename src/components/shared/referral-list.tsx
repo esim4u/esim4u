@@ -1,5 +1,4 @@
 import React from "react";
-import { useTelegram } from "@/providers/telegram-provider";
 
 import { hapticFeedback } from "@/lib/utils";
 
@@ -10,21 +9,17 @@ type Props = {
 };
 
 const ReferralList = ({ referrals }: Props) => {
-    const { webApp } = useTelegram();
     return (
         <div className="flex w-full flex-col gap-1">
             {referrals?.map((referral: any, index: number) => (
                 <div
                     key={referral.telegram_id}
                     onClick={() => {
-                        if(!referral.username) {
+                        if (!referral.username) {
                             hapticFeedback("error");
                             return;
                         }
                         hapticFeedback();
-                        webApp?.openTelegramLink(
-                            "https://t.me/" + referral.username,
-                        );
                     }}
                     className="flex h-10 cursor-pointer items-center justify-between rounded-lg bg-white p-4 transition-transform active:scale-95"
                 >
