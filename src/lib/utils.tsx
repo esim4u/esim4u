@@ -145,11 +145,6 @@ export function withdrawAmountWarningToast() {
     });
 }
 
-export function getAccentColor() {
-    return getComputedStyle(document.documentElement)
-        .getPropertyValue("--tg-theme-accent-text-color")
-        .trim();
-}
 export function autoWithdrawWarningToast() {
     toast({
         variant: "warning",
@@ -236,9 +231,4 @@ export const generateEsimActivationLink = (
 
 export const scrollToTop = () => {
     window.scrollTo(0, 0);
-};
-
-export const loseFocus = () => {
-    const inputs = document.querySelectorAll("input, textarea, select, button");
-    inputs.forEach((input: any) => input.blur());
 };
