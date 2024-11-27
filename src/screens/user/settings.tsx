@@ -33,17 +33,17 @@ import SupportProjectButton from "@/components/shared/support-project-button";
 
 export default function Settings() {
     const router = useRouter();
-    const [preferredLang, setPreferredLang] = useState("");
+    // const [preferredLang, setPreferredLang] = useState("");
 
     const { tgUser } = useTelegram();
 
-    const { data: dbUserData, isLoading } = useQuery({
-        queryKey: ["user", tgUser?.id],
-        queryFn: async () => {
-            const data = await getUserById(tgUser?.id);
-            return data;
-        },
-    });
+    // const { data: dbUserData, isLoading } = useQuery({
+    //     queryKey: ["user", tgUser?.id],
+    //     queryFn: async () => {
+    //         const data = await getUserById(tgUser?.id);
+    //         return data;
+    //     },
+    // });
 
     return (
         <main className="flex h-dvh w-full flex-col items-center justify-center overflow-x-hidden p-5">
@@ -51,9 +51,9 @@ export default function Settings() {
                 <Select
                     onValueChange={(value) => {
                         setLanguage(value, router);
-                        setPreferredLang(value);
+                        // setPreferredLang(value);
                     }}
-                    defaultValue={getPreferredLanguage()}
+                    // defaultValue={getPreferredLanguage()}
                     onOpenChange={() => {}}
                 >
                     <SelectTrigger className="w-full">
@@ -104,7 +104,7 @@ export default function Settings() {
                     </SelectContent>
                 </Select>
 
-                <div className=" flex w-full gap-2">
+                {/* <div className=" flex w-full gap-2">
                     {" "}
                     {["developer", "admin"].includes(
                         dbUserData?.badge.toLowerCase(),
@@ -130,7 +130,7 @@ export default function Settings() {
                             </Button>
                         </>
                     )}
-                </div>
+                </div> */}
 
                 <div className="flex w-full gap-2">
                     <Button
