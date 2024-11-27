@@ -20,6 +20,9 @@ const AuthProvider = ({ children }: Props) => {
 
 		const platform = lp?.platform || "";
 
+		console.log("parent_id", parent_id);
+		console.log("platform", platform);
+
 	}, [initDataRaw, initDataState, lp]);
 
 	return children;
