@@ -37,13 +37,13 @@ export default function Settings() {
 
     const { tgUser } = useTelegram();
 
-    // const { data: dbUserData, isLoading } = useQuery({
-    //     queryKey: ["user", tgUser?.id],
-    //     queryFn: async () => {
-    //         const data = await getUserById(tgUser?.id);
-    //         return data;
-    //     },
-    // });
+    const { data: dbUserData, isLoading } = useQuery({
+        queryKey: ["user", tgUser?.id],
+        queryFn: async () => {
+            const data = await getUserById(tgUser?.id);
+            return data;
+        },
+    });
 
     return (
         <main className="flex h-dvh w-full flex-col items-center justify-center overflow-x-hidden p-5">
