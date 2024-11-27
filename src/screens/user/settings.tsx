@@ -1,38 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { LANGUAGES } from "@/constants";
-import { getUserById } from "@/services/supabase";
-import { useQuery } from "@tanstack/react-query";
-
-// import {
-//     getPreferredCurrencyCode,
-//     getSupportedCurrencies,
-//     setPreferredCurrency,
-// } from "@/lib/currency";
-import {
-    getPreferredLanguage,
-    getSupportedLanguages,
-    l,
-    setLanguage,
-} from "@/lib/locale";
-import { useTelegram } from "@/hooks/use-telegram";
-
-import { Button } from "@/components/ui/button";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-// import TCButton from "@/components/ui/tc-button";
-// import SupportProjectButton from "@/components/shared/support-project-button";
-
 export default function Settings() {
-    const router = useRouter();
     // const [preferredLang, setPreferredLang] = useState("");
 
     // const { tgUser } = useTelegram();
@@ -48,12 +16,12 @@ export default function Settings() {
     return (
         <main className="flex h-dvh w-full flex-col items-center justify-center overflow-x-hidden p-5">
             <div className="flex w-full flex-col items-center gap-4">
-                <Select
+                {/* <Select
                     onValueChange={(value) => {
                         setLanguage(value, router);
-                        // setPreferredLang(value);
+                        setPreferredLang(value);
                     }}
-                    // defaultValue={getPreferredLanguage()}
+                    defaultValue={getPreferredLanguage()}
                     onOpenChange={() => {}}
                 >
                     <SelectTrigger className="w-full">
@@ -72,19 +40,19 @@ export default function Settings() {
                             ))}
                         </SelectGroup>
                     </SelectContent>
-                </Select>
-                <Select
+                </Select> */}
+                {/* <Select
                     onValueChange={(value) => {
-                        // setPreferredCurrency(value, router);
+                        setPreferredCurrency(value, router);
                     }}
-                    // defaultValue={getPreferredCurrencyCode()}
+                    defaultValue={getPreferredCurrencyCode()}
                     onOpenChange={() => {}}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={l("input_title_currency")} />
                     </SelectTrigger>
                     <SelectContent>
-                        {/* <SelectGroup>
+                        <SelectGroup>
                             {getSupportedCurrencies().map((currency: any) => (
                                 <SelectItem
                                     key={currency.value}
@@ -100,9 +68,9 @@ export default function Settings() {
                                     </div>
                                 </SelectItem>
                             ))}
-                        </SelectGroup> */}
+                        </SelectGroup>
                     </SelectContent>
-                </Select>
+                </Select> */}
 
                 {/* <div className=" flex w-full gap-2">
                     {" "}
@@ -132,7 +100,7 @@ export default function Settings() {
                     )}
                 </div> */}
 
-                <div className="flex w-full gap-2">
+                {/* <div className="flex w-full gap-2">
                     <Button
                         onClick={() => {
                             router.push("/onboarding");
@@ -148,7 +116,7 @@ export default function Settings() {
                     >
                         {l("btn_support")}
                     </Button>
-                </div>
+                </div> */}
                 {/* <TCButton />
                 <SupportProjectButton /> */}
             </div>
