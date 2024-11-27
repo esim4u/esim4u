@@ -7,6 +7,7 @@ import {
     initData,
     miniApp,
     themeParams,
+    useLaunchParams,
     viewport,
 } from "@telegram-apps/sdk-react";
 
@@ -21,6 +22,8 @@ const TelegramProvider = ({ children }: Props) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         useTelegramMock();
     }
+
+	const lp = useLaunchParams();
 
     useEffect(() => {
         init();
@@ -53,6 +56,10 @@ const TelegramProvider = ({ children }: Props) => {
             themeParams.bindCssVars();
         }
     }, []);
+
+	if(!lp) {
+		return null;
+	}
 
     return children;
 };
