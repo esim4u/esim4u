@@ -1,45 +1,35 @@
 "use client";
 
-import ShareButton from "@/components/shared/share-button";
-import { Button } from "@/components/ui/button";
-import { backButton } from "@telegram-apps/sdk-react";
-import Link from "next/link";
+import Loader from "@/components/ui/loader";
+import { useAuth } from "@/hooks/use-auth";
+import { TelegramUser } from "@/types/auth.types";
+import { initData, useLaunchParams, useSignal } from "@telegram-apps/sdk-react";
 import { useEffect } from "react";
 
 export default function Home() {
+	const initDataRaw = useSignal(initData.raw);
+	const initDataState = useSignal(initData.state);
+	const lp = useLaunchParams();
+	const auth = useAuth();
+
 	useEffect(() => {
-		if (backButton.isSupported()) {
-			backButton.hide();
+		if (!initDataRaw) return;
+		if (!initDataState) return;
+		if (!lp) return;
+
+		if (initDataState.user && lp) {
+			const tgUser: TelegramUser = {
+				...initDataState.user,
+				startParam: initDataState.startParam,
+				platform: lp?.platform,
+			};
+			auth.mutate(tgUser);
 		}
-	}, []);
+	}, [initDataRaw, initDataState, lp]);
 
 	return (
-		<main className="container py-5 bg-white min-h-screen w-full">
-			<div className="flex flex-col w-full gap-3">
-				<Button asChild>
-					<Link href="/launch-params" aria-label="Launch params">
-						Launch params
-					</Link>
-				</Button>
-				<Button asChild>
-					<Link href="/init-data" aria-label="User init data">
-						User init data
-					</Link>
-				</Button>
-				<Button asChild>
-					<Link href="/theme-params" aria-label="Theme params">
-						Theme params
-					</Link>
-				</Button>
-
-				<Button asChild>
-					<Link href="/session-storage" aria-label="Session Storage">
-						Session Storage
-					</Link>
-				</Button>
-
-				<ShareButton />
-			</div>
+		<main className="container flex h-screen items-center justify-center bg-white py-5">
+			<Loader />
 		</main>
 	);
 }
