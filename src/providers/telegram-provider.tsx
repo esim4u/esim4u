@@ -34,9 +34,7 @@ const TelegramProvider = ({ children }: Props) => {
 			.mount()
 			.catch(console.error)
 			.then(() => {
-				if(!viewport.isCssVarsBound()){
-					viewport.bindCssVars();
-				}
+				viewport.bindCssVars();
 			});
 
 		// Initial configuration
