@@ -20,10 +20,10 @@ export default function IndexPage() {
     
             if (dbUser?.id) {
                 await updateUser(tgUser, dbUser);
-                return router.push("/esims");
+                // return router.push("/esims");
             }
     
-            return router.push("/onboarding");
+            // return router.push("/onboarding");
         };
 
         if (initDataState && lp) {
