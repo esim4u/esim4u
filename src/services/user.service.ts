@@ -1,68 +1,7 @@
-import {
-	getPhotoUrlFromFileId,
-	sendWelcomeMessageToUser,
-	updateUserPhoto,
-} from "@/lib/grammy";
+import { getPhotoUrlFromFileId, updateUserPhoto } from "@/lib/grammy";
 import supabase from "@/lib/supabase";
 import { TelegramUser } from "@/types/auth.types";
 class UserService {
-	createUser = async (tgUser: TelegramUser) => {
-		const users = await supabase
-			.from("users")
-			.select("*")
-			.eq("telegram_id", tgUser.id);
-
-		if (users.data && users.data.length > 0) {
-			const updatedUser = await supabase
-				.from("users")
-				.update([
-					{
-						username: tgUser.username || null,
-						first_name: tgUser.firstName || null,
-						last_name: tgUser.lastName || null,
-						language_code: tgUser.languageCode || null,
-						is_premium: tgUser.isPremium ? true : false,
-						platform: tgUser.platform || null,
-					},
-				])
-				.eq("telegram_id", tgUser.id);
-
-			if (updatedUser.error) {
-				console.error("Update user error: " + updatedUser.error);
-			}
-
-			return updatedUser.data;
-		}
-		const parent_id = tgUser.startParam
-			? parseInt(tgUser.startParam)
-			: null;
-		const createdUser = await supabase.from("users").insert([
-			{
-				telegram_id: tgUser.id || null,
-				created_date: new Date(),
-				username: tgUser.username || null,
-				first_name: tgUser.firstName || null,
-				last_name: tgUser.lastName || null,
-				language_code: tgUser.languageCode || null,
-				is_premium: tgUser.isPremium ? true : false,
-				platform: tgUser.platform || null,
-				parent_id: parent_id && !isNaN(parent_id) ? parent_id : null,
-			},
-		]);
-
-		if (parent_id && isNaN(parent_id)) {
-			await this.addExternalAdUser(tgUser, parent_id.toString());
-		}
-
-		if (createdUser.error) {
-			console.error("Create user error: " + createdUser.error);
-		}
-
-		await sendWelcomeMessageToUser(tgUser.id);
-
-		return createdUser.data;
-	};
-
 	async getUserById(id: number) {
 		const { data } = await supabase
 			.from("users")
@@ -78,7 +17,7 @@ class UserService {
 
 		return data;
 	}
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async updateUser(tgUser: TelegramUser, dbUser: any) {
 		let lastLoginDates = dbUser.last_login_date.dates || [];
 		lastLoginDates.unshift(new Date().toISOString());
@@ -137,147 +76,6 @@ class UserService {
 		});
 
 		return data;
-	}
-
-	addExternalAdUser = async (tgUser: TelegramUser, match: string) => {
-		const externalAdUsers = await supabase
-			.from("external_ads")
-			.select("*")
-			.eq("telegram_id", tgUser.id);
-
-		if (externalAdUsers.error) {
-			return externalAdUsers.error;
-		}
-
-		if (externalAdUsers?.data?.length > 0) {
-			let channels = externalAdUsers.data[0].channel;
-
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			if (channels.some((channel: any) => channel.channel === match)) {
-				return "Channel already exists";
-			} else {
-				channels = [{ date: new Date(), channel: match }, ...channels];
-			}
-
-			const updatedExternalAdUsers = await supabase
-				.from("external_ads")
-				.update({
-					telegram_id: tgUser.id,
-					channel: channels,
-				})
-				.eq("telegram_id", tgUser.id)
-				.select("*");
-
-			if (updatedExternalAdUsers.error) {
-				return updatedExternalAdUsers.error;
-			}
-
-			return updatedExternalAdUsers.data;
-		}
-
-		const user = await supabase
-			.from("users")
-			.select("*")
-			.eq("telegram_id", tgUser.id);
-
-		if (user.error) {
-			return user.error;
-		}
-		if (user.data.length > 0) {
-			return "User already exists";
-		}
-
-		const newUser = await supabase
-			.from("users")
-			.insert({
-				telegram_id: tgUser.id,
-				username: tgUser.username,
-				created_date: new Date(),
-				onboarding: false,
-			})
-			.select("*");
-
-		if (newUser.error) {
-			return newUser.error;
-		}
-		if (newUser.data.length == 0) {
-			return "User not created";
-		}
-
-		const newExternalAdUsers = await supabase
-			.from("external_ads")
-			.insert({
-				telegram_id: tgUser.id,
-				channel: [
-					{
-						date: new Date(),
-						channel: match,
-					},
-				],
-			})
-			.select("*");
-
-		if (newExternalAdUsers.error) {
-			return newExternalAdUsers.error;
-		}
-		if (newExternalAdUsers.data.length == 0) {
-			return "External Ad User not created";
-		}
-
-		return newExternalAdUsers.data;
-	};
-
-	async finishOnboarding(telegram_id: number, wallet_address: string) {
-		const users = await supabase
-			.from("users")
-			.select("*")
-			.eq("telegram_id", telegram_id);
-
-		if (users.data && users.data.length === 0) {
-			return;
-		}
-		await supabase
-			.from("users")
-			.update({ onboarding: true })
-			.eq("telegram_id", telegram_id);
-
-		const wallets = await supabase
-			.from("wallet")
-			.select("*")
-			.eq("telegram_id", telegram_id);
-
-		if (wallets.data && wallets.data.length > 0) {
-			const updatedWallet = await supabase
-				.from("wallet")
-				.update({
-					address: wallet_address
-						? wallet_address
-						: wallets.data[0].address,
-					connected: wallet_address ? true : false,
-				})
-				.eq("telegram_id", telegram_id)
-				.select();
-
-			if (updatedWallet.error) {
-				console.error(updatedWallet.error);
-			}
-
-			return updatedWallet.data;
-		}
-
-		const createdWallet = await supabase.from("wallet").insert({
-			telegram_id,
-			amount: 0,
-			address: wallet_address ? wallet_address : null,
-		});
-
-		if (createdWallet.error) {
-			console.error(createdWallet.error);
-
-			return createdWallet;
-		}
-
-		return createdWallet.data;
 	}
 }
 

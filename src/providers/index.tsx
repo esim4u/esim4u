@@ -4,8 +4,7 @@ import React from "react";
 import TelegramProvider from "./telegram-provider";
 import { useDidMount } from "@/hooks/use-did-mount";
 import ReactQueryProvider from "./query-provider";
-import Loader from "@/components/ui/loader";
-import TonConnectProvider from "./tonconnect-provider";
+import AuthProvider from "./auth-provider";
 
 type Props = {
 	children: React.ReactNode;
@@ -18,16 +17,17 @@ const MainProvider = ({ children }: Props) => {
 	const didMount = useDidMount();
 	if (!didMount) {
 		return (
-			<main className="container flex h-screen items-center justify-center bg-white py-5">
-				<Loader />
+			<main className="container py-5 bg-white h-screen">
+				<div>Loading...</div>
 			</main>
 		);
 	}
 	return (
 		<ReactQueryProvider>
 			<TelegramProvider>
-				<TonConnectProvider>{children}</TonConnectProvider>
+				<AuthProvider>{children}</AuthProvider>
 			</TelegramProvider>
+			;
 		</ReactQueryProvider>
 	);
 };
