@@ -1,5 +1,7 @@
 "use client";
-import { useSignal, initData, useLaunchParams } from "@telegram-apps/sdk-react";
+import authService from "@/services/auth.service";
+import { TelegramUser } from "@/types/auth.types";
+import { useSignal, initData, useLaunchParams, User } from "@telegram-apps/sdk-react";
 import { useEffect } from "react";
 
 type Props = {
@@ -15,14 +17,15 @@ const AuthProvider = ({ children }: Props) => {
 		if (!initDataRaw) return;
 		if (!initDataState) return;
 		if (!lp) return;
-		const parent_id =
-			parseInt(initDataState?.startParam || "") || undefined;
 
-		const platform = lp?.platform || "";
-
-		console.log("parent_id", parent_id);
-		console.log("platform", platform);
-
+		if (initDataState.user && lp) {
+			const tgUser: TelegramUser = {
+				...initDataState.user,
+				startParam: initDataState.startParam,
+				platform: lp?.platform,
+			};
+			authService.auth(tgUser);
+		}
 	}, [initDataRaw, initDataState, lp]);
 
 	return children;
