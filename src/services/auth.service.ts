@@ -1,6 +1,5 @@
 import { TelegramUser } from "@/types/auth.types";
 import userService from "./user.service";
-import { redirect } from "next/navigation";
 
 class AuthService {
 	async auth(tgUser: TelegramUser) {
@@ -8,10 +7,16 @@ class AuthService {
 
 		if (dbUser?.id) {
 			await userService.updateUser(tgUser, dbUser);
-			return redirect("/esims");
+			return {
+				user: dbUser,
+				isNew: false,
+			}
 		}
 
-		return redirect("/onboarding");
+		return {
+			user: tgUser,
+			isNew: true,
+		}
 	}
 }
 

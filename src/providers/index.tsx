@@ -4,7 +4,6 @@ import React from "react";
 import TelegramProvider from "./telegram-provider";
 import { useDidMount } from "@/hooks/use-did-mount";
 import ReactQueryProvider from "./query-provider";
-import AuthProvider from "./auth-provider";
 
 type Props = {
 	children: React.ReactNode;
@@ -24,10 +23,7 @@ const MainProvider = ({ children }: Props) => {
 	}
 	return (
 		<ReactQueryProvider>
-			<TelegramProvider>
-				<AuthProvider>{children}</AuthProvider>
-			</TelegramProvider>
-			;
+			<TelegramProvider>{children}</TelegramProvider>;
 		</ReactQueryProvider>
 	);
 };
