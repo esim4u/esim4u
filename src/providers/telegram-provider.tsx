@@ -43,9 +43,6 @@ const TelegramProvider = ({ children }: Props) => {
 		miniApp.setBackgroundColor("#ffffff");
 		miniApp.setHeaderColor("#ffffff");
 		
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(window as any).Telegram?.WebApp?.requestFullscreen()
-
 		viewport.expand();
 
 		// Define components-related CSS variables.
