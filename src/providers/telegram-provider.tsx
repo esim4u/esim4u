@@ -23,8 +23,6 @@ const TelegramProvider = ({ children }: Props) => {
         useTelegramMock();
     }
 
-	const lp = useLaunchParams();
-
     useEffect(() => {
         init();
 
@@ -56,10 +54,6 @@ const TelegramProvider = ({ children }: Props) => {
             themeParams.bindCssVars();
         }
     }, []);
-
-	if(!lp) {
-		return null;
-	}
 
     return children;
 };

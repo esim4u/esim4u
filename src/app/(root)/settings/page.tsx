@@ -1,6 +1,10 @@
-"use client";
+import { Suspense } from "react";
 import Settings from "@/screens/user/settings";
 
 export default function SettingsPage() {
-    return <Settings />;
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Settings />;
+        </Suspense>
+    );
 }
