@@ -11,11 +11,11 @@ const TonConnectProvider = ({ children }: { children: React.ReactNode }) => {
 	// 	).toString();
 	// }, []);
 
-	return (
-		// <TonConnectUIProvider manifestUrl={manifestUrl}>
-			{children}
-		// </TonConnectUIProvider>
-	);
+	// <TonConnectUIProvider manifestUrl={manifestUrl}>
+	//     {children}
+	// </TonConnectUIProvider>
+
+	return { children };
 };
 
 export default TonConnectProvider;
