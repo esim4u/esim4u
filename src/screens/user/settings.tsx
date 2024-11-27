@@ -6,11 +6,11 @@ import { LANGUAGES } from "@/constants";
 import { getUserById } from "@/services/supabase";
 import { useQuery } from "@tanstack/react-query";
 
-import {
-    getPreferredCurrencyCode,
-    getSupportedCurrencies,
-    setPreferredCurrency,
-} from "@/lib/currency";
+// import {
+//     getPreferredCurrencyCode,
+//     getSupportedCurrencies,
+//     setPreferredCurrency,
+// } from "@/lib/currency";
 import {
     getPreferredLanguage,
     getSupportedLanguages,
@@ -28,22 +28,22 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import TCButton from "@/components/ui/tc-button";
-import SupportProjectButton from "@/components/shared/support-project-button";
+// import TCButton from "@/components/ui/tc-button";
+// import SupportProjectButton from "@/components/shared/support-project-button";
 
 export default function Settings() {
     const router = useRouter();
     // const [preferredLang, setPreferredLang] = useState("");
 
-    const { tgUser } = useTelegram();
+    // const { tgUser } = useTelegram();
 
-    const { data: dbUserData, isLoading } = useQuery({
-        queryKey: ["user", tgUser?.id],
-        queryFn: async () => {
-            const data = await getUserById(tgUser?.id);
-            return data;
-        },
-    });
+    // const { data: dbUserData, isLoading } = useQuery({
+    //     queryKey: ["user", tgUser?.id],
+    //     queryFn: async () => {
+    //         const data = await getUserById(tgUser?.id);
+    //         return data;
+    //     },
+    // });
 
     return (
         <main className="flex h-dvh w-full flex-col items-center justify-center overflow-x-hidden p-5">
@@ -75,16 +75,16 @@ export default function Settings() {
                 </Select>
                 <Select
                     onValueChange={(value) => {
-                        setPreferredCurrency(value, router);
+                        // setPreferredCurrency(value, router);
                     }}
-                    defaultValue={getPreferredCurrencyCode()}
+                    // defaultValue={getPreferredCurrencyCode()}
                     onOpenChange={() => {}}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={l("input_title_currency")} />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectGroup>
+                        {/* <SelectGroup>
                             {getSupportedCurrencies().map((currency: any) => (
                                 <SelectItem
                                     key={currency.value}
@@ -100,7 +100,7 @@ export default function Settings() {
                                     </div>
                                 </SelectItem>
                             ))}
-                        </SelectGroup>
+                        </SelectGroup> */}
                     </SelectContent>
                 </Select>
 
@@ -149,8 +149,8 @@ export default function Settings() {
                         {l("btn_support")}
                     </Button>
                 </div>
-                <TCButton />
-                <SupportProjectButton />
+                {/* <TCButton />
+                <SupportProjectButton /> */}
             </div>
         </main>
     );
