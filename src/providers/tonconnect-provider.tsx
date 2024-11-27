@@ -15,7 +15,7 @@ const TonConnectProvider = ({ children }: { children: React.ReactNode }) => {
 	//     {children}
 	// </TonConnectUIProvider>
 
-	return { children };
+	return children;
 };
 
 export default TonConnectProvider;
