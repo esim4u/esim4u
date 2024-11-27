@@ -1,7 +1,7 @@
 "use client";
 import authService from "@/services/auth.service";
 import { TelegramUser } from "@/types/auth.types";
-import { useSignal, initData, useLaunchParams, User } from "@telegram-apps/sdk-react";
+import { useSignal, initData, useLaunchParams } from "@telegram-apps/sdk-react";
 import { useEffect } from "react";
 
 type Props = {
