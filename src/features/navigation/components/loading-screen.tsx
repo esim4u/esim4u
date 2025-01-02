@@ -1,4 +1,6 @@
 import React from "react";
+import amongUsAnim from "@/assets/anim/among-us.json";
+import Lottie from "lottie-react";
 
 const LoadingScreen = () => {
 	return (
