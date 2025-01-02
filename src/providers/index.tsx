@@ -5,6 +5,7 @@ import TelegramProvider from "./telegram-provider";
 import { useDidMount } from "@/hooks/use-did-mount";
 import ReactQueryProvider from "./query-provider";
 import TonConnectProvider from "./tonconnect-provider";
+import LoadingScreen from "@/features/navigation/components/loading-screen";
 
 type Props = {
 	children: React.ReactNode;
@@ -16,11 +17,7 @@ const MainProvider = ({ children }: Props) => {
 	// side.
 	const didMount = useDidMount();
 	if (!didMount) {
-		return (
-			<main className="container py-5 bg-white h-screen">
-				<div>Loading...</div>
-			</main>
-		);
+		return <LoadingScreen />;
 	}
 
 	return (
