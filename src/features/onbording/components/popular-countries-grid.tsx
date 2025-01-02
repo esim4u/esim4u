@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MdArrowForwardIos } from "react-icons/md";
 
-import { l } from "@/lib/locale";
+import { l } from "@/features/locale/lib/locale";
 
 type Props = {
 	hasTitle?: boolean;

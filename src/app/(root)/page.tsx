@@ -1,7 +1,7 @@
 "use client";
 
-import authService from "@/services/auth.service";
-import { TelegramUser } from "@/types/auth.types";
+import authService from "@/features/auth/services/auth.service";
+import { TelegramUser } from "@/features/auth/types/auth.types";
 import { initData, useLaunchParams, useSignal } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

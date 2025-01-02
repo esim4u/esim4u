@@ -1,5 +1,5 @@
-import { TelegramUser } from "@/types/auth.types";
-import userService from "./user.service";
+import { TelegramUser } from "@/features/auth/types/auth.types";
+import userService from "@/features/users/services/user.service";
 
 class AuthService {
 	async auth(tgUser: TelegramUser) {

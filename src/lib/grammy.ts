@@ -1,7 +1,7 @@
 import { Bot, InlineKeyboard, InputFile } from "grammy";
 
-import userService from "@/services/user.service";
-import { l } from "./locale";
+import userService from "@/features/users/services/user.service";
+import { l } from "../features/locale/lib/locale";
 
 const token = process.env.NEXT_PUBLIC_BOT_TOKEN;
 if (!token) throw new Error("BOT_TOKEN is unset");

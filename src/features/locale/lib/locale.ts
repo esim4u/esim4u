@@ -1,5 +1,5 @@
 import t from "@/assets/data/translations.json";
-import { Translations } from "@/types/translations.types";
+import { Translations } from "@/features/locale/types/translations.types";
 
 const translations: Translations = t as Translations;
 const covertMap: { [key: string]: string } = {

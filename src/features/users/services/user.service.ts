@@ -1,6 +1,6 @@
 import { getPhotoUrlFromFileId, updateUserPhoto } from "@/lib/grammy";
 import supabase from "@/lib/supabase";
-import { TelegramUser } from "@/types/auth.types";
+import { TelegramUser } from "@/features/auth/types/auth.types";
 class UserService {
 	async getUserById(id: number) {
 		const { data } = await supabase
