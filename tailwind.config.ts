@@ -64,6 +64,54 @@ const config: Config = {
 				md: "calc(var(--radius) - 2px)",
 				sm: "calc(var(--radius) - 4px)",
 			},
+			animation: {
+				"accordion-down": "accordion-down 0.2s ease-out",
+				"accordion-up": "accordion-up 0.2s ease-out",
+				appear: "appear 0.5s ease-in-out",
+				"logo-cloud": "logo-cloud 30s linear infinite",
+				"logo-cloud-reverse": "logo-cloud 30s linear infinite reverse",
+				wiggle: "wiggle 0.5s",
+			},
+			keyframes: {
+				"accordion-down": {
+					from: { height: "0" },
+					to: { height: "var(--radix-accordion-content-height)" },
+				},
+				"accordion-up": {
+					from: { height: "var(--radix-accordion-content-height)" },
+					to: { height: "0" },
+				},
+				appear: {
+					from: {
+						scale: "0.01",
+						// transform: "rotate(-135deg)",
+						opacity: "0",
+					},
+					to: {
+						scale: "1",
+
+						opacity: "1",
+					},
+				},
+				"logo-cloud": {
+					from: { transform: "translateX(0)" },
+					to: { transform: "translateX(calc(-100% - 4rem))" },
+				},
+				wiggle: {
+					"0%,100%": {
+						transform: "translateX(0)",
+					},
+					"25%": {
+						transform: "translateX(-4px)",
+					},
+					"50%": {
+						transform: "translateX(4px)",
+					},
+					"75%": {
+						transform: "translateX(-4px)",
+					},
+				},
+			},
 		},
 	},
 	plugins: [require("tailwindcss-animate")],
