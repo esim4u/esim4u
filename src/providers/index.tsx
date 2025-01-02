@@ -5,6 +5,8 @@ import TelegramProvider from "./telegram-provider";
 import { useDidMount } from "@/hooks/use-did-mount";
 import ReactQueryProvider from "./query-provider";
 import TonConnectProvider from "./tonconnect-provider";
+import LoadingScreen from "@/features/navigation/components/loading-screen";
+import { useThrottle } from "@/hooks/use-throttle";
 
 type Props = {
 	children: React.ReactNode;
@@ -15,12 +17,10 @@ const MainProvider = ({ children }: Props) => {
 	// the Server Side Rendering. That's why we are showing loader on the server
 	// side.
 	const didMount = useDidMount();
-	if (!didMount) {
-		return (
-			<main className="container py-5 bg-white h-screen">
-				<div>Loading...</div>
-			</main>
-		);
+	const isMountingPending = useThrottle(didMount, 1000);
+	
+	if (!isMountingPending) {
+		return <LoadingScreen />;
 	}
 	return (
 		<ReactQueryProvider>
