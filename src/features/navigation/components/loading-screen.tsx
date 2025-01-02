@@ -2,8 +2,9 @@
 
 import React from "react";
 import amongUsAnim from "@/assets/anim/among-us.json";
-import Lottie from "lottie-react";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
 const LoadingScreen = () => {
 	return (
