@@ -34,6 +34,10 @@ const TelegramProvider = ({ children }: Props) => {
 			.mount()
 			.catch(console.error)
 			.then(() => {
+				if (viewport.requestFullscreen.isAvailable()) {
+					viewport.requestFullscreen();
+				}
+				
 				if (!viewport.isCssVarsBound()) {
 					viewport.bindCssVars();
 				}

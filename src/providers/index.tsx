@@ -6,6 +6,7 @@ import { useDidMount } from "@/hooks/use-did-mount";
 import ReactQueryProvider from "./query-provider";
 import TonConnectProvider from "./tonconnect-provider";
 import LoadingScreen from "@/features/navigation/components/loading-screen";
+import { useThrottle } from "@/hooks/use-throttle";
 
 type Props = {
 	children: React.ReactNode;
@@ -16,7 +17,9 @@ const MainProvider = ({ children }: Props) => {
 	// the Server Side Rendering. That's why we are showing loader on the server
 	// side.
 	const didMount = useDidMount();
-	if (!didMount) {
+	const isMountingPending = useThrottle(didMount, 750);
+
+	if (!isMountingPending) {
 		return <LoadingScreen />;
 	}
 

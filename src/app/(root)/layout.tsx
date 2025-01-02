@@ -3,8 +3,8 @@ import "../globals.css";
 
 import { cn } from "@/lib/utils";
 import MainProvider from "@/providers";
-import { Toaster } from "@/components/ui/sonner";
 import localFont from "next/font/local";
+import { Toaster } from "@/components/ui/toaster";
 
 const sfProRounded = localFont({
 	src: [

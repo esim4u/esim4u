@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ToastAction } from "@/components/ui/toast";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 export function showConfirmationToast({
     title = "Are you sure?",
