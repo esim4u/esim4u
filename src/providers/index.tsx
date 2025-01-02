@@ -19,7 +19,7 @@ const MainProvider = ({ children }: Props) => {
 	const didMount = useDidMount();
 	const isMountingPending = useThrottle(didMount, 1000);
 	
-	if (!isMountingPending) {
+	if (!didMount) {
 		return <LoadingScreen />;
 	}
 	return (
