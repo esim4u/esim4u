@@ -37,7 +37,7 @@ const OnboardingPage = () => {
 	const finishOnboarding = useFinishOnboarding();
 
 	return (
-		<main className="container pb-5 grow  flex flex-col justify-between">
+		<main className="container px-0 pb-5 grow flex flex-col justify-between">
 			<div></div>
 			<OnboardingCarousel
 				api={api}
@@ -142,8 +142,8 @@ const OnboardingCarousel = ({
 	}, [api]);
 
 	return (
-		<Carousel setApi={setApi} className={cn("w-full", className)}>
-			<CarouselContent className=" py-5">
+		<Carousel setApi={setApi} className={cn("w-full bg-red-200", className)}>
+			<CarouselContent className="pb-36 pt-0 bg-red-300">
 				<CarouselItem className="flex w-full flex-col items-center">
 					<div className="flex flex-col gap-5 p-5">
 						<h2 className=" text-center text-4xl font-medium">
