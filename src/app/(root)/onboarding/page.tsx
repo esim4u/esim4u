@@ -37,13 +37,15 @@ const OnboardingPage = () => {
 	const finishOnboarding = useFinishOnboarding();
 
 	return (
-		<main className="container bg-background">
+		<main className="container pb-5 grow  flex flex-col justify-between">
+			<div></div>
 			<OnboardingCarousel
 				api={api}
 				setApi={setApi}
 				setCurrentPage={setCurrent}
 				setCount={setCount}
 			/>
+
 			<div className="flex flex-row items-center justify-between px-5">
 				<div className="flex flex-row gap-1.5 py-2 text-center text-sm text-muted-foreground">
 					{Array(count)
@@ -55,7 +57,7 @@ const OnboardingPage = () => {
 									"size-3 bg-neutral-400 transition-all",
 									index + 1 == current && "w-7 bg-tgaccent"
 								)}
-							></Dot>
+							/>
 						))}
 				</div>
 				{count !== current ? (
@@ -114,11 +116,13 @@ const OnboardingPage = () => {
 export default OnboardingPage;
 
 const OnboardingCarousel = ({
+	className,
 	api,
 	setApi,
 	setCurrentPage,
 	setCount,
 }: {
+	className?: string;
 	api: CarouselApi;
 	setApi: (api: CarouselApi) => void;
 	setCurrentPage: (page: number) => void;
@@ -138,7 +142,7 @@ const OnboardingCarousel = ({
 	}, [api]);
 
 	return (
-		<Carousel setApi={setApi} className="w-full">
+		<Carousel setApi={setApi} className={cn("w-full", className)}>
 			<CarouselContent className=" py-5">
 				<CarouselItem className="flex w-full flex-col items-center">
 					<div className="flex flex-col gap-5 p-5">
