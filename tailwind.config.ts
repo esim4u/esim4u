@@ -19,8 +19,8 @@ const config: Config = {
 				},
 			},
 			colors: {
-				tgbutton: "var(--tg-theme-button-color)",
-				tgaccent: "var(--tg-theme-accent-text-color)",
+				tgbutton: "var(--tg-theme-button-color, #3b82f6)",
+				tgaccent: "var(--tg-theme-accent-text-color, #3b82f6)",
 				redish: "#EF3671",
 				
 				background: "hsl(var(--background))",
