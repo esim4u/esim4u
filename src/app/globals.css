@@ -3,7 +3,22 @@
 @tailwind utilities;
 
 body {
+	--body: 0 0% 84%;
 	font-family: Arial, Helvetica, sans-serif;
+	background-color: hsl(var(--body));
+	overflow-x: hidden;
+}
+html,
+body {
+	overscroll-behavior-y: contain;
+	height: -webkit-fill-available;
+	min-height: 100%;
+}
+html {
+	overflow: hidden;
+}
+body::-webkit-scrollbar {
+	display: none;
 }
 
 @layer utilities {
