@@ -2,17 +2,24 @@
 
 import React from "react";
 
-import { cn } from "@/lib/utils";
+import { cn, copyReferralLinkToClipBoard } from "@/lib/utils";
 import { l } from "@/features/locale/lib/locale";
 import { AiFillFire } from "react-icons/ai";
+import { useTelegram } from "@/hooks/use-telegram";
+import { Button } from "../ui/button";
 
 type Props = {
 	className?: string;
 };
 
 const RefLinkButton = ({ className }: Props) => {
+	const { tgUser } = useTelegram();
+
 	return (
-		<div
+		<Button
+			variant={"unstyled"}
+            size={"fit"}
+			onClick={() => copyReferralLinkToClipBoard(tgUser?.id || "")}
 			className={cn(
 				"flex h-10 min-w-32 cursor-pointer items-center gap-1 rounded-full bg-white p-2 pr-3 transition-transform active:scale-95",
 				className
@@ -28,7 +35,7 @@ const RefLinkButton = ({ className }: Props) => {
 					{l("btn_top_share_subtitle")}
 				</span>
 			</div>
-		</div>
+		</Button>
 	);
 };
 

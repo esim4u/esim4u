@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useGetUserById } from "@/features/users/hooks/use-users";
 import RefLinkButton from "@/components/shared/ref-link-button";
+import { Button } from "@/components/ui/button";
 
 const HomeHeader = () => {
 	const router = useRouter();
@@ -21,7 +22,9 @@ const HomeHeader = () => {
 	return (
 		<section className="w-full">
 			<div className="flex w-full items-center justify-between gap-5">
-				<div
+				<Button
+					variant={"unstyled"}
+					size={"fit"}
 					onClick={() => {
 						router.push("/profile");
 					}}
@@ -54,17 +57,20 @@ const HomeHeader = () => {
 							{dbUserData?.badge || "New user"}
 						</Badge>
 					</div>
-				</div>
-				<div className="flex items-center gap-2">
+				</Button>
+
+				<div className="flex items-center gap-2 ">
 					<RefLinkButton />
-					<div
+					<Button
+						variant={"unstyled"}
+						size={"fit"}
 						onClick={() => {
 							router.push("/leaderboard");
 						}}
 						className="flex size-10 min-w-10 items-center justify-center rounded-full bg-white active:scale-95"
 					>
 						<GrTrophy className=" text-amber-500 " />
-					</div>
+					</Button>
 				</div>
 			</div>
 		</section>

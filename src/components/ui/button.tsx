@@ -10,7 +10,7 @@ const buttonVariants = cva(
 	{
 		variants: {
 			variant: {
-				unstyled: " text-black",
+				unstyled: "",
 				default:
 					"bg-primary text-primary-foreground hover:bg-primary/90",
 				destructive:
@@ -27,6 +27,7 @@ const buttonVariants = cva(
 					"bg-tgaccent text-white hover:bg-tgaccent/90 shadow-lg shadow-black/10",
 			},
 			size: {
+				fit: "h-fit w-fit p-0 m-0",
 				default: "h-10 px-4 py-2",
 				sm: "h-9 rounded-md px-3",
 				lg: "h-11 rounded-md px-8",
