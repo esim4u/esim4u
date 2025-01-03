@@ -2,7 +2,7 @@ import React from "react";
 
 const EsimsPage = () => {
 	return (
-		<main className="container py-5 bg-white h-screen">
+		<main className="container p-0 bg-background">
 			<div>Esims</div>
 		</main>
 	);

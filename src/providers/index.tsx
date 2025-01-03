@@ -28,7 +28,6 @@ const MainProvider = ({ children }: Props) => {
 			<TelegramProvider>
 				<TonConnectProvider>{children}</TonConnectProvider>
 			</TelegramProvider>
-			;
 		</ReactQueryProvider>
 	);
 };

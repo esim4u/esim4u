@@ -37,7 +37,7 @@ const OnboardingPage = () => {
 	const finishOnboarding = useFinishOnboarding();
 
 	return (
-		<main className="container py-5 bg-white h-screen">
+		<main className="container bg-background">
 			<OnboardingCarousel
 				api={api}
 				setApi={setApi}
