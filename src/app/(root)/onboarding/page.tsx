@@ -142,8 +142,8 @@ const OnboardingCarousel = ({
 	}, [api]);
 
 	return (
-		<Carousel setApi={setApi} className={cn("w-full bg-red-200", className)}>
-			<CarouselContent className="pb-36 pt-0 bg-red-300">
+		<Carousel setApi={setApi} className={cn("w-full ", className)}>
+			<CarouselContent className="pb-36 pt-0 ">
 				<CarouselItem className="flex w-full flex-col items-center">
 					<div className="flex flex-col gap-5 p-5">
 						<h2 className=" text-center text-4xl font-medium">
