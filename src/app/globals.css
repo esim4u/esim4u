@@ -66,6 +66,13 @@ body::-webkit-scrollbar {
 		);
 	}
 
+	.safe-area-bottom {
+		padding-bottom: calc(
+			var(--tg-viewport-safe-area-inset-bottom, 0) +
+				var(--tg-viewport-content-safe-area-inset-bottom, 0)
+		);
+	}
+
 	.safe-area-top-toast {
 		top: calc(
 			var(--tg-viewport-safe-area-inset-top, 0px) +
