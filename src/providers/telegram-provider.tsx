@@ -8,6 +8,8 @@ import {
 	themeParams,
 	initData,
 	viewport,
+	closingBehavior,
+	swipeBehavior,
 } from "@telegram-apps/sdk-react";
 import { useTelegramMock } from "@/hooks/use-telegram-mock";
 
@@ -30,32 +32,53 @@ const TelegramProvider = ({ children }: Props) => {
 		miniApp.mount();
 		themeParams.mount();
 		initData.restore();
-		viewport
+
+		void viewport
 			.mount()
-			.catch(console.error)
 			.then(() => {
 				if (viewport.requestFullscreen.isAvailable()) {
 					viewport.requestFullscreen();
 				}
-				
+				// Define components-related CSS variables.
+				viewport.bindCssVars();
+				miniApp.bindCssVars();
+				themeParams.bindCssVars();
+			})
+			.catch((e) => {
+				console.error("Something went wrong mounting the viewport", e);
+			})
+			.finally(() => {
 				if (!viewport.isCssVarsBound()) {
 					viewport.bindCssVars();
 				}
+
+				if (!miniApp.isCssVarsBound()) {
+					miniApp.bindCssVars();
+				}
+
+				if (!themeParams.isCssVarsBound()) {
+					themeParams.bindCssVars();
+				}
 			});
 
-		// Initial configuration
-		miniApp.setBackgroundColor("#ffffff");
-		miniApp.setHeaderColor("#ffffff");
-		
-		viewport.expand();
+		if (closingBehavior.mount.isAvailable()) {
+			closingBehavior.mount();
+			if (closingBehavior.isMounted()) {
+				closingBehavior.enableConfirmation();
+			}
+		}
 
-		// Define components-related CSS variables.
-		if (!miniApp.isCssVarsBound()) {
-			miniApp.bindCssVars();
+		if (swipeBehavior.mount.isAvailable()) {
+			swipeBehavior.mount();
+			if (swipeBehavior.isMounted()) {
+				swipeBehavior.disableVertical();
+			}
 		}
-		if (!themeParams.isCssVarsBound()) {
-			themeParams.bindCssVars();
-		}
+
+		// Initial configuration
+		miniApp.setBackgroundColor("#F0F0F4");
+		miniApp.setHeaderColor("#F0F0F4");
+		viewport.expand();
 	}, []);
 
 	return children;

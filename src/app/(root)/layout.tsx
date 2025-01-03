@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import MainProvider from "@/providers";
 import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster";
+import Header from "@/features/navigation/components/header";
 
 const sfProRounded = localFont({
 	src: [
@@ -62,12 +63,15 @@ export default function RootLayout({
 		<html lang="en">
 			<body
 				className={cn(
-					`antialiased bg-slate-100`,
+					"antialiased no-scrollbar h-svh bg-background",
 					sfProRounded.className
 				)}
 			>
 				<MainProvider>
-					{children}
+					<div className="flex flex-col min-h-svh">
+						<Header />
+						{children}
+					</div>
 					<Toaster />
 				</MainProvider>
 			</body>

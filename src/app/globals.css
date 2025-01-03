@@ -10,6 +10,59 @@ body {
 	.text-balance {
 		text-wrap: balance;
 	}
+
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+	.no-scrollbar {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
+	
+	.top-header-block {
+		height: calc(var(--tg-viewport-safe-area-inset-top, 5px));
+	}
+	.bottom-header-block {
+		height: calc(var(--tg-viewport-content-safe-area-inset-top, 40px));
+	}
+	.page-header-block {
+		top: calc(
+			var(--tg-viewport-safe-area-inset-top, 5px) +
+				var(--tg-viewport-content-safe-area-inset-top, 40px)
+		);
+	}
+
+	.safe-area {
+		padding-top: calc(
+			var(--tg-viewport-safe-area-inset-top, 0) +
+				var(--tg-viewport-content-safe-area-inset-top, 0)
+		);
+		padding-bottom: calc(
+			var(--tg-viewport-safe-area-inset-bottom, 0) +
+				var(--tg-viewport-content-safe-area-inset-bottom, 0)
+		);
+		padding-left: calc(
+			var(--tg-viewport-safe-area-inset-left, 0) +
+				var(--tg-viewport-content-safe-area-inset-left, 0)
+		);
+		padding-right: calc(
+			var(--tg-viewport-safe-area-inset-right, 0) +
+				var(--tg-viewport-content-safe-area-inset-right, 0)
+		);
+	}
+
+	.safe-area-top-toast {
+		top: calc(
+			var(--tg-viewport-safe-area-inset-top, 0px) +
+				var(--tg-viewport-content-safe-area-inset-top, 0px)
+		);
+	}
+	.safe-area-bottom-toast {
+		bottom: calc(
+			var(--tg-viewport-safe-area-inset-bottom, 0px) +
+				var(--tg-viewport-content-safe-area-inset-bottom, 0px)
+		);
+	}
 }
 
 @layer base {
