@@ -45,3 +45,24 @@ export const getReferralLink = (user_id: string | number) => {
 	}
 	return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}`;
 };
+
+export const setQueryParamsWithFullPath = (
+	path: string,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	searchQuery: any,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	params: any
+) => {
+	const urlSearchParams = new URLSearchParams(searchQuery);
+	for (const key in params) {
+		if (params[key]) {
+			urlSearchParams.set(key, params[key]);
+		} else {
+			urlSearchParams.delete(key);
+		}
+	}
+	let queryString = `${path}?${urlSearchParams.toString()}`;
+	queryString = queryString.replace(/%2C/g, ",");
+
+	return queryString || " ";
+};

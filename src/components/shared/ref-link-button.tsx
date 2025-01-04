@@ -5,7 +5,7 @@ import React from "react";
 import { cn, copyReferralLinkToClipBoard } from "@/lib/utils";
 import { l } from "@/features/locale/lib/locale";
 import { AiFillFire } from "react-icons/ai";
-import { useTelegram } from "@/hooks/use-telegram";
+import { useTgUser } from "@/hooks/use-telegram";
 import { Button } from "../ui/button";
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 };
 
 const RefLinkButton = ({ className }: Props) => {
-	const { tgUser } = useTelegram();
+	const { tgUser } = useTgUser();
 
 	return (
 		<Button

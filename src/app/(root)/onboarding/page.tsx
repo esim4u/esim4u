@@ -19,7 +19,7 @@ import RunningCountriesLines from "@/features/onbording/components/running-count
 import Dot from "@/components/ui/dot";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useTelegram } from "@/hooks/use-telegram";
+import { useTgUser } from "@/hooks/use-telegram";
 import { useFinishOnboarding } from "@/features/onbording/hooks/use-onboarding";
 import { showConfirmationToast } from "@/features/onbording/lib/utils";
 
@@ -32,7 +32,7 @@ const OnboardingPage = () => {
 	const wallet = useTonWallet();
 	const tonAddress = useTonAddress();
 
-	const { tgUser } = useTelegram();
+	const { tgUser } = useTgUser();
 
 	const finishOnboarding = useFinishOnboarding();
 

@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 
 const LoadingScreen = () => {
 	return (
-		<main className="container flex items-center justify-center py-5 bg-background h-screen">
+		<main className="container grow flex items-center justify-center py-5 bg-background">
 			<div className={"w-56 h-56"}>
 				<Suspense fallback={<div></div>}>
 					<Lottie className="-mt-14" animationData={amongUsAnim} />

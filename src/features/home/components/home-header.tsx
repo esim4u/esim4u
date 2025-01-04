@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { GrTrophy } from "react-icons/gr";
 import { MdArrowForwardIos } from "react-icons/md";
 
-import { useTelegram } from "@/hooks/use-telegram";
+import { useTgUser } from "@/hooks/use-telegram";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 const HomeHeader = () => {
 	const router = useRouter();
 
-	const { tgUser } = useTelegram();
+	const { tgUser } = useTgUser();
 	const { data: dbUserData } = useGetUserById(tgUser?.id);
 
 	return (
