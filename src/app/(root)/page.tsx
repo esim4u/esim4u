@@ -34,7 +34,10 @@ export default function Home() {
 				startParam: initDataState.startParam,
 				platform: lp?.platform,
 			};
-			fetchData(tgUser);
+
+			setTimeout(() => {
+				fetchData(tgUser);
+			}, 1000);
 		}
 	}, [initDataRaw, initDataState, lp]);
 
