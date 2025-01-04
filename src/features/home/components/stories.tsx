@@ -25,6 +25,8 @@ import {
 	incrementStoryUniqueViews,
 } from "../services/stories";
 import { updateUserActivity } from "../services/activity";
+import { Button } from "@/components/ui/button";
+import { openLink } from "@telegram-apps/sdk-react";
 
 type Props = {
 	className?: string;
@@ -35,7 +37,7 @@ const Stories = ({ className }: Props) => {
 
 	const { tgUser } = useTgUser();
 
-	const { data: stories, isLoading } = useQuery({
+	const { data: stories, isPending } = useQuery({
 		queryKey: ["stories"],
 		queryFn: async () => {
 			const data = await getStories(getPreferredLanguage());
@@ -64,22 +66,7 @@ const Stories = ({ className }: Props) => {
 		return [...unchecked, ...checked];
 	}, [stories, checkedStories]);
 
-	// useEffect(() => {
-	//     if (webApp) {
-	//         webApp?.CloudStorage?.getItem(
-	//             "checked_stories",
-	//             (err: any, result: any) => {
-	//                 if (err) {
-	//                     return null;
-	//                 }
-	//                 const arrayFromString = result.split(",");
-	//                 setCheckedStories(arrayFromString);
-	//             },
-	//         );
-	//     }
-	// }, [webApp]);
-
-	if (isLoading)
+	if (isPending)
 		return (
 			<div>
 				<Carousel className="w-full">
@@ -123,9 +110,11 @@ const Stories = ({ className }: Props) => {
 				<CarouselContent className={cn("-ml-1", className)}>
 					{filteredStories?.map((story, index) => {
 						return (
-							<CarouselItem
-								key={index}
+							<Button
 								onClick={async () => {
+									openLink(story.telegraph_url, {
+										tryInstantView: true,
+									});
 									await incrementStoryTotalViews(story.id);
 
 									if (
@@ -138,10 +127,6 @@ const Stories = ({ className }: Props) => {
 										);
 									}
 
-									// webApp?.openLink(story.telegraph_url, {
-									//     try_instant_view: true,
-									// });
-
 									const unique = new Set([
 										...checkedStories,
 										story.id.toString().trim(),
@@ -151,71 +136,75 @@ const Stories = ({ className }: Props) => {
 
 									setCheckedStories(newCheckedStories);
 
-									// webApp?.CloudStorage.setItem(
-									//     "checked_stories",
-									//     newCheckedStories.join(","),
-									// );
 									await updateUserActivity({
 										telegram_id: tgUser?.id || 0,
 										story_id: story.id,
 									});
 								}}
-								className="flex h-full basis-24 cursor-pointer  pl-1 transition-transform active:scale-95"
+								asChild
+								key={index}
+								variant="unstyled"
 							>
-								<div className="h-full p-1">
-									<div
-										className={cn(
-											"flex h-full rounded-full p-1 transition-all",
-											checkedStories.length > 0 &&
-												!checkedStories.includes(
-													story.id.toString().trim()
-												)
-												? " bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500"
-												: "bg-neutral-400/15"
-										)}
-									>
-										<div className="relative flex h-[76px] w-fit">
-											<div
-												className={cn(
-													"relative flex aspect-square h-full items-end justify-center overflow-hidden rounded-full ring-2 ring-[#EFEFF3] "
-												)}
-											>
-												<div className="relative flex h-full w-full">
-													<Image
-														width={216}
-														height={216}
-														className=" h-full w-full object-cover"
-														placeholder="blur"
-														blurDataURL={
-															story?.photo_url
-														}
-														quality={25}
-														src={story?.photo_url}
-														alt="news"
-													/>
-													<div className="absolute bottom-0 h-2/3 w-full bg-gradient-to-t from-black/55">
-														{" "}
+								<CarouselItem className="flex h-full basis-24 pl-1 transition-transform active:scale-95">
+									<div className="h-full p-1">
+										<div
+											className={cn(
+												"flex h-full rounded-full p-1 transition-all",
+												checkedStories.length > 0 &&
+													!checkedStories.includes(
+														story.id
+															.toString()
+															.trim()
+													)
+													? " bg-gradient-to-tr from-pink-500  via-sky-500 to-emerald-500"
+													: "bg-neutral-400/15"
+											)}
+										>
+											<div className="relative flex h-[76px] w-fit">
+												<div
+													className={cn(
+														"relative flex aspect-square h-full items-end justify-center overflow-hidden rounded-full ring-2 ring-[#EFEFF3] "
+													)}
+												>
+													<div className="relative flex h-full w-full">
+														<Image
+															width={216}
+															height={216}
+															className=" h-full w-full object-cover"
+															placeholder="blur"
+															blurDataURL={
+																story?.photo_url
+															}
+															quality={25}
+															src={
+																story?.photo_url
+															}
+															alt="news"
+														/>
+														<div className="absolute bottom-0 h-2/3 w-full bg-gradient-to-t from-black/55">
+															{" "}
+														</div>
 													</div>
-												</div>
 
-												<span className="absolute pb-2 text-center text-[10px] font-medium uppercase leading-3 text-white shadow-black text-shadow ">
-													{story?.title}
-												</span>
+													<span className="absolute pb-2 text-center text-[10px] font-medium uppercase leading-3 text-white shadow-black text-shadow ">
+														{story?.title}
+													</span>
+												</div>
+												{story?.language &&
+													story?.language != "EN" && (
+														<ReactCountryFlag
+															countryCode={getCountryFromLanguage(
+																story?.language
+															)}
+															svg
+															className="absolute bottom-[3px] right-[3px] h-full rounded-full object-cover"
+														/>
+													)}
 											</div>
-											{story?.language &&
-												story?.language != "EN" && (
-													<ReactCountryFlag
-														countryCode={getCountryFromLanguage(
-															story?.language
-														)}
-														svg
-														className="absolute bottom-[3px] right-[3px] h-full rounded-full object-cover"
-													/>
-												)}
 										</div>
 									</div>
-								</div>
-							</CarouselItem>
+								</CarouselItem>
+							</Button>
 						);
 					})}
 				</CarouselContent>
