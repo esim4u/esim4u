@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import MainProvider from "@/providers";
 import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Header from "@/features/navigation/components/header";
 
 const sfProRounded = localFont({
@@ -73,6 +74,7 @@ export default function RootLayout({
 						{children}
 					</div>
 					<Toaster />
+					<ReactQueryDevtools initialIsOpen={false} />
 				</MainProvider>
 			</body>
 		</html>

@@ -210,6 +210,16 @@ class UserService {
 
 		return newUser.data;
 	}
+
+	async getUserReferrals(id: number) {
+		const users = await supabase
+			.from("users")
+			.select("*, orders: orders(count)")
+			.eq("parent_id", id)
+			.eq("orders.status", "SUCCESS");
+
+		return users.data;
+	}
 }
 
 const userService = new UserService();

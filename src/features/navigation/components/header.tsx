@@ -6,7 +6,7 @@ const Header = () => {
 	return (
 		<div
 			className={cn(
-				"container flex flex-col bg-background text-foreground transition-colors duration-300 sticky top-0 z-20"
+				"container flex flex-col bg-background text-foreground transition-colors duration-300 sticky top-0 z-50"
 			)}
 		>
 			<div className="top-header-block"></div>

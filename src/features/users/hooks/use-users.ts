@@ -18,3 +18,18 @@ export function useGetUserById(
 		enabled: enabled && !!telegram_id,
 	});
 }
+
+export function useGetUserReferrals(id: number | undefined, enabled = true) {
+	return useQuery({
+		queryKey: ["user-referrals", id],
+		queryFn: async () => {
+			if (!id) {
+				throw new Error("User ID is required");
+			}
+
+			const data = await userService.getUserReferrals(id);
+			return data;
+		},
+		enabled: enabled && !!id,
+	});
+}
