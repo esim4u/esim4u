@@ -24,7 +24,7 @@ export default function Home() {
 			if (data.isNew) {
 				router.push("/onboarding");
 			} else {
-				router.push("/esims");
+				router.push("/home");
 			}
 		};
 

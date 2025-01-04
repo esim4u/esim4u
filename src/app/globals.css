@@ -21,9 +21,53 @@ body::-webkit-scrollbar {
 	display: none;
 }
 
+#ton-connect-button {
+	width: 100% !important;
+}
+
+button[data-tc-connect-button="true"],
+button[data-tc-dropdown-button="true"] {
+	justify-content: center;
+	height: 44px;
+	width: 100%;
+	border-radius: 12px;
+}
+div:has(> button[data-tc-dropdown-button="true"]) {
+	width: 100%;
+}
+
+@keyframes animated-background-anim {
+	0%,
+	100% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+}
+
 @layer utilities {
 	.text-balance {
 		text-wrap: balance;
+	}
+
+	.animated-background {
+		background-size: 400%;
+
+		-webkit-animation: animated-background-anim 3s ease infinite;
+		-moz-animation: animated-background-anim 3s ease infinite;
+		animation: animated-background-anim 3s ease infinite;
+	}
+
+	.esim-mask {
+		mask-image: url("/svg/esim-mask.svg");
+		mask-size: contain;
+		mask-repeat: no-repeat;
+		mask-position: center;
+
+		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1),
+			0 1px 2px -1px rgb(0 0 0 / 0.1);
 	}
 
 	.no-scrollbar::-webkit-scrollbar {

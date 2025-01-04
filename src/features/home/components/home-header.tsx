@@ -12,15 +12,16 @@ import { Badge } from "@/components/ui/badge";
 import { useGetUserById } from "@/features/users/hooks/use-users";
 import RefLinkButton from "@/components/shared/ref-link-button";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-const HomeHeader = () => {
+const HomeHeader = ({ className }: { className?: string }) => {
 	const router = useRouter();
 
 	const { tgUser } = useTgUser();
 	const { data: dbUserData } = useGetUserById(tgUser?.id);
 
 	return (
-		<section className="w-full">
+		<section className={cn("w-full", className)}>
 			<div className="flex w-full items-center justify-between gap-5">
 				<Button
 					variant={"unstyled"}

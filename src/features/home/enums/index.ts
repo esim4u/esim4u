@@ -1,0 +1,5 @@
+
+export enum STORY_STATUS {
+    ENABLED = "ENABLED",
+    DISABLED = "DISABLED",
+}
