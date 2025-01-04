@@ -17,7 +17,7 @@ const MainProvider = ({ children }: Props) => {
 	// the Server Side Rendering. That's why we are showing loader on the server
 	// side.
 	const didMount = useDidMount();
-	const isMountingPending = useThrottle(didMount, 750);
+	const isMountingPending = useThrottle(didMount, 1500);
 
 	if (!isMountingPending) {
 		return <LoadingScreen />;
