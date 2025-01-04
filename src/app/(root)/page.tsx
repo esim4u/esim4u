@@ -37,7 +37,7 @@ export default function Home() {
 
 			setTimeout(() => {
 				fetchData(tgUser);
-			}, 1000);
+			}, 750);
 		}
 	}, [initDataRaw, initDataState, lp]);
 

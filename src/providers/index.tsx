@@ -6,7 +6,6 @@ import { useDidMount } from "@/hooks/use-did-mount";
 import ReactQueryProvider from "./query-provider";
 import TonConnectProvider from "./tonconnect-provider";
 import LoadingScreen from "@/features/navigation/components/loading-screen";
-import { useThrottle } from "@/hooks/use-throttle";
 
 type Props = {
 	children: React.ReactNode;
