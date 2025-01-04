@@ -5,10 +5,16 @@ import amongUsAnim from "@/assets/anim/among-us.json";
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import { cn } from "@/lib/utils";
 
-const LoadingScreen = () => {
+const LoadingScreen = ({ className }: { className?: string }) => {
 	return (
-		<main className="container grow flex items-center justify-center py-5 bg-background">
+		<main
+			className={cn(
+				"container h-full grow flex items-center justify-center",
+				className
+			)}
+		>
 			<div className={"w-56 h-56"}>
 				<Suspense fallback={<div></div>}>
 					<Lottie className="-mt-14" animationData={amongUsAnim} />
