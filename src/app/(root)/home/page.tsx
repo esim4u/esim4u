@@ -4,9 +4,14 @@ import Collapse from "@/components/ui/collapse";
 import HomeHeader from "@/features/home/components/home-header";
 import Stories from "@/features/home/components/stories";
 import SubscribeBanner from "@/features/home/components/subscribe-banner";
+import { useTgBackButton } from "@/hooks/use-telegram";
 import React, { useState } from "react";
 
 const HomePage = () => {
+	useTgBackButton({
+		isVisible: false,
+	});
+
 	const [search, setSearch] = useState("");
 	const [isSearchError, setIsSearchError] = useState(false);
 	const [isSearchFocused, setIsSearchFocused] = useState(false);
