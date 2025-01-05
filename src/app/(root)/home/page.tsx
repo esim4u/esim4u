@@ -12,7 +12,7 @@ import React, { useMemo, useState } from "react";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { searchInPackages } from "@/features/packages/lib/utils";
 import PackagesList from "@/features/packages/components/packages-list";
-import PopularCountriesGrid from "@/features/onbording/components/popular-countries-grid";
+import PopularCountriesGrid from "@/components/shared/popular-countries-grid";
 import { hapticFeedback } from "@telegram-apps/sdk-react";
 
 const HomePage = () => {

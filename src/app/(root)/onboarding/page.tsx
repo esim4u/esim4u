@@ -14,7 +14,7 @@ import {
 	useTonWallet,
 } from "@tonconnect/ui-react";
 import { cn } from "@/lib/utils";
-import PopularCountriesGrid from "@/features/onbording/components/popular-countries-grid";
+import PopularCountriesGrid from "@/components/shared/popular-countries-grid";
 import RunningCountriesLines from "@/features/onbording/components/running-countries-lines";
 import Dot from "@/components/ui/dot";
 import { Button } from "@/components/ui/button";

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { MdArrowForwardIos } from "react-icons/md";
 
 import { l } from "@/features/locale/lib/locale";
+import { Button } from "../ui/button";
 
 type Props = {
 	hasTitle?: boolean;
@@ -25,7 +26,9 @@ const PopularCountriesGrid = ({
 			)}
 
 			<div className="grid max-h-48 grid-cols-4 grid-rows-2 gap-2">
-				<div
+				<Button
+					variant={"unstyled"}
+					size={"fit"}
 					onClick={() => {
 						if (!interactive) return;
 
@@ -59,8 +62,10 @@ const PopularCountriesGrid = ({
 					<span className="absolute pb-2 text-[10px] font-medium uppercase text-white">
 						EGYPT
 					</span>
-				</div>
-				<div
+				</Button>
+				<Button
+					variant={"unstyled"}
+					size={"fit"}
 					onClick={() => {
 						if (!interactive) return;
 
@@ -94,8 +99,10 @@ const PopularCountriesGrid = ({
 					<span className="absolute pb-2 text-[10px] font-medium uppercase text-white">
 						SWITZERLAND
 					</span>
-				</div>
-				<div
+				</Button>
+				<Button
+					variant={"unstyled"}
+					size={"fit"}
 					onClick={() => {
 						if (!interactive) return;
 
@@ -129,8 +136,10 @@ const PopularCountriesGrid = ({
 					<span className="absolute pb-3 text-lg font-medium uppercase text-white">
 						SPAIN
 					</span>
-				</div>
-				<div
+				</Button>
+				<Button
+					variant={"unstyled"}
+					size={"fit"}
 					onClick={() => {
 						if (!interactive) return;
 
@@ -164,7 +173,7 @@ const PopularCountriesGrid = ({
 					<span className="absolute pb-2 text-xs font-medium uppercase text-white">
 						ITALY
 					</span>
-				</div>
+				</Button>
 			</div>
 		</div>
 	);
