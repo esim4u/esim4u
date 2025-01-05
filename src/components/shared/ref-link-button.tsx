@@ -7,6 +7,7 @@ import { l } from "@/features/locale/lib/locale";
 import { AiFillFire } from "react-icons/ai";
 import { useTgUser } from "@/hooks/use-telegram";
 import { Button } from "../ui/button";
+import { ColoredFireIcon } from "../icons";
 
 type Props = {
 	className?: string;
@@ -18,14 +19,14 @@ const RefLinkButton = ({ className }: Props) => {
 	return (
 		<Button
 			variant={"unstyled"}
-            size={"fit"}
+			size={"fit"}
 			onClick={() => copyReferralLinkToClipBoard(tgUser?.id || "")}
 			className={cn(
 				"flex h-10 min-w-32 cursor-pointer items-center gap-1 rounded-full bg-white p-2 pr-3 transition-transform active:scale-95",
 				className
 			)}
 		>
-			<AiFillFire className=" text-redish !size-5" />
+			<ColoredFireIcon />
 
 			<div className=" flex flex-col">
 				<span className="text-center  text-[10px] font-semibold leading-3">
