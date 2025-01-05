@@ -5,6 +5,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 
 import { l } from "@/features/locale/lib/locale";
 import { Button } from "../ui/button";
+import { hapticFeedback } from "@telegram-apps/sdk-react";
 
 type Props = {
 	hasTitle?: boolean;
@@ -26,12 +27,13 @@ const PopularCountriesGrid = ({
 			)}
 
 			<div className="grid max-h-48 grid-cols-4 grid-rows-2 gap-2">
-				<Button
-					variant={"unstyled"}
-					size={"fit"}
+				<div
 					onClick={() => {
 						if (!interactive) return;
 
+						if (hapticFeedback.isSupported()) {
+							hapticFeedback.impactOccurred("medium");
+						}
 						router.push("/esims/eg");
 					}}
 					className=" relative flex cursor-pointer items-end justify-center overflow-hidden rounded-3xl transition-transform active:scale-95	"
@@ -62,13 +64,13 @@ const PopularCountriesGrid = ({
 					<span className="absolute pb-2 text-[10px] font-medium uppercase text-white">
 						EGYPT
 					</span>
-				</Button>
-				<Button
-					variant={"unstyled"}
-					size={"fit"}
+				</div>
+				<div
 					onClick={() => {
 						if (!interactive) return;
-
+						if (hapticFeedback.isSupported()) {
+							hapticFeedback.impactOccurred("medium");
+						}
 						router.push("/esims/ch");
 					}}
 					className=" relative flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 "
@@ -99,13 +101,13 @@ const PopularCountriesGrid = ({
 					<span className="absolute pb-2 text-[10px] font-medium uppercase text-white">
 						SWITZERLAND
 					</span>
-				</Button>
-				<Button
-					variant={"unstyled"}
-					size={"fit"}
+				</div>
+				<div
 					onClick={() => {
 						if (!interactive) return;
-
+						if (hapticFeedback.isSupported()) {
+							hapticFeedback.impactOccurred("medium");
+						}
 						router.push("/esims/es");
 					}}
 					className=" relative col-span-2 row-span-2 flex cursor-pointer items-end justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
@@ -136,16 +138,16 @@ const PopularCountriesGrid = ({
 					<span className="absolute pb-3 text-lg font-medium uppercase text-white">
 						SPAIN
 					</span>
-				</Button>
-				<Button
-					variant={"unstyled"}
-					size={"fit"}
+				</div>
+				<div
 					onClick={() => {
 						if (!interactive) return;
-
+						if (hapticFeedback.isSupported()) {
+							hapticFeedback.impactOccurred("medium");
+						}
 						router.push("/esims/it");
 					}}
-					className=" relative col-span-2 row-span-1 flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
+					className="relative col-span-2 row-span-1 flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
 				>
 					<Image
 						width={312}
@@ -173,7 +175,7 @@ const PopularCountriesGrid = ({
 					<span className="absolute pb-2 text-xs font-medium uppercase text-white">
 						ITALY
 					</span>
-				</Button>
+				</div>
 			</div>
 		</div>
 	);
