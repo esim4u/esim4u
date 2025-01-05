@@ -46,14 +46,12 @@ export function searchInPackages({
 				matchKey: matchedKey,
 			};
 		});
-		console.log(item);
-		console.log(nestedMatchCountries);
 
 		nestedMatchCountries = nestedMatchCountries.filter(
 			(nestedCountry) =>
 				nestedCountry.title != item.title &&
 				nestedCountry.country_code != item.country_code &&
-				nestedCountry.translation != item.translation
+				(nestedCountry.translation || "") != (item.translation || "en")
 		);
 
 		return {

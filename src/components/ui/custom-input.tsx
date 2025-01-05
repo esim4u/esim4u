@@ -68,20 +68,20 @@ const CustomInput = ({
 			{(value || isFocused) && (
 				<Button
 					variant={"unstyled"}
+					onClick={() => {
+						if (onClear) {
+							onClear();
+						} else {
+							setValue("");
+						}
+						if (setIsFocused) {
+							setIsFocused(false);
+						}
+					}}
 					size={"fit"}
 					className="absolute right-1  h-10 w-10"
 				>
 					<IoCloseOutline
-						onClick={() => {
-							if (onClear) {
-								onClear();
-							} else {
-								setValue("");
-							}
-							if (setIsFocused) {
-								setIsFocused(false);
-							}
-						}}
 						className={cn(
 							"h-5 w-5  text-neutral-500",
 							isError && "text-redish"
