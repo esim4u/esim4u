@@ -3,6 +3,7 @@ import { IoCloseOutline } from "react-icons/io5";
 
 import { cn } from "@/lib/utils";
 import { l } from "@/features/locale/lib/locale";
+import { Button } from "./button";
 
 type CustomInputProps = {
 	id?: string;
@@ -65,22 +66,28 @@ const CustomInput = ({
 			/>
 
 			{(value || isFocused) && (
-				<IoCloseOutline
-					onClick={() => {
-						if (onClear) {
-							onClear();
-						} else {
-							setValue("");
-						}
-						if (setIsFocused) {
-							setIsFocused(false);
-						}
-					}}
-					className={cn(
-						"absolute right-[14px] h-5 w-5 cursor-pointer text-neutral-500",
-						isError && "text-redish"
-					)}
-				/>
+				<Button
+					variant={"unstyled"}
+					size={"fit"}
+					className="absolute right-1  h-10 w-10"
+				>
+					<IoCloseOutline
+						onClick={() => {
+							if (onClear) {
+								onClear();
+							} else {
+								setValue("");
+							}
+							if (setIsFocused) {
+								setIsFocused(false);
+							}
+						}}
+						className={cn(
+							"h-5 w-5  text-neutral-500",
+							isError && "text-redish"
+						)}
+					/>
+				</Button>
 			)}
 		</div>
 	);

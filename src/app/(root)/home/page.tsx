@@ -13,6 +13,7 @@ import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { searchInPackages } from "@/features/packages/lib/utils";
 import PackagesList from "@/features/packages/components/packages-list";
 import PopularCountriesGrid from "@/features/onbording/components/popular-countries-grid";
+import { hapticFeedback } from "@telegram-apps/sdk-react";
 
 const HomePage = () => {
 	useTgBackButton({
@@ -54,6 +55,12 @@ const HomePage = () => {
 
 					if (value.length > 2 && filteredPackages?.length === 0) {
 						setIsSearchError(true);
+						if (
+							hapticFeedback.isSupported() &&
+							hapticFeedback.notificationOccurred.isAvailable()
+						) {
+							hapticFeedback.notificationOccurred("warning");
+						}
 					} else {
 						setIsSearchError(false);
 					}
