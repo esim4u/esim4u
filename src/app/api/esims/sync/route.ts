@@ -3,7 +3,7 @@ import axios from "axios";
 import { ceil } from "@/lib/utils";
 import supabase from "@/lib/supabase";
 import { EXCHANGE_RATE, MARGIN_RATE } from "@/features/payment/constants";
-import { ESIM_STATE, ORDER_STATUS } from "@/features/orders/enums";
+import { ESIM_STATE, ORDER_STATUS } from "@/features/esims/enums";
 
 export const maxDuration = 50;
 export const dynamic = "force-dynamic";

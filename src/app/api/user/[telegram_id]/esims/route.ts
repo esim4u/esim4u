@@ -1,4 +1,4 @@
-import { ORDER_STATUS } from "@/features/orders/enums";
+import { ORDER_STATUS } from "@/features/esims/enums";
 import supabase from "@/lib/supabase";
 
 export const maxDuration = 50;
