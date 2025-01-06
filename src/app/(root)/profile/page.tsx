@@ -6,6 +6,7 @@ import RefLinkButton from "@/components/shared/ref-link-button";
 import ShareButton from "@/components/shared/share-button";
 import { Button } from "@/components/ui/button";
 import OneTimeInstallationWarningBanner from "@/features/esims/components/one-time-installation-warning-banner";
+import UserEsims from "@/features/esims/components/user-esims";
 import UserBlock from "@/features/users/components/user-block";
 import { useTgBackButton } from "@/hooks/use-telegram";
 import { useRouter } from "next/navigation";
@@ -46,6 +47,7 @@ const ProfilePage = () => {
 				<ShareButton />
 			</div>
 			<OneTimeInstallationWarningBanner />
+			<UserEsims />
 		</main>
 	);
 };

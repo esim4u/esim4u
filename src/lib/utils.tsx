@@ -39,6 +39,36 @@ export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
 	}
 }
 
+export function copyText(text: string | number, e?: any) {
+	e?.stopPropagation();
+
+	if (!text) {
+		toast({
+			variant: "destructive",
+			title: "Error",
+		});
+		return;
+	}
+
+	try {
+		navigator.clipboard.writeText(text.toString());
+		toast({
+			variant: "esim4u",
+			description: (
+				<span className="flex flex-row items-center gap-2 font-semibold">
+					<PiCopyBold className="h-[18px] w-[18px]" />
+					<p>{l("toast_copied")}</p>
+				</span>
+			),
+		});
+	} catch (error) {
+		toast({
+			variant: "destructive",
+			title: "Error: Please try again",
+		});
+	}
+}
+
 export const getReferralLink = (user_id: string | number) => {
 	if (!user_id) {
 		return "";
