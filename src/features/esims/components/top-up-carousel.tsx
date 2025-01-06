@@ -5,6 +5,7 @@ import {
 	CarouselItem,
 } from "@/components/ui/carousel";
 import Dot from "@/components/ui/dot";
+import { useGetTonUsdRate } from "@/features/currency/hooks/use-currency";
 import { l } from "@/features/locale/lib/locale";
 import { useTgUser } from "@/hooks/use-telegram";
 import { cn } from "@/lib/utils";
@@ -12,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { useCreateTopupOrder } from "../hooks/use-esims";
 
 const TopUpCarousel = ({
 	topUps,
@@ -25,52 +27,19 @@ const TopUpCarousel = ({
 	coverage: string;
 }) => {
 	const { tgUser } = useTgUser();
-
 	const router = useRouter();
 
 	const [selectedPackage, setSelectedPackage] = useState<any>(topUps[0]);
 
-	const { data: rateTonUsd } = useQuery({
-		queryKey: ["ratetonusd"],
-		queryFn: async () => {
-			const { data } = await axios.get(
-				"https://tonapi.io/v2/rates?tokens=ton&currencies=usd"
-			);
-			return data.rates.TON.prices.USD;
-		},
-		refetchInterval: 1000 * 10, // 10 sec
-	});
-
+	const { data: rateTonUsd } = useGetTonUsdRate();
 	const priceInTon = useMemo(() => {
 		if (!rateTonUsd) return 999;
 
 		const priceInTon = selectedPackage?.total_price / rateTonUsd;
-		return priceInTon.toFixed(3);
+		return +priceInTon.toFixed(3);
 	}, [rateTonUsd, selectedPackage]);
 
-	const createEsimOrder = async () => {
-		await axios
-			.post("/api/topup/create", {
-				iccid: iccid,
-				net_price: selectedPackage.net_price,
-				original_price: selectedPackage.price,
-				total_price: selectedPackage.total_price,
-				total_price_eur: selectedPackage.total_price_eur,
-				total_price_ton: priceInTon,
-				telegram_id: tgUser?.id,
-				package_id: selectedPackage.id,
-				image_url: image_url,
-				coverage: coverage,
-				validity: selectedPackage.day,
-				data: selectedPackage.data,
-			})
-			.then((res) => {
-				console.log(res);
-				if (res?.data?.order_id) {
-					router.push(`/esims/pay/${res.data.order_id}`);
-				}
-			});
-	};
+	const createTopup = useCreateTopupOrder();
 
 	const [api, setApi] = useState<CarouselApi>();
 	useEffect(() => {
@@ -133,8 +102,37 @@ const TopUpCarousel = ({
 									</div>
 									{selectedPackage.id == plan.id && (
 										<div
-											onClick={() => {
-												createEsimOrder();
+											onClick={async () => {
+												if (!tgUser || !tgUser.id) {
+													return;
+												}
+												createTopup
+													.mutateAsync({
+														iccid: iccid,
+														net_price:
+															selectedPackage.net_price,
+														original_price:
+															selectedPackage.price,
+														total_price:
+															selectedPackage.total_price,
+														total_price_eur:
+															selectedPackage.total_price_eur,
+														total_price_ton:
+															priceInTon,
+														telegram_id: tgUser?.id,
+														package_id:
+															selectedPackage.id,
+														image_url: image_url,
+														coverage: coverage,
+														validity:
+															selectedPackage.day,
+														data: selectedPackage.data,
+													})
+													.then((data) => {
+														router.push(
+															`/esims/pay/${data.order_id}`
+														);
+													});
 											}}
 											className="relative -mt-2 ml-2 mr-4 rounded-b-xl bg-emerald-300 pb-1.5 pt-3 hover:bg-emerald-300 active:scale-95"
 										>

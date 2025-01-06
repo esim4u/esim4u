@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { TbHandClick } from "react-icons/tb";
@@ -15,6 +15,9 @@ import dayjs from "dayjs";
 import CopyBadge from "./copy-badge";
 import TopUpCarousel from "./top-up-carousel";
 import { Button } from "@/components/ui/button";
+import { detectIOSVersion, generateEsimActivationLink } from "../lib/utils";
+import Qr from "@/components/ui/qr";
+import { Link } from "lucide-react";
 
 const EsimCard = ({
 	package_id,
@@ -32,13 +35,15 @@ const EsimCard = ({
 	const router = useRouter();
 
 	const [isOpen, setIsOpen] = useState(false);
-	const activationLink = "aa";
+	const activationLink = useMemo(() => {
+		return generateEsimActivationLink(sm_dp, confirmation_code);
+	}, [sm_dp, confirmation_code]);
 
 	return (
 		<div className="relative flex flex-col">
 			<Button
-                variant={"unstyled"}
-                size={"fit"}
+				variant={"unstyled"}
+				size={"fit"}
 				onClick={() => {
 					setIsOpen(!isOpen);
 				}}
@@ -126,7 +131,31 @@ const EsimCard = ({
 													{l("important_note")}
 												</h2>
 											</div>
+											{detectIOSVersion() > 17.5 && (
+												<h2 className=" text-balance text-center">
+													{l("instruction_auto")}
+												</h2>
+											)}
 										</div>
+										{detectIOSVersion() > 17.5 ? (
+											<Button
+												variant={"unstyled"}
+												size={"fit"}
+												asChild
+											>
+												<Link
+													href={
+														"https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=" +
+														activationLink
+													}
+													target="_blank"
+												>
+													<Qr url={activationLink} />
+												</Link>
+											</Button>
+										) : (
+											<Qr url={activationLink} />
+										)}
 									</div>
 								</div>
 							</TabsContent>

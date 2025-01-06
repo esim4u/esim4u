@@ -23,7 +23,7 @@ const UserEsims = () => {
 				<div className="flex items-center  gap-2 pl-4 font-medium uppercase text-neutral-500">
 					<h2>{l("title_esims")}</h2>
 				</div>
-				<div className="flex w-full flex-col gap-2">
+				<div className="flex w-full flex-col gap-3">
 					{Array(2)
 						.fill(null)
 						.map((_, index) => (
@@ -69,7 +69,7 @@ const UserEsims = () => {
 					<RiHistoryFill className="h-6 w-6" />
 				</h2>
 			</div>
-			<div className="flex w-full flex-col gap-2">
+			<div className="flex w-full flex-col gap-3">
 				{esims?.map((esim: Esim) => (
 					<EsimCard
 						key={esim.iccid}
