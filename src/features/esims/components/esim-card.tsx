@@ -124,7 +124,7 @@ const EsimCard = ({
 							</TabsList>
 							<TabsContent value="auto">
 								<div className="flex items-center justify-center">
-									<div className="flex flex-col gap-6 px-2 pt-2 text-sm font-bold">
+									<div className="flex flex-col items-center gap-6 px-2 pt-2 text-sm font-bold">
 										<div className="flex flex-col gap-2">
 											<div className=" rounded-lg border-2 border-redish bg-white/10 px-2 py-1">
 												<h2 className="font-semibold text-redish">
@@ -138,15 +138,21 @@ const EsimCard = ({
 											)}
 										</div>
 										{detectIOSVersion() > 17.5 ? (
-											<a
-												href={
-													"https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=" +
-													activationLink
-												}
-												target="_blank"
+											<Button
+												variant={"unstyled"}
+												size={"fit"}
+												asChild
 											>
-												<Qr url={activationLink} />
-											</a>
+												<a
+													href={
+														"https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=" +
+														activationLink
+													}
+													target="_blank"
+												>
+													<Qr url={activationLink} />
+												</a>
+											</Button>
 										) : (
 											<Qr url={activationLink} />
 										)}

@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { copyText } from "@/lib/utils";
 import React from "react";
 import { TbCopy } from "react-icons/tb";
@@ -9,11 +10,13 @@ type Props = {
 
 const CopyBadge = ({ text, textToCopy }: Props) => {
 	return (
-		<div
+		<Button
+			variant={"unstyled"}
+			size={"fit"}
 			onClick={() => {
 				copyText(textToCopy || text || "");
 			}}
-			className="flex cursor-pointer items-center justify-between gap-1"
+			className="flex cursor-pointer items-center justify-between gap-1 w-full"
 		>
 			{!!text && (
 				<div className="flex h-7 w-full  items-center justify-center rounded-md bg-white px-2 ">
@@ -23,7 +26,7 @@ const CopyBadge = ({ text, textToCopy }: Props) => {
 			<div className="flex size-7 min-w-7 items-center justify-center rounded-md bg-white">
 				<TbCopy />
 			</div>
-		</div>
+		</Button>
 	);
 };
 
