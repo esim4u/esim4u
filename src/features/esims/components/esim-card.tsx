@@ -138,21 +138,15 @@ const EsimCard = ({
 											)}
 										</div>
 										{detectIOSVersion() > 17.5 ? (
-											<Button
-												variant={"unstyled"}
-												size={"fit"}
-												asChild
+											<Link
+												href={
+													"https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=" +
+													activationLink
+												}
+												target="_blank"
 											>
-												<Link
-													href={
-														"https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=" +
-														activationLink
-													}
-													target="_blank"
-												>
-													<Qr url={activationLink} />
-												</Link>
-											</Button>
+												<Qr url={activationLink} />
+											</Link>
 										) : (
 											<Qr url={activationLink} />
 										)}
