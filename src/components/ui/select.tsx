@@ -5,6 +5,7 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { hapticFeedback } from "@telegram-apps/sdk-react";
 
 const Select = SelectPrimitive.Root;
 
@@ -116,9 +117,18 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName;
 const SelectItem = React.forwardRef<
 	React.ElementRef<typeof SelectPrimitive.Item>,
 	React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
->(({ className, children, ...props }, ref) => (
+>(({ className, onClick, children, ...props }, ref) => (
 	<SelectPrimitive.Item
 		ref={ref}
+		onClick={(e) => {
+			if (
+				hapticFeedback.isSupported() &&
+				hapticFeedback.impactOccurred.isAvailable()
+			) {
+				hapticFeedback.impactOccurred("medium");
+			}
+			onClick?.(e);
+		}}
 		className={cn(
 			"relative flex w-full cursor-default select-none items-center rounded-xl p-2 pl-4 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 			className
