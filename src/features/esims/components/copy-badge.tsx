@@ -17,7 +17,7 @@ const CopyBadge = ({ text, textToCopy }: Props) => {
 		>
 			{!!text && (
 				<div className="flex h-7 w-full  items-center justify-center rounded-md bg-white px-2 ">
-					<h2 className="text-center text-xs">{text}</h2>
+					<h2 className="text-center max-w-56 truncate shrink text-xs">{text}</h2>
 				</div>
 			)}
 			<div className="flex size-7 min-w-7 items-center justify-center rounded-md bg-white">
