@@ -31,7 +31,10 @@ const PackagePlansCarousel = ({
 			>
 				{l("title_packages")}
 			</h2>
-			<Carousel setApi={setApi}>
+			<Carousel
+				opts={{ dragFree: false, dragThreshold: 0, skipSnaps: true }}
+				setApi={setApi}
+			>
 				<CarouselContent className={cn("ml-1", "mr-4 pl-4")}>
 					{packagePlans &&
 						packagePlans.map((plan: any, index: number) => {

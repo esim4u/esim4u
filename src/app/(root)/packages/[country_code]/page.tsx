@@ -118,7 +118,7 @@ const PageBody = ({ children }: { children: React.ReactNode }) => {
 const Terms = ({ terms, setTerms }: { terms: any; setTerms: any }) => {
 	return (
 		<div className="flex flex-col gap-2 rounded-3xl border-2 border-redish p-5">
-			<div onClick={() => {}} className="flex items-center space-x-2">
+			<div className="flex items-center space-x-2">
 				<Checkbox
 					onCheckedChange={(checked: boolean) => {
 						setTerms({
@@ -136,7 +136,7 @@ const Terms = ({ terms, setTerms }: { terms: any; setTerms: any }) => {
 					{l("text_terms_conditions")}
 				</label>
 			</div>
-			<div onClick={() => {}} className=" flex items-center space-x-2">
+			<div className=" flex items-center space-x-2">
 				<Checkbox
 					onCheckedChange={(checked: boolean) => {
 						setTerms({

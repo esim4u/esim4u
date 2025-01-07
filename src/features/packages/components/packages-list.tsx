@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-import AdPlaceholder from "./ad-placeholder";
+import AdPlaceholder from "../../../components/shared/ad-placeholder";
 import PackageItem from "./package-item";
 
 type Props = {
