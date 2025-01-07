@@ -25,6 +25,16 @@ export async function convertUsdToPreferredCurrency({
 		};
 	}
 
+	if(currency_code === "ton") {
+		const tonRate = await getTonUsdRate();
+		const result = amount / tonRate;
+		return {
+			amount: result.toFixed(2),
+			currency: "ton",
+			symbol: "TON",
+		};
+	}
+
 	const rates = await axios.get(
 		"https://api.exchangerate-api.com/v4/latest/USD"
 	);
