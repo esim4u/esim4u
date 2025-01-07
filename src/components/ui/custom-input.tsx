@@ -18,6 +18,7 @@ type CustomInputProps = {
 	onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 	icon?: any;
 	onClear?: () => void;
+	className?: string;
 };
 
 const CustomInput = ({
@@ -33,6 +34,7 @@ const CustomInput = ({
 	onBlur,
 	icon,
 	onClear,
+	className,
 }: CustomInputProps) => {
 	const Icon = icon;
 
@@ -41,7 +43,8 @@ const CustomInput = ({
 			id={id}
 			className={cn(
 				"relative flex items-center",
-				isError && "animate-wiggle rounded-full ring-2 ring-redish"
+				isError && "animate-wiggle rounded-full ring-2 ring-redish",
+				className
 			)}
 		>
 			{icon && (

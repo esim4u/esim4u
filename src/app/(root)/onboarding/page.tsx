@@ -97,7 +97,7 @@ const OnboardingPage = () => {
 										tgUser,
 										tonAddress: tonAddress,
 									});
-									router.push("/esims");
+									router.push("/home");
 								},
 							});
 						}}

@@ -62,6 +62,42 @@ export function searchInPackages({
 	});
 }
 
+export function searchInNetworks({
+	networks,
+	search,
+}: {
+	networks: any;
+	search: string;
+}) {
+	const updatedNetworks = networks.map((country: any) => {
+		return {
+			...country,
+			fullName: COUNTRIES[country.name.toLowerCase()] || country.name,
+		};
+	});
+
+	const query = search.toLowerCase().trim();
+	if (!query) return updatedNetworks;
+
+	return updatedNetworks.filter((country: any) => {
+		// Check if the country name matches the search query
+		if (
+			country.name.toLowerCase().includes(query) ||
+			country.fullName?.toLowerCase().includes(query)
+		)
+			return true;
+		// Check if any network name or type matches the search query
+		return country.networks.some((network: any) => {
+			return (
+				network.name.toLowerCase().includes(query) ||
+				network.types.some((type: any) =>
+					type.toLowerCase().includes(query)
+				)
+			);
+		});
+	});
+}
+
 export const highlightMatches = (search: string, text: string) => {
 	if (search.trim() === "") {
 		return text;

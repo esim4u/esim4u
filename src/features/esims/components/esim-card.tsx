@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { detectIOSVersion, generateEsimActivationLink } from "../lib/utils";
 import Qr from "@/components/ui/qr";
 import { Link } from "lucide-react";
+import PackageNetworksDrawer from "@/features/packages/components/package-networks-drawer";
 
 const EsimCard = ({
 	package_id,
@@ -184,17 +185,9 @@ const EsimCard = ({
 									<h2>5. Turn On Roaming</h2>
 									<div className="flex items-center justify-between">
 										<h2>6. Select network</h2>{" "}
-										<span
-											onClick={() => {
-												router.push(
-													"/esims/networks/" +
-														package_id
-												);
-											}}
-											className=" text-tgaccent underline underline-offset-2"
-										>
-											Check list
-										</span>
+										<PackageNetworksDrawer
+											package_id={package_id}
+										/>
 									</div>
 								</div>
 							</TabsContent>
