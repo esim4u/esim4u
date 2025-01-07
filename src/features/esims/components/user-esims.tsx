@@ -8,6 +8,7 @@ import { RiHistoryFill, RiSimCard2Fill } from "react-icons/ri";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Esim } from "../types";
 import EsimCard from "./esim-card";
+import { Button } from "@/components/ui/button";
 
 const UserEsims = () => {
 	const router = useRouter();
@@ -60,14 +61,16 @@ const UserEsims = () => {
 		<div className="flex w-full flex-col gap-2">
 			<div className="flex items-center  justify-between gap-2 px-4 font-medium uppercase text-neutral-500">
 				<h2>{l("title_esims")}</h2>{" "}
-				<h2
+				{/* <Button
+					variant={"unstyled"}
+					size={"fit"}
 					onClick={() => {
 						router.push("/profile/history");
 					}}
 					className="flex cursor-pointer underline underline-offset-4 active:scale-95 active:bg-white/50"
 				>
 					<RiHistoryFill className="h-6 w-6" />
-				</h2>
+				</Button> */}
 			</div>
 			<div className="flex w-full flex-col gap-3">
 				{esims?.map((esim: Esim) => (

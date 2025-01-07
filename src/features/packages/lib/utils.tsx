@@ -98,18 +98,38 @@ export function searchInNetworks({
 	});
 }
 
-export const highlightMatches = (search: string, text: string) => {
-	if (search.trim() === "") {
-		return text;
-	}
-	const regex = new RegExp(`(${search})`, "gi");
-	return text.split(regex).map((part, index) => {
-		return regex.test(part) ? (
-			<span key={index} className="highlight text-tgaccent">
-				{part}
-			</span>
-		) : (
-			part
-		);
+export function searchInCoverage({
+	coverage,
+	search,
+}: {
+	coverage: any;
+	search: string;
+}) {
+	const updatedCoverage = coverage.map((country: any) => {
+		return {
+			...country,
+			fullName: COUNTRIES[country.name.toLowerCase()] || country.name,
+		};
 	});
-};
+
+	const query = search.toLowerCase().trim();
+	if (!query) return updatedCoverage;
+
+	return updatedCoverage.filter((country: any) => {
+		// Check if the country name matches the search query
+		if (
+			country.name.toLowerCase().includes(query) ||
+			country.fullName?.toLowerCase().includes(query)
+		)
+			return true;
+		// Check if any network name or type matches the search query
+		return country.networks.some((network: any) => {
+			return (
+				network.name.toLowerCase().includes(query) ||
+				network.types.some((type: any) =>
+					type.toLowerCase().includes(query)
+				)
+			);
+		});
+	});
+}

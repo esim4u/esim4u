@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
 	Carousel,
 	CarouselApi,
@@ -43,7 +44,9 @@ const PackagePlansCarousel = ({
 									key={index}
 									className="basis-[122px] cursor-pointer pl-1"
 								>
-									<div
+									<Button
+										variant={"unstyled"}
+										size={"fit"}
 										onClick={() => {
 											setSelectedPackage(plan);
 											api?.scrollTo(index);
@@ -61,7 +64,7 @@ const PackagePlansCarousel = ({
 										<p className=" text-xs font-medium text-neutral-500">
 											{plan.day} {l("text_days")}
 										</p>
-									</div>
+									</Button>
 								</CarouselItem>
 							);
 						})}

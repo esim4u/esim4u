@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import Collapse from "@/components/ui/collapse";
 import Dot from "@/components/ui/dot";
 import { l } from "@/features/locale/lib/locale";
@@ -13,8 +14,10 @@ const EsimActivationManualCollapse = () => {
 
 	return (
 		<div className=" flex flex-col rounded-2xl bg-white p-5 shadow-md">
-			<div
-				className="flex cursor-pointer items-center justify-between"
+			<Button
+				variant={"unstyled"}
+				size={"fit"}
+				className="flex cursor-pointer items-center justify-between w-full"
 				onClick={() => {
 					setIsOpen(!isOpen);
 				}}
@@ -29,7 +32,7 @@ const EsimActivationManualCollapse = () => {
 						isOpen && " rotate-90"
 					)}
 				/>
-			</div>
+			</Button>
 
 			<Collapse isOpen={isOpen}>
 				<div className="flex flex-col gap-2 pt-2 text-sm font-bold">

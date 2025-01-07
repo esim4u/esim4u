@@ -20,7 +20,7 @@ const buttonVariants = cva(
 				secondary:
 					"bg-secondary text-secondary-foreground hover:bg-secondary/80",
 				ghost: "hover:bg-accent hover:text-accent-foreground",
-				link: "text-tgaccent underline-offset-4 hover:underline",
+				link: "text-tgaccent underline-offset-4 underline",
 				light: "bg-white text-blue-500 hover:bg-white/90 font-bold",
 				blue: "bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-black/10",
 				telegram:

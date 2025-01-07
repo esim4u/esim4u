@@ -75,7 +75,10 @@ const CountryPackages = () => {
 					selectedPackage={selectedPackage}
 					setSelectedPackage={setSelectedPackage}
 				/>
-				<PackageAdditionalInfo packageData={countryPackages} />
+				<PackageAdditionalInfo
+					packageData={countryPackages}
+					country_code={country_code}
+				/>
 				<EsimActivationManualCollapse />
 				<OneTimeInstallationWarningBanner />
 				<Terms terms={terms} setTerms={setTerms} />

@@ -1,8 +1,8 @@
 import React from "react";
-import { highlightMatches } from "../lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { highlightMatches } from "@/lib/utils";
 
 type Props = {
 	country: any;

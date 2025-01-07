@@ -1,14 +1,19 @@
 "use client";
 
 import { COUNTRIES } from "@/constants";
+import CompatibleDevicesDrawer from "@/features/esims/components/compatible-devices-drawer";
 import { l } from "@/features/locale/lib/locale";
 import { usePathname, useRouter } from "next/navigation";
+import PackageCoverageDrawer from "./package-coverage-drawer";
 
-const PackageAdditionalInfo = ({ packageData }: { packageData: any }) => {
-	const router = useRouter();
-	const path = usePathname();
-
-    if (!packageData) return null;
+const PackageAdditionalInfo = ({
+	packageData,
+	country_code,
+}: {
+	packageData: any;
+	country_code: string;
+}) => {
+	if (!packageData) return null;
 	return (
 		<div className=" flex flex-col gap-2 rounded-2xl bg-white  p-5 shadow-md">
 			<h2 className="pl-1 text-xs font-medium uppercase text-neutral-500">
@@ -21,15 +26,7 @@ const PackageAdditionalInfo = ({ packageData }: { packageData: any }) => {
 						{l("label_coverage")}
 					</h3>
 					{packageData.operators[0].coverages.length > 1 ? (
-						<button
-							onClick={() => {
-								router.push(`${path}/coverage`);
-							}}
-							className="text-sm font-medium capitalize text-tgaccent underline underline-offset-2"
-						>
-							{packageData.operators[0].coverages.length}{" "}
-							{l("text_countries")}
-						</button>
+						<PackageCoverageDrawer country_code={country_code} />
 					) : (
 						<h3 className="text-sm font-bold">
 							{COUNTRIES[
@@ -60,14 +57,7 @@ const PackageAdditionalInfo = ({ packageData }: { packageData: any }) => {
 					<h3 className="text-sm font-bold capitalize">
 						{l("label_compatible_devices")}
 					</h3>
-					<button
-						onClick={() => {
-							router.push(`/esims/compatible-devices`);
-						}}
-						className="text-sm font-medium capitalize text-tgaccent underline underline-offset-2"
-					>
-						{l("text_compatible_devices")}
-					</button>
+					<CompatibleDevicesDrawer />
 				</div>
 			</div>
 		</div>

@@ -35,3 +35,7 @@ export interface NewTopup {
 	validity: number;
 	data: number;
 }
+
+export interface DevicesGroup {
+	[brand: string]: any[];
+}
