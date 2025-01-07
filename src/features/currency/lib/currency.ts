@@ -33,33 +33,3 @@ export function getPreferredCurrency() {
 		return CURRENCY[currency];
 	}
 }
-
-export async function convertUsdToPreferredCurrency(amount: number) {
-	const currency = getPreferredCurrencyCode();
-
-	if (currency === "usd") {
-		return {
-			amount: amount,
-			currency: "usd",
-			symbol: "$",
-		};
-	}
-
-	const rates = await axios.get(
-		"https://api.exchangerate-api.com/v4/latest/USD"
-	);
-	if (!rates.data.rates[currency.toUpperCase()]) {
-		return {
-			amount: amount,
-			currency: "usd",
-			symbol: "$",
-		};
-	}
-
-	const result = amount * rates.data.rates[currency.toUpperCase()];
-	return {
-		amount: result.toFixed(2),
-		currency: currency,
-		symbol: CURRENCY[currency].symbol,
-	};
-}

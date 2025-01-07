@@ -34,7 +34,7 @@ const PopularCountriesGrid = ({
 						if (hapticFeedback.isSupported()) {
 							hapticFeedback.impactOccurred("medium");
 						}
-						router.push("/esims/eg");
+						router.push("/packages/eg");
 					}}
 					className=" relative flex cursor-pointer items-end justify-center overflow-hidden rounded-3xl transition-transform active:scale-95	"
 				>
@@ -71,7 +71,7 @@ const PopularCountriesGrid = ({
 						if (hapticFeedback.isSupported()) {
 							hapticFeedback.impactOccurred("medium");
 						}
-						router.push("/esims/ch");
+						router.push("/packages/ch");
 					}}
 					className=" relative flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 "
 				>
@@ -108,7 +108,7 @@ const PopularCountriesGrid = ({
 						if (hapticFeedback.isSupported()) {
 							hapticFeedback.impactOccurred("medium");
 						}
-						router.push("/esims/es");
+						router.push("/packages/es");
 					}}
 					className=" relative col-span-2 row-span-2 flex cursor-pointer items-end justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
 				>
@@ -145,7 +145,7 @@ const PopularCountriesGrid = ({
 						if (hapticFeedback.isSupported()) {
 							hapticFeedback.impactOccurred("medium");
 						}
-						router.push("/esims/it");
+						router.push("/packages/it");
 					}}
 					className="relative col-span-2 row-span-1 flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
 				>
