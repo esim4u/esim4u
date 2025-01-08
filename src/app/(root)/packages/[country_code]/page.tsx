@@ -86,10 +86,11 @@ const CountryPackages = () => {
 				<Terms terms={terms} setTerms={setTerms} />
 			</PageBody>
 
+
 			<div
 				className={cn(
-					"p-0 pt-1.5 bg-background w-full z-20 border-t-[1px] border-neutral-300",
-					"sticky bottom-0"
+					"p-0 pt-1.5 bg-red-500 w-full z-20 border-t-[1px] border-neutral-300",
+					"fixed bottom-0"
 				)}
 			>
 				<div className="px-4">
@@ -106,7 +107,7 @@ const CountryPackages = () => {
 						{l("btn_pay")}
 					</Button>
 				</div>
-				<div className="h-4">
+				<div className=" flex items-center justify-center h-4">
 						<h2>{" a"}</h2>
 				</div>
 			</div>
