@@ -88,7 +88,7 @@ const CountryPackages = () => {
 
 			<div
 				className={cn(
-					"p-0 pt-2 bg-background w-full z-20 border-t-[1px] border-neutral-300",
+					"p-0 pt-1.5 bg-background w-full z-20 border-t-[1px] border-neutral-300",
 					"sticky bottom-0"
 				)}
 			>
