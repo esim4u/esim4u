@@ -1,6 +1,7 @@
 "use client";
 
 import { TonIcon } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Dot from "@/components/ui/dot";
 import { useGetConvertedAmount } from "@/features/currency/hooks/use-currency";
@@ -13,6 +14,7 @@ import PackageAdditionalInfo from "@/features/packages/components/package-additi
 import PackagePlansCarousel from "@/features/packages/components/package-plans-carousel";
 import { useGetCountryPackages } from "@/features/packages/hooks/use-packages";
 import { useTgBackButton } from "@/hooks/use-telegram";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
@@ -83,6 +85,28 @@ const CountryPackages = () => {
 				<OneTimeInstallationWarningBanner />
 				<Terms terms={terms} setTerms={setTerms} />
 			</PageBody>
+
+			<div
+				className={cn(
+					"pb-5 pt-2 bg-background w-full z-20 border-t-[1px] border-neutral-300",
+					"sticky bottom-0"
+				)}
+			>
+				<div className="px-5">
+					<Button
+						disabled={
+							!terms.conditions_and_terms ||
+							!terms.device_compatibility ||
+							!selectedPackage
+						}
+						variant={"telegram"}
+						className="rounded-xl w-full"
+						size={"lg"}
+					>
+						{l("btn_pay")}
+					</Button>
+				</div>
+			</div>
 		</main>
 	);
 };
