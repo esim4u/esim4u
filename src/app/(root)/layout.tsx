@@ -69,7 +69,7 @@ export default function RootLayout({
 				)}
 			>
 				<MainProvider>
-					<div className="flex flex-col min-h-svh safe-area-bottom bg-green-600">
+					<div className="flex flex-col min-h-svh safe-area-bottom">
 						<Header />
 						{children}
 					</div>
