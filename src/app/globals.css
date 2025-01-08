@@ -93,20 +93,20 @@ div:has(> button[data-tc-dropdown-button="true"]) {
 
 	.safe-area {
 		padding-top: calc(
-			var(--tg-viewport-safe-area-inset-top, 0) +
-				var(--tg-viewport-content-safe-area-inset-top, 0)
+			var(--tg-viewport-safe-area-inset-top, 5px) +
+				var(--tg-viewport-content-safe-area-inset-top, 5px)
 		);
 		padding-bottom: calc(
-			var(--tg-viewport-safe-area-inset-bottom, 0) +
-				var(--tg-viewport-content-safe-area-inset-bottom, 0)
+			var(--tg-viewport-safe-area-inset-bottom, 5px) +
+				var(--tg-viewport-content-safe-area-inset-bottom, 5px)
 		);
 		padding-left: calc(
-			var(--tg-viewport-safe-area-inset-left, 0) +
-				var(--tg-viewport-content-safe-area-inset-left, 0)
+			var(--tg-viewport-safe-area-inset-left, 5px) +
+				var(--tg-viewport-content-safe-area-inset-left, 5px)
 		);
 		padding-right: calc(
-			var(--tg-viewport-safe-area-inset-right, 0) +
-				var(--tg-viewport-content-safe-area-inset-right, 0)
+			var(--tg-viewport-safe-area-inset-right, 5px) +
+				var(--tg-viewport-content-safe-area-inset-right, 5px)
 		);
 	}
 
@@ -119,14 +119,14 @@ div:has(> button[data-tc-dropdown-button="true"]) {
 
 	.safe-area-top-toast {
 		top: calc(
-			var(--tg-viewport-safe-area-inset-top, 0px) +
-				var(--tg-viewport-content-safe-area-inset-top, 0px)
+			var(--tg-viewport-safe-area-inset-top, 5px) +
+				var(--tg-viewport-content-safe-area-inset-top, 5px)
 		);
 	}
 	.safe-area-bottom-toast {
 		bottom: calc(
-			var(--tg-viewport-safe-area-inset-bottom, 0px) +
-				var(--tg-viewport-content-safe-area-inset-bottom, 0px)
+			var(--tg-viewport-safe-area-inset-bottom, 5px) +
+				var(--tg-viewport-content-safe-area-inset-bottom, 5px)
 		);
 	}
 }

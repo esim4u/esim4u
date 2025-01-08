@@ -85,32 +85,34 @@ const CountryPackages = () => {
 				<OneTimeInstallationWarningBanner />
 				<Terms terms={terms} setTerms={setTerms} />
 			</PageBody>
+			<>
+				<div className="h-12">
 
-
-			<div
-				className={cn(
-					"p-0 pt-1.5 bg-red-500 w-full z-20 border-t-[1px] border-neutral-300",
-					"sticky bottom-0"
-				)}
-			>
-				<div className="px-4">
-					<Button
-						disabled={
-							!terms.conditions_and_terms ||
-							!terms.device_compatibility ||
-							!selectedPackage
-						}
-						variant={"telegram"}
-						className="rounded-xl w-full"
-						size={"xl"}
-					>
-						{l("btn_pay")}
-					</Button>
 				</div>
-				<div className=" flex items-center justify-center h-4">
+				<div
+					className={cn(
+						"container fixed bottom-0 p-0 pt-1.5 bg-red-500 w-full z-20 border-t-[1px] border-neutral-300"
+					)}
+				>
+					<div className="px-4">
+						<Button
+							disabled={
+								!terms.conditions_and_terms ||
+								!terms.device_compatibility ||
+								!selectedPackage
+							}
+							variant={"telegram"}
+							className="rounded-xl w-full"
+							size={"xl"}
+						>
+							{l("btn_pay")}
+						</Button>
+					</div>
+					<div className=" flex items-center justify-center h-4">
 						<h2>{" a"}</h2>
+					</div>
 				</div>
-			</div>
+			</>
 		</main>
 	);
 };
