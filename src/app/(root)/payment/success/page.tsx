@@ -2,15 +2,16 @@
 
 import SubscribeBanner from "@/features/home/components/subscribe-banner";
 import LoadingScreen from "@/features/navigation/components/loading-screen";
-import Lottie from "lottie-react";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import confettiAnim from "@/assets/anim/confetti.json";
 
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useGetOrderById } from "@/features/payment/hooks/use-payment";
 import { useTgBackButton } from "@/hooks/use-telegram";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
 
 export default function SuccessPage() {
 	const router = useRouter();
@@ -71,12 +72,14 @@ export default function SuccessPage() {
 				<SubscribeBanner className={"mx-4"} />
 			</div>
 			<div className="absolute z-10 max-h-dvh w-dvw max-w-96 overflow-hidden">
-				<Lottie
-					lottieRef={lottieRef}
-					animationData={confettiAnim}
-					loop={false}
-					className="-mt-12"
-				/>
+				<Suspense fallback={<div></div>}>
+					<Lottie
+						lottieRef={lottieRef}
+						animationData={confettiAnim}
+						loop={false}
+						className="-mt-12"
+					/>
+				</Suspense>
 			</div>
 		</main>
 	);
