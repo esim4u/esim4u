@@ -76,7 +76,7 @@ export default function SuccessPage() {
 				<div className="z-20 my-4 flex h-fit flex-col items-center justify-center gap-4">
 					<SubscribeBanner className={"mx-4"} />
 				</div>
-				<div className="absolute z-10 max-h-dvh w-dvw max-w-96 overflow-hidden">
+				<div className="pointer-events-none absolute z-10 max-h-dvh w-dvw max-w-96 overflow-hidden">
 					<Lottie
 						lottieRef={lottieRef}
 						animationData={confettiAnim}
