@@ -14,6 +14,7 @@ import { setQueryParamsWithFullPath } from "@/lib/utils";
 interface UseBackButtonProps {
 	isVisible?: boolean;
 	onBack?: (router: AppRouterInstance) => void;
+	customFullPath?: string;
 	customPath?: string;
 	customSearchParams?: string;
 	customParams?: Record<string, string>;
@@ -23,6 +24,7 @@ interface UseBackButtonProps {
 export const useTgBackButton = ({
 	isVisible = true,
 	onBack = undefined,
+	customFullPath = undefined,
 	customPath = undefined,
 	customSearchParams = undefined,
 	customParams = {},
@@ -50,6 +52,8 @@ export const useTgBackButton = ({
 
 				if (onBack) {
 					onBack(router);
+				} else if (customFullPath) {
+					router.push(customFullPath);
 				} else if (customPath) {
 					const fullPath = setQueryParamsWithFullPath(
 						customPath,

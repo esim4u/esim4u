@@ -7,6 +7,7 @@ import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Header from "@/features/navigation/components/header";
+import Script from "next/script";
 
 const sfProRounded = localFont({
 	src: [
@@ -51,16 +52,16 @@ const sfProRounded = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "Esim4u",
-    description: "Telegram MiniApp for buying eSIMs",
+	title: "Esim4u",
+	description: "Telegram MiniApp for buying eSIMs",
 };
 
 export const viewport: Viewport = {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    minimumScale: 1,
-    userScalable: false,
+	width: "device-width",
+	initialScale: 1,
+	maximumScale: 1,
+	minimumScale: 1,
+	userScalable: false,
 };
 
 export default function RootLayout({
@@ -83,6 +84,7 @@ export default function RootLayout({
 					</div>
 					<Toaster />
 					<ReactQueryDevtools initialIsOpen={false} />
+					<Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
 				</MainProvider>
 			</body>
 		</html>
