@@ -112,8 +112,8 @@ div:has(> button[data-tc-dropdown-button="true"]) {
 
 	.safe-area-bottom {
 		padding-bottom: calc(
-			var(--tg-viewport-safe-area-inset-bottom, 0) +
-				var(--tg-viewport-content-safe-area-inset-bottom, 0)
+			var(--tg-viewport-safe-area-inset-bottom, 5px) +
+				var(--tg-viewport-content-safe-area-inset-bottom, 5px)
 		);
 	}
 
