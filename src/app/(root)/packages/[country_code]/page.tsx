@@ -88,11 +88,11 @@ const CountryPackages = () => {
 
 			<div
 				className={cn(
-					"pb-5 pt-2 bg-background w-full z-20 border-t-[1px] border-neutral-300",
+					"p-0 pt-2 bg-background w-full z-20 border-t-[1px] border-neutral-300",
 					"sticky bottom-0"
 				)}
 			>
-				<div className="px-5">
+				<div className="px-4">
 					<Button
 						disabled={
 							!terms.conditions_and_terms ||
@@ -101,10 +101,13 @@ const CountryPackages = () => {
 						}
 						variant={"telegram"}
 						className="rounded-xl w-full"
-						size={"lg"}
+						size={"xl"}
 					>
 						{l("btn_pay")}
 					</Button>
+				</div>
+				<div className="h-4">
+
 				</div>
 			</div>
 		</main>
