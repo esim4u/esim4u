@@ -39,3 +39,5 @@ next-env.d.ts
 # dev endpoints
 
 src/app/api/(dev)
+
+certificates

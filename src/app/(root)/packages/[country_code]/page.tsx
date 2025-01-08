@@ -90,7 +90,7 @@ const CountryPackages = () => {
 			<div
 				className={cn(
 					"p-0 pt-1.5 bg-red-500 w-full z-20 border-t-[1px] border-neutral-300",
-					"fixed bottom-0"
+					"sticky bottom-0"
 				)}
 			>
 				<div className="px-4">

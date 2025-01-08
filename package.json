@@ -1,9 +1,12 @@
 {
-	"name": "tma-casino-front",
+	"name": "esim4u",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
+		"dev:https": "next dev --experimental-https",
+		"dev:network": "next dev -H 192.168.0.101",
+		"dev:network:https": "next dev -H 192.168.0.101 --experimental-https",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
