@@ -48,7 +48,9 @@ const CardPayment = ({ order }: { order: any }) => {
 
 	return (
 		<div className="w-full rounded-2xl bg-white">
-			<div
+			<Button
+                variant={"unstyled"}
+                size={"fit"}
 				className="z-10 flex w-full cursor-pointer items-center justify-between px-6 py-2"
 				onClick={() => {
 					setIsCardPaymentOpen(!isCardPaymentOpen);
@@ -65,7 +67,7 @@ const CardPayment = ({ order }: { order: any }) => {
 						isCardPaymentOpen && " rotate-90"
 					)}
 				/>
-			</div>
+			</Button>
 			<Collapse isOpen={isCardPaymentOpen}>
 				<div className={cn("-mt-14")}>
 					<CardPaymentSkeleton isLoading={isLoading} />

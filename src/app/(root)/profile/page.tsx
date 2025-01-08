@@ -14,7 +14,9 @@ import React from "react";
 
 const ProfilePage = () => {
 	const router = useRouter();
-	useTgBackButton();
+	useTgBackButton({
+		customPath: "/home",
+	});
 
 	return (
 		<main className="container flex flex-col gap-3 bg-background">
