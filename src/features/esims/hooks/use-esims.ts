@@ -1,6 +1,10 @@
 import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
-import { createTopupOrder, getUserEsims } from "../services/esims";
-import { NewTopup } from "../types";
+import {
+	createEsimOrder,
+	createTopupOrder,
+	getUserEsims,
+} from "../services/esims";
+import { NewEsim, NewTopup } from "../types";
 import { getEsimCompatibleDevices } from "../services/compatible-devices";
 
 const REFETCH_INTERVAL = 1000 * 60 * 1; // 1 minutes
@@ -14,6 +18,18 @@ export function useGetUserEsims(telegram_id: number) {
 		placeholderData: keepPreviousData,
 		enabled: !!telegram_id,
 		refetchInterval: REFETCH_INTERVAL,
+	});
+}
+
+export function useCreateEsimOrder() {
+	return useMutation({
+		mutationFn: async (data: NewEsim) => {
+			return await createEsimOrder(data);
+		},
+		onError: (error) => {},
+		onSuccess: (data) => {
+			return data;
+		},
 	});
 }
 

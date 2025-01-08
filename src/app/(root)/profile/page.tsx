@@ -30,7 +30,7 @@ const ProfilePage = () => {
 					<GearIcon className="h-12 w-12 text-neutral-500" />
 				</Button>
 				<UserBlock orientation="vertical" size="md" arrowIcon={false} />
-				<Button
+				{/* <Button
 					variant={"unstyled"}
 					size={"fit"}
 					onClick={() => {
@@ -39,7 +39,7 @@ const ProfilePage = () => {
 					className="absolute right-0 top-12 h-12 w-12 "
 				>
 					<WalletIcon className="h-12 w-12 text-tgaccent" />
-				</Button>
+				</Button> */}
 			</div>
 			<div className="flex items-center justify-center gap-2">
 				<RefLinkButton />

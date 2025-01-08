@@ -1,27 +1,29 @@
 "use client";
 
 import { TonIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Dot from "@/components/ui/dot";
+import SpinLoader from "@/components/ui/spin-loader";
 import { useGetConvertedAmount } from "@/features/currency/hooks/use-currency";
 import { getPreferredCurrencyCode } from "@/features/currency/lib/currency";
 import EsimActivationManualCollapse from "@/features/esims/components/esim-activation-manual-collapse";
 import OneTimeInstallationWarningBanner from "@/features/esims/components/one-time-installation-warning-banner";
+import { useCreateEsimOrder } from "@/features/esims/hooks/use-esims";
 import { l } from "@/features/locale/lib/locale";
 import BottomStickyButton from "@/features/navigation/components/bottom-sticky-button";
 import LoadingScreen from "@/features/navigation/components/loading-screen";
 import PackageAdditionalInfo from "@/features/packages/components/package-additional-info";
 import PackagePlansCarousel from "@/features/packages/components/package-plans-carousel";
 import { useGetCountryPackages } from "@/features/packages/hooks/use-packages";
-import { useTgBackButton } from "@/hooks/use-telegram";
-import { cn } from "@/lib/utils";
+import { useTgBackButton, useTgUser } from "@/hooks/use-telegram";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 
 const CountryPackages = () => {
 	useTgBackButton();
+	const { tgUser } = useTgUser();
+	const router = useRouter();
 
 	const [selectedPackage, setSelectedPackage] = useState<any>(null);
 	const [terms, setTerms] = useState({
@@ -30,6 +32,8 @@ const CountryPackages = () => {
 	});
 
 	const { country_code } = useParams<{ country_code: string }>();
+
+	const createEsimOrder = useCreateEsimOrder();
 
 	const { data: countryPackages, isPending } =
 		useGetCountryPackages(country_code);
@@ -87,13 +91,41 @@ const CountryPackages = () => {
 				<Terms terms={terms} setTerms={setTerms} />
 			</PageBody>
 			<BottomStickyButton
+				onClick={async () => {
+					if (
+						!selectedPackage ||
+						!tgUser?.id ||
+						!amountInTon?.amount
+					) {
+						return;
+					}
+
+					createEsimOrder
+						.mutateAsync({
+							net_price: selectedPackage.net_price,
+							original_price: selectedPackage.price,
+							total_price: selectedPackage.total_price,
+							total_price_eur: selectedPackage.total_price_eur,
+							total_price_ton: +amountInTon?.amount,
+							telegram_id: tgUser?.id,
+							package_id: selectedPackage.id,
+							coverage: countryPackages.title,
+							image_url: countryPackages.image.url,
+							validity: selectedPackage.day,
+							data: selectedPackage.data,
+						})
+						.then((data) => {
+							router.push(`/payment/${data.order_id}`);
+						});
+				}}
 				disabled={
 					!terms.conditions_and_terms ||
 					!terms.device_compatibility ||
-					!selectedPackage
+					!selectedPackage ||
+					createEsimOrder.isPending
 				}
 			>
-				{l("btn_pay")}
+				{createEsimOrder.isPending ? <SpinLoader className="size-7" /> : l("btn_pay")}
 			</BottomStickyButton>
 		</main>
 	);

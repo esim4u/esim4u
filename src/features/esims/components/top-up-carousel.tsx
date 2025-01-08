@@ -130,7 +130,7 @@ const TopUpCarousel = ({
 													})
 													.then((data) => {
 														router.push(
-															`/esims/pay/${data.order_id}`
+															`/payment/${data.order_id}`
 														);
 													});
 											}}
