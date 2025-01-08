@@ -9,6 +9,7 @@ import { getPreferredCurrencyCode } from "@/features/currency/lib/currency";
 import EsimActivationManualCollapse from "@/features/esims/components/esim-activation-manual-collapse";
 import OneTimeInstallationWarningBanner from "@/features/esims/components/one-time-installation-warning-banner";
 import { l } from "@/features/locale/lib/locale";
+import BottomStickyButton from "@/features/navigation/components/bottom-sticky-button";
 import LoadingScreen from "@/features/navigation/components/loading-screen";
 import PackageAdditionalInfo from "@/features/packages/components/package-additional-info";
 import PackagePlansCarousel from "@/features/packages/components/package-plans-carousel";
@@ -85,34 +86,15 @@ const CountryPackages = () => {
 				<OneTimeInstallationWarningBanner />
 				<Terms terms={terms} setTerms={setTerms} />
 			</PageBody>
-			<>
-				<div className="h-12">
-
-				</div>
-				<div
-					className={cn(
-						"container fixed bottom-0 p-0 pt-1.5 bg-red-500 w-full z-20 border-t-[1px] border-neutral-300"
-					)}
-				>
-					<div className="px-4">
-						<Button
-							disabled={
-								!terms.conditions_and_terms ||
-								!terms.device_compatibility ||
-								!selectedPackage
-							}
-							variant={"telegram"}
-							className="rounded-xl w-full"
-							size={"xl"}
-						>
-							{l("btn_pay")}
-						</Button>
-					</div>
-					<div className=" flex items-center justify-center h-4">
-						<h2>{" a"}</h2>
-					</div>
-				</div>
-			</>
+			<BottomStickyButton
+				disabled={
+					!terms.conditions_and_terms ||
+					!terms.device_compatibility ||
+					!selectedPackage
+				}
+			>
+				{l("btn_pay")}
+			</BottomStickyButton>
 		</main>
 	);
 };
