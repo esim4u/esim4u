@@ -1,8 +1,7 @@
 import supabase from "@/lib/supabase";
 import { sendAdminTgLog } from "@/lib/tg-logger";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 3600;
+export const maxDuration = 50;
 
 export async function GET() {
 	// fetch supabase users for last 24 hours

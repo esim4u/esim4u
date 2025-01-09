@@ -4,6 +4,8 @@ import supabase from "@/lib/supabase";
 import { ceil } from "@/lib/utils";
 import axios from "axios";
 
+export const maxDuration = 50;
+
 export async function GET() {
 	// select esims older than 1 hour
 	const timestampzISOStr = new Date(
