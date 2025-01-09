@@ -1,7 +1,7 @@
 "use client";
 
+import { TonConnectUIProvider } from "@/lib/tonconnect-react";
 import React from "react";
-import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
 const WEB_APP_URL = process.env.NEXT_PUBLIC_WEB_APP_URL;
 

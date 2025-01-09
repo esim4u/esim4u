@@ -8,11 +8,7 @@ import {
 	CarouselContent,
 	CarouselItem,
 } from "@/components/ui/carousel";
-import {
-	TonConnectButton,
-	useTonAddress,
-	useTonWallet,
-} from "@tonconnect/ui-react";
+
 import { cn } from "@/lib/utils";
 import PopularCountriesGrid from "@/components/shared/popular-countries-grid";
 import RunningCountriesLines from "@/features/onbording/components/running-countries-lines";
@@ -22,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useTgUser } from "@/hooks/use-telegram";
 import { useFinishOnboarding } from "@/features/onbording/hooks/use-onboarding";
 import { showConfirmationToast } from "@/features/onbording/lib/utils";
+import { TonConnectButton, useTonAddress, useTonWallet } from "@/lib/tonconnect-react";
 
 const OnboardingPage = () => {
 	const [api, setApi] = useState<CarouselApi>();

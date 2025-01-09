@@ -16,7 +16,7 @@ import { useThrottle } from "@/hooks/use-throttle";
 
 export default function SuccessPage() {
 	const router = useRouter();
-	const lottieRef = useRef<any>();
+	const lottieRef = useRef<any>(undefined);
 	const searchParams = useSearchParams();
 	const order_id = searchParams.get("order_id");
 
