@@ -1,49 +1,29 @@
-import supabase from "@/lib/supabase";
+import { getNewUsersAmount } from "@/features/analytics/service";
 import { sendAdminTgLog } from "@/lib/tg-logger";
 
 export const maxDuration = 50;
 
 export async function GET() {
-	// fetch supabase users for last 24 hours
-	const twentyFourHoursAgo = new Date(
-		new Date().getTime() - 1 * 24 * 60 * 60 * 1000
-	).toISOString();
-
-	const users = await supabase
-		.from("users")
-		.select("id", { count: "exact" })
-		.gte("created_date", twentyFourHoursAgo);
-
-	if (users.error) {
-		console.log("An cron error occurred while fetching users");
-
+	try {
+		const { newUsersAmount, totalUsersAmount } = await getNewUsersAmount();
+		await sendAdminTgLog(
+			`In the past 24 hours: \nNew users: ${newUsersAmount} \nTotal users: ${totalUsersAmount}`
+		);
 		return Response.json(
 			{
-				message: "An error occurred while fetching users",
-				description: users.error.message,
+				message: "Successfully fetched new users amount",
+				newUsersAmount,
+				total: totalUsersAmount,
+			},
+			{ status: 200 }
+		);
+	} catch (error: any) {
+		return Response.json(
+			{
+				message: "An error occurred while fetching new users amount",
+				description: error.message,
 			},
 			{ status: 500 }
 		);
 	}
-
-	const totalUserCount = await supabase
-		.from("users")
-		.select("id", { count: "exact" });
-
-	if (totalUserCount.error) {
-		console.log("An error occurred while fetching total user count");
-		return Response.json(
-			{
-				message: "An error occurred while fetching total user count",
-				description: totalUserCount.error.message,
-			},
-			{ status: 500 }
-		);
-	}
-
-	sendAdminTgLog(
-		`In the past 24 hours: \nNew users: ${users.count} \nTotal users: ${totalUserCount.count}`
-	);
-
-	return Response.json({ status: 200 });
 }

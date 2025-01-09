@@ -1,9 +1,10 @@
 "use client";
 
+import { clientEnvs } from "@/env/client";
 import { TonConnectUIProvider } from "@/lib/tonconnect-react";
 import React from "react";
 
-const WEB_APP_URL = process.env.NEXT_PUBLIC_WEB_APP_URL;
+const WEB_APP_URL = clientEnvs.NEXT_PUBLIC_TELEGRAM_WEB_APP_URL;
 
 const TonConnectProvider = ({ children }: { children: React.ReactNode }) => {
 	return (

@@ -5,9 +5,10 @@ import t from "@/assets/data/country-translations.json";
 import { Translations } from "@/features/locale/types/translations.types";
 import { ceil } from "@/lib/utils";
 import { EXCHANGE_RATE, MARGIN_RATE } from "@/features/payment/constants";
+import { serverEnvs } from "@/env/server";
 
-const AIRALO_API_URL = process.env.AIRALO_API_URL;
-const AIRALO_BUSINESS_ACCESS_TOKEN = process.env.AIRALO_BUSINESS_ACCESS_TOKEN;
+const AIRALO_API_URL = serverEnvs.AIRALO_API_URL;
+const AIRALO_BUSINESS_ACCESS_TOKEN = serverEnvs.AIRALO_BUSINESS_ACCESS_TOKEN;
 
 const translations: Translations = t as Translations;
 const supportedTranslations = Object.keys(translations);
@@ -81,7 +82,11 @@ export async function getCountryPackages({
 		},
 	});
 
-	if (!response?.data || !response.data.data || response.data.data.length === 0) {
+	if (
+		!response?.data ||
+		!response.data.data ||
+		response.data.data.length === 0
+	) {
 		throw new Error("Failed to fetch packages");
 	}
 

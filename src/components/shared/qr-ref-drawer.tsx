@@ -14,8 +14,9 @@ import {
 	DrawerTrigger,
 } from "../ui/drawer";
 import { cn } from "@/lib/utils";
+import { clientEnvs } from "@/env/client";
 
-const TELEGRAM_BOT_USERNAME = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME;
+const TELEGRAM_BOT_USERNAME = clientEnvs.NEXT_PUBLIC_BOT_USERNAME;
 
 const QrRefDrawer = ({ className }: { className?: string }) => {
 	return (

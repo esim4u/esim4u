@@ -3,8 +3,9 @@ import React from "react";
 import { Button } from "../ui/button";
 import { initData, shareURL } from "@telegram-apps/sdk-react";
 import { IoShareSocialOutline } from "react-icons/io5";
+import { clientEnvs } from "@/env/client";
 
-const TELEGRAM_BOT_USERNAME = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME;
+const TELEGRAM_BOT_USERNAME = clientEnvs.NEXT_PUBLIC_BOT_USERNAME;
 const ShareButton = () => {
 	return (
 		<Button

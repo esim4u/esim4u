@@ -3,6 +3,9 @@ import { toast } from "@/hooks/use-toast";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { PiCopyBold } from "react-icons/pi";
+import { clientEnvs } from "@/env/client";
+
+const TELEGRAM_BOT_USERNAME = clientEnvs.NEXT_PUBLIC_BOT_USERNAME;
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -73,7 +76,7 @@ export const getReferralLink = (user_id: string | number) => {
 	if (!user_id) {
 		return "";
 	}
-	return `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/app?startapp=${user_id}`;
+	return `https://t.me/${TELEGRAM_BOT_USERNAME}/app?startapp=${user_id}`;
 };
 
 export const setQueryParamsWithFullPath = (

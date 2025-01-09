@@ -1,9 +1,10 @@
 "use server";
 
+import { serverEnvs } from "@/env/server";
 import axios from "axios";
 
-const AIRALO_API_URL = process.env.AIRALO_API_URL;
-const AIRALO_BUSINESS_ACCESS_TOKEN = process.env.AIRALO_BUSINESS_ACCESS_TOKEN;
+const AIRALO_API_URL = serverEnvs.AIRALO_API_URL;
+const AIRALO_BUSINESS_ACCESS_TOKEN = serverEnvs.AIRALO_BUSINESS_ACCESS_TOKEN;
 
 export async function getEsimCompatibleDevices() {
 	const response = await axios.get(

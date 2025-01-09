@@ -1,11 +1,14 @@
+"use client";
+
 import {
 	parseInitData,
 	isTMA,
 	mockTelegramEnv,
 } from "@telegram-apps/sdk-react";
 import { useClientOnce } from "./use-client-once";
+import { clientEnvs } from "@/env/client";
 
-const MOCK_INIT_DATA_RAW = process.env.NEXT_PUBLIC_MOCK_INIT_DATA_RAW;
+const MOCK_INIT_DATA_RAW = clientEnvs.NEXT_PUBLIC_MOCK_INIT_DATA_RAW;
 
 /**
  * Mocks Telegram environment in development mode.

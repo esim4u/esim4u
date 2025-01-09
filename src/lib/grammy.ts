@@ -2,16 +2,18 @@ import { Bot, InlineKeyboard, InputFile } from "grammy";
 
 import userService from "@/features/users/services/user.service";
 import { l } from "../features/locale/lib/locale";
+import { clientEnvs } from "@/env/client";
 
-const token = process.env.NEXT_PUBLIC_BOT_TOKEN;
-if (!token) throw new Error("BOT_TOKEN is unset");
-const bot = new Bot(token);
+const BOT_TOKEN = clientEnvs.NEXT_PUBLIC_BOT_TOKEN;
+if (!BOT_TOKEN) throw new Error("BOT_TOKEN is unset");
 
-const webAppUrl = process.env.NEXT_PUBLIC_WEB_APP_URL;
-if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
+const WEB_APP_URL = clientEnvs.NEXT_PUBLIC_TELEGRAM_WEB_APP_URL;
+if (!WEB_APP_URL) throw new Error("WEB_APP_URL is unset");
+
+const bot = new Bot(BOT_TOKEN);
 
 const buyEsimButton = (lang: string = "en") => {
-	return new InlineKeyboard().webApp(l("bot_btn_open", lang), webAppUrl);
+	return new InlineKeyboard().webApp(l("bot_btn_open", lang), WEB_APP_URL);
 };
 
 const subscribeToChannelButton = () => {
@@ -26,7 +28,7 @@ export const getPhotoUrlFromFileId = async (fileId: string) => {
 		const file = await bot.api.getFile(fileId);
 		if (!file) return null;
 
-		return `https://api.telegram.org/file/bot${process.env.NEXT_PUBLIC_BOT_TOKEN}/${file?.file_path}`;
+		return `https://api.telegram.org/file/bot${BOT_TOKEN}/${file?.file_path}`;
 	} catch {
 		return null;
 	}
@@ -49,7 +51,7 @@ export const sendMessagesToUser = async (
 ) => {
 	const checkEsimButton = new InlineKeyboard().webApp(
 		"Check your esim state at your profile",
-		webAppUrl + "/profile?iccid=" + iccid
+		WEB_APP_URL + "/profile?iccid=" + iccid
 	);
 
 	await bot.api.sendMessage(chatId, message, {
@@ -84,7 +86,7 @@ export const sendMessageToMultipleUsers = async ({
 	} else {
 		buttonToSend = new InlineKeyboard().webApp(
 			l("bot_btn_open"),
-			webAppUrl + `?${match_query}`
+			WEB_APP_URL + `?${match_query}`
 		);
 	}
 
@@ -104,9 +106,7 @@ export const sendMessageToMultipleUsers = async ({
 
 export const sendWelcomeMessageToUser = async (chatId: number) => {
 	const subscribeAwardImage = new InputFile(
-		new URL(
-			process.env.NEXT_PUBLIC_WEB_APP_URL + "/img/subscribe-award.png"
-		)
+		new URL(`${WEB_APP_URL}/img/subscribe-award.png`)
 	);
 
 	if (subscribeAwardImage) {

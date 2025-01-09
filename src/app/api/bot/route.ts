@@ -1,3 +1,4 @@
+import { clientEnvs } from "@/env/client";
 import { l } from "@/features/locale/lib/locale";
 import userService from "@/features/users/services/user.service";
 
@@ -10,15 +11,16 @@ import {
 	webhookCallback,
 } from "grammy";
 
-const token = process.env.NEXT_PUBLIC_BOT_TOKEN;
-if (!token) throw new Error("BOT_TOKEN is unset");
-const bot = new Bot(token);
+const BOT_TOKEN = clientEnvs.NEXT_PUBLIC_BOT_TOKEN;
+if (!BOT_TOKEN) throw new Error("BOT_TOKEN is unset");
 
-const webAppUrl = process.env.NEXT_PUBLIC_WEB_APP_URL;
-if (!webAppUrl) throw new Error("WEB_APP_URL is unset");
+const WEB_APP_URL = clientEnvs.NEXT_PUBLIC_TELEGRAM_WEB_APP_URL;
+if (!WEB_APP_URL) throw new Error("WEB_APP_URL is unset");
+
+const bot = new Bot(BOT_TOKEN);
 
 const buyEsimButton = (lang: string = "en") => {
-	return new InlineKeyboard().url(l("bot_btn_open", lang), webAppUrl);
+	return new InlineKeyboard().url(l("bot_btn_open", lang), WEB_APP_URL);
 };
 
 /////////////////////
@@ -28,14 +30,22 @@ const addExternalAd = async (ctx: any) => {
 
 	//if match is string not number
 	if (isNaN(ctx.match)) {
-		await userService.addExternalAdUser(ctx.chat.id, ctx.chat.username, ctx.match);
+		await userService.addExternalAdUser(
+			ctx.chat.id,
+			ctx.chat.username,
+			ctx.match
+		);
 	}
 };
 
 const addReferrer = async (ctx: any) => {
 	if (!ctx.match) return;
 
-	await userService.addReferrerToUser(ctx.chat.id, ctx.chat.username, ctx.match);
+	await userService.addReferrerToUser(
+		ctx.chat.id,
+		ctx.chat.username,
+		ctx.match
+	);
 };
 
 const addUserPhoto = async (ctx: any) => {

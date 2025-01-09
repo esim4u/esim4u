@@ -1,11 +1,12 @@
-import { sendTgLog } from "@/lib/tg-logger";
+"use server";
+
+import { serverEnvs } from "@/env/server";
 import axios from "axios";
 
-const SUMUP_API_URL = process.env.SUMUP_API_URL || "";
-const SUMUP_APP_ID = process.env.SUMUP_APP_ID || "";
-const SUMUP_SECRET_KEY = process.env.SUMUP_SECRET_KEY || "";
-const SUMUP_TEST_MERCHANT = process.env.SUMUP_TEST_MERCHANT || "";
-const SUMUP_PROD_MERCHANT = process.env.SUMUP_PROD_MERCHANT || "";
+const SUMUP_API_URL = serverEnvs.SUMUP_API_URL || "";
+const SUMUP_APP_ID = serverEnvs.SUMUP_APP_ID || "";
+const SUMUP_SECRET_KEY = serverEnvs.SUMUP_SECRET_KEY || "";
+const SUMUP_PROD_MERCHANT = serverEnvs.SUMUP_PROD_MERCHANT || "";
 
 const SCOPE = ["payments"];
 
