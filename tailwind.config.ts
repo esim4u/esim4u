@@ -15,7 +15,7 @@ const config: Config = {
 				padding: "20px",
 				screens: {
 					// "2xl": "1536px",
-					"2xl": "420px",
+					"2xl": "440px",
 				},
 			},
 			colors: {
