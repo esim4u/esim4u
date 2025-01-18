@@ -11,13 +11,20 @@ const admins = [473700512, 258793];
 
 export const sendTgLog = async (message: string) => {
 	members.forEach(async (chat_id) => {
-		await axios
-			.get(
-				`https://api.telegram.org/bot${TG_LOGGER_BOT_TOKEN}/sendMessage?chat_id=${chat_id}&text=${encodeURI(
-					message
-				)}&parse_mode=html`
-			)
-			.catch((e) => {});
+		// await axios
+		// 	.get(
+		// 		`https://api.telegram.org/bot${TG_LOGGER_BOT_TOKEN}/sendMessage?chat_id=${chat_id}&text=${encodeURI(
+		// 			message
+		// 		)}&parse_mode=html`
+		// 	)
+		// 	.catch((e) => {});
+
+		// use fetch instead of axios
+		await fetch(
+			`https://api.telegram.org/bot${TG_LOGGER_BOT_TOKEN}/sendMessage?chat_id=${chat_id}&text=${encodeURI(
+				message
+			)}&parse_mode=html`
+		).catch((e) => {});
 	});
 };
 
