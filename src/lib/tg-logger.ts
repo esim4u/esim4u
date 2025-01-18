@@ -1,10 +1,12 @@
-import { clientEnvs } from "@/env/client";
+"use server";
+
+import { serverEnvs } from "@/env/server";
 import axios from "axios";
 
-const TG_LOGGER_BOT_TOKEN = clientEnvs.NEXT_PUBLIC_TG_LOGGER_BOT_TOKEN;
+const TG_LOGGER_BOT_TOKEN = serverEnvs.TG_LOGGER_BOT_TOKEN;
 const members = [473700512];
 
-const ADMIN_TG_LOGGER_BOT_TOKEN = clientEnvs.NEXT_PUBLIC_ADMIN_BOT_TOKEN;
+const ADMIN_TG_LOGGER_BOT_TOKEN = serverEnvs.ADMIN_BOT_TOKEN;
 const admins = [473700512, 258793];
 
 export const sendTgLog = async (message: string) => {
