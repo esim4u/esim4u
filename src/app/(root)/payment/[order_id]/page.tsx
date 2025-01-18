@@ -1,14 +1,17 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useGetConvertedAmount } from "@/features/currency/hooks/use-currency";
-import CardPayment from "@/features/payment/components/card-payment";
 import OrderPaymentDetails from "@/features/payment/components/order-payment-details";
+import StripePayment from "@/features/payment/components/stripe-payment-elements";
+import SumupPayment from "@/features/payment/components/sumup-payment";
 import { useGetCreatedOrderById } from "@/features/payment/hooks/use-payment";
 import { useTgBackButton } from "@/hooks/use-telegram";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
 const OrderPaymentPage = () => {
+	const router = useRouter();
 	useTgBackButton();
 	const { order_id } = useParams<{ order_id: string }>();
 
@@ -26,7 +29,18 @@ const OrderPaymentPage = () => {
 				isPending={isPending}
 				amountInTon={+(amountInTon?.amount || 0)}
 			/>
-			<CardPayment order={order} />
+			<StripePayment paymentIntentId={order?.stripe_id} />
+			{/* <SumupPayment order={order} /> */}
+
+			<Button
+				onClick={() => {
+					router.push(`/payment/success?order_id=` + order.id);
+				}}
+				size={"lg"}
+				className="w-full rounded-xl"
+			>
+				Test Redirect to success page
+			</Button>
 		</main>
 	);
 };

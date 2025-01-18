@@ -125,7 +125,11 @@ const CountryPackages = () => {
 					createEsimOrder.isPending
 				}
 			>
-				{createEsimOrder.isPending ? <SpinLoader className="size-7" /> : l("btn_pay")}
+				{createEsimOrder.isPending ? (
+					<SpinLoader className="size-7" />
+				) : (
+					l("btn_pay")
+				)}
 			</BottomStickyButton>
 		</main>
 	);

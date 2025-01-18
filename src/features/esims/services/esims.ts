@@ -2,12 +2,13 @@
 
 import supabase from "@/lib/supabase";
 import { ESIM_STATE, ORDER_STATUS } from "../enums";
-import { createCheckout } from "@/features/payment/services/sumup";
+import { createSumupCheckout } from "@/features/payment/services/sumup";
 import { NewEsim, NewTopup } from "../types";
 import axios from "axios";
 import { ceil } from "@/lib/utils";
 import { EXCHANGE_RATE, MARGIN_RATE } from "@/features/payment/constants";
 import { serverEnvs } from "@/env/server";
+import { createStripePaymentIntent } from "@/features/payment/services/stripe";
 
 const AIRALO_API_URL = serverEnvs.AIRALO_API_URL;
 const AIRALO_BUSINESS_ACCESS_TOKEN = serverEnvs.AIRALO_BUSINESS_ACCESS_TOKEN;
@@ -81,22 +82,23 @@ export async function createEsimOrder({
 		throw new Error(order.error.message);
 	}
 
-	const id = await createCheckout(
-		`tg-esim-${order.data[0].id}`,
-		total_price_eur,
-		description,
-		"EUR"
-	);
-
-	if (!id) {
-		throw new Error("An error occurred while creating checkout");
-	}
+	const { id: stripeId } = await createStripePaymentIntent({
+		order_id: order.data[0].id,
+		price: total_price,
+		description: description,
+		currency: "usd",
+		customer: {
+			metadata: {
+				telegram_id: telegram_id.toString(),
+			},
+		},
+	});
 
 	const transaction = await supabase
 		.from("transactions")
 		.insert({
 			telegram_id: telegram_id || 0,
-			checkout_id: id,
+			stripe_id: stripeId,
 			type: "ORDER",
 			description: description,
 		})
@@ -114,7 +116,7 @@ export async function createEsimOrder({
 	return {
 		order_id: order.data[0].id,
 		transaction_id: transaction.data[0].id,
-		sumup_id: id,
+		stripe_id: stripeId,
 	};
 }
 
@@ -162,22 +164,23 @@ export async function createTopupOrder({
 		throw new Error(order.error.message);
 	}
 
-	const id = await createCheckout(
-		`tg-esim-topup-${order.data[0].id}`,
-		total_price_eur,
-		description,
-		"EUR"
-	);
-
-	if (!id) {
-		throw new Error("An error occurred while creating checkout");
-	}
+	const { id: stripeId } = await createStripePaymentIntent({
+		order_id: order.data[0].id,
+		price: total_price,
+		description: description,
+		currency: "usd",
+		customer: {
+			metadata: {
+				telegram_id: telegram_id.toString(),
+			},
+		},
+	});
 
 	const transaction = await supabase
 		.from("transactions")
 		.insert({
 			telegram_id: telegram_id || 0,
-			checkout_id: id,
+			stripe_id: stripeId,
 			type: "ORDER",
 			description: description,
 		})
@@ -194,7 +197,7 @@ export async function createTopupOrder({
 	return {
 		order_id: order.data[0].id,
 		transaction_id: transaction.data[0].id,
-		sumup_id: id,
+		stripe_id: stripeId,
 	};
 }
 

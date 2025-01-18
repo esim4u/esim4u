@@ -35,7 +35,7 @@ const getToken = async () => {
 	return null;
 };
 
-export const createCheckout = async (
+export const createSumupCheckout = async (
 	order_id: string,
 	price: number,
 	description: string,
