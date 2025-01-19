@@ -8,7 +8,7 @@ import { useGetConvertedAmount } from "@/features/currency/hooks/use-currency";
 import { getPreferredCurrencyCode } from "@/features/currency/lib/currency";
 import EsimActivationManualCollapse from "@/features/esims/components/esim-activation-manual-collapse";
 import OneTimeInstallationWarningBanner from "@/features/esims/components/one-time-installation-warning-banner";
-import { useCreateEsimOrder } from "@/features/esims/hooks/use-esims";
+import { useCreateEsimOrder } from "@/features/esims/hooks/use-orders";
 import { l } from "@/features/locale/lib/locale";
 import BottomStickyButton from "@/features/navigation/components/bottom-sticky-button";
 import LoadingScreen from "@/features/navigation/components/loading-screen";

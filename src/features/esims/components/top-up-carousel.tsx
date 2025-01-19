@@ -9,11 +9,9 @@ import { useGetTonUsdRate } from "@/features/currency/hooks/use-currency";
 import { l } from "@/features/locale/lib/locale";
 import { useTgUser } from "@/hooks/use-telegram";
 import { cn } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useCreateTopupOrder } from "../hooks/use-esims";
+import { useCreateTopupOrder } from "../hooks/use-orders";
 
 const TopUpCarousel = ({
 	topUps,

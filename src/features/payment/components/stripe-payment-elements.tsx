@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { convertCentsToDollars } from "../lib/utils";
 import { toast } from "@/hooks/use-toast";
 import CardCollapse, { CardCollapseSkeleton } from "./card-collapse";
+import { useRouter } from "next/navigation";
+import SpinLoader from "@/components/ui/spin-loader";
 
 const StripePaymentElements = ({
 	paymentIntentId,
@@ -54,11 +56,14 @@ const StripeCheckoutForm = ({
 }: {
 	paymentIntent: Stripe.PaymentIntent;
 }) => {
+	const [isLoading, setIsLoading] = React.useState(false);
+	const router = useRouter();
 	const stripe = useStripe();
 	const elements = useElements();
 
 	const handleSubmit = async (event: any) => {
 		event?.preventDefault();
+		setIsLoading(true);
 
 		if (
 			!stripe ||
@@ -70,6 +75,7 @@ const StripeCheckoutForm = ({
 				variant: "destructive",
 				description: "Stripe not initialized",
 			});
+			setIsLoading(false);
 			return;
 		}
 
@@ -79,6 +85,7 @@ const StripeCheckoutForm = ({
 				variant: "destructive",
 				description: elementsSubmit.error.message,
 			});
+			setIsLoading(false);
 			return;
 		}
 
@@ -95,8 +102,16 @@ const StripeCheckoutForm = ({
 				variant: "destructive",
 				description: paymentConfirm.error.message,
 			});
-			return;
+		} else {
+			toast({
+				variant: "success",
+				description: "Payment confirmed",
+			});
+			router.push(
+				`/payment/success?order_id=${paymentIntent.metadata.order_id}`
+			);
 		}
+		setIsLoading(false);
 	};
 
 	return (
@@ -112,7 +127,11 @@ const StripeCheckoutForm = ({
 				className="w-full rounded-xl"
 				type="submit"
 			>
-				Pay {convertCentsToDollars(paymentIntent.amount)}$
+				{isLoading ? (
+					<SpinLoader className="size-6" />
+				) : (
+					`Pay ${convertCentsToDollars(paymentIntent.amount)}$`
+				)}
 			</Button>
 		</form>
 	);

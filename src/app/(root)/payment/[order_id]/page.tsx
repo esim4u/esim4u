@@ -2,10 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useGetConvertedAmount } from "@/features/currency/hooks/use-currency";
+import { useGetCreatedOrderById } from "@/features/esims/hooks/use-orders";
 import OrderPaymentDetails from "@/features/payment/components/order-payment-details";
 import StripePayment from "@/features/payment/components/stripe-payment-elements";
-import SumupPayment from "@/features/payment/components/sumup-payment";
-import { useGetCreatedOrderById } from "@/features/payment/hooks/use-payment";
 import { useTgBackButton } from "@/hooks/use-telegram";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";

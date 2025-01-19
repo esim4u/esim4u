@@ -4,16 +4,15 @@ import { useTgUser } from "@/hooks/use-telegram";
 import { Skeleton } from "@/components/ui/skeleton";
 import { l } from "@/features/locale/lib/locale";
 import { cn } from "@/lib/utils";
-import { RiHistoryFill, RiSimCard2Fill } from "react-icons/ri";
+import { RiSimCard2Fill } from "react-icons/ri";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Esim } from "../types";
 import EsimCard from "./esim-card";
-import { Button } from "@/components/ui/button";
 
 const UserEsims = () => {
 	const router = useRouter();
-    const searchParams = useSearchParams();
-    const iccid = searchParams.get("iccid");
+	const searchParams = useSearchParams();
+	const iccid = searchParams.get("iccid");
 
 	const { tgUser } = useTgUser();
 	const { data: esims, isPending } = useGetUserEsims(tgUser?.id || 0);

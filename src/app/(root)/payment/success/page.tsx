@@ -8,11 +8,11 @@ import confettiAnim from "@/assets/anim/confetti.json";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { Suspense, useEffect, useRef } from "react";
-import { useGetOrderById } from "@/features/payment/hooks/use-payment";
 import { useTgBackButton } from "@/hooks/use-telegram";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 import { useThrottle } from "@/hooks/use-throttle";
+import { useGetOrderById } from "@/features/esims/hooks/use-orders";
 
 export default function SuccessPage() {
 	const router = useRouter();

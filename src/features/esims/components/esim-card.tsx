@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { TbHandClick } from "react-icons/tb";
@@ -17,7 +17,6 @@ import TopUpCarousel from "./top-up-carousel";
 import { Button } from "@/components/ui/button";
 import { detectIOSVersion, generateEsimActivationLink } from "../lib/utils";
 import Qr from "@/components/ui/qr";
-import { Link } from "lucide-react";
 import PackageNetworksDrawer from "@/features/packages/components/package-networks-drawer";
 
 const EsimCard = ({

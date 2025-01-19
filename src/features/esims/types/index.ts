@@ -21,7 +21,11 @@ export interface Esim {
 	open_iccid?: string;
 }
 
-export interface NewEsim {
+export interface DevicesGroup {
+	[brand: string]: any[];
+}
+
+export interface NewEsimOrderData {
 	net_price: number;
 	original_price: number;
 	total_price: number;
@@ -35,7 +39,7 @@ export interface NewEsim {
 	data: number;
 }
 
-export interface NewTopup {
+export interface NewTopupOrderData {
 	iccid: string;
 	net_price: number;
 	original_price: number;
@@ -48,8 +52,4 @@ export interface NewTopup {
 	coverage: string;
 	validity: number;
 	data: number;
-}
-
-export interface DevicesGroup {
-	[brand: string]: any[];
 }
