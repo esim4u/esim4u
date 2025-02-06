@@ -3,6 +3,10 @@
 import supabase from "@/lib/supabase";
 import { createStripePaymentIntent } from "../../payment/services/stripe";
 import { NewEsimOrderData, NewTopupOrderData } from "../types";
+import { sendAdminTgLog } from "@/lib/tg-logger";
+import { buyEsim } from "./esims";
+import { sendPhotoToUser } from "@/lib/grammy";
+import { l } from "@/features/locale/lib/locale";
 
 export async function createEsimOrder({
 	net_price,
@@ -214,4 +218,36 @@ export const getOrderById = async (order_id: string | number) => {
 	}
 
 	return { ...orders.data[0], checkout_id: transactions.data[0].checkout_id };
+};
+
+export const completeEsimOrderByTransactionId = async (
+	transaction_id: string | number
+) => {
+	const order = await supabase
+		.from("orders")
+		.update({ status: "PENDING" })
+		.eq("transaction_id", transaction_id)
+		.eq("status", "CREATED")
+		.select();
+
+	if (order.error || order.data.length === 0) {
+		throw new Error("Order not found");
+	}
+
+	const createdOrder = order.data[0];
+
+	await sendAdminTgLog(
+		`🎯${createdOrder.type} order №${createdOrder.id} is purchased! 
+			\nCoverage: ${createdOrder.coverage} 
+			\n\nTransaction ID: ${createdOrder.transaction_id}
+			\nAmount: ${createdOrder.price.total_eur} EUR
+			\nMerchant: Sumup\n`
+	);
+
+	if (createdOrder.type === "ESIM") {
+		const boughtEsim = await buyEsim({
+			package_id: createdOrder.package_id,
+			order_id: createdOrder.id,
+		});
+	}
 };

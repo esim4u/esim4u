@@ -8,14 +8,18 @@ class UserService {
 			.select("*")
 			.eq("telegram_id", id)
 			.eq("onboarding", true)
-			.single();
+			.limit(1);
 
-		if (data && data.photo) {
-			const photoUrl = await getPhotoUrlFromFileId(data.photo);
-			data.photo_url = photoUrl;
+		if (!data || data.length === 0) {
+			return null;
 		}
 
-		return data;
+		if (data[0].photo) {
+			const photoUrl = await getPhotoUrlFromFileId(data[0].photo);
+			data[0].photo_url = photoUrl;
+		}
+
+		return data[0];
 	}
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async updateUser(tgUser: TelegramUser, dbUser: any) {
@@ -33,7 +37,7 @@ class UserService {
 			dates: lastLoginDates,
 		};
 
-		const { data } = await supabase
+		const users = await supabase
 			.from("users")
 			.update([
 				{
@@ -48,9 +52,11 @@ class UserService {
 			])
 			.eq("telegram_id", tgUser.id);
 
+		console.log("updateData", users.data);
+
 		await updateUserPhoto(tgUser.id);
 
-		return data;
+		return users.data;
 	}
 
 	async addUserPhotoFileId(id: number, username: string, photo_url: string) {

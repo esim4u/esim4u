@@ -6,6 +6,7 @@ import axios from "axios";
 import { ceil } from "@/lib/utils";
 import { EXCHANGE_RATE, MARGIN_RATE } from "@/features/payment/constants";
 import { serverEnvs } from "@/env/server";
+import { sendAdminTgLog } from "@/lib/tg-logger";
 
 const AIRALO_API_URL = serverEnvs.AIRALO_API_URL;
 const AIRALO_BUSINESS_ACCESS_TOKEN = serverEnvs.AIRALO_BUSINESS_ACCESS_TOKEN;
@@ -35,6 +36,105 @@ export async function getUserEsims(telegram_id: number) {
 	}
 
 	return orders.data;
+}
+
+export async function buyEsim({
+	package_id,
+	order_id,
+}: {
+	package_id: string;
+	order_id: number;
+}) {
+	const buyEsimResponse = await axios
+		.post(
+			process.env.AIRALO_API_URL + "/v1/orders",
+			{
+				package_id,
+				quantity: 1,
+			},
+			{
+				headers: {
+					Accept: "application/json",
+					Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+				},
+			}
+		)
+		.then((res) => res.data)
+		.catch((e) => e.response);
+
+	if (buyEsimResponse.error) {
+		throw new Error(buyEsimResponse.error.message);
+	}
+	await sendAdminTgLog(`🎯New eSIM order created `);
+
+	const esimDataResponse = await axios
+		.get(
+			process.env.AIRALO_API_URL +
+				`/v2/sims/${buyEsimResponse.data.sims[0].iccid}`,
+			{
+				headers: {
+					Accept: "application/json",
+					Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+				},
+			}
+		)
+		.then((res) => res.data)
+		.catch((e) => e.response);
+
+	if (esimDataResponse.error) {
+		throw new Error(esimDataResponse.error.message);
+	}
+
+	const esimUsageResponse = await axios
+		.get(
+			process.env.AIRALO_API_URL +
+				`/v2/sims/${buyEsimResponse.data.sims[0].iccid}/usage`,
+			{
+				headers: {
+					Accept: "application/json",
+					Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+				},
+			}
+		)
+		.then((res) => res.data)
+		.catch((e) => e.response);
+
+	if (esimUsageResponse.error) {
+		throw new Error(esimUsageResponse.error.message);
+	}
+
+	const boughtEsim = {
+		iccid: buyEsimResponse.data.sims[0].iccid,
+		qrcode_url: buyEsimResponse.data.sims[0].qrcode_url,
+
+		sm_dp: esimDataResponse?.data?.lpa,
+		confirmation_code: esimDataResponse?.data?.matching_id,
+
+		state: esimUsageResponse?.data?.status,
+		usage: {
+			remaining: esimUsageResponse.data?.remaining,
+			total: esimUsageResponse.data?.total,
+		},
+		expired_at: esimUsageResponse.data?.expired_at,
+	};
+
+	await supabase
+		.from("orders")
+		.update({
+			iccid: boughtEsim.iccid,
+			status: "SUCCESS",
+			qrcode_url: boughtEsim.qrcode_url,
+			sm_dp: boughtEsim.sm_dp,
+			confirmation_code: boughtEsim.confirmation_code,
+
+			state: boughtEsim.state,
+			usage: boughtEsim.usage,
+			expired_at: boughtEsim.expired_at,
+		})
+		.eq("id", order_id)
+		.select();
+
+	return boughtEsim;
 }
 
 export async function syncEsimsState(esimsPerCheckAmount = 10) {
@@ -127,4 +227,46 @@ export async function syncEsimsState(esimsPerCheckAmount = 10) {
 	}
 
 	return updatedOrders;
+}
+
+export async function syncEsim({ iccid }: { iccid: string }) {
+	const orders = await supabase
+		.from("orders")
+		.select("*")
+		.eq("iccid", iccid)
+		.eq("type", "ESIM");
+
+	if (orders.error) {
+		throw new Error("An error occurred while fetching orders");
+	}
+
+	const usage = await axios
+		.get(process.env.AIRALO_API_URL + `/v2/sims/${iccid}/usage`, {
+			headers: {
+				Accept: "application/json",
+				Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+			},
+		})
+		.then((res) => res.data)
+		.catch((e) => e.response);
+
+	if (usage && usage?.data?.status) {
+		const updatedOrder = await supabase
+			.from("orders")
+			.update({
+				state: usage?.data?.status,
+				usage: {
+					remaining: usage.data?.remaining,
+					total: usage.data?.total,
+				},
+				expired_at: usage.data?.expired_at,
+			})
+			.eq("id", orders.data[0].id)
+			.select();
+
+		if (updatedOrder.error) {
+			return;
+		}
+		return Response.json(updatedOrder, { status: 200 });
+	}
 }
