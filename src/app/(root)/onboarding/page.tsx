@@ -16,9 +16,16 @@ import Dot from "@/components/ui/dot";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useTgUser } from "@/hooks/use-telegram";
-import { useFinishOnboarding } from "@/features/onbording/hooks/use-onboarding";
+import {
+	useCreateUser,
+	useFinishOnboarding,
+} from "@/features/onbording/hooks/use-onboarding";
 import { showConfirmationToast } from "@/features/onbording/lib/utils";
-import { TonConnectButton, useTonAddress, useTonWallet } from "@/lib/tonconnect-react";
+import {
+	TonConnectButton,
+	useTonAddress,
+	useTonWallet,
+} from "@/lib/tonconnect-react";
 
 const OnboardingPage = () => {
 	const [api, setApi] = useState<CarouselApi>();
@@ -31,7 +38,14 @@ const OnboardingPage = () => {
 
 	const { tgUser } = useTgUser();
 
+	const createUser = useCreateUser();
 	const finishOnboarding = useFinishOnboarding();
+
+	useEffect(() => {
+		if (tgUser) {
+			createUser.mutate(tgUser);
+		}
+	}, [tgUser]);
 
 	return (
 		<main className="container px-0 pb-5 grow flex flex-col justify-between">

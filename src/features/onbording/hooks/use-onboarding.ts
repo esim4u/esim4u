@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import onboardingService from "../services/onboarding.service";
+import userService from "@/features/users/services/user.service";
 
 export function useFinishOnboarding() {
 	return useMutation({
@@ -14,6 +15,16 @@ export function useFinishOnboarding() {
 				tgUser.id,
 				tonAddress
 			);
+		},
+		onError: (error) => {},
+		onSuccess: (data) => {},
+	});
+}
+
+export function useCreateUser() {
+	return useMutation({
+		mutationFn: async (tgUser: any) => {
+			return await userService.createUser(tgUser, tgUser.start_param);
 		},
 		onError: (error) => {},
 		onSuccess: (data) => {},

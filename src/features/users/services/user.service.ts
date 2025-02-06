@@ -1,6 +1,11 @@
-import { getPhotoUrlFromFileId, updateUserPhoto } from "@/lib/grammy";
+import {
+	getPhotoUrlFromFileId,
+	sendWelcomeMessageToUser,
+	updateUserPhoto,
+} from "@/lib/grammy";
 import supabase from "@/lib/supabase";
 import { TelegramUser } from "@/features/auth/types/auth.types";
+import { sendTgLog } from "@/lib/tg-logger";
 class UserService {
 	async getUserById(id: number) {
 		const { data } = await supabase
@@ -57,6 +62,76 @@ class UserService {
 		await updateUserPhoto(tgUser.id);
 
 		return users.data;
+	}
+
+	async createUser(tgUser: TelegramUser, parent_id: number) {
+		const users = await supabase
+			.from("users")
+			.select("*")
+			.eq("telegram_id", tgUser.id);
+
+		await sendTgLog("Creating user: " + JSON.stringify(tgUser, null, 2));
+
+		if (users.error) {
+			throw new Error(users.error.message);
+		}
+
+		if (users.data.length > 0) {
+			const updatedUser = await supabase
+				.from("users")
+				.update([
+					{
+						username: tgUser.username || null,
+						first_name: tgUser.firstName || null,
+						last_name: tgUser.lastName || null,
+						language_code: tgUser.languageCode || null,
+						is_premium: tgUser.isPremium ? true : false,
+						platform: tgUser.platform || null,
+					},
+				])
+				.eq("telegram_id", tgUser.id);
+
+			if (updatedUser.error) {
+				console.error("Update user error: " + updatedUser.error);
+				await sendTgLog("Update user error: " + updatedUser.error);
+			}
+
+			return updatedUser.data;
+		}
+
+		const createdUser = await supabase.from("users").insert([
+			{
+				telegram_id: tgUser.id || null,
+				created_date: new Date(),
+				username: tgUser.username || null,
+				first_name: tgUser.firstName || null,
+				last_name: tgUser.lastName || null,
+				language_code: tgUser.languageCode || null,
+				is_premium: tgUser.isPremium ? true : false,
+				platform: tgUser.platform || null,
+				parent_id: parent_id && !isNaN(parent_id) ? parent_id : null,
+			},
+		]);
+
+		if (createdUser.error) {
+			console.error("Create user error: " + createdUser.error);
+			await sendTgLog(
+				"Cteate user error: " +
+					JSON.stringify(createdUser.error, null, 2)
+			);
+		}
+
+		if (parent_id && isNaN(parent_id)) {
+			await this.addExternalAdUser(
+				tgUser.id,
+				tgUser.username || "",
+				parent_id.toString()
+			);
+		}
+
+		await sendWelcomeMessageToUser(tgUser.id);
+
+		return createdUser.data;
 	}
 
 	async addUserPhotoFileId(id: number, username: string, photo_url: string) {
