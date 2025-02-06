@@ -20,7 +20,6 @@ export default function Home() {
 
 		const fetchData = async (tgUser: TelegramUser) => {
 			const data = await authService.auth(tgUser);
-
 			if (data.isNew) {
 				router.push("/onboarding");
 			} else {

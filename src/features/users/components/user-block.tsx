@@ -59,7 +59,7 @@ const UserBlock = ({
 					)}
 				</div>
 
-				<Badge size={size}>{dbUserData?.badge}</Badge>
+				<Badge size={size}>{dbUserData?.badge || "New user"}</Badge>
 			</div>
 		</div>
 	);

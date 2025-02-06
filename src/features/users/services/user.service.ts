@@ -28,16 +28,17 @@ class UserService {
 	}
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async updateUser(tgUser: TelegramUser, dbUser: any) {
-		let lastLoginDates = dbUser.last_login_date.dates || [];
+		let lastLoginDates = dbUser?.last_login_date?.dates || [];
 		lastLoginDates.unshift(new Date().toISOString());
 
 		//only keep the last 5 login dates
 		if (lastLoginDates.length > 5) {
 			lastLoginDates = lastLoginDates.slice(0, 5);
 		}
+
 		const lastLoginDate = {
-			counter: dbUser.last_login_date.counter
-				? dbUser.last_login_date.counter + 1
+			counter: dbUser?.last_login_date?.counter
+				? dbUser?.last_login_date?.counter + 1
 				: 1,
 			dates: lastLoginDates,
 		};
@@ -56,8 +57,6 @@ class UserService {
 				},
 			])
 			.eq("telegram_id", tgUser.id);
-
-		console.log("updateData", users.data);
 
 		await updateUserPhoto(tgUser.id);
 

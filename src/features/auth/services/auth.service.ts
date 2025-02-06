@@ -4,7 +4,6 @@ import userService from "@/features/users/services/user.service";
 class AuthService {
 	async auth(tgUser: TelegramUser) {
 		const dbUser = await userService.getUserById(tgUser.id);
-
 		if (dbUser?.id) {
 			await userService.updateUser(tgUser, dbUser);
 			return {

@@ -37,7 +37,7 @@ const UserEsims = () => {
 		);
 	}
 
-	if (!esims) {
+	if (!esims || esims.length === 0) {
 		return (
 			<div className=" w-full">
 				<div className="relative flex h-[180px] w-full flex-col items-center justify-center gap-2 rounded-3xl bg-white">
@@ -60,16 +60,6 @@ const UserEsims = () => {
 		<div className="flex w-full flex-col gap-2">
 			<div className="flex items-center  justify-between gap-2 px-4 font-medium uppercase text-neutral-500">
 				<h2>{l("title_esims")}</h2>{" "}
-				{/* <Button
-					variant={"unstyled"}
-					size={"fit"}
-					onClick={() => {
-						router.push("/profile/history");
-					}}
-					className="flex cursor-pointer underline underline-offset-4 active:scale-95 active:bg-white/50"
-				>
-					<RiHistoryFill className="h-6 w-6" />
-				</Button> */}
 			</div>
 			<div className="flex w-full flex-col gap-3">
 				{esims?.map((esim: Esim) => (
