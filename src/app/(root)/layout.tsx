@@ -82,7 +82,6 @@ export default function RootLayout({
 					<div className="flex flex-col min-h-svh safe-area-bottom">
 						<Header />
 						{children}
-						<EnvModeLabel />
 					</div>
 					<Toaster />
 					<ReactQueryDevtools initialIsOpen={false} />

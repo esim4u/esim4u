@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import EnvModeLabel from "./env-mode-label";
 
 const Header = () => {
 	return (
@@ -10,8 +11,9 @@ const Header = () => {
 			)}
 		>
 			<div className="top-header-block"></div>
-			<div className="bottom-header-block flex items-center justify-center">
+			<div className="bottom-header-block flex gap-1 items-center justify-center">
 				<span className=" text-xl font-bold">Esim4U </span>
+				<EnvModeLabel />
 			</div>
 		</div>
 	);
