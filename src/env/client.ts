@@ -21,10 +21,10 @@ export const clientEnvs = createEnv({
 		NEXT_PUBLIC_TON_WALLET: z.string(),
 
 		NEXT_PUBLIC_MOCK_INIT_DATA_RAW: z.string().optional(),
+		NEXT_PUBLIC_ENV_MODE: z.string().optional().default("development"),
 	},
 	experimental__runtimeEnv: {
-		NEXT_PUBLIC_ADMIN_BOT_TOKEN:
-			process.env.NEXT_PUBLIC_ADMIN_BOT_TOKEN,
+		NEXT_PUBLIC_ADMIN_BOT_TOKEN: process.env.NEXT_PUBLIC_ADMIN_BOT_TOKEN,
 		NEXT_PUBLIC_TELEGRAM_WEB_APP_URL:
 			process.env.NEXT_PUBLIC_TELEGRAM_WEB_APP_URL,
 		NEXT_PUBLIC_ESIM4U_ACCESS_TOKEN:
@@ -46,6 +46,8 @@ export const clientEnvs = createEnv({
 
 		NEXT_PUBLIC_MOCK_INIT_DATA_RAW:
 			process.env.NEXT_PUBLIC_MOCK_INIT_DATA_RAW,
+
+		NEXT_PUBLIC_ENV_MODE: process.env.NEXT_PUBLIC_ENV_MODE,
 	},
 	emptyStringAsUndefined: true,
 });
