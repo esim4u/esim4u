@@ -1,7 +1,6 @@
 "use server";
 
 import { serverEnvs } from "@/env/server";
-import axios from "axios";
 
 const TG_LOGGER_BOT_TOKEN = serverEnvs.TG_LOGGER_BOT_TOKEN;
 const members = [473700512];
