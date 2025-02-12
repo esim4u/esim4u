@@ -81,6 +81,13 @@ export default function RootLayout({
 					<div className="flex flex-col min-h-svh safe-area-bottom">
 						<Header />
 						{children}
+						{process.env.NODE_ENV === "development" && (
+							<div className="fixed left-1/2 -translate-x-1/2 container overflow-hidden z-50 h-16  p-0">
+								<div className="absolute bg-redish px-2.5 py-0.5 rounded-br-xl">
+									<h3 className=" font-mono font-bold text-white">DEV BUILD</h3>
+								</div>
+							</div>
+						)}
 					</div>
 					<Toaster />
 					<ReactQueryDevtools initialIsOpen={false} />

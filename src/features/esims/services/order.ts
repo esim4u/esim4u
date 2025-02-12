@@ -7,6 +7,7 @@ import { sendAdminTgLog } from "@/lib/tg-logger";
 import { buyEsim } from "./esims";
 import { sendPhotoToUser } from "@/lib/grammy";
 import { l } from "@/features/locale/lib/locale";
+import { ORDER_STATUS } from "../enums";
 
 export async function createEsimOrder({
 	net_price,
@@ -43,6 +44,7 @@ export async function createEsimOrder({
 			type: "ESIM",
 			validity: validity,
 			data: data,
+			status: ORDER_STATUS.CREATED,
 		})
 		.select();
 
@@ -125,6 +127,7 @@ export async function createTopupOrder({
 			type: "TOPUP",
 			validity: validity,
 			data: data,
+			status: ORDER_STATUS.CREATED,
 		})
 		.select();
 
