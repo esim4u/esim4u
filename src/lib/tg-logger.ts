@@ -1,7 +1,6 @@
 "use server";
 
 import { serverEnvs } from "@/env/server";
-import { set } from "zod";
 
 const TG_LOGGER_BOT_TOKEN = serverEnvs.TG_LOGGER_BOT_TOKEN;
 const members = [473700512];
