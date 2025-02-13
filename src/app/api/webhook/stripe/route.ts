@@ -5,7 +5,6 @@ export async function POST(req: Request) {
 	const body = await req.json();
 	console.log(body);
 
-	// Log the webhook event to the Telegram without blocking the response
 	sendTgLog(JSON.stringify(body, null, 2))
 
 	return Response.json(

@@ -6,7 +6,7 @@ export const maxDuration = 50;
 export async function GET() {
 	try {
 		const { newUsersAmount, totalUsersAmount } = await getNewUsersAmount();
-		await sendAdminTgLog(
+		sendAdminTgLog(
 			`In the past 24 hours: \nNew users: ${newUsersAmount} \nTotal users: ${totalUsersAmount}`
 		);
 		return Response.json(
