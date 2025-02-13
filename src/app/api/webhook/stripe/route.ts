@@ -5,7 +5,8 @@ export async function POST(req: Request) {
 	const body = await req.json();
 	console.log(body);
 
-	sendTgLog(JSON.stringify(body, null, 2))
+	// Wait until the Telegram message is sent + not blocking the response
+	after(sendTgLog(JSON.stringify(body, null, 2)))
 
 	return Response.json(
 		{
