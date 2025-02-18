@@ -6,9 +6,10 @@ import { Translations } from "@/features/locale/types/translations.types";
 import { ceil } from "@/lib/utils";
 import { EXCHANGE_RATE, MARGIN_RATE } from "@/features/payment/constants";
 import { serverEnvs } from "@/env/server";
+import { getAiraloToken } from "@/lib/airalo";
 
 const AIRALO_API_URL = serverEnvs.AIRALO_API_URL;
-const AIRALO_BUSINESS_ACCESS_TOKEN = serverEnvs.AIRALO_BUSINESS_ACCESS_TOKEN;
+const AIRALO_BUSINESS_ACCESS_TOKEN = await getAiraloToken();
 
 const translations: Translations = t as Translations;
 const supportedTranslations = Object.keys(translations);

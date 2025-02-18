@@ -1,5 +1,3 @@
-"use server";
-
 import { serverEnvs } from "@/env/server";
 import { Redis } from "@upstash/redis";
 

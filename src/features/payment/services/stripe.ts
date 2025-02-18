@@ -43,6 +43,23 @@ export const createStripePaymentIntent = async ({
 	});
 };
 
+export const updateStripePaymentIntentMetadata = async ({
+	paymentIntentId,
+	metadata,
+}: {
+	paymentIntentId: string;
+	metadata: Record<string, any>;
+}) => {
+	const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+	
+	const oldMetadata = paymentIntent.metadata;
+	const newMetadata = { ...oldMetadata, ...metadata };
+
+	return await stripe.paymentIntents.update(paymentIntentId, {
+		metadata: newMetadata,
+	});
+};
+
 export const getStripeCustomerId = async (customer: StripeCustomer) => {
 	let stripeCustomerId = "";
 
@@ -61,6 +78,6 @@ export const getStripeCustomerId = async (customer: StripeCustomer) => {
 	return stripeCustomerId;
 };
 
-export const getStripePaymentIntent = async (paymentIntentId: string ) => {
-    return await stripe.paymentIntents.retrieve(paymentIntentId);
+export const getStripePaymentIntent = async (paymentIntentId: string) => {
+	return await stripe.paymentIntents.retrieve(paymentIntentId);
 };

@@ -10,7 +10,7 @@ export async function getAiraloToken() {
 			? "airalo_token_sandbox"
 			: "airalo_token";
 	const token = await redis.get(airaloTokenRedisKey);
-	console.log("token", token);
+	
 	if (token) {
 		return token;
 	} else {
@@ -23,12 +23,13 @@ export async function getAiraloToken() {
 				client_secret: serverEnvs.AIRALO_CLIENT_SECRET,
 			}
 		);
-		if (!response.data.access_token || !response.data.expires_in) {
+
+		if (!response.data.data.access_token || !response.data.data.expires_in) {
 			throw new Error("Invalid response from Airalo API");
 		}
-		const newToken = response.data.access_token;
+		const newToken = response.data.data.access_token;
 		await redis.set(airaloTokenRedisKey, newToken, {
-			ex: response.data.expires_in,
+			ex: response.data.data.expires_in,
 		});
 
 		return newToken;

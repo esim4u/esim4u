@@ -122,7 +122,7 @@ export async function buyEsim({
 		.from("orders")
 		.update({
 			iccid: boughtEsim.iccid,
-			status: "SUCCESS",
+			status: ORDER_STATUS.SUCCESS,
 			qrcode_url: boughtEsim.qrcode_url,
 			sm_dp: boughtEsim.sm_dp,
 			confirmation_code: boughtEsim.confirmation_code,

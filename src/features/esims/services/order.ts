@@ -1,7 +1,10 @@
 "use server";
 
 import supabase from "@/lib/supabase";
-import { createStripePaymentIntent } from "../../payment/services/stripe";
+import {
+	createStripePaymentIntent,
+	updateStripePaymentIntentMetadata,
+} from "../../payment/services/stripe";
 import { NewEsimOrderData, NewTopupOrderData } from "../types";
 import { sendAdminTgLog } from "@/lib/tg-logger";
 import { buyEsim } from "./esims";
@@ -77,6 +80,13 @@ export async function createEsimOrder({
 	if (transaction.error) {
 		throw new Error(transaction.error.message);
 	}
+
+	await updateStripePaymentIntentMetadata({
+		paymentIntentId: stripeId,
+		metadata: {
+			transaction_id: transaction.data[0].id,
+		},
+	});
 
 	await supabase
 		.from("orders")
@@ -160,6 +170,14 @@ export async function createTopupOrder({
 	if (transaction.error) {
 		throw new Error(transaction.error.message);
 	}
+
+	await updateStripePaymentIntentMetadata({
+		paymentIntentId: stripeId,
+		metadata: {
+			transaction_id: transaction.data[0].id,
+		},
+	});
+
 	await supabase
 		.from("orders")
 		.update({ transaction_id: transaction.data[0].id })
@@ -228,9 +246,9 @@ export const completeEsimOrderByTransactionId = async (
 ) => {
 	const order = await supabase
 		.from("orders")
-		.update({ status: "PENDING" })
+		.update({ status: ORDER_STATUS.PENDING })
 		.eq("transaction_id", transaction_id)
-		.eq("status", "CREATED")
+		.eq("status", ORDER_STATUS.CREATED)
 		.select();
 
 	if (order.error || order.data.length === 0) {
@@ -252,5 +270,15 @@ export const completeEsimOrderByTransactionId = async (
 			package_id: createdOrder.package_id,
 			order_id: createdOrder.id,
 		});
+		await sendAdminTgLog(
+			`ORDER COMPLETED: 🎯${createdOrder.type} order №${
+				createdOrder.id
+			} is completed! 
+			Esim details: ${JSON.stringify(boughtEsim)}`
+		);
+
+		return boughtEsim;
+	} else if (createdOrder.type === "TOPUP") {
+		await sendAdminTgLog(`TODO: Implement topup order completion`);
 	}
 };
