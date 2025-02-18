@@ -262,7 +262,7 @@ export const completeEsimOrderByTransactionId = async (
 	const user = await userService.getUserById(foundedOrder.telegram_id);
 
 	await sendAdminTgLog(
-		`🎯${foundedOrder.type} order №${foundedOrder.id} is purchased by ${user.username}!\nCoverage: ${foundedOrder.coverage}\nTransaction ID: ${foundedOrder.transaction_id}\nAmount: ${foundedOrder.price.total_eur} EUR`
+		`🎯${foundedOrder.type} order №${foundedOrder.id} is purchased by @${user.username}!\nCoverage: ${foundedOrder.coverage}\nTransaction ID: ${foundedOrder.transaction_id}\nAmount: ${foundedOrder.price.total_eur} EUR`
 	);
 
 	if (foundedOrder.type === "ESIM") {

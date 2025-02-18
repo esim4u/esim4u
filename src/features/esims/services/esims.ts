@@ -30,7 +30,8 @@ export async function getUserEsims(telegram_id: number) {
 		.select("*")
 		.eq("telegram_id", telegram_id)
 		.eq("type", "ESIM")
-		.in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING]);
+		.in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING])
+		.order("id", { ascending: false });
 
 	if (orders.error) {
 		throw new Error("An error occurred while fetching orders");
