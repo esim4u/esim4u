@@ -20,7 +20,7 @@ if (!WEB_APP_URL) throw new Error("WEB_APP_URL is unset");
 const bot = new Bot(BOT_TOKEN);
 
 const buyEsimButton = (lang: string = "en") => {
-	return new InlineKeyboard().url(l("bot_btn_open", lang), WEB_APP_URL);
+	return new InlineKeyboard().webApp(l("bot_btn_open", lang), WEB_APP_URL);
 };
 
 /////////////////////
@@ -63,16 +63,7 @@ bot.api.setMyCommands([
 	{
 		command: "start",
 		description: "Start the bot",
-	},
-	{
-		command: "id",
-		description:
-			"Get your chat ID. With this id our support team can help you if you have any purchase issues",
-	},
-	{
-		command: "rate",
-		description: "Rate our bot. We would love to hear your feedback!",
-	},
+	}
 ]);
 
 bot.command("start", async (ctx) => {
@@ -83,38 +74,6 @@ bot.command("start", async (ctx) => {
 	await ctx.reply(l("bot_welcome_text", ctx.from?.language_code), {
 		reply_markup: buyEsimButton(ctx.from?.language_code),
 	});
-});
-
-bot.command("rate", async (ctx) => {
-	const ratings = [
-		{
-			label: "I like it!👍",
-		},
-		{
-			label: "It's really bad👎",
-		},
-	];
-	const rows = ratings.map((rate) => {
-		return [Keyboard.text(rate.label)];
-	});
-	const keyboard = Keyboard.from(rows).resized();
-
-	await ctx.reply("Rate our bot. We would love to hear your feedback!", {
-		reply_markup: keyboard,
-	});
-});
-
-bot.hears(["I like it!👍", "It's really bad👎"], async (ctx) => {
-	return await ctx.reply(
-		"We really appreciate your feedback! Can you please tell us what will make the bot better?",
-		{
-			reply_markup: { remove_keyboard: true },
-		}
-	);
-});
-
-bot.command("id", async (ctx) => {
-	await ctx.reply("Your chat ID is: " + ctx.chat.id);
 });
 
 bot.catch((err) => {
