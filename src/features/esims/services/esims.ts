@@ -7,9 +7,10 @@ import { ceil } from "@/lib/utils";
 import { EXCHANGE_RATE, MARGIN_RATE } from "@/features/payment/constants";
 import { serverEnvs } from "@/env/server";
 import { sendAdminTgLog } from "@/lib/tg-logger";
+import { getAiraloToken } from "@/lib/airalo";
 
 const AIRALO_API_URL = serverEnvs.AIRALO_API_URL;
-const AIRALO_BUSINESS_ACCESS_TOKEN = serverEnvs.AIRALO_BUSINESS_ACCESS_TOKEN;
+const AIRALO_BUSINESS_ACCESS_TOKEN = await getAiraloToken();
 
 export async function getUserEsims(telegram_id: number) {
 	const user = await supabase
@@ -55,7 +56,7 @@ export async function buyEsim({
 			{
 				headers: {
 					Accept: "application/json",
-					Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+					Authorization: `Bearer ${AIRALO_BUSINESS_ACCESS_TOKEN}`,
 				},
 			}
 		)
@@ -74,7 +75,7 @@ export async function buyEsim({
 			{
 				headers: {
 					Accept: "application/json",
-					Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+					Authorization: `Bearer ${AIRALO_BUSINESS_ACCESS_TOKEN}`,
 				},
 			}
 		)
@@ -92,7 +93,7 @@ export async function buyEsim({
 			{
 				headers: {
 					Accept: "application/json",
-					Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+					Authorization: `Bearer ${AIRALO_BUSINESS_ACCESS_TOKEN}`,
 				},
 			}
 		)
@@ -244,7 +245,7 @@ export async function syncEsim({ iccid }: { iccid: string }) {
 		.get(process.env.AIRALO_API_URL + `/v2/sims/${iccid}/usage`, {
 			headers: {
 				Accept: "application/json",
-				Authorization: `Bearer ${process.env.AIRALO_BUSINESS_ACCESS_TOKEN}`,
+				Authorization: `Bearer ${AIRALO_BUSINESS_ACCESS_TOKEN}`,
 			},
 		})
 		.then((res) => res.data)

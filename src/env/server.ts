@@ -3,7 +3,6 @@ import { z } from "zod";
 
 export const serverEnvs = createEnv({
 	server: {
-		AIRALO_BUSINESS_ACCESS_TOKEN: z.string(),
 		AIRALO_API_URL: z.string(),
 		AIRALO_CLIENT_ID: z.string(),
 		AIRALO_CLIENT_SECRET: z.string(),
