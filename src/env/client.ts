@@ -5,6 +5,7 @@ export const clientEnvs = createEnv({
 	client: {
 		NEXT_PUBLIC_ADMIN_BOT_TOKEN: z.string(),
 
+		NEXT_PUBLIC_WEB_APP_URL: z.string(),
 		NEXT_PUBLIC_TELEGRAM_WEB_APP_URL: z.string(),
 		NEXT_PUBLIC_ESIM4U_ACCESS_TOKEN: z.string(),
 
@@ -25,6 +26,8 @@ export const clientEnvs = createEnv({
 	},
 	experimental__runtimeEnv: {
 		NEXT_PUBLIC_ADMIN_BOT_TOKEN: process.env.NEXT_PUBLIC_ADMIN_BOT_TOKEN,
+
+		NEXT_PUBLIC_WEB_APP_URL: process.env.NEXT_PUBLIC_WEB_APP_URL,
 		NEXT_PUBLIC_TELEGRAM_WEB_APP_URL:
 			process.env.NEXT_PUBLIC_TELEGRAM_WEB_APP_URL,
 		NEXT_PUBLIC_ESIM4U_ACCESS_TOKEN:

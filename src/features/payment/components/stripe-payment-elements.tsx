@@ -17,6 +17,9 @@ import { toast } from "@/hooks/use-toast";
 import CardCollapse, { CardCollapseSkeleton } from "./card-collapse";
 import { useRouter } from "next/navigation";
 import SpinLoader from "@/components/ui/spin-loader";
+import { clientEnvs } from "@/env/client";
+
+const WEB_APP_URL = clientEnvs.NEXT_PUBLIC_WEB_APP_URL;
 
 const StripePaymentElements = ({
 	paymentIntentId,
@@ -93,7 +96,7 @@ const StripeCheckoutForm = ({
 			elements: elements!,
 			clientSecret: paymentIntent.client_secret,
 			confirmParams: {
-				return_url: `http://localhost:3000/payment/success?order_id=${paymentIntent.metadata.order_id}`,
+				return_url: `${WEB_APP_URL}/payment/success?order_id=${paymentIntent.metadata.order_id}`,
 			},
 		});
 
