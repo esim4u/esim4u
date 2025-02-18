@@ -8,9 +8,8 @@ import {
 import { NewEsimOrderData, NewTopupOrderData } from "../types";
 import { sendAdminTgLog } from "@/lib/tg-logger";
 import { buyEsim } from "./esims";
-import { sendPhotoToUser } from "@/lib/grammy";
-import { l } from "@/features/locale/lib/locale";
 import { ORDER_STATUS } from "../enums";
+import { TRANSACTION_STATUS } from "@/features/payment/enums";
 
 export async function createEsimOrder({
 	net_price,
@@ -73,6 +72,7 @@ export async function createEsimOrder({
 			telegram_id: telegram_id || 0,
 			stripe_id: stripeId,
 			type: "ORDER",
+			status: TRANSACTION_STATUS.CREATED,
 			description: description,
 		})
 		.select();
@@ -163,6 +163,7 @@ export async function createTopupOrder({
 			telegram_id: telegram_id || 0,
 			stripe_id: stripeId,
 			type: "ORDER",
+			status: TRANSACTION_STATUS.CREATED,
 			description: description,
 		})
 		.select();

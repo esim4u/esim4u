@@ -1,5 +1,9 @@
 import { completeEsimOrderByTransactionId } from "@/features/esims/services/order";
-import { getTransactionByStripeId } from "@/features/esims/services/transaction";
+import {
+	getTransactionByStripeId,
+	updateTransactionStatus,
+} from "@/features/esims/services/transaction";
+import { TRANSACTION_STATUS } from "@/features/payment/enums";
 import { sendTgLog } from "@/lib/tg-logger";
 import { after } from "next/server";
 
@@ -36,6 +40,19 @@ export async function POST(req: Request) {
 			return Response.json(
 				{
 					message: "Transaction not found",
+				},
+				{ status: 400 }
+			);
+		}
+
+		const updatedTransaction = await updateTransactionStatus(
+			transaction.id,
+			TRANSACTION_STATUS.SUCCESS
+		);
+		if (!updatedTransaction || !updatedTransaction.id) {
+			return Response.json(
+				{
+					message: "Failed to update transaction status",
 				},
 				{ status: 400 }
 			);
