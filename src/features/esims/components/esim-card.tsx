@@ -89,7 +89,7 @@ const EsimCard = ({
 				</div>
 			</Button>
 			<div className="relative -mt-5 overflow-hidden rounded-b-2xl bg-sky-300 pt-5">
-				{usage &&
+				{/* {usage &&
 					state != "EXPIRED" &&
 					(usage.remaining == 0 ||
 						usage.remaining / usage.total < 0.5) && (
@@ -99,7 +99,7 @@ const EsimCard = ({
 							image_url={image_url}
 							coverage={coverage}
 						/>
-					)}
+					)} */}
 
 				<Collapse className=" px-4  duration-200" isOpen={isOpen}>
 					<div className="w-full py-2 pt-4">

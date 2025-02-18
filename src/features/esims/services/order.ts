@@ -10,6 +10,7 @@ import { sendAdminTgLog } from "@/lib/tg-logger";
 import { buyEsim } from "./esims";
 import { ORDER_STATUS } from "../enums";
 import { TRANSACTION_STATUS } from "@/features/payment/enums";
+import userService from "@/features/users/services/user.service";
 
 export async function createEsimOrder({
 	net_price,
@@ -258,8 +259,10 @@ export const completeEsimOrderByTransactionId = async (
 
 	const foundedOrder = order.data[0];
 
+	const user = await userService.getUserById(foundedOrder.telegram_id);
+
 	await sendAdminTgLog(
-		`🎯${foundedOrder.type} order №${foundedOrder.id} is purchased!\nCoverage: ${foundedOrder.coverage}\nTransaction ID: ${foundedOrder.transaction_id}\nAmount: ${foundedOrder.price.total_eur} EUR`
+		`🎯${foundedOrder.type} order №${foundedOrder.id} is purchased by ${user.username}!\nCoverage: ${foundedOrder.coverage}\nTransaction ID: ${foundedOrder.transaction_id}\nAmount: ${foundedOrder.price.total_eur} EUR`
 	);
 
 	if (foundedOrder.type === "ESIM") {

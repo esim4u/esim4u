@@ -30,16 +30,6 @@ const OrderPaymentPage = () => {
 			/>
 			<StripePayment paymentIntentId={order?.stripe_id} />
 			{/* <SumupPayment order={order} /> */}
-
-			<Button
-				onClick={() => {
-					router.push(`/payment/success?order_id=` + order.id);
-				}}
-				size={"lg"}
-				className="w-full rounded-xl"
-			>
-				Test Redirect to success page
-			</Button>
 		</main>
 	);
 };
