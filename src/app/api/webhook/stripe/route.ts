@@ -3,7 +3,9 @@ import {
 	getTransactionByStripeId,
 	updateTransactionStatus,
 } from "@/features/esims/services/transaction";
+import { l } from "@/features/locale/lib/locale";
 import { TRANSACTION_STATUS } from "@/features/payment/enums";
+import { sendMessagesToUser, sendPhotoToUser } from "@/lib/grammy";
 import { sendTgLog } from "@/lib/tg-logger";
 import { after } from "next/server";
 
@@ -58,10 +60,9 @@ export async function POST(req: Request) {
 			);
 		}
 
-		const boughtEsim = await completeEsimOrderByTransactionId(
+		const { order, boughtEsim } = await completeEsimOrderByTransactionId(
 			transaction.id
 		);
-
 		if (!boughtEsim) {
 			return Response.json(
 				{
@@ -69,6 +70,29 @@ export async function POST(req: Request) {
 				},
 				{ status: 400 }
 			);
+		}
+
+		try {
+			await sendPhotoToUser(
+				order.telegram_id,
+				boughtEsim.qrcode_url,
+				l("bot_instruction_qr")
+			);
+
+			const message = `${l("bot_instruction_1")}: \`${
+				boughtEsim.sm_dp
+			}\` \n\n${l("bot_instruction_2")}: \`${
+				boughtEsim.confirmation_code
+			}\` \n\n ${l("bot_instruction_3")}`;
+
+			await sendMessagesToUser(
+				order.telegram_id,
+				message,
+				boughtEsim.iccid
+			);
+		} catch (e) {
+			console.error(e);
+			return Response.json(e);
 		}
 
 		return Response.json(

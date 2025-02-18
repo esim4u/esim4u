@@ -256,30 +256,29 @@ export const completeEsimOrderByTransactionId = async (
 		throw new Error("Order not found");
 	}
 
-	const createdOrder = order.data[0];
+	const foundedOrder = order.data[0];
 
 	await sendAdminTgLog(
-		`🎯${createdOrder.type} order №${createdOrder.id} is purchased! 
-			\nCoverage: ${createdOrder.coverage} 
-			\n\nTransaction ID: ${createdOrder.transaction_id}
-			\nAmount: ${createdOrder.price.total_eur} EUR
-			\nMerchant: Sumup\n`
+		`🎯${foundedOrder.type} order №${foundedOrder.id} is purchased!\nCoverage: ${foundedOrder.coverage}\nTransaction ID: ${foundedOrder.transaction_id}\nAmount: ${foundedOrder.price.total_eur} EUR`
 	);
 
-	if (createdOrder.type === "ESIM") {
+	if (foundedOrder.type === "ESIM") {
 		const boughtEsim = await buyEsim({
-			package_id: createdOrder.package_id,
-			order_id: createdOrder.id,
+			package_id: foundedOrder.package_id,
+			order_id: foundedOrder.id,
 		});
 		await sendAdminTgLog(
-			`ORDER COMPLETED: 🎯${createdOrder.type} order №${
-				createdOrder.id
-			} is completed! 
-			Esim details: ${JSON.stringify(boughtEsim)}`
+			`✅${foundedOrder.type} order №${foundedOrder.id} is completed!`
 		);
 
-		return boughtEsim;
-	} else if (createdOrder.type === "TOPUP") {
+		return {
+			order: foundedOrder,
+			boughtEsim,
+		};
+	} else if (foundedOrder.type === "TOPUP") {
 		await sendAdminTgLog(`TODO: Implement topup order completion`);
+		throw new Error("Topup order completion is not implemented yet");
+	} else {
+		throw new Error("Unknown order type");
 	}
 };

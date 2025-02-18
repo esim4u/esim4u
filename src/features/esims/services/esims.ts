@@ -66,7 +66,6 @@ export async function buyEsim({
 	if (buyEsimResponse.error) {
 		throw new Error(buyEsimResponse.error.message);
 	}
-	await sendAdminTgLog(`🎯New eSIM order created `);
 
 	const esimDataResponse = await axios
 		.get(
