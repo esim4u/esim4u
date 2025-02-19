@@ -1,32 +1,51 @@
 "use client";
 
+import { useSignal, viewport } from "@telegram-apps/sdk-react";
 import { useTheme } from "next-themes";
-import { Toaster as Sonner } from "sonner";
+import { useMemo } from "react";
+import { Toaster as SonnerToaster } from "sonner";
+import { toast as sonner } from "sonner";
 
-type ToasterProps = React.ComponentProps<typeof Sonner>;
+type ToasterProps = React.ComponentProps<typeof SonnerToaster>;
 
-const Toaster = ({ ...props }: ToasterProps) => {
+const Sonner = ({ ...props }: ToasterProps) => {
 	const { theme = "system" } = useTheme();
+	const contentSafeAreaInsets = useSignal(viewport.contentSafeAreaInsets);
+	const safeAreaInsets = useSignal(viewport.safeAreaInsets);
+
+	const offset = useMemo(() => {
+		const bottomOffset =
+			(contentSafeAreaInsets.bottom || 0) +
+			(safeAreaInsets.bottom || 0) +
+			32;
+		return bottomOffset;
+	}, [contentSafeAreaInsets, safeAreaInsets]);
 
 	return (
-		<Sonner
-			position="top-right"
-      richColors
+		<SonnerToaster
 			theme={theme as ToasterProps["theme"]}
-			className="toaster group"
 			toastOptions={{
 				classNames: {
-					toast: "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
-					description: "group-[.toast]:text-muted-foreground",
-					actionButton:
-						"group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
-					cancelButton:
-						"group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+					toast: " border-none bg-gradient-to-br shadow-md rounded-2xl pointer-events-auto",
+
+					default: " from-punsh-400 to-punsh-600 text-white",
+					info: "from-blue-400 to-blue-600 text-white",
+					warning: "from-yellow-400 to-yellow-600 text-white",
+					error: "from-red-400 to-red-600 text-white",
+					success: "!from-emerald-400 !to-emerald-600 text-white",
+
+					closeButton:
+						"!bg-transparent border-none text-white top-3 left-[calc(100%-18px)]",
+					actionButton: "bg-primary text-primary-foreground",
+					cancelButton: "bg-muted text-muted-foreground",
 				},
 			}}
+      position={"bottom-right"}
+      offset={offset}
+      duration={2000}
 			{...props}
 		/>
 	);
 };
 
-export { Toaster };
+export { Sonner, sonner };

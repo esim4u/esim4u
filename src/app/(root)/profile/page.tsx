@@ -29,7 +29,7 @@ const ProfilePage = () => {
 					}}
 					className="absolute left-0 top-12 h-12 w-12 "
 				>
-					<GearIcon className="h-12 w-12 text-neutral-500" />
+					<GearIcon className="h-12 w-12 text-neutral-500 animate-spin-slow" />
 				</Button>
 				<UserBlock orientation="vertical" size="md" arrowIcon={false} />
 				{/* <Button
