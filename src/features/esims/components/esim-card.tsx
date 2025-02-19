@@ -31,6 +31,8 @@ const EsimCard = ({
 	usage,
 	expired_at,
 	available_topups,
+	order_id,
+	open_order_id,
 	open_iccid,
 }: Esim) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +43,10 @@ const EsimCard = ({
 	}, [sm_dp, confirmation_code]);
 
 	useEffect(() => {
-		if (open_iccid && open_iccid === iccid) {
+		if (
+			(open_iccid && open_iccid == iccid) ||
+			(open_order_id && open_order_id == order_id)
+		) {
 			if (cardRef.current) {
 				cardRef.current.scrollIntoView({
 					behavior: "smooth",
