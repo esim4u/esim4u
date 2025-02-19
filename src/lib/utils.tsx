@@ -1,9 +1,9 @@
 import { l } from "@/features/locale/lib/locale";
-import { toast } from "@/hooks/use-toast";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { PiCopyBold } from "react-icons/pi";
 import { clientEnvs } from "@/env/client";
+import { sonner } from "@/components/ui/sonner";
 
 const TELEGRAM_BOT_USERNAME = clientEnvs.NEXT_PUBLIC_BOT_USERNAME;
 
@@ -25,20 +25,14 @@ export function copyReferralLinkToClipBoard(user_id: string | number, e?: any) {
 
 	try {
 		navigator.clipboard.writeText(link.toString());
-		toast({
-			variant: "esim4u",
-			description: (
-				<span className="flex flex-row items-center gap-2 font-semibold">
-					<PiCopyBold className="h-[18px] w-[18px]" />
-					<p>{l("toast_referral_copied")}</p>
-				</span>
-			),
-		});
+		sonner.info(
+			<span className="flex flex-row items-center gap-2 font-semibold">
+				<PiCopyBold className="h-[18px] w-[18px]" />
+				<p>{l("toast_referral_copied")}</p>
+			</span>
+		);
 	} catch (error) {
-		toast({
-			variant: "destructive",
-			title: "Error: Please try again",
-		});
+		sonner.error("Error");
 	}
 }
 
@@ -46,29 +40,21 @@ export function copyText(text: string | number, e?: any) {
 	e?.stopPropagation();
 
 	if (!text) {
-		toast({
-			variant: "destructive",
-			title: "Error",
-		});
+		sonner.error("Error");
+
 		return;
 	}
 
 	try {
 		navigator.clipboard.writeText(text.toString());
-		toast({
-			variant: "esim4u",
-			description: (
-				<span className="flex flex-row items-center gap-2 font-semibold">
-					<PiCopyBold className="h-[18px] w-[18px]" />
-					<p>{l("toast_copied")}</p>
-				</span>
-			),
-		});
+		sonner.info(
+			<span className="flex flex-row items-center gap-2 font-semibold">
+				<PiCopyBold className="h-[18px] w-[18px]" />
+				<p>{l("toast_copied")}</p>
+			</span>
+		);
 	} catch (error) {
-		toast({
-			variant: "destructive",
-			title: "Error: Please try again",
-		});
+		sonner.error("Error");
 	}
 }
 

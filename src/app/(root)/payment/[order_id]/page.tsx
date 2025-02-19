@@ -29,7 +29,6 @@ const OrderPaymentPage = () => {
 				amountInTon={+(amountInTon?.amount || 0)}
 			/>
 			<StripePayment paymentIntentId={order?.stripe_id} />
-			{/* <SumupPayment order={order} /> */}
 		</main>
 	);
 };

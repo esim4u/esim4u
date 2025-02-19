@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Header from "@/features/navigation/components/header";
 import Script from "next/script";
-import EnvModeLabel from "@/features/navigation/components/env-mode-label";
+import { Sonner } from "@/components/ui/sonner";
 
 const sfProRounded = localFont({
 	src: [
@@ -84,8 +84,8 @@ export default function RootLayout({
 						{children}
 					</div>
 					<Toaster />
+					<Sonner />
 					<ReactQueryDevtools initialIsOpen={false} />
-					<Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
 				</MainProvider>
 			</body>
 		</html>

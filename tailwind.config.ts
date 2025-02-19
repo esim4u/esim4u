@@ -14,7 +14,6 @@ const config: Config = {
 				center: true,
 				padding: "20px",
 				screens: {
-					// "2xl": "1536px",
 					"2xl": "440px",
 				},
 			},
@@ -22,7 +21,6 @@ const config: Config = {
 				tgbutton: "var(--tg-theme-button-color, #3b82f6)",
 				tgaccent: "var(--tg-theme-accent-text-color, #3b82f6)",
 				redish: "#EF3671",
-				
 				background: "hsl(var(--background))",
 				foreground: "hsl(var(--foreground))",
 				card: {
@@ -70,6 +68,7 @@ const config: Config = {
 				sm: "calc(var(--radius) - 4px)",
 			},
 			animation: {
+				"spin-slow": "spin 6s linear infinite",
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
 				appear: "appear 0.5s ease-in-out",
@@ -79,28 +78,38 @@ const config: Config = {
 			},
 			keyframes: {
 				"accordion-down": {
-					from: { height: "0" },
-					to: { height: "var(--radix-accordion-content-height)" },
+					from: {
+						height: "0",
+					},
+					to: {
+						height: "var(--radix-accordion-content-height)",
+					},
 				},
 				"accordion-up": {
-					from: { height: "var(--radix-accordion-content-height)" },
-					to: { height: "0" },
+					from: {
+						height: "var(--radix-accordion-content-height)",
+					},
+					to: {
+						height: "0",
+					},
 				},
 				appear: {
 					from: {
 						scale: "0.01",
-						// transform: "rotate(-135deg)",
 						opacity: "0",
 					},
 					to: {
 						scale: "1",
-
 						opacity: "1",
 					},
 				},
 				"logo-cloud": {
-					from: { transform: "translateX(0)" },
-					to: { transform: "translateX(calc(-100% - 4rem))" },
+					from: {
+						transform: "translateX(0)",
+					},
+					to: {
+						transform: "translateX(calc(-100% - 4rem))",
+					},
 				},
 				wiggle: {
 					"0%,100%": {
