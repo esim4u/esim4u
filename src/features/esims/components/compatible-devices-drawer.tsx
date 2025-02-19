@@ -37,7 +37,7 @@ const CompatibleDevicesDrawer = () => {
 					{l("text_compatible_devices")}
 				</Button>
 			</DrawerTrigger>
-			<DrawerContent className="min-h-[80dvh] container">
+			<DrawerContent className=" container">
 				<div className="mx-auto w-full max-w-sm">
 					<DrawerHeader>
 						<DrawerTitle className="text-center">
