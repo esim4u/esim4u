@@ -35,12 +35,10 @@ export default function SuccessPage() {
 		customFullPath: redirectPath,
 	});
 
-	const redirectUser = useCallback(() => {
-		router.push(redirectPath);
-	}, [redirectPath]);
-
 	useEffect(() => {
-		const timeout = setTimeout(redirectUser, 20 * 1000); // 20s
+		const timeout = setTimeout(() => {
+			router.push(redirectPath);
+		}, 20 * 1000); // 20s
 		return () => {
 			clearTimeout(timeout);
 		};
@@ -74,7 +72,9 @@ export default function SuccessPage() {
 							</div>
 						</div>
 						<Button
-							onClick={redirectUser}
+							onClick={() => {
+								router.push(redirectPath);
+							}}
 							className="text-xl"
 							variant={"link"}
 						>
