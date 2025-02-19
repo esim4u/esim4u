@@ -40,7 +40,7 @@ const PackageNetworksDrawer = ({ package_id }: { package_id: string }) => {
 					Networks
 				</Button>
 			</DrawerTrigger>
-			<DrawerContent className=" container">
+			<DrawerContent className="min-h-[80dvh] container">
 				<div className="mx-auto w-full max-w-sm">
 					<DrawerHeader>
 						<DrawerTitle className="text-center">
