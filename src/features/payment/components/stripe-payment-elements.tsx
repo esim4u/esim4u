@@ -13,11 +13,11 @@ import { useGetStripePaymentIntent } from "../hooks/use-payment";
 import Stripe from "stripe";
 import { Button } from "@/components/ui/button";
 import { convertCentsToDollars } from "../lib/utils";
-import { toast } from "@/hooks/use-toast";
 import CardCollapse, { CardCollapseSkeleton } from "./card-collapse";
 import { useRouter } from "next/navigation";
 import SpinLoader from "@/components/ui/spin-loader";
 import { clientEnvs } from "@/env/client";
+import { sonner } from "@/components/ui/sonner";
 
 const WEB_APP_URL = clientEnvs.NEXT_PUBLIC_WEB_APP_URL;
 
@@ -74,20 +74,14 @@ const StripeCheckoutForm = ({
 			!paymentIntent ||
 			!paymentIntent.client_secret
 		) {
-			toast({
-				variant: "destructive",
-				description: "Stripe not initialized",
-			});
+			sonner.error("Stripe not initialized");
 			setIsLoading(false);
 			return;
 		}
 
 		const elementsSubmit = await elements?.submit();
 		if (elementsSubmit?.error) {
-			toast({
-				variant: "destructive",
-				description: elementsSubmit.error.message,
-			});
+			sonner.error(elementsSubmit.error.message);
 			setIsLoading(false);
 			return;
 		}
@@ -101,15 +95,9 @@ const StripeCheckoutForm = ({
 		});
 
 		if (paymentConfirm?.error) {
-			toast({
-				variant: "destructive",
-				description: paymentConfirm.error.message,
-			});
+			sonner.error(paymentConfirm.error.message);
 		} else {
-			toast({
-				variant: "success",
-				description: "Payment confirmed",
-			});
+			sonner.success("Payment confirmed");
 			router.push(
 				`/payment/success?order_id=${paymentIntent.metadata.order_id}`
 			);

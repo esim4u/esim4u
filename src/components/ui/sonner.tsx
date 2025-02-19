@@ -17,7 +17,7 @@ const Sonner = ({ ...props }: ToasterProps) => {
 		const bottomOffset =
 			(contentSafeAreaInsets.bottom || 0) +
 			(safeAreaInsets.bottom || 0) +
-			32;
+			+ 48;
 		return bottomOffset;
 	}, [contentSafeAreaInsets, safeAreaInsets]);
 
@@ -26,7 +26,7 @@ const Sonner = ({ ...props }: ToasterProps) => {
 			theme={theme as ToasterProps["theme"]}
 			toastOptions={{
 				classNames: {
-					toast: " border-none bg-gradient-to-br shadow-md rounded-2xl pointer-events-auto",
+					toast: " border-none bg-gradient-to-br shadow-md rounded-2xl pointer-events-auto p-5",
 
 					default: " from-punsh-400 to-punsh-600 text-white",
 					info: "from-blue-400 to-blue-600 text-white",

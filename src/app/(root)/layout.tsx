@@ -86,7 +86,6 @@ export default function RootLayout({
 					<Toaster />
 					<Sonner />
 					<ReactQueryDevtools initialIsOpen={false} />
-					<Script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js" />
 				</MainProvider>
 			</body>
 		</html>
