@@ -6,7 +6,7 @@ const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import confettiAnim from "@/assets/anim/confetti.json";
 
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import {  useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef } from "react";
 import { useTgBackButton } from "@/hooks/use-telegram";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,8 @@ export default function SuccessPage() {
 	const router = useRouter();
 	const lottieRef = useRef<any>(undefined);
 
-	const { order_id } = useParams<{ order_id: string }>();
+	const searchParams = useSearchParams();
+	const order_id = searchParams.get("order_id");
 
 	const redirectPath = `/profile?order_id=${order_id}&is_payment=true`;
 
