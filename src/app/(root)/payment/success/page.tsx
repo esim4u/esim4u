@@ -6,8 +6,8 @@ const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import confettiAnim from "@/assets/anim/confetti.json";
 
 import Image from "next/image";
-import {  useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTgBackButton } from "@/hooks/use-telegram";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
@@ -21,20 +21,30 @@ export default function SuccessPage() {
 	const searchParams = useSearchParams();
 	const order_id = searchParams.get("order_id");
 
-	const redirectPath = `/profile?order_id=${order_id}&is_payment=true`;
+	const { data: order, isPending } = useGetOrderById(order_id);
+	const isOrderPending = useThrottle(isPending, 3000);
+
+	const redirectPath = useMemo(() => {
+		if (order?.iccid) {
+			return `/profile?order_id=${order_id}&iccid=${order?.iccid}&is_payment=true`;
+		}
+		return `/profile?order_id=${order_id}&is_payment=true`;
+	}, [order_id, order]);
 
 	useTgBackButton({
 		customFullPath: redirectPath,
 	});
 
-	useEffect(() => {
-		setTimeout(() => {
-			router.push(redirectPath);
-		}, 15 * 1000); // 15s
-	}, []);
+	const redirectUser = useCallback(() => {
+		router.push(redirectPath);
+	}, [redirectPath]);
 
-	const { data: order, isPending } = useGetOrderById(order_id);
-	const isOrderPending = useThrottle(isPending, 3000);
+	useEffect(() => {
+		const timeout = setTimeout(redirectUser, 20 * 1000); // 20s
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, []);
 
 	if (isOrderPending) return <LoadingScreen />;
 	return (
@@ -64,9 +74,7 @@ export default function SuccessPage() {
 							</div>
 						</div>
 						<Button
-							onClick={() => {
-								router.push(redirectPath);
-							}}
+							onClick={redirectUser}
 							className="text-xl"
 							variant={"link"}
 						>

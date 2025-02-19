@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { TbHandClick } from "react-icons/tb";
@@ -31,16 +31,31 @@ const EsimCard = ({
 	usage,
 	expired_at,
 	available_topups,
+	open_iccid,
 }: Esim) => {
-	const router = useRouter();
-
 	const [isOpen, setIsOpen] = useState(false);
+	const cardRef = useRef<HTMLDivElement>(null);
+
 	const activationLink = useMemo(() => {
 		return generateEsimActivationLink(sm_dp, confirmation_code);
 	}, [sm_dp, confirmation_code]);
 
+	useEffect(() => {
+		if (open_iccid && open_iccid === iccid) {
+			if (cardRef.current) {
+				cardRef.current.scrollIntoView({
+					behavior: "smooth",
+					block: "center",
+				});
+			}
+			setTimeout(() => {
+				setIsOpen(true);
+			}, 1000);
+		}
+	}, [open_iccid]);
+
 	return (
-		<div className="relative flex flex-col">
+		<div ref={cardRef} className="relative flex flex-col scroll-mb-96">
 			<Button
 				variant={"unstyled"}
 				size={"fit"}
