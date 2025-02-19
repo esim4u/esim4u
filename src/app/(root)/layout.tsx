@@ -74,7 +74,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body
 				className={cn(
-					"antialiased no-scrollbar h-svh bg-background",
+					"antialiased no-scrollbar min-h-svh bg-background",
 					sfProRounded.className
 				)}
 			>
