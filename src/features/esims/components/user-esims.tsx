@@ -12,7 +12,8 @@ import EsimCard from "./esim-card";
 const UserEsims = () => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const iccid = searchParams.get("iccid");
+	const iccid = searchParams.get("iccid") || undefined;
+	const order_id = searchParams.get("order_id") || undefined
 
 	const { tgUser } = useTgUser();
 	const { data: esims, isPending } = useGetUserEsims(tgUser?.id || 0);
@@ -78,6 +79,8 @@ const UserEsims = () => {
 						usage={esim.usage}
 						expired_at={esim.expired_at}
 						available_topups={esim.available_topups}
+						order_id={esim.order_id}
+						open_order_id={order_id}
 						open_iccid={iccid || ""}
 					/>
 				))}

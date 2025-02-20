@@ -27,8 +27,8 @@ const PremiumIcon = ({ className, onClick }: Icon) => {
                         y2="21.9779"
                         gradientUnits="userSpaceOnUse"
                     >
-                        <stop stop-color="#DB75E4" />
-                        <stop offset="1" stop-color="#6C6AD2" />
+                        <stop stopColor="#DB75E4" />
+                        <stop offset="1" stopColor="#6C6AD2" />
                     </linearGradient>
                 </defs>
             </svg>

@@ -18,6 +18,8 @@ export interface Esim {
 	expired_at: string;
 	available_topups: any[];
 
+	order_id?: string;
+	open_order_id?: string;
 	open_iccid?: string;
 }
 

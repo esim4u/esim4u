@@ -27,13 +27,14 @@ export async function getUserEsims(telegram_id: number) {
 
 	const orders = await supabase
 		.from("orders")
-		.select("*")
+		.select("*, order_id:id")
 		.eq("telegram_id", telegram_id)
 		.eq("type", "ESIM")
 		.in("status", [ORDER_STATUS.SUCCESS, ORDER_STATUS.PENDING])
 		.order("id", { ascending: false });
 
 	if (orders.error) {
+		console.error(orders.error);
 		throw new Error("An error occurred while fetching orders");
 	}
 

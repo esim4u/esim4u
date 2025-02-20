@@ -72,8 +72,8 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="24.2345"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FFA1AE" />
-						<stop offset="1" stop-color="#FF4565" />
+						<stop stopColor="#FFA1AE" />
+						<stop offset="1" stopColor="#FF4565" />
 					</linearGradient>
 					<linearGradient
 						id="paint1_linear_3001_3840"
@@ -83,23 +83,23 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="28.9647"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FE0364" stop-opacity="0" />
+						<stop stopColor="#FE0364" stopOpacity="0" />
 						<stop
 							offset="0.234"
-							stop-color="#F90362"
-							stop-opacity="0.234"
+							stopColor="#F90362"
+							stopOpacity="0.234"
 						/>
 						<stop
 							offset="0.517"
-							stop-color="#EA035B"
-							stop-opacity="0.517"
+							stopColor="#EA035B"
+							stopOpacity="0.517"
 						/>
 						<stop
 							offset="0.824"
-							stop-color="#D20250"
-							stop-opacity="0.824"
+							stopColor="#D20250"
+							stopOpacity="0.824"
 						/>
-						<stop offset="1" stop-color="#C00148" />
+						<stop offset="1" stopColor="#C00148" />
 					</linearGradient>
 					<linearGradient
 						id="paint2_linear_3001_3840"
@@ -109,23 +109,23 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="32.2571"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FE0364" stop-opacity="0" />
+						<stop stopColor="#FE0364" stopOpacity="0" />
 						<stop
 							offset="0.234"
-							stop-color="#F90362"
-							stop-opacity="0.234"
+							stopColor="#F90362"
+							stopOpacity="0.234"
 						/>
 						<stop
 							offset="0.517"
-							stop-color="#EA035B"
-							stop-opacity="0.517"
+							stopColor="#EA035B"
+							stopOpacity="0.517"
 						/>
 						<stop
 							offset="0.824"
-							stop-color="#D20250"
-							stop-opacity="0.824"
+							stopColor="#D20250"
+							stopOpacity="0.824"
 						/>
-						<stop offset="1" stop-color="#C00148" />
+						<stop offset="1" stopColor="#C00148" />
 					</linearGradient>
 					<linearGradient
 						id="paint3_linear_3001_3840"
@@ -135,23 +135,23 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="10.6302"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FE0364" stop-opacity="0" />
+						<stop stopColor="#FE0364" stopOpacity="0" />
 						<stop
 							offset="0.234"
-							stop-color="#F90362"
-							stop-opacity="0.234"
+							stopColor="#F90362"
+							stopOpacity="0.234"
 						/>
 						<stop
 							offset="0.517"
-							stop-color="#EA035B"
-							stop-opacity="0.517"
+							stopColor="#EA035B"
+							stopOpacity="0.517"
 						/>
 						<stop
 							offset="0.824"
-							stop-color="#D20250"
-							stop-opacity="0.824"
+							stopColor="#D20250"
+							stopOpacity="0.824"
 						/>
-						<stop offset="1" stop-color="#C00148" />
+						<stop offset="1" stopColor="#C00148" />
 					</linearGradient>
 					<linearGradient
 						id="paint4_linear_3001_3840"
@@ -161,23 +161,23 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="22.3898"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FE0364" stop-opacity="0" />
+						<stop stopColor="#FE0364" stopOpacity="0" />
 						<stop
 							offset="0.234"
-							stop-color="#F90362"
-							stop-opacity="0.234"
+							stopColor="#F90362"
+							stopOpacity="0.234"
 						/>
 						<stop
 							offset="0.517"
-							stop-color="#EA035B"
-							stop-opacity="0.517"
+							stopColor="#EA035B"
+							stopOpacity="0.517"
 						/>
 						<stop
 							offset="0.824"
-							stop-color="#D20250"
-							stop-opacity="0.824"
+							stopColor="#D20250"
+							stopOpacity="0.824"
 						/>
-						<stop offset="1" stop-color="#C00148" />
+						<stop offset="1" stopColor="#C00148" />
 					</linearGradient>
 					<linearGradient
 						id="paint5_linear_3001_3840"
@@ -187,8 +187,8 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="25.7157"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FEF0AE" />
-						<stop offset="1" stop-color="#FAC600" />
+						<stop stopColor="#FEF0AE" />
+						<stop offset="1" stopColor="#FAC600" />
 					</linearGradient>
 					<linearGradient
 						id="paint6_linear_3001_3840"
@@ -198,8 +198,8 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="19.0132"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FE9738" stop-opacity="0" />
-						<stop offset="1" stop-color="#FE9738" />
+						<stop stopColor="#FE9738" stopOpacity="0" />
+						<stop offset="1" stopColor="#FE9738" />
 					</linearGradient>
 					<linearGradient
 						id="paint7_linear_3001_3840"
@@ -209,8 +209,8 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="28.656"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FE9738" stop-opacity="0" />
-						<stop offset="1" stop-color="#FE9738" />
+						<stop stopColor="#FE9738" stopOpacity="0" />
+						<stop offset="1" stopColor="#FE9738" />
 					</linearGradient>
 					<linearGradient
 						id="paint8_linear_3001_3840"
@@ -220,8 +220,8 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="28.9643"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FE9738" stop-opacity="0" />
-						<stop offset="1" stop-color="#FE9738" />
+						<stop stopColor="#FE9738" stopOpacity="0" />
+						<stop offset="1" stopColor="#FE9738" />
 					</linearGradient>
 					<linearGradient
 						id="paint9_linear_3001_3840"
@@ -231,8 +231,8 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="10.1708"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FFA1AE" />
-						<stop offset="1" stop-color="#FF4565" />
+						<stop stopColor="#FFA1AE" />
+						<stop offset="1" stopColor="#FF4565" />
 					</linearGradient>
 					<linearGradient
 						id="paint10_linear_3001_3840"
@@ -242,23 +242,23 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="11.2144"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FE0364" stop-opacity="0" />
+						<stop stopColor="#FE0364" stopOpacity="0" />
 						<stop
 							offset="0.234"
-							stop-color="#F90362"
-							stop-opacity="0.234"
+							stopColor="#F90362"
+							stopOpacity="0.234"
 						/>
 						<stop
 							offset="0.517"
-							stop-color="#EA035B"
-							stop-opacity="0.517"
+							stopColor="#EA035B"
+							stopOpacity="0.517"
 						/>
 						<stop
 							offset="0.824"
-							stop-color="#D20250"
-							stop-opacity="0.824"
+							stopColor="#D20250"
+							stopOpacity="0.824"
 						/>
-						<stop offset="1" stop-color="#C00148" />
+						<stop offset="1" stopColor="#C00148" />
 					</linearGradient>
 					<linearGradient
 						id="paint11_linear_3001_3840"
@@ -268,23 +268,23 @@ const ColoredFireIcon = ({ className, svgClassName, onClick }: Icon) => {
 						y2="9.39641"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop stop-color="#FE0364" stop-opacity="0" />
+						<stop stopColor="#FE0364" stopOpacity="0" />
 						<stop
 							offset="0.234"
-							stop-color="#F90362"
-							stop-opacity="0.234"
+							stopColor="#F90362"
+							stopOpacity="0.234"
 						/>
 						<stop
 							offset="0.517"
-							stop-color="#EA035B"
-							stop-opacity="0.517"
+							stopColor="#EA035B"
+							stopOpacity="0.517"
 						/>
 						<stop
 							offset="0.824"
-							stop-color="#D20250"
-							stop-opacity="0.824"
+							stopColor="#D20250"
+							stopOpacity="0.824"
 						/>
-						<stop offset="1" stop-color="#C00148" />
+						<stop offset="1" stopColor="#C00148" />
 					</linearGradient>
 				</defs>
 			</svg>
