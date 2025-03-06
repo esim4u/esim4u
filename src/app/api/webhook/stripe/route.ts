@@ -1,10 +1,11 @@
 import { completeEsimOrderByTransactionId } from "@/features/esims/services/order";
 import {
 	getTransactionByStripeId,
-	updateTransactionStatus,
+	updateTransactionData,
 } from "@/features/esims/services/transaction";
 import { l } from "@/features/locale/lib/locale";
 import { TRANSACTION_STATUS } from "@/features/payment/enums";
+import { getPaymentMethodByPaymentMethodId } from "@/features/payment/services/stripe";
 import { sendMessagesToUser, sendPhotoToUser } from "@/lib/grammy";
 import { sendTgLog } from "@/lib/tg-logger";
 import { after } from "next/server";
@@ -46,10 +47,32 @@ export async function POST(req: Request) {
 				{ status: 400 }
 			);
 		}
+		let merchantName = 'stripe';
+		try {
+			const paymentMethod = await getPaymentMethodByPaymentMethodId(
+				paymentData.payment_method
+			);
 
-		const updatedTransaction = await updateTransactionStatus(
+			if (paymentMethod?.card?.wallet?.type) {
+				merchantName += `_${paymentMethod.card.wallet.type}`;
+			} else if (paymentMethod?.card?.brand) {
+				merchantName += `_${paymentMethod.card.brand}`;
+			}
+		} catch (error) {
+			console.log("STRIPE_PAYMENT_METHOD_ERROR: ", error);
+		}
+
+		// 899 to 8.99
+		const amount = paymentData.amount / 100;
+
+		const updatedTransaction = await updateTransactionData(
 			transaction.id,
-			TRANSACTION_STATUS.SUCCESS
+			{
+				amount: amount,
+				currency: paymentData.currency,
+				merchant: merchantName,
+				status: TRANSACTION_STATUS.SUCCESS,
+			}
 		);
 		if (!updatedTransaction || !updatedTransaction.id) {
 			return Response.json(
