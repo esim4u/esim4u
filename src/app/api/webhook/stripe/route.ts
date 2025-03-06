@@ -62,10 +62,13 @@ export async function POST(req: Request) {
 			console.log("STRIPE_PAYMENT_METHOD_ERROR: ", error);
 		}
 
+		// 899 to 8.99
+		const amount = paymentData.amount / 100;
+
 		const updatedTransaction = await updateTransactionData(
 			transaction.id,
 			{
-				amount: paymentData.amount,
+				amount: amount,
 				currency: paymentData.currency,
 				merchant: merchantName,
 				status: TRANSACTION_STATUS.SUCCESS,
