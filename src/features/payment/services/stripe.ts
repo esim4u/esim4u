@@ -81,3 +81,7 @@ export const getStripeCustomerId = async (customer: StripeCustomer) => {
 export const getStripePaymentIntent = async (paymentIntentId: string) => {
 	return await stripe.paymentIntents.retrieve(paymentIntentId);
 };
+
+export const getPaymentMethodByPaymentMethodId = async (paymentMethodId: string) => {
+	return await stripe.paymentMethods.retrieve(paymentMethodId);
+}

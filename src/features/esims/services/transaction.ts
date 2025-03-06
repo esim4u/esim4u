@@ -18,13 +18,18 @@ export const getTransactionByStripeId = async (stripe_id: string) => {
 	return transactions.data[0];
 };
 
-export const updateTransactionStatus = async (
+export const updateTransactionData = async (
 	transaction_id: string | number,
-	status: TRANSACTION_STATUS
+	data: {
+		amount?: number,
+		currency?: string,
+		merchant?: string,
+		status?: TRANSACTION_STATUS
+	}
 ) => {
 	const updatedTransaction = await supabase
 		.from("transactions")
-		.update({ status })
+		.update(data)
 		.eq("id", transaction_id)
 		.select();
 
