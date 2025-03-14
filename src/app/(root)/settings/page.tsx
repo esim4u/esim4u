@@ -22,10 +22,12 @@ import {
 	setLanguage,
 } from "@/features/locale/lib/locale";
 import { useTgBackButton } from "@/hooks/use-telegram";
+import { locationManager } from "@telegram-apps/sdk";
 import { openTelegramLink } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { BiSupport } from "react-icons/bi";
+import { toast } from "sonner";
 
 const SettingsPage = () => {
 	const router = useRouter();
@@ -87,6 +89,47 @@ const SettingsPage = () => {
 					</SelectGroup>
 				</SelectContent>
 			</Select>
+			<Button
+				onClick={async () => {
+					if (locationManager.requestLocation.isAvailable()) {
+						const location =
+							await locationManager.requestLocation();
+
+						toast.info(
+							<pre>{JSON.stringify(location, null, 2)}</pre>
+						);
+					} else {
+						toast.info(
+							<pre>
+								{JSON.stringify(
+									{
+										error: true,
+										message:
+											"Location manager is not available",
+									},
+									null,
+									2
+								)}
+							</pre>
+						);
+					}
+				}}
+				size={"lg"}
+				className="w-full rounded-xl gap-1"
+			>
+				{"Request Location"}
+			</Button>
+			<Button
+				onClick={async () => {
+					if (locationManager.openSettings.isAvailable()) {
+						locationManager.openSettings();
+					}
+				}}
+				size={"lg"}
+				className="w-full rounded-xl gap-1"
+			>
+				{"Open Location Settings"}
+			</Button>
 			<Button
 				onClick={() => {
 					openTelegramLink("https://t.me/esim4u_support_bot/chat");
