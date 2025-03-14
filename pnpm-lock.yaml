@@ -53,9 +53,6 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.63.0
         version: 5.63.0(@tanstack/react-query@5.63.0(react@19.0.0))(react@19.0.0)
-      '@telegram-apps/init-data-node':
-        specifier: ^1.2.2
-        version: 1.2.2
       '@telegram-apps/sdk-react':
         specifier: ^2.0.25
         version: 2.0.25(@types/react@19.0.4)(react@19.0.0)
@@ -884,9 +881,6 @@ packages:
 
   '@telegram-apps/bridge@1.9.2':
     resolution: {integrity: sha512-SJLcNWLXhbbZr9MiqFH/g2ceuitSJKMxUIZysK4zUNyTUNuonrQG80Q/yrO+XiNbKUj8WdDNM86NBARhuyyinQ==}
-
-  '@telegram-apps/init-data-node@1.2.2':
-    resolution: {integrity: sha512-/nazt+7Xa+/niezRMnGMILy280SH/XqdwuGLIc/aAfblzR3j98Ze9DUdheOOPozjYKPujEEANjRG4bCtkOvoAA==}
 
   '@telegram-apps/navigation@1.0.13':
     resolution: {integrity: sha512-TsUueB5LQp77GQHoMa93nq26Uw7GJjrFCPbyseMVU7aBBxAc+8CV2IYytRwcVp5sv/q7ThK5X4JaKn2V1yBHDQ==}
@@ -3222,12 +3216,6 @@ snapshots:
   '@telegram-apps/bridge@1.9.2':
     dependencies:
       '@telegram-apps/signals': 1.1.1
-      '@telegram-apps/toolkit': 1.1.1
-      '@telegram-apps/transformers': 1.2.2
-      '@telegram-apps/types': 1.2.1
-
-  '@telegram-apps/init-data-node@1.2.2':
-    dependencies:
       '@telegram-apps/toolkit': 1.1.1
       '@telegram-apps/transformers': 1.2.2
       '@telegram-apps/types': 1.2.1
