@@ -26,7 +26,7 @@ const PopularCountriesGrid = ({
 				</h2>
 			)}
 
-			<div className="grid max-h-72 grid-cols-4 grid-rows-3 gap-2">
+			<div className="grid max-h-96 grid-cols-4 grid-rows-4 gap-2">
 				<div
 					onClick={() => {
 						if (!interactive) return;
@@ -182,6 +182,43 @@ const PopularCountriesGrid = ({
 						if (hapticFeedback.isSupported()) {
 							hapticFeedback.impactOccurred("medium");
 						}
+						router.push("/packages/ae");
+					}}
+					className="relative col-span-2 row-span-2 flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
+				>
+					<Image
+						width={312}
+						height={312}
+						className="h-full w-full bg-neutral-300 object-cover"
+						quality={50}
+						placeholder="blur"
+						blurDataURL="/img/countries/ae.png"
+						src={"/img/countries/ae.png"}
+						alt="news"
+					/>
+					<div className="absolute h-1/2 w-full bg-gradient-to-t from-black/50">
+						{" "}
+					</div>
+
+					{interactive && (
+						<>
+							<div className=" absolute right-3 top-3 h-[18px] w-[18px] bg-white/75 blur-sm	 "></div>
+							<div className=" absolute right-3 top-3">
+								<MdArrowForwardIos className=" h-4 w-4 " />
+							</div>
+						</>
+					)}
+
+					<span className="absolute pb-2 text-xs font-medium uppercase text-white">
+						EMIRATES
+					</span>
+				</div>
+				<div
+					onClick={() => {
+						if (!interactive) return;
+						if (hapticFeedback.isSupported()) {
+							hapticFeedback.impactOccurred("medium");
+						}
 						router.push("/packages/bg");
 					}}
 					className="relative col-span-1 row-span-1 flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
@@ -256,7 +293,7 @@ const PopularCountriesGrid = ({
 						if (hapticFeedback.isSupported()) {
 							hapticFeedback.impactOccurred("medium");
 						}
-						router.push("/packages/ae");
+						router.push("/packages/th");
 					}}
 					className="relative col-span-2 row-span-1 flex cursor-pointer items-end  justify-center overflow-hidden rounded-3xl transition-transform active:scale-95 	"
 				>
@@ -266,8 +303,8 @@ const PopularCountriesGrid = ({
 						className="h-full w-full bg-neutral-300 object-cover"
 						quality={50}
 						placeholder="blur"
-						blurDataURL="/img/countries/ae.png"
-						src={"/img/countries/ae.png"}
+						blurDataURL="/img/countries/th.png"
+						src={"/img/countries/th.png"}
 						alt="news"
 					/>
 					<div className="absolute h-1/2 w-full bg-gradient-to-t from-black/50">
@@ -284,7 +321,7 @@ const PopularCountriesGrid = ({
 					)}
 
 					<span className="absolute pb-2 text-xs font-medium uppercase text-white">
-						EMIRATES
+						THAILAND
 					</span>
 				</div>
 			</div>
