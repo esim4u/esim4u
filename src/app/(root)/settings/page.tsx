@@ -140,6 +140,16 @@ const SettingsPage = () => {
 				<BiSupport className="size-5" />
 				{l("btn_support")}
 			</Button>
+			<Button
+				onClick={() => {
+					router.push("/chat");
+				}}
+				size={"lg"}
+				className="w-full rounded-xl gap-1"
+			>
+				<BiSupport className="size-5" />
+				Alternative {l("btn_support")}
+			</Button>
 		</main>
 	);
 };
