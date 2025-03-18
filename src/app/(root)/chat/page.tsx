@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-const ChatPage = (props: Props) => {
+const ChatPage = () => {
 	return (
 		<div className="w-screen h-dvh">
 			<iframe
