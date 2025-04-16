@@ -19,7 +19,7 @@ type Props = {
 };
 
 const TelegramProvider = ({ children }: Props) => {
-	if (process.env.NODE_ENV === "development") {
+	if (true) {
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		useTelegramMock();
 	}

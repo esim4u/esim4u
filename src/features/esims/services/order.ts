@@ -64,6 +64,7 @@ export async function createEsimOrder({
 			metadata: {
 				telegram_id: telegram_id.toString(),
 			},
+			email: `esim4u-${telegram_id}@emails.vignette.id`
 		},
 	});
 
@@ -155,6 +156,7 @@ export async function createTopupOrder({
 			metadata: {
 				telegram_id: telegram_id.toString(),
 			},
+			email: `esim4u-${telegram_id}@emails.vignette.id`
 		},
 	});
 

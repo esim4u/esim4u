@@ -12,6 +12,7 @@ interface StripeCustomer {
 	metadata: {
 		telegram_id: string;
 	};
+	email?: string;
 }
 
 interface CreateStripePaymentIntentProps {
@@ -64,7 +65,7 @@ export const getStripeCustomerId = async (customer: StripeCustomer) => {
 	let stripeCustomerId = "";
 
 	const previouslyCreatedStripeCustomers = await stripe.customers.search({
-		query: `metadata[\'telegram_id\']:${customer.metadata.telegram_id}`,
+		query: `email:\'${customer.email}\'`,
 		limit: 1,
 	});
 
